@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5849 Catoma St — MHP Deal Review</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #f0f2f5; color: #1a1a1a; font-size: 13px; }
+
+  .cover {
+    background: #1a2b3c; color: white;
+    padding: 70px 60px; text-align: center;
+    page-break-after: always;
+  }
+  .cover-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #7fb3d3; margin-bottom: 16px; }
+  .cover h1 { font-size: 42px; font-weight: 900; line-height: 1.1; margin-bottom: 10px; }
+  .cover h2 { font-size: 17px; font-weight: 400; color: #7fb3d3; margin-bottom: 32px; }
+  .cover-rule { width: 50px; height: 4px; background: #e8a020; margin: 0 auto 36px; }
+  .cover-meta { font-size: 14px; color: #aac4d8; line-height: 2.2; }
+  .cover-meta strong { color: white; }
+
+  .stat-row {
+    display: flex; gap: 0; margin: 44px auto 0; max-width: 800px;
+    border: 1px solid rgba(255,255,255,.15); border-radius: 8px; overflow: hidden;
+  }
+  .stat-cell {
+    flex: 1; padding: 22px 16px; text-align: center;
+    border-right: 1px solid rgba(255,255,255,.12);
+  }
+  .stat-cell:last-child { border-right: none; }
+  .stat-num { font-size: 28px; font-weight: 900; color: #e8a020; line-height: 1; }
+  .stat-lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #aac4d8; margin-top: 5px; }
+
+  .target-badge {
+    display: inline-block; margin-top: 32px;
+    background: #1e7e34; color: white;
+    font-size: 13px; font-weight: 900; letter-spacing: 1px;
+    padding: 10px 28px; border-radius: 30px; text-transform: uppercase;
+  }
+
+  .section {
+    background: white; padding: 44px 52px;
+    page-break-after: always; max-width: 1100px; margin: 0 auto;
+  }
+  .section-last { page-break-after: auto; }
+
+  .page-hdr {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    border-bottom: 3px solid #1a2b3c; padding-bottom: 10px; margin-bottom: 28px;
+  }
+  .page-hdr h2 { font-size: 20px; font-weight: 900; text-transform: uppercase; letter-spacing: .8px; color: #1a2b3c; }
+  .page-hdr span { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #999; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 28px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 28px; }
+
+  .info-card {
+    border: 1px solid #e0e0e0; border-radius: 6px; padding: 20px 22px;
+    border-top: 4px solid #1a2b3c;
+  }
+  .info-card h4 { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: #888; margin-bottom: 14px; }
+  .info-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f0f0f0; font-size: 13px; }
+  .info-row:last-child { border-bottom: none; }
+  .info-row .lbl { color: #555; }
+  .info-row .val { font-weight: 700; color: #1a2b3c; }
+  .info-row .val.green { color: #1e7e34; }
+  .info-row .val.orange { color: #b07700; }
+  .info-row .val.red { color: #8b0000; }
+  .info-row .val.gold { color: #e8a020; }
+
+  .dark-box {
+    background: #1a2b3c; border-radius: 8px; padding: 22px 28px;
+    margin-bottom: 24px;
+  }
+  .dark-box h4 { color: #7fb3d3; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; }
+  .dark-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,.08); font-size: 13px; color: white; }
+  .dark-row:last-child { border-bottom: none; }
+  .dark-row .dlbl { color: #aac4d8; }
+  .dark-row .dval { font-weight: 700; color: white; }
+  .dark-row .dval.gold { color: #e8a020; }
+  .dark-row .dval.green { color: #4caf50; }
+  .dark-row .dval.red { color: #ef9a9a; }
+  .dark-row .dval.orange { color: #ffb74d; }
+
+  .stat-strip {
+    background: #1a2b3c; border-radius: 6px; padding: 18px 24px;
+    display: grid; grid-template-columns: repeat(4,1fr); gap: 12px;
+    text-align: center; margin-bottom: 28px;
+  }
+  .stat-strip .snum { font-size: 26px; font-weight: 900; color: #e8a020; line-height: 1; }
+  .stat-strip .slbl { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #aac4d8; margin-top: 4px; }
+
+  table.twr-table { width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px; }
+  .twr-table th {
+    background: #1a2b3c; color: white; padding: 10px 14px;
+    text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 1px;
+  }
+  .twr-table td { padding: 10px 14px; border-bottom: 1px solid #eee; vertical-align: middle; }
+  .twr-table tr:hover td { background: #fafafa; }
+  .twr-table tr.target-row td { background: #fffbf0; border-left: 4px solid #e8a020; }
+  .twr-table tr.target-row td:first-child { padding-left: 10px; }
+  .twr-table tr.above-row td { background: #f0fff4; }
+  .twr-table tr.below-row td { background: #fff5f5; }
+  .strategy-name { font-weight: 700; color: #1a2b3c; }
+  .twr-pct { font-size: 16px; font-weight: 900; }
+  .twr-green { color: #1e7e34; }
+  .twr-gold { color: #b07700; }
+  .twr-red { color: #8b0000; }
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 4px; font-size: 10px; font-weight: 700; white-space: nowrap; }
+  .b-target  { background: #fff3cd; color: #856404; border: 1px solid #e8a020; }
+  .b-above   { background: #d4edda; color: #155724; }
+  .b-below   { background: #f8d7da; color: #721c24; }
+  .b-strong  { background: #1e7e34; color: white; }
+  .b-caution { background: #fff3cd; color: #856404; }
+
+  .unit-table { width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px; }
+  .unit-table th { background: #1a2b3c; color: white; padding: 9px 12px; text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
+  .unit-table td { padding: 9px 12px; border-bottom: 1px solid #eee; }
+  .unit-table tr:hover td { background: #fafafa; }
+  .unit-fire td { background: #fff5f5 !important; }
+  .unit-occupied td { background: #f0fff4 !important; }
+
+  .flag-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .flag-card {
+    border: 1px solid #e0e0e0; border-radius: 6px; padding: 16px 18px;
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .flag-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; }
+  .flag-dot.red { background: #dc3545; }
+  .flag-dot.orange { background: #e8a020; }
+  .flag-dot.green { background: #1e7e34; }
+  .flag-title { font-weight: 700; font-size: 13px; color: #1a2b3c; margin-bottom: 4px; }
+  .flag-text { font-size: 12px; color: #555; line-height: 1.5; }
+
+  .motivation-box {
+    background: #fff8e6; border: 1px solid #e8a020; border-radius: 8px;
+    padding: 20px 24px; margin-bottom: 24px;
+  }
+  .motivation-box h4 { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: #b07700; margin-bottom: 14px; }
+
+  .decision-box {
+    background: #1a2b3c; border-radius: 8px; padding: 28px 32px;
+    margin-top: 28px;
+  }
+  .decision-box h4 { color: #e8a020; font-size: 14px; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 20px; }
+  .decision-item { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,.08); }
+  .decision-item:last-child { border-bottom: none; }
+  .decision-num { font-size: 22px; font-weight: 900; color: #e8a020; line-height: 1; flex-shrink: 0; width: 30px; }
+  .decision-text .dt-title { font-weight: 700; color: white; font-size: 14px; margin-bottom: 4px; }
+  .decision-text .dt-body { color: #aac4d8; font-size: 12px; line-height: 1.6; }
+
+  .page-foot { margin-top: 28px; padding-top: 10px; border-top: 1px solid #eee; font-size: 10px; color: #bbb; text-align: center; letter-spacing: 1px; }
+
+  @media print {
+    body { background: white; }
+    .cover, .section { max-width: 100%; }
+    @page { margin: .4in; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ COVER ══ -->
+<div class="cover">
+  <div class="cover-eyebrow">Confidential · Deal Analysis — Jerel Williams</div>
+  <h1>5849 &amp; 5859 Catoma St</h1>
+  <h2>6-Unit Mobile Home Park · Jacksonville FL 32244</h2>
+  <div class="cover-rule"></div>
+  <div class="cover-meta">
+    <strong>Strategy:</strong> Seller Finance / Note Buy &nbsp;·&nbsp;
+    <strong>Asset:</strong> 6-Unit MHP · 1.02 Acres &nbsp;·&nbsp;
+    <strong>Date:</strong> April 2026
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-cell"><div class="stat-num">$47.5K</div><div class="stat-lbl">Entry (SF Path)</div></div>
+    <div class="stat-cell"><div class="stat-num">44.7%</div><div class="stat-lbl">TWR (SF Path)</div></div>
+    <div class="stat-cell"><div class="stat-num">$1,371</div><div class="stat-lbl">Stabilized CF/mo</div></div>
+    <div class="stat-cell"><div class="stat-num">34.5mo</div><div class="stat-lbl">Payback Period</div></div>
+    <div class="stat-cell"><div class="stat-num">$264K</div><div class="stat-lbl">Stabilized Value</div></div>
+  </div>
+
+  <div class="target-badge">✓ Above 30% Target · Rank #3 in Portfolio by Payback</div>
+</div>
+
+
+<!-- ══ PAGE 1: DEAL OVERVIEW ══ -->
+<div class="section">
+  <div class="page-hdr">
+    <h2>Deal Overview</h2>
+    <span>Property · Mortgage · Entry</span>
+  </div>
+
+  <div class="two-col">
+    <div class="info-card">
+      <h4>Property Details</h4>
+      <div class="info-row"><span class="lbl">Address (Main)</span><span class="val">5849 Catoma St, Jacksonville FL 32244</span></div>
+      <div class="info-row"><span class="lbl">Address (Bonus)</span><span class="val">5859 Catoma St, Jacksonville FL 32244</span></div>
+      <div class="info-row"><span class="lbl">Asset Type</span><span class="val">Mobile Home Park — 6 Units</span></div>
+      <div class="info-row"><span class="lbl">Lot Size</span><span class="val">1.02 Acres (0.85 + 0.17)</span></div>
+      <div class="info-row"><span class="lbl">PAO Combined Value</span><span class="val gold">$157,189</span></div>
+      <div class="info-row"><span class="lbl">Stabilized Cap Value (9%)</span><span class="val gold">$264,600</span></div>
+      <div class="info-row"><span class="lbl">Occupancy</span><span class="val red">2 of 6 (33%) — distressed</span></div>
+      <div class="info-row"><span class="lbl">Zip / Submarket</span><span class="val">32244 — Westside Jacksonville</span></div>
+    </div>
+
+    <div class="info-card">
+      <h4>Existing Mortgage (Balloon)</h4>
+      <div class="info-row"><span class="lbl">Lender (Mortgagee)</span><span class="val">Gary &amp; Tammy Grab</span></div>
+      <div class="info-row"><span class="lbl">Borrower</span><span class="val">Roberts Family Investment Corp</span></div>
+      <div class="info-row"><span class="lbl">Original Amount</span><span class="val">$46,900</span></div>
+      <div class="info-row"><span class="lbl">Current Balance</span><span class="val orange">$45,066.44</span></div>
+      <div class="info-row"><span class="lbl">Balloon Maturity</span><span class="val red">11/8/2027 — 19 months</span></div>
+      <div class="info-row"><span class="lbl">Rate</span><span class="val orange">UNKNOWN — get promissory note</span></div>
+      <div class="info-row"><span class="lbl">Collateral</span><span class="val">Both parcels + all 6 MH titles</span></div>
+      <div class="info-row"><span class="lbl">Near-IO Evidence</span><span class="val">Only $1,834 principal paid in 7 yrs</span></div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="info-card">
+      <h4>Entry Stack (Seller Finance Path)</h4>
+      <div class="info-row"><span class="lbl">Asking Price</span><span class="val">$90,000</span></div>
+      <div class="info-row"><span class="lbl">Jerel Offer</span><span class="val green">$75,000</span></div>
+      <div class="info-row"><span class="lbl">Down Payment</span><span class="val">$10,000</span></div>
+      <div class="info-row"><span class="lbl">SF Balance</span><span class="val">$65,000 @ 5–6% / 10yr</span></div>
+      <div class="info-row"><span class="lbl">Light Rehab (3 units)</span><span class="val">~$12,000</span></div>
+      <div class="info-row"><span class="lbl">Closing Costs</span><span class="val">~$1,500</span></div>
+      <div class="info-row"><span class="lbl"><strong>Total Gross Entry</strong></span><span class="val gold"><strong>$47,500</strong></span></div>
+    </div>
+
+    <div class="info-card">
+      <h4>Current vs Stabilized Income</h4>
+      <div class="info-row"><span class="lbl">Current Gross (2 units)</span><span class="val red">$1,250/mo</span></div>
+      <div class="info-row"><span class="lbl">Unit 4</span><span class="val">$600/mo — leased</span></div>
+      <div class="info-row"><span class="lbl">Unit 5</span><span class="val">$650/mo — leased</span></div>
+      <div class="info-row"><span class="lbl">Stabilized Gross (5 units)</span><span class="val green">$3,000/mo</span></div>
+      <div class="info-row"><span class="lbl">Annual Taxes</span><span class="val">$2,225.98/yr ($186/mo)</span></div>
+      <div class="info-row"><span class="lbl">RE# (Main)</span><span class="val">103285-0010</span></div>
+      <div class="info-row"><span class="lbl">RE# (Bonus)</span><span class="val">103285-0015</span></div>
+    </div>
+  </div>
+
+  <div class="dark-box">
+    <h4>Seller Context — Robert A. Smith / Roberts Family Investment Corp</h4>
+    <div class="dark-row"><span class="dlbl">Pressure Point 1</span><span class="dval orange">Balloon due 11/8/2027 — 19 months to resolve or default</span></div>
+    <div class="dark-row"><span class="dlbl">Pressure Point 2</span><span class="dval orange">Unit 1 fire damage — vacant, unsafe, possible code enforcement fines</span></div>
+    <div class="dark-row"><span class="dlbl">Pressure Point 3</span><span class="dval orange">67% vacancy — cannot service debt or fund rehab from current rents</span></div>
+    <div class="dark-row"><span class="dlbl">Creative Angle</span><span class="dval gold">Buy Tammy Grab's note at discount ($35–38K) — free &amp; clear acquisition</span></div>
+    <div class="dark-row"><span class="dlbl">5859 History</span><span class="dval">Acquired via Tax Deed 9/20/2017 for $7,500 — funded by Grab loan</span></div>
+  </div>
+
+  <div class="page-foot">5849 &amp; 5859 Catoma St · MHP Deal Review · April 2026 · Ainsley / Jerel Williams</div>
+</div>
+
+
+<!-- ══ PAGE 2: UNIT BREAKDOWN ══ -->
+<div class="section">
+  <div class="page-hdr">
+    <h2>Unit Breakdown</h2>
+    <span>6 Units · 2 Occupied · 4 Vacant</span>
+  </div>
+
+  <table class="unit-table">
+    <thead>
+      <tr>
+        <th>Unit</th>
+        <th>Address</th>
+        <th>Bed/Bath</th>
+        <th>SqFt</th>
+        <th>Year</th>
+        <th>Status</th>
+        <th>Rent</th>
+        <th>Title #</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="unit-fire">
+        <td><strong>Unit 1</strong></td>
+        <td>5849 Catoma</td>
+        <td>2/1</td>
+        <td>528</td>
+        <td>1971</td>
+        <td><span class="badge b-below">🔥 Fire Damaged — Vacant</span></td>
+        <td style="color:#8b0000"><strong>$0</strong></td>
+        <td>4864145</td>
+      </tr>
+      <tr>
+        <td><strong>Unit 2</strong></td>
+        <td>5849 Catoma</td>
+        <td>2/1</td>
+        <td>528</td>
+        <td>1964</td>
+        <td><span class="badge b-caution">Vacant — Oldest Unit</span></td>
+        <td style="color:#8b0000"><strong>$0</strong></td>
+        <td>1788189</td>
+      </tr>
+      <tr>
+        <td><strong>Unit 3</strong></td>
+        <td>5849 Catoma</td>
+        <td>2/1</td>
+        <td>576</td>
+        <td>1971</td>
+        <td><span class="badge b-caution">Vacant — Light Rehab</span></td>
+        <td style="color:#8b0000"><strong>$0</strong></td>
+        <td>4565913</td>
+      </tr>
+      <tr class="unit-occupied">
+        <td><strong>Unit 4</strong></td>
+        <td>5849 Catoma</td>
+        <td>2/1</td>
+        <td>528</td>
+        <td>1971</td>
+        <td><span class="badge b-above">Leased</span></td>
+        <td style="color:#1e7e34"><strong>$600/mo</strong></td>
+        <td>4565914</td>
+      </tr>
+      <tr class="unit-occupied">
+        <td><strong>Unit 5</strong></td>
+        <td>5849 Catoma</td>
+        <td>2/1</td>
+        <td>528</td>
+        <td>1971</td>
+        <td><span class="badge b-above">Leased</span></td>
+        <td style="color:#1e7e34"><strong>$650/mo</strong></td>
+        <td>4857048</td>
+      </tr>
+      <tr>
+        <td><strong>Unit 6</strong></td>
+        <td>5859 Catoma</td>
+        <td>2/2</td>
+        <td>528</td>
+        <td>1971</td>
+        <td><span class="badge b-caution">Vacant — Light Rehab</span></td>
+        <td style="color:#8b0000"><strong>$0</strong></td>
+        <td>5234090</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="background:#f0fff4;border:1px solid #c3e6cb;border-radius:6px;padding:16px 20px;font-size:12px;color:#155724;margin-bottom:24px;">
+    <strong>Stabilization Path:</strong> Rehab Units 3, 5, and 6 at ~$4K each (light touch: paint, flooring, fixtures). Unit 2 (1964 vintage) may require more — assess on walkthrough. Unit 1 fire damage: determine if demolish-and-replace or insurance proceeds available. At 5 units rented @ $600/mo avg = $3,000/mo gross. Unit 1 excluded from stabilized pro forma.
+  </div>
+
+  <div class="dark-box">
+    <h4>Stabilized Pro Forma (5 Units)</h4>
+    <div class="dark-row"><span class="dlbl">Gross Rents (5 × $600)</span><span class="dval green">$3,000/mo</span></div>
+    <div class="dark-row"><span class="dlbl">Taxes</span><span class="dval">— $186/mo</span></div>
+    <div class="dark-row"><span class="dlbl">Insurance (est.)</span><span class="dval">— $250/mo</span></div>
+    <div class="dark-row"><span class="dlbl">SF Payment ($65K @ 5.5% / 10yr)</span><span class="dval">— $704/mo</span></div>
+    <div class="dark-row"><span class="dlbl">Maintenance Reserve (10%)</span><span class="dval">— $300/mo</span></div>
+    <div class="dark-row"><span class="dlbl">Vacancy (3%)</span><span class="dval">— $90/mo</span></div>
+    <div class="dark-row"><span class="dlbl"><strong>Net Cash Flow</strong></span><span class="dval gold"><strong>~$1,470/mo</strong></span></div>
+    <div class="dark-row"><span class="dlbl">Year 1 Principal Paydown</span><span class="dval green">~$4,800</span></div>
+    <div class="dark-row"><span class="dlbl"><strong>TWR (CF + Paydown) / Entry</strong></span><span class="dval gold"><strong>44.7%</strong></span></div>
+  </div>
+
+  <div class="page-foot">5849 &amp; 5859 Catoma St · Unit Breakdown · April 2026</div>
+</div>
+
+
+<!-- ══ PAGE 3: TWR ANALYSIS ══ -->
+<div class="section">
+  <div class="page-hdr">
+    <h2>TWR Analysis — All Strategies</h2>
+    <span>Target: 30% TWR</span>
+  </div>
+
+  <div class="stat-strip">
+    <div><div class="snum">$47,500</div><div class="slbl">Entry (SF Path)</div></div>
+    <div><div class="snum">$1,371</div><div class="slbl">CF/mo Stabilized</div></div>
+    <div><div class="snum">$4,800</div><div class="slbl">Year 1 Paydown</div></div>
+    <div><div class="snum">44.7%</div><div class="slbl">TWR (Best Path)</div></div>
+  </div>
+
+  <table class="twr-table">
+    <thead>
+      <tr>
+        <th>Strategy</th>
+        <th>All-In Entry</th>
+        <th>Stabilized CF/mo</th>
+        <th>Annual CF</th>
+        <th>Yr1 Paydown</th>
+        <th>TWR</th>
+        <th>vs. Target</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="target-row">
+        <td><span class="strategy-name">Seller Finance @ $75K</span><br><span style="font-size:11px;color:#888">$10K down · $65K balance · 3-unit light rehab · ★ RECOMMENDED</span></td>
+        <td><strong>$47,500</strong></td>
+        <td><strong>$1,371</strong></td>
+        <td>$16,452</td>
+        <td>$4,800</td>
+        <td><span class="twr-pct twr-green">44.7%</span></td>
+        <td><span class="badge b-above">+14.7 pts</span></td>
+      </tr>
+      <tr class="above-row">
+        <td><span class="strategy-name">Note Buy @ $35–38K + Rehab</span><br><span style="font-size:11px;color:#555">Buy Tammy's note at discount · acquire free &amp; clear · highest CF upside</span></td>
+        <td><strong>$81,000</strong></td>
+        <td><strong>$2,800</strong></td>
+        <td>$33,600</td>
+        <td>$0</td>
+        <td><span class="twr-pct twr-green">41.5%</span></td>
+        <td><span class="badge b-above">+11.5 pts</span></td>
+      </tr>
+      <tr class="below-row">
+        <td><span class="strategy-name">Sub-To (assume balloon)</span><br><span style="font-size:11px;color:#8b0000">⚠ Rate unknown · balloon due 11/8/2027 · 19 months to exit</span></td>
+        <td><strong>~$30K equity</strong></td>
+        <td><strong>Unknown</strong></td>
+        <td>TBD</td>
+        <td>~$0</td>
+        <td><span class="twr-pct twr-red">Unknown</span></td>
+        <td><span class="badge b-below">Get rate first</span></td>
+      </tr>
+      <tr class="below-row">
+        <td><span class="strategy-name">Private Money / Note Creation</span><br><span style="font-size:11px;color:#8b0000">$120K @ 10% · create 6 seller-finance notes · negative CF during debt service</span></td>
+        <td><strong>$0 cash</strong></td>
+        <td style="color:#8b0000"><strong>-$880/mo</strong></td>
+        <td style="color:#8b0000">-$10,560</td>
+        <td>N/A</td>
+        <td><span class="twr-pct twr-red">∞ / Neg CF</span></td>
+        <td><span class="badge b-below">Year 3+ play only</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="background:#fffbf0;border:1px solid #e8a020;border-radius:6px;padding:16px 20px;font-size:12px;color:#555;line-height:1.7;margin-bottom:24px;">
+    <strong style="color:#1a2b3c;">Recommended Path:</strong> Seller Finance at $75K with $10K down. Keeps capital requirement low ($47.5K all-in), delivers 44.7% TWR, and positions you for refinance out of the SF note once stabilized. The <strong style="color:#1e7e34;">Note Buy is the highest CF path</strong> — if Tammy Grab accepts $35–38K for the note, you can acquire free &amp; clear and capture full NOI. Call Tammy first: if she sells at discount, that move alone saves $37K+ vs. paying seller $75K.
+  </div>
+
+  <div class="page-foot">5849 &amp; 5859 Catoma St · TWR Analysis · April 2026</div>
+</div>
+
+
+<!-- ══ PAGE 4: RISK FLAGS + NEXT STEPS ══ -->
+<div class="section section-last">
+  <div class="page-hdr">
+    <h2>Risk Flags &amp; Next Steps</h2>
+    <span>Due Diligence Checklist</span>
+  </div>
+
+  <div class="flag-grid">
+    <div class="flag-card">
+      <div class="flag-dot red"></div>
+      <div>
+        <div class="flag-title">BALLOON DUE 11/8/2027</div>
+        <div class="flag-text">Only 19 months from today. Sub-to path has a hard exit deadline. If acquiring via SF, confirm Tammy's note is paid off at close or seller finances around it.</div>
+      </div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-dot red"></div>
+      <div>
+        <div class="flag-title">Unit 1 Fire Damage</div>
+        <div class="flag-text">Unit 1 destroyed by fire. Is there an open insurance claim? Active code enforcement violation? Potential accruing daily fines or Special Magistrate order. Verify before closing.</div>
+      </div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-dot orange"></div>
+      <div>
+        <div class="flag-title">Mortgage Rate Unknown</div>
+        <div class="flag-text">Rate is in the promissory note — not the recorded deed. Cannot model sub-to payments or full debt service without it. Get note from Robert Smith or Tammy Grab.</div>
+      </div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-dot orange"></div>
+      <div>
+        <div class="flag-title">Code Enforcement Status</div>
+        <div class="flag-text">Jacksonville has no public portal. Must call 904-630-2489 (RE# 103285-0010 and -0015) or file PRR at records.coj.net. Ask specifically about daily fines and Special Magistrate orders.</div>
+      </div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-dot orange"></div>
+      <div>
+        <div class="flag-title">Unit 2 — 1964 Vintage</div>
+        <div class="flag-text">Oldest unit on site. Highest deferred maintenance risk. Assess condition on walkthrough before including in rehab budget. May need full replacement vs. light touch.</div>
+      </div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-dot orange"></div>
+      <div>
+        <div class="flag-title">Due-on-Sale Clause</div>
+        <div class="flag-text">Balloon mortgage has standard DOT clause. Sub-to path triggers DOSC risk. SF path eliminates this — seller pays off Grab's note at closing.</div>
+      </div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-dot green"></div>
+      <div>
+        <div class="flag-title">No Tax Delinquency</div>
+        <div class="flag-text">Both parcels show current on taxes per Duval PAO. No delinquency on either 103285-0010 or 103285-0015 as of April 2026.</div>
+      </div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-dot green"></div>
+      <div>
+        <div class="flag-title">Strong Seller Pressure</div>
+        <div class="flag-text">Balloon in 19 months, fire damage, 67% vacancy. Seller cannot fund rehab from current rents. Classic motivated seller: time &gt; price. Leverage is yours.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="decision-box">
+    <h4>Action Sequence</h4>
+    <div class="decision-item">
+      <div class="decision-num">1</div>
+      <div class="decision-text">
+        <div class="dt-title">Call Tammy Grab — Note Buy Conversation</div>
+        <div class="dt-body">Outreach letter already drafted (Tammy note.docx on SanDisk). Skip trace if needed — search "Gary Grab" or "Tammy Grab" on or.duvalclerk.com for home address. Offer $35–38K for the $45K note. If she accepts, you acquire free &amp; clear — saves $37K+ vs. full seller price and eliminates balloon risk entirely.</div>
+      </div>
+    </div>
+    <div class="decision-item">
+      <div class="decision-num">2</div>
+      <div class="decision-text">
+        <div class="dt-title">Call Code Enforcement — 904-630-2489</div>
+        <div class="dt-body">Reference RE# 103285-0010 and 103285-0015. Ask: any open cases, daily fines, Special Magistrate orders at 5849 and 5859 Catoma. Fire on Unit 1 almost certainly triggered a complaint. Open fines = seller motivation and negotiating leverage.</div>
+      </div>
+    </div>
+    <div class="decision-item">
+      <div class="decision-num">3</div>
+      <div class="decision-text">
+        <div class="dt-title">Get Promissory Note from Robert Smith</div>
+        <div class="dt-body">Rate is not in the recorded mortgage deed. Need the promissory note to model sub-to payments and understand true debt service. Also confirms any prepayment penalty language.</div>
+      </div>
+    </div>
+    <div class="decision-item">
+      <div class="decision-num">4</div>
+      <div class="decision-text">
+        <div class="dt-title">Walk All 6 Units + Get Rehab Bids</div>
+        <div class="dt-body">Units 2, 3, 6: light touch ($3–5K each). Unit 1 fire: determine total loss vs. repair. Unit 2 (1964 vintage): scope before committing to rehab budget. Get 2 contractor bids. Cap it at $15K before deciding SF vs. Note Buy path.</div>
+      </div>
+    </div>
+    <div class="decision-item">
+      <div class="decision-num">5</div>
+      <div class="decision-text">
+        <div class="dt-title">Decide Buy Structure: SF vs. Note Buy vs. SubTo</div>
+        <div class="dt-body">If Tammy says yes to note buy at $35–38K: go that route. If not: SF at $75K with $10K down is the cleanest path (44.7% TWR). Sub-to is viable only if rate is low and you have a clear exit before Nov 2027.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-foot">5849 &amp; 5859 Catoma St · Risk Flags &amp; Next Steps · April 2026 · Ainsley / Jerel Williams</div>
+</div>
+
+</body>
+</html>
