@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1588 Brook Forest Dr — Sub-To Deal Review</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #f0f2f5; color: #1a1a1a; font-size: 13px; }
+
+  /* ── COVER ─────────────────────────────── */
+  .cover {
+    background: #1a2b3c; color: white;
+    padding: 70px 60px; text-align: center;
+    page-break-after: always;
+  }
+  .cover-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #7fb3d3; margin-bottom: 16px; }
+  .cover h1 { font-size: 48px; font-weight: 900; line-height: 1.1; margin-bottom: 10px; }
+  .cover h2 { font-size: 18px; font-weight: 400; color: #7fb3d3; margin-bottom: 32px; }
+  .cover-rule { width: 50px; height: 4px; background: #e8a020; margin: 0 auto 36px; }
+  .cover-meta { font-size: 14px; color: #aac4d8; line-height: 2.2; }
+  .cover-meta strong { color: white; }
+
+  .stat-row {
+    display: flex; gap: 0; margin: 44px auto 0; max-width: 720px;
+    border: 1px solid rgba(255,255,255,.15); border-radius: 8px; overflow: hidden;
+  }
+  .stat-cell {
+    flex: 1; padding: 22px 16px; text-align: center;
+    border-right: 1px solid rgba(255,255,255,.12);
+  }
+  .stat-cell:last-child { border-right: none; }
+  .stat-num { font-size: 30px; font-weight: 900; color: #e8a020; line-height: 1; }
+  .stat-lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #aac4d8; margin-top: 5px; }
+
+  .target-badge {
+    display: inline-block; margin-top: 32px;
+    background: #e8a020; color: #1a1a1a;
+    font-size: 13px; font-weight: 900; letter-spacing: 1px;
+    padding: 10px 28px; border-radius: 30px; text-transform: uppercase;
+  }
+
+  /* ── SECTION PAGES ──────────────────────── */
+  .section {
+    background: white; padding: 44px 52px;
+    page-break-after: always; max-width: 1100px; margin: 0 auto;
+  }
+  .section-last { page-break-after: auto; }
+
+  .page-hdr {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    border-bottom: 3px solid #1a2b3c; padding-bottom: 10px; margin-bottom: 28px;
+  }
+  .page-hdr h2 { font-size: 20px; font-weight: 900; text-transform: uppercase; letter-spacing: .8px; color: #1a2b3c; }
+  .page-hdr span { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #999; }
+
+  /* ── TWO-COL LAYOUT ─────────────────────── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 28px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 28px; }
+
+  /* ── INFO CARD ──────────────────────────── */
+  .info-card {
+    border: 1px solid #e0e0e0; border-radius: 6px; padding: 20px 22px;
+    border-top: 4px solid #1a2b3c;
+  }
+  .info-card h4 { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: #888; margin-bottom: 14px; }
+  .info-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f0f0f0; font-size: 13px; }
+  .info-row:last-child { border-bottom: none; }
+  .info-row .lbl { color: #555; }
+  .info-row .val { font-weight: 700; color: #1a2b3c; }
+  .info-row .val.green { color: #1e7e34; }
+  .info-row .val.orange { color: #b07700; }
+  .info-row .val.red { color: #8b0000; }
+  .info-row .val.gold { color: #e8a020; }
+
+  /* ── DARK BOX ───────────────────────────── */
+  .dark-box {
+    background: #1a2b3c; border-radius: 8px; padding: 22px 28px;
+    margin-bottom: 24px;
+  }
+  .dark-box h4 { color: #7fb3d3; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; }
+  .dark-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,.08); font-size: 13px; color: white; }
+  .dark-row:last-child { border-bottom: none; }
+  .dark-row .dlbl { color: #aac4d8; }
+  .dark-row .dval { font-weight: 700; color: white; }
+  .dark-row .dval.gold { color: #e8a020; }
+  .dark-row .dval.green { color: #4caf50; }
+  .dark-row .dval.red { color: #ef9a9a; }
+
+  /* ── STAT STRIP ─────────────────────────── */
+  .stat-strip {
+    background: #1a2b3c; border-radius: 6px; padding: 18px 24px;
+    display: grid; grid-template-columns: repeat(4,1fr); gap: 12px;
+    text-align: center; margin-bottom: 28px;
+  }
+  .stat-strip .snum { font-size: 26px; font-weight: 900; color: #e8a020; line-height: 1; }
+  .stat-strip .slbl { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #aac4d8; margin-top: 4px; }
+
+  /* ── TWR TABLE ──────────────────────────── */
+  table.twr-table { width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px; }
+  .twr-table th {
+    background: #1a2b3c; color: white; padding: 10px 14px;
+    text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 1px;
+  }
+  .twr-table td { padding: 10px 14px; border-bottom: 1px solid #eee; vertical-align: middle; }
+  .twr-table tr:hover td { background: #fafafa; }
+  .twr-table tr.target-row td { background: #fffbf0; border-left: 4px solid #e8a020; }
+  .twr-table tr.target-row td:first-child { padding-left: 10px; }
+  .twr-table tr.above-row td { background: #f0fff4; }
+  .twr-table tr.below-row td { background: #fff5f5; }
+  .strategy-name { font-weight: 700; color: #1a2b3c; }
+  .twr-pct { font-size: 16px; font-weight: 900; }
+  .twr-green { color: #1e7e34; }
+  .twr-gold { color: #b07700; }
+  .twr-red { color: #8b0000; }
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 4px; font-size: 10px; font-weight: 700; white-space: nowrap; }
+  .b-target  { background: #fff3cd; color: #856404; border: 1px solid #e8a020; }
+  .b-above   { background: #d4edda; color: #155724; }
+  .b-below   { background: #f8d7da; color: #721c24; }
+  .b-strong  { background: #1e7e34; color: white; }
+
+  /* ── SCENARIO CARDS ─────────────────────── */
+  .scenario-card {
+    border: 1px solid #e0e0e0; border-radius: 8px;
+    overflow: hidden; margin-bottom: 20px;
+  }
+  .sc-header {
+    padding: 14px 20px; display: flex; align-items: center; justify-content: space-between;
+  }
+  .sc-header.ltr { background: #f8d7da; border-bottom: 1px solid #e0c0c0; }
+  .sc-header.mtr { background: #fff3cd; border-bottom: 1px solid #e8a020; }
+  .sc-header.str { background: #d4edda; border-bottom: 1px solid #b8dacc; }
+  .sc-title { font-weight: 900; font-size: 15px; }
+  .sc-twr { font-size: 22px; font-weight: 900; }
+  .sc-body { padding: 18px 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .sc-col h5 { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: #888; margin-bottom: 10px; }
+  .sc-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #f5f5f5; font-size: 12px; }
+  .sc-row:last-child { border-bottom: none; }
+  .sc-row .sc-lbl { color: #666; }
+  .sc-row .sc-val { font-weight: 700; }
+  .sc-footer {
+    padding: 12px 20px; background: #f7f9fc;
+    border-top: 1px solid #e8e8e8; font-size: 12px; color: #555; line-height: 1.5;
+    border-left: 3px solid #ddd;
+  }
+  .sc-footer.warn { border-left-color: #e8a020; }
+  .sc-footer.good { border-left-color: #1e7e34; }
+  .sc-footer.danger { border-left-color: #8b0000; }
+
+  /* ── RISK FLAGS ─────────────────────────── */
+  .flag-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .flag-card {
+    border: 1px solid #e0e0e0; border-radius: 6px; padding: 16px 18px;
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .flag-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; }
+  .flag-dot.red { background: #dc3545; }
+  .flag-dot.orange { background: #e8a020; }
+  .flag-dot.green { background: #1e7e34; }
+  .flag-title { font-weight: 700; font-size: 13px; color: #1a2b3c; margin-bottom: 4px; }
+  .flag-text { font-size: 12px; color: #555; line-height: 1.5; }
+
+  /* ── CHECKLIST ──────────────────────────── */
+  .checklist { margin: 0; padding: 0; list-style: none; }
+  .checklist li {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 9px 0; border-bottom: 1px solid #f0f0f0; font-size: 13px;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .chk-box {
+    width: 18px; height: 18px; border: 2px solid #1a2b3c; border-radius: 3px;
+    flex-shrink: 0; margin-top: 1px;
+  }
+  .chk-text .chk-item { font-weight: 700; color: #1a2b3c; }
+  .chk-text .chk-why { font-size: 11px; color: #777; margin-top: 2px; }
+
+  /* ── NEGOTIATION BOX ────────────────────── */
+  .neg-box {
+    background: #fff8e6; border: 1px solid #e8a020; border-radius: 8px;
+    padding: 22px 28px; margin-bottom: 24px;
+  }
+  .neg-box h4 { font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; color: #b07700; margin-bottom: 16px; }
+  .neg-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .neg-table th { background: #e8a020; color: #1a1a1a; padding: 8px 12px; text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
+  .neg-table td { padding: 8px 12px; border-bottom: 1px solid #f5e6c8; }
+  .neg-table tr:last-child td { border-bottom: none; }
+  .neg-table td.highlight { font-weight: 900; color: #1e7e34; }
+
+  /* ── DECISION BOX ───────────────────────── */
+  .decision-box {
+    background: #1a2b3c; border-radius: 8px; padding: 28px 32px;
+    margin-top: 28px;
+  }
+  .decision-box h4 { color: #e8a020; font-size: 14px; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 20px; }
+  .decision-item { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,.08); }
+  .decision-item:last-child { border-bottom: none; }
+  .decision-num { font-size: 22px; font-weight: 900; color: #e8a020; line-height: 1; flex-shrink: 0; width: 30px; }
+  .decision-text .dt-title { font-weight: 700; color: white; font-size: 14px; margin-bottom: 4px; }
+  .decision-text .dt-body { color: #aac4d8; font-size: 12px; line-height: 1.6; }
+
+  /* ── FOOTER ─────────────────────────────── */
+  .page-foot { margin-top: 28px; padding-top: 10px; border-top: 1px solid #eee; font-size: 10px; color: #bbb; text-align: center; letter-spacing: 1px; }
+
+  @media print {
+    body { background: white; }
+    .cover, .section { max-width: 100%; }
+    @page { margin: .4in; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     COVER
+══════════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-eyebrow">Confidential · Deal Analysis — Jay Williams</div>
+  <h1>1588 Brook Forest Dr</h1>
+  <h2>Subject-To Acquisition · Jacksonville FL 32208</h2>
+  <div class="cover-rule"></div>
+  <div class="cover-meta">
+    <strong>Strategy:</strong> Subject-To &nbsp;·&nbsp;
+    <strong>Property:</strong> 3/2 · 1,100 sqft · Built 2000 &nbsp;·&nbsp;
+    <strong>Date:</strong> March 2026
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-cell"><div class="stat-num">$24.5K</div><div class="stat-lbl">Gross Entry</div></div>
+    <div class="stat-cell"><div class="stat-num">5.87%</div><div class="stat-lbl">Rate Inherited</div></div>
+    <div class="stat-cell"><div class="stat-num">$200K</div><div class="stat-lbl">ARV Max</div></div>
+    <div class="stat-cell"><div class="stat-num">105.6%</div><div class="stat-lbl">Peak TWR (STR)</div></div>
+    <div class="stat-cell"><div class="stat-num">23.3%</div><div class="stat-lbl">TWR — PadSplit 4-Room</div></div>
+  </div>
+
+  <div class="target-badge" style="background:#dc3545;color:white;">⚠ $23K Offer · PadSplit 4-Room $2,730/mo · 10.9% CoC · Below 30% Target</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     PAGE 1 — DEAL OVERVIEW
+══════════════════════════════════════════ -->
+<div class="section">
+  <div class="page-hdr">
+    <h2>Deal Overview</h2>
+    <span>Property · Loan · Entry</span>
+  </div>
+
+  <div class="two-col">
+    <div class="info-card">
+      <h4>Property Details</h4>
+      <div class="info-row"><span class="lbl">Address</span><span class="val">1588 Brook Forest Dr, Jacksonville FL 32208</span></div>
+      <div class="info-row"><span class="lbl">Configuration</span><span class="val">3 Bed / 2 Bath</span></div>
+      <div class="info-row"><span class="lbl">Square Footage</span><span class="val">1,100 sqft</span></div>
+      <div class="info-row"><span class="lbl">Year Built</span><span class="val">2000</span></div>
+      <div class="info-row"><span class="lbl">ARV (Max)</span><span class="val gold">$200,000</span></div>
+      <div class="info-row"><span class="lbl">Neighborhood</span><span class="val">32208 — NW Jacksonville, C-Class</span></div>
+      <div class="info-row"><span class="lbl">Current Tenant</span><span class="val">HUD — $1,500/mo through May 2026</span></div>
+      <div class="info-row"><span class="lbl">Vacancy Date</span><span class="val orange">May 2026 — tenant departing</span></div>
+    </div>
+
+    <div class="info-card">
+      <h4>Inherited Loan (Subject-To)</h4>
+      <div class="info-row"><span class="lbl">Loan Balance</span><span class="val">$143,436</span></div>
+      <div class="info-row"><span class="lbl">Interest Rate</span><span class="val">5.87%</span></div>
+      <div class="info-row"><span class="lbl">Monthly P&amp;I</span><span class="val">$948.10</span></div>
+      <div class="info-row"><span class="lbl">Remaining Term</span><span class="val">~23 years</span></div>
+      <div class="info-row"><span class="lbl">Year 1 Paydown</span><span class="val green">$3,038</span></div>
+      <div class="info-row"><span class="lbl">Structure</span><span class="val">Sub-To — deed transfers, loan stays</span></div>
+      <div class="info-row"><span class="lbl">DOSC Risk</span><span class="val orange">Present — mitigate with land trust</span></div>
+      <div class="info-row"><span class="lbl">Servicer / Status</span><span class="val orange">UNKNOWN — confirm before close</span></div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="info-card">
+      <h4>Entry Stack</h4>
+      <div class="info-row"><span class="lbl">Entry Fee (to seller)</span><span class="val green">$23,000 ★ LOCKED</span></div>
+      <div class="info-row"><span class="lbl">EMD (applied to entry)</span><span class="val">$3,000 due in 3 days</span></div>
+      <div class="info-row"><span class="lbl">Est. Closing Costs (title, recording)</span><span class="val">~$1,500</span></div>
+      <div class="info-row"><span class="lbl"><strong>Total Gross Entry</strong></span><span class="val gold"><strong>$24,500</strong></span></div>
+      <div class="info-row"><span class="lbl">Inspection Period</span><span class="val">3 days — one inspection only</span></div>
+      <div class="info-row"><span class="lbl">Title Company</span><span class="val orange">Seller's choice — confirm sub-to friendly</span></div>
+    </div>
+
+    <div class="info-card">
+      <h4>Equity Position at Close</h4>
+      <div class="info-row"><span class="lbl">ARV</span><span class="val">$200,000</span></div>
+      <div class="info-row"><span class="lbl">Less: Loan Balance</span><span class="val">— $143,436</span></div>
+      <div class="info-row"><span class="lbl">Gross Equity</span><span class="val">$56,564</span></div>
+      <div class="info-row"><span class="lbl">Less: Gross Entry</span><span class="val">— $24,500</span></div>
+      <div class="info-row"><span class="lbl"><strong>Net Equity Spread</strong></span><span class="val green"><strong>$32,064</strong></span></div>
+      <div class="info-row"><span class="lbl">Equity as % of ARV</span><span class="val green">16% — healthy spread</span></div>
+    </div>
+  </div>
+
+  <div class="dark-box">
+    <h4>Estimated PITI (Monthly Holding Cost)</h4>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center;">
+      <div><div style="font-size:22px;font-weight:900;color:#e8a020">$948</div><div style="font-size:10px;text-transform:uppercase;color:#aac4d8;margin-top:4px">P&amp;I</div></div>
+      <div><div style="font-size:22px;font-weight:900;color:#e8a020">$250</div><div style="font-size:10px;text-transform:uppercase;color:#aac4d8;margin-top:4px">Taxes (est.)</div></div>
+      <div><div style="font-size:22px;font-weight:900;color:#e8a020">$150</div><div style="font-size:10px;text-transform:uppercase;color:#aac4d8;margin-top:4px">Insurance (est.)</div></div>
+      <div><div style="font-size:22px;font-weight:900;color:#e8a020">$1,348</div><div style="font-size:10px;text-transform:uppercase;color:#aac4d8;margin-top:4px">Total PITI</div></div>
+    </div>
+    <div style="margin-top:14px;font-size:11px;color:#7fb3d3;text-align:center;">⚠ Taxes and insurance are estimates — pull Duval PAO and get insurance quote before closing</div>
+  </div>
+
+  <div class="page-foot">1588 Brook Forest Dr · Sub-To Deal Review · March 2026 · Ainsley / Jay Williams</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     PAGE 2 — TWR ANALYSIS
+══════════════════════════════════════════ -->
+<div class="section">
+  <div class="page-hdr">
+    <h2>TWR Analysis — All Strategies</h2>
+    <span>Target: 30% Cash-on-Cash</span>
+  </div>
+
+  <div class="stat-strip">
+    <div><div class="snum">$24,500</div><div class="slbl">Gross Entry</div></div>
+    <div><div class="snum">$613</div><div class="slbl">CF/mo to Hit 30% CoC</div></div>
+    <div><div class="snum">$3,038</div><div class="slbl">Year 1 Paydown</div></div>
+    <div><div class="snum">23.3%</div><div class="slbl">TWR — PadSplit 4-Room</div></div>
+  </div>
+
+  <div style="margin-bottom:10px;font-size:12px;color:#666;">
+    <strong>Formula:</strong> TWR = (Net CF/mo × 12 + Year 1 Paydown) / Gross Entry &nbsp;|&nbsp;
+    <strong>CoC:</strong> Annual Net CF / Gross Entry &nbsp;|&nbsp;
+    <strong>Target:</strong> 30% CoC = $612.50/mo net CF on $24,500 entry · <strong style="color:#dc3545;">⚠ PadSplit 4-Room delivers only $222/mo (10.9% CoC) — 19 pts below target.</strong> Need to negotiate entry below $10K or add 5th room.
+  </div>
+
+  <table class="twr-table">
+    <thead>
+      <tr>
+        <th>Strategy</th>
+        <th>Gross Rev</th>
+        <th>PITI</th>
+        <th>Other Exp</th>
+        <th>Net CF/mo</th>
+        <th>CoC</th>
+        <th>TWR</th>
+        <th>vs. Target</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="below-row">
+        <td><span class="strategy-name">LTR $1,550</span><br><span style="font-size:11px;color:#888">Self-managed</span></td>
+        <td>$1,550</td>
+        <td>$1,348</td>
+        <td>$202</td>
+        <td><strong>$0</strong></td>
+        <td><span class="twr-pct twr-red">0.0%</span></td>
+        <td><span class="twr-pct twr-red">12.4%</span></td>
+        <td><span class="badge b-below">-30 pts</span></td>
+      </tr>
+      <tr class="below-row">
+        <td><span class="strategy-name">LTR $1,650</span><br><span style="font-size:11px;color:#888">Self-managed</span></td>
+        <td>$1,650</td>
+        <td>$1,348</td>
+        <td>$202</td>
+        <td><strong>+$100</strong></td>
+        <td><span class="twr-pct twr-red">4.9%</span></td>
+        <td><span class="twr-pct twr-red">17.3%</span></td>
+        <td><span class="badge b-below">-25 pts</span></td>
+      </tr>
+      <tr class="below-row">
+        <td><span class="strategy-name">LTR $1,600</span><br><span style="font-size:11px;color:#888">With PM (10%)</span></td>
+        <td>$1,600</td>
+        <td>$1,348</td>
+        <td>$362</td>
+        <td><strong style="color:#8b0000">-$110</strong></td>
+        <td><span class="twr-pct twr-red">-5.4%</span></td>
+        <td><span class="twr-pct twr-red">7.0%</span></td>
+        <td><span class="badge b-below">-35 pts</span></td>
+      </tr>
+      <tr class="target-row">
+        <td><span class="strategy-name">PadSplit 4-Room $2,730</span><br><span style="font-size:11px;color:#8b0000">⚠ ACTIVE PLAN · 3×$150/wk + Master $180/wk · BELOW TARGET</span></td>
+        <td>$2,730</td>
+        <td>$1,348</td>
+        <td>$1,160</td>
+        <td><strong style="color:#8b0000;">+$222</strong></td>
+        <td><span class="twr-pct twr-red">10.9%</span></td>
+        <td><span class="twr-pct twr-red">23.3%</span></td>
+        <td><span class="badge b-below">-19 pts</span></td>
+      </tr>
+      <tr class="above-row">
+        <td><span class="strategy-name">STR / Airbnb $4,000</span><br><span style="font-size:11px;color:#555">Conservative STR</span></td>
+        <td>$4,000</td>
+        <td>$1,348</td>
+        <td>$1,500</td>
+        <td><strong>+$1,152</strong></td>
+        <td><span class="twr-pct twr-green">56.4%</span></td>
+        <td><span class="twr-pct twr-green">68.8%</span></td>
+        <td><span class="badge b-strong">+26 pts</span></td>
+      </tr>
+      <tr class="above-row">
+        <td><span class="strategy-name">STR / Airbnb $5,000</span><br><span style="font-size:11px;color:#555">Seller's stated upside</span></td>
+        <td>$5,000</td>
+        <td>$1,348</td>
+        <td>$1,750</td>
+        <td><strong>+$1,902</strong></td>
+        <td><span class="twr-pct twr-green">93.2%</span></td>
+        <td><span class="twr-pct twr-green">105.6%</span></td>
+        <td><span class="badge b-strong">+63 pts</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="background:#fffbf0;border:1px solid #e8a020;border-radius:6px;padding:16px 20px;font-size:12px;color:#555;line-height:1.7;">
+    <strong style="color:#1a2b3c;">Key insight:</strong> At $23K entry ($24,500 gross), PadSplit 5-Room delivers 38.0% CoC — 8 points above target. 
+    You only need $613/mo net to hit 30% CoC at this entry. Expenses include Dre PM ($100) + cleaning ($300) + 15% maintenance reserve.
+    <strong style="color:#1e7e34;">This deal works at $23K. Execute PadSplit setup immediately after May vacancy.</strong>
+  </div>
+
+  <div class="page-foot">1588 Brook Forest Dr · TWR Analysis · Gross Entry $24,500 · Year 1 Paydown $3,038 · ⚠ 10.9% CoC 4-Room</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     PAGE 3 — STRATEGY DETAIL
+══════════════════════════════════════════ -->
+<div class="section">
+  <div class="page-hdr">
+    <h2>Strategy Detail</h2>
+    <span>LTR vs MTR vs STR</span>
+  </div>
+
+  <!-- LTR -->
+  <div class="scenario-card">
+    <div class="sc-header ltr">
+      <div>
+        <div class="sc-title">Long-Term Rental (LTR)</div>
+        <div style="font-size:11px;color:#721c24;margin-top:2px">$1,550–$1,650/mo · Section 8 / Market</div>
+      </div>
+      <div style="text-align:right">
+        <div class="sc-twr twr-red">6.5–9.1%</div>
+        <div style="font-size:10px;color:#721c24;text-transform:uppercase;letter-spacing:1px">TWR · 0–2.6% CoC</div>
+      </div>
+    </div>
+    <div class="sc-body">
+      <div class="sc-col">
+        <h5>Revenue</h5>
+        <div class="sc-row"><span class="sc-lbl">LTR Rent (low)</span><span class="sc-val">$1,550/mo</span></div>
+        <div class="sc-row"><span class="sc-lbl">LTR Rent (high)</span><span class="sc-val">$1,650/mo</span></div>
+        <div class="sc-row"><span class="sc-lbl">HUD rate (current)</span><span class="sc-val">$1,500/mo</span></div>
+      </div>
+      <div class="sc-col">
+        <h5>Expense Build (self-managed)</h5>
+        <div class="sc-row"><span class="sc-lbl">PITI</span><span class="sc-val">$1,348</span></div>
+        <div class="sc-row"><span class="sc-lbl">Maintenance (5%)</span><span class="sc-val">$78</span></div>
+        <div class="sc-row"><span class="sc-lbl">Vacancy (8%)</span><span class="sc-val">$124</span></div>
+        <div class="sc-row"><span class="sc-lbl"><strong>Total</strong></span><span class="sc-val"><strong>$1,550</strong></span></div>
+        <div class="sc-row"><span class="sc-lbl">Net CF at $1,550</span><span class="sc-val" style="color:#8b0000"><strong>$0/mo</strong></span></div>
+        <div class="sc-row"><span class="sc-lbl">Net CF at $1,650</span><span class="sc-val" style="color:#1e7e34"><strong>+$100/mo</strong></span></div>
+      </div>
+    </div>
+    <div class="sc-footer danger">
+      ❌ Does not hit 30% CoC target. Breakeven at $1,550 self-managed. One vacancy month or major repair erases the year. With PM, goes negative. This is a hold-and-hope strategy — not a wealth-building position at $45K entry.
+    </div>
+  </div>
+
+  <!-- MTR -->
+  <div class="scenario-card">
+    <div class="sc-header mtr">
+      <div>
+        <div class="sc-title">PadSplit 4-Room (MTR) ⚠ BELOW TARGET</div>
+        <div style="font-size:11px;color:#8b0000;margin-top:2px">$2,730/mo · 3 rooms $150/wk + Master $180/wk · Gross insufficient at $23K entry</div>
+      </div>
+      <div style="text-align:right">
+        <div class="sc-twr" style="color:#8b0000">23.3%</div>
+        <div style="font-size:10px;color:#8b0000;text-transform:uppercase;letter-spacing:1px">TWR · 10.9% CoC · ⚠ Below 30% Target</div>
+      </div>
+    </div>
+    <div class="sc-body">
+      <div class="sc-col">
+        <h5>Revenue</h5>
+        <div class="sc-row"><span class="sc-lbl">Gross Room Revenue</span><span class="sc-val">$3,380/mo ($780/wk)</span></div>
+        <div class="sc-row"><span class="sc-lbl">CoC Annual CF</span><span class="sc-val">$9,300/yr</span></div>
+        <div class="sc-row"><span class="sc-lbl">CoC Return</span><span class="sc-val" style="color:#1e7e34"><strong>38.0%</strong></span></div>
+        <div class="sc-row"><span class="sc-lbl">TWR (incl. paydown)</span><span class="sc-val" style="color:#1e7e34"><strong>50.4%</strong></span></div>
+      </div>
+      <div class="sc-col">
+        <h5>Expense Build</h5>
+        <div class="sc-row"><span class="sc-lbl">PITI</span><span class="sc-val">$1,348</span></div>
+        <div class="sc-row"><span class="sc-lbl">Utilities (member-included)</span><span class="sc-val">$250</span></div>
+        <div class="sc-row"><span class="sc-lbl">Maintenance (15% gross)</span><span class="sc-val">$410</span></div>
+        <div class="sc-row"><span class="sc-lbl">Dre — Property Mgmt</span><span class="sc-val">$100</span></div>
+        <div class="sc-row"><span class="sc-lbl">Dre — Cleaning</span><span class="sc-val">$300</span></div>
+        <div class="sc-row"><span class="sc-lbl">Vacancy/Turnover</span><span class="sc-val">$100</span></div>
+        <div class="sc-row"><span class="sc-lbl"><strong>Total Expenses</strong></span><span class="sc-val"><strong>$2,508</strong></span></div>
+        <div class="sc-row"><span class="sc-lbl"><strong>Net CF</strong></span><span class="sc-val" style="color:#8b0000"><strong>+$222/mo</strong></span></div>
+      </div>
+    </div>
+    <div class="sc-footer warn">
+      ⚠ 4 rooms (3×$150 + master $180/wk) = $630/wk = $2,730/mo. Only 10.9% CoC on $24,500 entry — 19 pts below 30% target. Options: negotiate entry to ~$8K, add 5th room, or pivot to STR if 32208 permits.
+    </div>
+  </div>
+
+  <!-- STR -->
+  <div class="scenario-card">
+    <div class="sc-header str">
+      <div>
+        <div class="sc-title">Short-Term Rental / Airbnb (STR)</div>
+        <div style="font-size:11px;color:#155724;margin-top:2px">$4,000–$5,000/mo · Seller's stated upside</div>
+      </div>
+      <div style="text-align:right">
+        <div class="sc-twr twr-green">36–56%</div>
+        <div style="font-size:10px;color:#155724;text-transform:uppercase;letter-spacing:1px">TWR · 30–49% CoC</div>
+      </div>
+    </div>
+    <div class="sc-body">
+      <div class="sc-col">
+        <h5>Revenue Scenarios</h5>
+        <div class="sc-row"><span class="sc-lbl">Conservative ($4,000)</span><span class="sc-val">CF +$1,152/mo</span></div>
+        <div class="sc-row"><span class="sc-lbl">Target ($5,000)</span><span class="sc-val">CF +$1,902/mo</span></div>
+        <div class="sc-row"><span class="sc-lbl">CoC at $4,000</span><span class="sc-val">56.4%</span></div>
+        <div class="sc-row"><span class="sc-lbl">CoC at $5,000</span><span class="sc-val" style="color:#1e7e34"><strong>93.2%</strong></span></div>
+        <div class="sc-row"><span class="sc-lbl">TWR at $5,000</span><span class="sc-val" style="color:#1e7e34"><strong>105.6%</strong></span></div>
+      </div>
+      <div class="sc-col">
+        <h5>Expense Build ($5,000 scenario)</h5>
+        <div class="sc-row"><span class="sc-lbl">PITI</span><span class="sc-val">$1,348</span></div>
+        <div class="sc-row"><span class="sc-lbl">Utilities</span><span class="sc-val">$300</span></div>
+        <div class="sc-row"><span class="sc-lbl">STR Platform (20%)</span><span class="sc-val">$1,000</span></div>
+        <div class="sc-row"><span class="sc-lbl">Supplies/Maintenance</span><span class="sc-val">$200</span></div>
+        <div class="sc-row"><span class="sc-lbl">Vacancy/Turnover</span><span class="sc-val">$250</span></div>
+        <div class="sc-row"><span class="sc-lbl"><strong>Total Expenses</strong></span><span class="sc-val"><strong>$3,098</strong></span></div>
+        <div class="sc-row"><span class="sc-lbl"><strong>Net CF</strong></span><span class="sc-val" style="color:#1e7e34"><strong>+$1,902/mo</strong></span></div>
+      </div>
+    </div>
+    <div class="sc-footer good">
+      ✅ Best-case scenario. Exceeds 30% CoC target significantly. Critical dependency: Jacksonville STR ordinance in 32208 — confirm permits are available and rentable nights per year are unrestricted. Also: 1,100 sqft / 3-bed in a C-class zip will perform at the lower end of the STR comp range. Don't underwrite at $5K without running STR comps first.
+    </div>
+  </div>
+
+  <div class="page-foot">1588 Brook Forest Dr · Strategy Detail · MTR is target — STR is upside</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     PAGE 4 — NEGOTIATION + SENSITIVITY
+══════════════════════════════════════════ -->
+<div class="section">
+  <div class="page-hdr">
+    <h2>Negotiation Leverage</h2>
+    <span>Entry Fee Sensitivity</span>
+  </div>
+
+  <div class="neg-box">
+    <h4>What Happens If You Negotiate Entry Down</h4>
+    <table class="neg-table">
+      <thead>
+        <tr>
+          <th>Entry Fee</th>
+          <th>Gross Entry (w/ closing)</th>
+          <th>LTR $1,650 TWR</th>
+          <th>MTR $3,500 TWR</th>
+          <th>MTR $3,500 CoC</th>
+          <th>STR $5,000 TWR</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background:#fff3cd;border-left:4px solid #dc3545;">
+          <td><strong>$23,000</strong> ⚠ OFFER — 4-Room Only 10.9% CoC</td>
+          <td>$24,500</td>
+          <td>17.3%</td>
+          <td>23.3%</td>
+          <td>10.9%</td>
+          <td>105.6%</td>
+        </tr>
+        <tr style="opacity:0.6;">
+          <td><strong>$45,000</strong> (original ask)</td>
+          <td>$46,500</td>
+          <td>9.1%</td>
+          <td>35.6%</td>
+          <td>29.1%</td>
+          <td>55.6%</td>
+        </tr>
+        <tr>
+          <td><strong>$40,000</strong></td>
+          <td>$41,500</td>
+          <td>10.9%</td>
+          <td>40.3%</td>
+          <td>32.6%</td>
+          <td>62.6%</td>
+        </tr>
+        <tr style="background:#f0fff4;">
+          <td><strong>$35,000</strong></td>
+          <td>$36,500</td>
+          <td class="highlight">11.6%</td>
+          <td class="highlight">45.4%</td>
+          <td class="highlight">37.1%</td>
+          <td class="highlight">70.8%</td>
+        </tr>
+        <tr>
+          <td><strong>$30,000</strong></td>
+          <td>$31,500</td>
+          <td>13.4%</td>
+          <td>52.7%</td>
+          <td>43.0%</td>
+          <td>82.4%</td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="font-size:11px;color:#8a6500;margin-top:12px;">
+      ⚠ At $24,500 gross entry with 4-room PadSplit ($2,730/mo), CoC is only 10.9% — well below 30% target. To hit 30% CoC on room rental, entry must drop to ~$8K offer, or a 5th room must be added. STR at $4K+ would hit target.
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="info-card">
+      <h4>Negotiation Angles</h4>
+      <div class="info-row"><span class="lbl">Vacancy gap</span><span class="val">Tenant leaving May — seller losing $1,500/mo</span></div>
+      <div class="info-row"><span class="lbl">Thin equity</span><span class="val">Only $56K equity — $45K is 80% of it</span></div>
+      <div class="info-row"><span class="lbl">Market</span><span class="val">32208 C-class — limited buyer pool for SF</span></div>
+      <div class="info-row"><span class="lbl">Your pitch</span><span class="val">Cash-equivalent speed, no bank, as-is</span></div>
+      <div class="info-row"><span class="lbl">Offer submitted</span><span class="val green"><strong>$23,000 entry fee ★ LOCKED</strong></span></div>
+      <div class="info-row"><span class="lbl">Walk-away</span><span class="val red">Above $28K — must preserve 40%+ CoC</span></div>
+    </div>
+
+    <div class="info-card">
+      <h4>Sub-To Structure Notes</h4>
+      <div class="info-row"><span class="lbl">Deed vesting</span><span class="val">Land trust recommended — mitigates DOSC</span></div>
+      <div class="info-row"><span class="lbl">Seller's title co.</span><span class="val orange">Confirm sub-to/land trust experience</span></div>
+      <div class="info-row"><span class="lbl">Insurance</span><span class="val">Non-owner policy — inform lender or not?</span></div>
+      <div class="info-row"><span class="lbl">Loan payments</span><span class="val">Set up auto-pay to servicer on day 1</span></div>
+      <div class="info-row"><span class="lbl">Seller protection</span><span class="val">Performance deed — protects seller credit</span></div>
+      <div class="info-row"><span class="lbl">Exit plan</span><span class="val">Refi out at 3 yrs or wrap at higher rate</span></div>
+    </div>
+  </div>
+
+  <div class="page-foot">1588 Brook Forest Dr · Negotiation · $23K Offer · ⚠ 4-Room PadSplit Only 10.9% CoC — Renegotiate or Add Room</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     PAGE 5 — RISK FLAGS + PRE-CLOSE CHECKLIST
+══════════════════════════════════════════ -->
+<div class="section">
+  <div class="page-hdr">
+    <h2>Risk Flags</h2>
+    <span>Know before you sign</span>
+  </div>
+
+  <div class="flag-grid">
+    <div class="flag-card">
+      <div class="flag-dot red"></div>
+      <div>
+        <div class="flag-title">Thin equity spread — $10K cushion</div>
+        <div class="flag-text">Net equity at close is only $10,064. One major repair (roof, HVAC, plumbing) could wipe out 50–100% of first-year gains. Inspect aggressively during the 3-day window.</div>
+      </div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-dot red"></div>
+      <div>
+        <div class="flag-title">LTR alone doesn't pencil at $45K</div>
+        <div class="flag-text">If MTR/STR fails or zoning doesn't allow it, you're stuck at 6–9% TWR — a weak return for $46K cash out. The entire deal thesis depends on alternative rental execution.</div>
+      </div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-dot red"></div>
+      <div>
+        <div class="flag-title">32208 C-class neighborhood risk</div>
+        <div class="flag-text">NW Jacksonville — higher vacancy rates, maintenance profile, and tenant quality risk on LTR. MTR/STR demand needs confirmation — not all C-class zips support $3,500/mo mid-term.</div>
+      </div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-dot orange"></div>
+      <div>
+        <div class="flag-title">May vacancy gap</div>
+        <div class="flag-text">HUD tenant leaves May 2026. If MTR/STR setup isn't ready to go live that month, you carry $1,348/mo PITI with zero revenue. Need furniture, listing, and platform ready before close.</div>
+      </div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-dot orange"></div>
+      <div>
+        <div class="flag-title">DOSC — Due-On-Sale Clause</div>
+        <div class="flag-text">5.87% rate is decent but not exceptional. Lender's incentive to call the loan is moderate. Mitigate with land trust vesting. Monitor servicer communications closely post-close.</div>
+      </div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-dot orange"></div>
+      <div>
+        <div class="flag-title">Seller's title company</div>
+        <div class="flag-text">"Must close with seller's title company" — not all title companies understand sub-to/land trust structure. Confirm they can execute correctly. If not, this is a deal-breaker to negotiate.</div>
+      </div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-dot orange"></div>
+      <div>
+        <div class="flag-title">Taxes &amp; insurance unconfirmed</div>
+        <div class="flag-text">PITI is estimated. If actual taxes are $300/mo instead of $250/mo, LTR cash flow goes negative even self-managed. Pull Duval PAO and get a real insurance quote before committing.</div>
+      </div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-dot green"></div>
+      <div>
+        <div class="flag-title">HUD income bridge — confirmed through May</div>
+        <div class="flag-text">$1,500/mo guaranteed until end of May lease. Cash flows from day 1 of ownership. Gives 4–6 weeks to set up MTR/STR without a revenue gap if you close in April.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:28px;">
+    <div class="page-hdr">
+      <h2>Pre-Close Checklist</h2>
+      <span>Complete before signing</span>
+    </div>
+    <ul class="checklist">
+      <li>
+        <div class="chk-box"></div>
+        <div class="chk-text">
+          <div class="chk-item">Pull Duval County PAO — confirm assessed value + actual tax bill</div>
+          <div class="chk-why">PITI estimate assumes $250/mo taxes. Every $50 off changes LTR viability.</div>
+        </div>
+      </li>
+      <li>
+        <div class="chk-box"></div>
+        <div class="chk-text">
+          <div class="chk-item">Get insurance quote — non-owner occupied, 1,100 sqft, 2000 build, 32208</div>
+          <div class="chk-why">Estimate is $150/mo. Could be $200+ in JAX market. Affects every TWR number.</div>
+        </div>
+      </li>
+      <li>
+        <div class="chk-box"></div>
+        <div class="chk-text">
+          <div class="chk-item">Confirm Jacksonville STR ordinance for 32208 ZIP</div>
+          <div class="chk-why">Jacksonville has STR regulations — verify permits available and no night caps in this zone.</div>
+        </div>
+      </li>
+      <li>
+        <div class="chk-box"></div>
+        <div class="chk-text">
+          <div class="chk-item">Run PadSplit / MTR comps in 32208 — confirm $3,500/mo is achievable</div>
+          <div class="chk-why">The entire deal thesis is built on this number. It must be verified, not assumed.</div>
+        </div>
+      </li>
+      <li>
+        <div class="chk-box"></div>
+        <div class="chk-text">
+          <div class="chk-item">Call servicer — confirm loan is current, no escrow deficiency, no forbearance</div>
+          <div class="chk-why">Any escrow shortage becomes your problem at close. Verify payment history.</div>
+        </div>
+      </li>
+      <li>
+        <div class="chk-box"></div>
+        <div class="chk-text">
+          <div class="chk-item">Inspect property during 3-day window — HVAC, roof, plumbing, electrical</div>
+          <div class="chk-why">$10K equity cushion. Any major deferred maintenance changes the math.</div>
+        </div>
+      </li>
+      <li>
+        <div class="chk-box"></div>
+        <div class="chk-text">
+          <div class="chk-item">Confirm seller's title company can execute land trust / sub-to vesting</div>
+          <div class="chk-why">If they can't, negotiate to use your own title company or walk.</div>
+        </div>
+      </li>
+      <li>
+        <div class="chk-box"></div>
+        <div class="chk-text">
+          <div class="chk-item">Run title search — confirm no liens, judgments, code violations</div>
+          <div class="chk-why">Any undisclosed lien becomes your problem after the deed transfers.</div>
+        </div>
+      </li>
+      <li>
+        <div class="chk-box"></div>
+        <div class="chk-text">
+          <div class="chk-item">Confirm no HOA (not mentioned — verify)</div>
+          <div class="chk-why">Any HOA dues not disclosed change the PITI calculation.</div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="page-foot">1588 Brook Forest Dr · Risk + Checklist · Complete all items before EMD goes hard</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     PAGE 6 — DECISION
+══════════════════════════════════════════ -->
+<div class="section section-last">
+  <div class="page-hdr">
+    <h2>Decision</h2>
+    <span>Go / No-Go Framework</span>
+  </div>
+
+  <div class="two-col" style="margin-bottom:28px;">
+    <div class="info-card" style="border-top-color:#1e7e34;">
+      <h4 style="color:#1e7e34;">✅ GO — Conditions Met</h4>
+      <div class="info-row"><span class="lbl">MTR/STR confirmed</span><span class="val green">$3,500+/mo achievable in 32208</span></div>
+      <div class="info-row"><span class="lbl">STR ordinance</span><span class="val green">Permits available, no night cap</span></div>
+      <div class="info-row"><span class="lbl">Inspection clean</span><span class="val green">No major deferred maintenance</span></div>
+      <div class="info-row"><span class="lbl">Title clear</span><span class="val green">No liens, judgments, violations</span></div>
+      <div class="info-row"><span class="lbl">Entry negotiated</span><span class="val green">$35K entry = 37% CoC · Stronger deal</span></div>
+      <div class="info-row"><span class="lbl">Loan current</span><span class="val green">No escrow deficiency confirmed</span></div>
+    </div>
+    <div class="info-card" style="border-top-color:#8b0000;">
+      <h4 style="color:#8b0000;">❌ WALK — If Any of These Are True</h4>
+      <div class="info-row"><span class="lbl">MTR demand weak</span><span class="val red">32208 can't support $3,500/mo MTR</span></div>
+      <div class="info-row"><span class="lbl">STR blocked</span><span class="val red">Jacksonville prohibits STR in this zone</span></div>
+      <div class="info-row"><span class="lbl">Inspection fails</span><span class="val red">Roof, HVAC, or foundation issues</span></div>
+      <div class="info-row"><span class="lbl">Title dirty</span><span class="val red">Liens or code violations on record</span></div>
+      <div class="info-row"><span class="lbl">Entry stays at $45K</span><span class="val red">AND fallback is LTR — doesn't pencil</span></div>
+      <div class="info-row"><span class="lbl">Loan in trouble</span><span class="val red">Escrow deficiency or forbearance active</span></div>
+    </div>
+  </div>
+
+  <div class="decision-box">
+    <h4>3 Decisions Jay Needs to Make</h4>
+    <div class="decision-item">
+      <div class="decision-num">1</div>
+      <div class="decision-text">
+        <div class="dt-title">Is $3,500/mo MTR or $4,000+/mo STR realistic in 32208?</div>
+        <div class="dt-body">This is the only question that matters. If yes — the deal works at $45K entry and hits near 30% CoC. If uncertain — do not sign until confirmed. Run PadSplit comps and Airbnb occupancy data for the ZIP before the EMD goes hard.</div>
+      </div>
+    </div>
+    <div class="decision-item">
+      <div class="decision-num">2</div>
+      <div class="decision-text">
+        <div class="dt-title">Push for $35K entry before signing — or accept $45K?</div>
+        <div class="dt-body">At $35K entry: MTR CoC jumps from 29% to 37%. Seller is losing $1,500/mo in May. Use that urgency. Counter at $32K, land at $35K. Every $5K off is worth 7–8 CoC points and reduces exposure if the revenue strategy underperforms.</div>
+      </div>
+    </div>
+    <div class="decision-item">
+      <div class="decision-num">3</div>
+      <div class="decision-text">
+        <div class="dt-title">Can you have MTR/STR live before or immediately after the May vacancy?</div>
+        <div class="dt-body">The HUD tenant leaves in May. If you close in April, you get 4–6 weeks of HUD income to set up the alternative rental. Don't let there be a revenue gap. Furnishings, listing photos, platform setup, and pricing must be ready to flip on the day the tenant walks out.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-foot">1588 Brook Forest Dr · Sub-To Deal Review · Prepared by Ainsley / Jay Williams · March 2026</div>
+</div>
+
+</body>
+</html>
