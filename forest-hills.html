@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1645 Forest Hills Rd — 9-Room Co-Living Master Deal Review</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #f0f2f5; color: #1a1a1a; font-size: 13px; }
+
+  /* ── COVER ─────────────────────────────── */
+  .cover {
+    display: grid; grid-template-columns: 38% 1fr;
+    min-height: 580px; page-break-after: always;
+    max-width: 1100px; margin: 0 auto;
+    overflow: hidden;
+  }
+  .cover-photo { object-fit: cover; width: 100%; height: 100%; display: block; }
+  .cover-text {
+    background: #1a2b3c; color: white;
+    padding: 50px 40px; display: flex; flex-direction: column; justify-content: center;
+  }
+  .cover-eyebrow { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #7fb3d3; margin-bottom: 12px; }
+  .cover-text h1 { font-size: 36px; font-weight: 900; line-height: 1.1; margin-bottom: 8px; }
+  .cover-text h2 { font-size: 14px; font-weight: 400; color: #7fb3d3; margin-bottom: 22px; }
+  .cover-rule { width: 44px; height: 4px; background: #e8a020; margin-bottom: 22px; }
+  .cover-meta { font-size: 12px; color: #aac4d8; line-height: 2.3; margin-bottom: 24px; }
+  .cover-meta strong { color: white; }
+  .stat-row {
+    display: flex; flex-wrap: wrap; gap: 0;
+    border: 1px solid rgba(255,255,255,.15); border-radius: 6px; overflow: hidden; margin-bottom: 22px;
+  }
+  .stat-cell { flex: 1; min-width: 90px; padding: 14px 10px; text-align: center; border-right: 1px solid rgba(255,255,255,.12); }
+  .stat-cell:last-child { border-right: none; }
+  .stat-num { font-size: 20px; font-weight: 900; color: #e8a020; line-height: 1; }
+  .stat-lbl { font-size: 8px; text-transform: uppercase; letter-spacing: 1px; color: #aac4d8; margin-top: 4px; }
+  .type-badge {
+    display: inline-block; background: #e8a020; color: #1a1a1a;
+    font-size: 10px; font-weight: 900; letter-spacing: .6px;
+    padding: 8px 18px; border-radius: 30px; text-transform: uppercase;
+  }
+
+  /* ── COC HERO ───────────────────────────── */
+  .coc-hero {
+    background: #1a2b3c; border-radius: 8px; padding: 24px 32px;
+    margin-bottom: 24px;
+    display: grid; grid-template-columns: auto 1fr 1fr 1fr; gap: 0; align-items: center;
+  }
+  .coc-main { padding-right: 32px; border-right: 1px solid rgba(255,255,255,.12); }
+  .coc-eyebrow { font-size: 10px; font-weight: 700; color: #7fb3d3; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .coc-pct { font-size: 64px; font-weight: 900; color: #e8a020; line-height: 1; letter-spacing: -2px; }
+  .coc-sub { font-size: 11px; color: #aac4d8; margin-top: 6px; }
+  .coc-item { text-align: center; padding: 0 18px; border-right: 1px solid rgba(255,255,255,.12); }
+  .coc-item:last-child { border-right: none; }
+  .coc-item-lbl { font-size: 10px; color: #7fb3d3; text-transform: uppercase; letter-spacing: .8px; margin-bottom: 6px; }
+  .coc-item-val { font-size: 32px; font-weight: 900; line-height: 1; }
+  .coc-item-note { font-size: 11px; color: #aac4d8; margin-top: 4px; }
+
+  /* ── SECTIONS ───────────────────────────── */
+  .section { background: white; padding: 36px 40px; page-break-after: always; max-width: 1100px; margin: 0 auto; }
+  .section-last { page-break-after: auto; }
+  .page-hdr {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    border-bottom: 3px solid #1a2b3c; padding-bottom: 10px; margin-bottom: 24px;
+    flex-wrap: wrap; gap: 6px;
+  }
+  .page-hdr h2 { font-size: 18px; font-weight: 900; text-transform: uppercase; letter-spacing: .8px; color: #1a2b3c; }
+  .page-hdr span { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #999; }
+
+  /* ── GRIDS ──────────────────────────────── */
+  .two-col   { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+
+  /* ── INFO CARDS ─────────────────────────── */
+  .info-card { border: 1px solid #e0e0e0; border-radius: 6px; padding: 18px 20px; border-top: 4px solid #1a2b3c; }
+  .info-card h4 { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: #888; margin-bottom: 12px; }
+  .info-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f0f0f0; font-size: 13px; gap: 8px; }
+  .info-row:last-child { border-bottom: none; }
+  .info-row .lbl { color: #555; flex-shrink: 0; }
+  .info-row .val { font-weight: 700; color: #1a2b3c; text-align: right; }
+  .info-row .val.green  { color: #1e7e34; }
+  .info-row .val.orange { color: #b07700; }
+  .info-row .val.red    { color: #8b0000; }
+  .info-row .val.gold   { color: #e8a020; }
+
+  /* ── DARK BOX ───────────────────────────── */
+  .dark-box { background: #1a2b3c; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px; }
+  .dark-box h4 { color: #7fb3d3; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 14px; }
+  .dark-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,.08); font-size: 13px; color: white; gap: 8px; }
+  .dark-row:last-child { border-bottom: none; }
+  .dark-row .dlbl { color: #aac4d8; }
+  .dark-row .dval { font-weight: 700; color: white; text-align: right; }
+  .dark-row .dval.gold  { color: #e8a020; }
+  .dark-row .dval.green { color: #4caf50; }
+  .dark-row .dval.red   { color: #ef9a9a; }
+
+  /* ── UTILITY BAR ────────────────────────── */
+  .utility-bar {
+    background: #fff8e6; border: 1px solid #e8a020; border-radius: 6px;
+    padding: 11px 18px; margin-bottom: 22px;
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  }
+  .util-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #b07700; margin-right: 4px; }
+  .util-chip {
+    background: white; border: 1px solid #e0e0e0; border-radius: 20px;
+    padding: 3px 11px; font-size: 11px; font-weight: 700; color: #1a2b3c; white-space: nowrap;
+  }
+  .util-chip.warn { border-color: #dc3545; color: #8b0000; background: #fff0f0; }
+  .util-chip.gold { border-color: #e8a020; color: #b07700; }
+
+  /* ── PHOTO STRIP ────────────────────────── */
+  .photo-strip {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px; border-radius: 8px; overflow: hidden; margin-bottom: 24px; height: 190px;
+  }
+  .photo-strip img { object-fit: cover; width: 100%; height: 100%; display: block; }
+
+  /* ── FLOOR PLAN ─────────────────────────── */
+  .fp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  .fp-card { border: 1px solid #e0e0e0; border-radius: 6px; overflow: hidden; }
+  .fp-hdr {
+    background: #1a2b3c; color: white; padding: 9px 14px;
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .fp-hdr span { color: #7fb3d3; font-size: 9px; font-weight: 400; text-transform: none; letter-spacing: 0; }
+  .fp-card img { width: 100%; display: block; }
+
+  /* ── ROOM TABLE ─────────────────────────── */
+  .room-map-note {
+    background: #fff8e6; border: 1px solid #e8a020; border-radius: 6px;
+    padding: 10px 16px; margin-bottom: 12px; font-size: 12px; color: #555; line-height: 1.7;
+  }
+  table.room-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 24px; }
+  .room-table th {
+    background: #1a2b3c; color: white; padding: 9px 12px;
+    text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 1px;
+  }
+  .room-table th.right { text-align: right; }
+  .room-table td { padding: 9px 12px; border-bottom: 1px solid #eee; vertical-align: middle; }
+  .room-table td.right { text-align: right; }
+  .room-table tr:hover td { background: #fafafa; }
+  .room-table tr.floor-hdr td {
+    background: #f0f2f5; font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .8px; color: #555; padding: 6px 12px;
+  }
+  .room-num-badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; background: #1a2b3c; color: #e8a020;
+    border-radius: 50%; font-weight: 900; font-size: 11px;
+  }
+  .room-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; white-space: nowrap; }
+  .badge-shared  { background: #e8f4ea; color: #1e7e34; border: 1px solid #1e7e34; }
+  .badge-private { background: #fff3cd; color: #856404; border: 1px solid #e8a020; }
+  .badge-convert { background: #f0f0ff; color: #4040a0; border: 1px solid #9090d0; }
+
+  /* ── CASH FLOW GRID ─────────────────────── */
+  .cf-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0;
+    border: 1px solid #e0e0e0; border-radius: 6px; overflow: hidden; margin-bottom: 20px;
+  }
+  .cf-col { padding: 22px 20px; border-right: 1px solid #e8e8e8; }
+  .cf-col:last-child { border-right: none; }
+  .cf-col.mkt-col { background: #fffbf0; border-top: 4px solid #e8a020; }
+  .cf-col.con-col { border-top: 4px solid #1a2b3c; }
+  .cf-col.opt-col { border-top: 4px solid #1e7e34; }
+  .cf-col h3 { font-size: 13px; font-weight: 900; color: #1a2b3c; margin-bottom: 2px; }
+  .cf-sub { font-size: 10px; color: #999; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 14px; }
+  .li { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #f5f5f5; font-size: 12px; gap: 6px; }
+  .li.divider { border-top: 1px solid #ddd; border-bottom: none; margin-top: 4px; padding-top: 7px; }
+  .li.total { border-top: 2px solid #1a2b3c; border-bottom: none; padding-top: 9px; margin-top: 4px; font-weight: 900; font-size: 15px; }
+  .ll { color: #555; }
+  .lv { font-weight: 600; color: #1a2b3c; }
+  .lv.neg  { color: #8b0000; }
+  .lv.pos  { color: #1e7e34; }
+  .lv.gold { color: #b07700; }
+
+  /* ── EXPENSE TABLE ──────────────────────── */
+  table.exp-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 12px; }
+  .exp-table th { background: #1a2b3c; color: white; padding: 9px 12px; text-align: left; font-size: 9px; text-transform: uppercase; letter-spacing: 1px; }
+  .exp-table th.right { text-align: right; }
+  .exp-table td { padding: 9px 12px; border-bottom: 1px solid #eee; }
+  .exp-table td.right { text-align: right; font-weight: 600; }
+  .exp-table tr.section-hdr td { background: #f0f2f5; color: #555; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; padding: 6px 12px; }
+  .exp-table tr.subtotal td { background: #fffbf0; font-weight: 700; }
+  .exp-table tr.total-row td { background: #1a2b3c; color: white; font-weight: 700; font-size: 13px; }
+  .exp-table tr.total-row td.right { color: #ef9a9a; }
+  .note-cell { font-size: 11px; color: #888; }
+
+  /* ── YEAR TABLE ─────────────────────────── */
+  table.year-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 20px; }
+  .year-table th { background: #1a2b3c; color: white; padding: 10px 14px; text-align: right; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
+  .year-table th:first-child { text-align: left; }
+  .year-table td { padding: 10px 14px; border-bottom: 1px solid #eee; text-align: right; }
+  .year-table td:first-child { text-align: left; color: #555; }
+  .year-table tr.hl td { background: #fffbf0; font-weight: 700; }
+  .year-table tr.hl td:first-child { color: #1a2b3c; }
+  .year-table tr.cumrow td { background: #e8f4ea; font-weight: 700; }
+  .year-table tr.cumrow td:first-child { color: #1e7e34; }
+
+  /* ── BALLOON CARDS ──────────────────────── */
+  .balloon-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .balloon-card { border: 1px solid #e0e0e0; border-radius: 6px; padding: 18px 16px; border-top: 4px solid #1a2b3c; }
+  .balloon-card h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 8px; }
+  .balloon-num { font-size: 22px; font-weight: 900; color: #e8a020; line-height: 1; margin-bottom: 6px; }
+  .balloon-sub { font-size: 11px; color: #999; margin-bottom: 10px; }
+  .balloon-detail { font-size: 12px; color: #555; line-height: 1.9; }
+
+  /* ── BREAK-EVEN ─────────────────────────── */
+  .be-row { display: flex; justify-content: space-between; align-items: center; padding: 13px 0; border-bottom: 1px solid #f0f0f0; gap: 16px; }
+  .be-row:last-child { border-bottom: none; }
+  .be-lbl  { color: #555; font-size: 13px; max-width: 64%; }
+  .be-val  { font-size: 22px; font-weight: 900; color: #1e7e34; text-align: right; white-space: nowrap; }
+  .be-val.amber { color: #b07700; }
+  .be-note { font-size: 10px; color: #888; text-align: right; }
+
+  /* ── FLAGS ──────────────────────────────── */
+  .flag-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+  .flag-card { border: 1px solid #e0e0e0; border-radius: 6px; padding: 14px 16px; display: flex; gap: 12px; align-items: flex-start; }
+  .flag-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; }
+  .flag-dot.red    { background: #dc3545; }
+  .flag-dot.orange { background: #e8a020; }
+  .flag-dot.green  { background: #1e7e34; }
+  .flag-title { font-weight: 700; font-size: 13px; color: #1a2b3c; margin-bottom: 3px; }
+  .flag-text  { font-size: 12px; color: #555; line-height: 1.6; }
+
+  /* ── NEGOTIATION ────────────────────────── */
+  .neg-box { background: #fff8e6; border: 1px solid #e8a020; border-radius: 8px; padding: 22px 26px; margin-bottom: 20px; }
+  .neg-box h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: #b07700; margin-bottom: 16px; }
+  .neg-step { display: flex; gap: 14px; padding: 10px 0; border-bottom: 1px solid #f5e6c8; }
+  .neg-step:last-child { border-bottom: none; }
+  .neg-num { font-size: 22px; font-weight: 900; color: #e8a020; line-height: 1; flex-shrink: 0; width: 28px; }
+  .nt-title { font-weight: 700; color: #1a2b3c; font-size: 13px; margin-bottom: 4px; }
+  .nt-body  { font-size: 12px; color: #555; line-height: 1.7; font-style: italic; }
+  .nt-note  { font-size: 11px; color: #b07700; margin-top: 4px; }
+
+  /* ── DECISION BOX ───────────────────────── */
+  .decision-box { background: #1a2b3c; border-radius: 8px; padding: 24px 28px; margin-top: 24px; }
+  .decision-box h4 { color: #e8a020; font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 18px; }
+  .decision-item { display: flex; gap: 12px; padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,.08); }
+  .decision-item:last-child { border-bottom: none; }
+  .decision-num { font-size: 20px; font-weight: 900; color: #e8a020; line-height: 1; flex-shrink: 0; width: 28px; }
+  .dt-title { font-weight: 700; color: white; font-size: 13px; margin-bottom: 3px; }
+  .dt-body  { color: #aac4d8; font-size: 12px; line-height: 1.6; }
+
+  /* ── PAGE FOOT ──────────────────────────── */
+  .page-foot { margin-top: 24px; padding-top: 10px; border-top: 1px solid #eee; font-size: 10px; color: #bbb; text-align: center; letter-spacing: 1px; }
+
+  /* ── MOBILE ──────────────────────────────── */
+  @media (max-width: 680px) {
+    .cover { grid-template-columns: 1fr; }
+    .cover-photo { height: 220px; }
+    .section { padding: 24px 20px; }
+    .two-col, .three-col, .fp-grid, .balloon-grid, .cf-grid { grid-template-columns: 1fr; }
+    .coc-hero { grid-template-columns: 1fr 1fr; }
+    .photo-strip { grid-template-columns: 1fr; height: auto; }
+    .flag-grid { grid-template-columns: 1fr; }
+    .room-table { font-size: 11px; }
+    .room-table th, .room-table td { padding: 7px 8px; }
+  }
+  @media print {
+    body { background: white; }
+    .cover, .section { max-width: 100%; }
+    @page { margin: .4in; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════
+     COVER
+═══════════════════════════════════════════════════ -->
+<div class="cover">
+  <img class="cover-photo" src="https://floridainvestor.github.io/deal-dashboards/images/forest-hills/IMG_1350.JPG" alt="1645 Forest Hills Rd — Front Exterior">
+  <div class="cover-text">
+    <div class="cover-eyebrow">Type A · Seller Finance · Co-Living · Deal Review — Jerel Williams</div>
+    <h1>1645 Forest Hills Rd</h1>
+    <h2>9-Room Co-Living · $380K IO Seller Finance · Jacksonville FL 32208</h2>
+    <div class="cover-rule"></div>
+    <div class="cover-meta">
+      <strong>Strategy:</strong> $380K Interest-Only Seller Finance · Raj Mody · Target 3–4% IO &nbsp;·&nbsp;
+      <strong>Property:</strong> 5 Bed / 3 Bath · 5,775 sqft · 1950 Build · Indoor Pool · 32208 &nbsp;·&nbsp;
+      <strong>Updated:</strong> March 2026
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-cell"><div class="stat-num">5,775</div><div class="stat-lbl">Total Sq Ft</div></div>
+      <div class="stat-cell"><div class="stat-num">9</div><div class="stat-lbl">Target Rooms</div></div>
+      <div class="stat-cell"><div class="stat-num">25.3%</div><div class="stat-lbl">CoC @ 3% IO</div></div>
+      <div class="stat-cell"><div class="stat-num">$1,816</div><div class="stat-lbl">Net CF/mo @ 3% IO</div></div>
+      <div class="stat-cell"><div class="stat-num">$86K</div><div class="stat-lbl">All-In (Base)</div></div>
+    </div>
+
+    <div class="type-badge">CONDITIONAL GREEN — 3–4% IO + ≤$100K Rehab + 32208 Comp Confirmed</div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 1 — DEAL OVERVIEW
+═══════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="page-hdr">
+    <h2>Deal Overview</h2>
+    <span>Property · Finance · Utilities · Floor Plan · Room Map</span>
+  </div>
+
+  <div class="two-col">
+    <div class="info-card">
+      <h4>Property Details</h4>
+      <div class="info-row"><span class="lbl">Address</span><span class="val">1645 Forest Hills Rd, Jacksonville FL 32208</span></div>
+      <div class="info-row"><span class="lbl">Configuration</span><span class="val">5 Bed / 3 Bath · 5,775 sqft Total (Kubi Casa)</span></div>
+      <div class="info-row"><span class="lbl">GLA / Total</span><span class="val">5,328 sqft GLA · 5,775 sqft total</span></div>
+      <div class="info-row"><span class="lbl">1st Floor</span><span class="val">3,511 sqft (excl. 447 sqft)</span></div>
+      <div class="info-row"><span class="lbl">2nd Floor</span><span class="val">1,817 sqft (excl. 627 sqft)</span></div>
+      <div class="info-row"><span class="lbl">Year Built</span><span class="val orange">1950 — full systems audit required</span></div>
+      <div class="info-row"><span class="lbl">Special Feature</span><span class="val orange">Indoor Pool — Decision Point Before Offer</span></div>
+      <div class="info-row"><span class="lbl">Garage</span><span class="val">15'4" × 20'8" · attached · storage or parking</span></div>
+      <div class="info-row"><span class="lbl">ARV (unconfirmed)</span><span class="val orange">UNKNOWN — Pull DealMachine before offer</span></div>
+      <div class="info-row"><span class="lbl">Market / Corridor</span><span class="val">32208 · Northwest Jacksonville · High renter demand</span></div>
+      <div class="info-row"><span class="lbl">Co-Living Rooms</span><span class="val gold">9 target · 5 on 1st floor · 4 on 2nd floor</span></div>
+      <div class="info-row"><span class="lbl">COJ Zoning (rooming house)</span><span class="val orange">Confirm before offer — 32208 req'd</span></div>
+    </div>
+
+    <div class="info-card">
+      <h4>Finance Structure — Raj Mody Seller Finance</h4>
+      <div class="info-row"><span class="lbl">Purchase Price</span><span class="val">$380,000</span></div>
+      <div class="info-row"><span class="lbl">Down Payment</span><span class="val green">$0 — Interest-Only Carry</span></div>
+      <div class="info-row"><span class="lbl">Target IO Rate</span><span class="val green">3% ($950/mo) — negotiate hard</span></div>
+      <div class="info-row"><span class="lbl">Acceptable IO Rate</span><span class="val gold">4% ($1,267/mo) — maximum acceptable</span></div>
+      <div class="info-row"><span class="lbl">5% IO Payment</span><span class="val orange">$1,583/mo — deal degrades significantly</span></div>
+      <div class="info-row"><span class="lbl">Balloon / Term</span><span class="val orange">Year 5–7 · refi or sell at exit</span></div>
+      <div class="info-row"><span class="lbl">Rate vs DSCR Market</span><span class="val green">Saves $633–$967/mo vs 7.5% DSCR ($2,844/mo)</span></div>
+      <div class="info-row"><span class="lbl">Rehab Budget (base)</span><span class="val">$80,000 · GC bid required</span></div>
+      <div class="info-row"><span class="lbl">Rehab (worst case)</span><span class="val red">$150,000 · 1950 build + pool risk</span></div>
+      <div class="info-row"><span class="lbl">Closing Costs (~1.5%)</span><span class="val">~$6,000</span></div>
+      <div class="info-row"><span class="lbl">TOTAL ALL-IN (Base)</span><span class="val green">$86,000</span></div>
+      <div class="info-row"><span class="lbl">Same Seller as Skycrest?</span><span class="val gold">YES — bundle both for stronger negotiation</span></div>
+    </div>
+  </div>
+
+  <!-- UTILITY BAR -->
+  <div class="utility-bar">
+    <span class="util-label">Utilities:</span>
+    <span class="util-chip warn">&#9889; Electric: $800/mo est.</span>
+    <span class="util-chip">&#128167; Water/Sewer: $225/mo</span>
+    <span class="util-chip gold">Total Utilities: $1,025/mo</span>
+    <span class="util-chip warn">&#127946; Pool Ins. Rider: +$75/mo (if operational)</span>
+    <span class="util-chip" style="color:#555; font-weight:400;">Electric est. higher than Skycrest — 5,775 sqft · 1950 construction · pool mechanical area · confirm with current bills</span>
+  </div>
+
+  <!-- PHOTO STRIP -->
+  <div class="photo-strip">
+    <img src="https://floridainvestor.github.io/deal-dashboards/images/forest-hills/IMG_1351.JPG" alt="Forest Hills — Interior View 1">
+    <img src="https://floridainvestor.github.io/deal-dashboards/images/forest-hills/IMG_1352.JPG" alt="Forest Hills — Interior View 2">
+    <img src="https://floridainvestor.github.io/deal-dashboards/images/forest-hills/IMG_1353.JPG" alt="Forest Hills — Interior View 3">
+  </div>
+
+  <!-- FLOOR PLANS -->
+  <div class="fp-grid">
+    <div class="fp-card">
+      <div class="fp-hdr">First Floor — 3,511 sq ft <span>5 rooms target · Primary Bed · Living Rm · Dining · Bedroom · Room · Bath · Kitchen · Garage · Indoor Pool</span></div>
+      <img src="https://floridainvestor.github.io/deal-dashboards/images/forest-hills/IMG_1204.jpg" alt="Forest Hills — First Floor Plan (Kubi Casa)">
+    </div>
+    <div class="fp-card">
+      <div class="fp-hdr">Second Floor — 1,817 sq ft <span>4 rooms target · Large Room 45'×25' divides into 4 · Bath · W.I.C. · Open-to-below hall</span></div>
+      <img src="https://floridainvestor.github.io/deal-dashboards/images/forest-hills/IMG_1205.jpg" alt="Forest Hills — Second Floor Plan (Kubi Casa)">
+    </div>
+  </div>
+
+  <!-- ROOM CONVERSION MAP -->
+  <div class="room-map-note">
+    <strong>9-Room Conversion Plan —</strong> 5 on first floor (3 existing bedrooms + Living Room conversion + Dining Area conversion) · 4 on second floor (large 45'×25' room = 1,125 sqft divided into 4 rooms ~280 sqft each). Conversions need: door, portable closet (no built-in required), wall framing where open. <strong>1st floor bath ratio: 1:3 (Bath serves rooms 2–4) · Primary Room 1 has adjacent bath · 2nd floor: 1 Bath serves 4 rooms = 4:1 — add 2nd bath in rehab budget.</strong>
+  </div>
+  <table class="room-table">
+    <thead>
+      <tr>
+        <th>#</th><th>Room / Space</th><th>Size</th><th>Type</th><th>Bath</th>
+        <th class="right">Weekly Rate</th><th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="floor-hdr"><td colspan="7">First Floor — 3,511 sq ft · Bath (7'4"×15'0") center · Existing 3 bedrooms + 2 conversions</td></tr>
+      <tr>
+        <td><span class="room-num-badge">1</span></td>
+        <td>Primary Bedroom (SE)</td><td>21'0" × 11'6" · 242 sqft</td>
+        <td><span class="room-badge badge-private">Private</span></td>
+        <td>Adjacent bath · exclusive access</td><td class="right">$175/wk</td>
+        <td class="note-cell">Largest existing bedroom · private bath proximity = premium rate</td>
+      </tr>
+      <tr>
+        <td><span class="room-num-badge">2</span></td>
+        <td>Bedroom (NE)</td><td>10'11" × 19'6" · 213 sqft</td>
+        <td><span class="room-badge badge-shared">Shared</span></td>
+        <td>Center Bath</td><td class="right">$165/wk</td>
+        <td class="note-cell">Existing bedroom · no conversion needed</td>
+      </tr>
+      <tr>
+        <td><span class="room-num-badge">3</span></td>
+        <td>Room (N)</td><td>13'8" × 11'3" · 154 sqft</td>
+        <td><span class="room-badge badge-shared">Shared</span></td>
+        <td>Center Bath</td><td class="right">$155/wk</td>
+        <td class="note-cell">Existing room · smaller · price accordingly</td>
+      </tr>
+      <tr>
+        <td><span class="room-num-badge">4</span></td>
+        <td>Living Room → Bedroom (W)</td><td>15'8" × 24'9" · 388 sqft</td>
+        <td><span class="room-badge badge-convert">Convert</span></td>
+        <td>Center Bath</td><td class="right">$170/wk</td>
+        <td class="note-cell">Largest 1st fl conversion · add door + portable closet · standalone space</td>
+      </tr>
+      <tr>
+        <td><span class="room-num-badge">5</span></td>
+        <td>Dining Area → Bedroom (Center)</td><td>12'2" × 15'11" · 194 sqft</td>
+        <td><span class="room-badge badge-convert">Convert</span></td>
+        <td>Center Bath</td><td class="right">$160/wk</td>
+        <td class="note-cell">Add door + wall separating from kitchen · portable closet</td>
+      </tr>
+      <tr class="floor-hdr"><td colspan="7">Second Floor — 1,817 sq ft · Bath (10'11"×15'0") + W.I.C. · Large Room 45'×25' divided into 4</td></tr>
+      <tr>
+        <td><span class="room-num-badge">6</span></td>
+        <td>2nd Fl Room A (NW)</td><td>~280 sqft (divided from 45'×25')</td>
+        <td><span class="room-badge badge-convert">Convert</span></td>
+        <td>Shared Bath 2nd Fl</td><td class="right">$165/wk</td>
+        <td class="note-cell">Wall framing divides large room · add door + closet</td>
+      </tr>
+      <tr>
+        <td><span class="room-num-badge">7</span></td>
+        <td>2nd Fl Room B (NE)</td><td>~280 sqft (divided from 45'×25')</td>
+        <td><span class="room-badge badge-convert">Convert</span></td>
+        <td>Shared Bath 2nd Fl</td><td class="right">$165/wk</td>
+        <td class="note-cell">Wall framing · add door + closet</td>
+      </tr>
+      <tr>
+        <td><span class="room-num-badge">8</span></td>
+        <td>2nd Fl Room C (SE)</td><td>~280 sqft (divided from 45'×25')</td>
+        <td><span class="room-badge badge-convert">Convert</span></td>
+        <td>Shared Bath 2nd Fl</td><td class="right">$165/wk</td>
+        <td class="note-cell">Wall framing · add door + closet</td>
+      </tr>
+      <tr>
+        <td><span class="room-num-badge">9</span></td>
+        <td>2nd Fl Room D (SW)</td><td>~280 sqft (divided from 45'×25')</td>
+        <td><span class="room-badge badge-convert">Convert</span></td>
+        <td>Shared Bath 2nd Fl</td><td class="right">$165/wk</td>
+        <td class="note-cell">Wall framing · add door + closet · Hall access confirmed</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="page-foot">1645 Forest Hills Rd · RE_OS Deal File · Page 1 of 5 · Floor plans by Kubi Casa · Updated March 2026 · Jerel Williams</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 2 — CASH FLOW SCENARIOS
+═══════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="page-hdr">
+    <h2>Cash Flow Scenarios</h2>
+    <span>3 Scenarios · $1,025/mo Utilities · In-House Management · 32208 Market Rates</span>
+  </div>
+
+  <div class="coc-hero">
+    <div class="coc-main">
+      <div class="coc-eyebrow">Cash-on-Cash — Market Rate · 3% IO · $86K All-In</div>
+      <div class="coc-pct">25.3%</div>
+      <div class="coc-sub">$21,792 annual cash ÷ $86,000 total invested</div>
+    </div>
+    <div class="coc-item">
+      <div class="coc-item-lbl">Your Target</div>
+      <div class="coc-item-val" style="color:#e8a020;">20%</div>
+      <div class="coc-item-note">minimum threshold</div>
+    </div>
+    <div class="coc-item">
+      <div class="coc-item-lbl">Beating Target By</div>
+      <div class="coc-item-val" style="color:#4caf50;">1.27×</div>
+      <div class="coc-item-note">25.3% ÷ 20% = 1.27×</div>
+    </div>
+    <div class="coc-item">
+      <div class="coc-item-lbl">Rate Sensitivity</div>
+      <div class="coc-item-val" style="color:#e8a020;">HIGH</div>
+      <div class="coc-item-note">4% IO = 20.9% · 5% IO = 14.3%</div>
+    </div>
+  </div>
+
+  <div class="cf-grid">
+
+    <!-- CONSERVATIVE -->
+    <div class="cf-col con-col">
+      <h3>Conservative</h3>
+      <div class="cf-sub">$145/wk · 85% occ · 4% IO · In-house</div>
+      <div class="li"><span class="ll">9 rooms @ $145/wk avg</span><span class="lv">$5,655/mo</span></div>
+      <div class="li"><span class="ll">Gross (85% occ)</span><span class="lv">$4,807/mo</span></div>
+      <div class="li divider"></div>
+      <div class="li"><span class="ll">Cleaning</span><span class="lv neg">−$300</span></div>
+      <div class="li"><span class="ll">Electric (5,775 sqft, 1950)</span><span class="lv neg">−$800</span></div>
+      <div class="li"><span class="ll">Water / Sewer</span><span class="lv neg">−$225</span></div>
+      <div class="li"><span class="ll">Maintenance (10% GER)</span><span class="lv neg">−$481</span></div>
+      <div class="li"><span class="ll">CapEx reserve (3% GER)</span><span class="lv neg">−$144</span></div>
+      <div class="li"><span class="ll">Insurance (+ pool rider)</span><span class="lv neg">−$425</span></div>
+      <div class="li"><span class="ll">Taxes (1.79% × $380K)</span><span class="lv neg">−$567</span></div>
+      <div class="li" style="border-top:1px solid #ccc;padding-top:4px;margin-top:2px;"><span class="ll" style="font-weight:700;">Total Expenses</span><span class="lv neg" style="font-weight:700;">−$2,942/mo</span></div>
+      <div class="li"><span class="ll">NOI (before debt)</span><span class="lv">$1,865/mo</span></div>
+      <div class="li"><span class="ll">Debt service (4% I/O)</span><span class="lv neg">−$1,267</span></div>
+      <div class="li total"><span class="ll">Net Cash Flow</span><span class="lv gold">$598/mo</span></div>
+      <div style="margin-top:10px; font-size:11px; color:#888;">Annual: $7,176 · CoC: 8.3% · Deal squeezed at floor rates + high expenses</div>
+    </div>
+
+    <!-- MARKET RATE -->
+    <div class="cf-col mkt-col">
+      <h3>&#9733; Market Rate — Base Case</h3>
+      <div class="cf-sub">$165/wk · 92% occ · 4% IO · In-house</div>
+      <div class="li"><span class="ll">9 rooms @ $165/wk avg</span><span class="lv">$6,435/mo</span></div>
+      <div class="li"><span class="ll">Gross (92% occ)</span><span class="lv">$5,920/mo</span></div>
+      <div class="li divider"></div>
+      <div class="li"><span class="ll">Cleaning</span><span class="lv neg">−$300</span></div>
+      <div class="li"><span class="ll">Electric</span><span class="lv neg">−$800</span></div>
+      <div class="li"><span class="ll">Water / Sewer</span><span class="lv neg">−$225</span></div>
+      <div class="li"><span class="ll">Maintenance (10% GER)</span><span class="lv neg">−$644</span></div>
+      <div class="li"><span class="ll">CapEx reserve (3% GER)</span><span class="lv neg">−$193</span></div>
+      <div class="li"><span class="ll">Insurance (+ pool rider)</span><span class="lv neg">−$425</span></div>
+      <div class="li"><span class="ll">Taxes (1.79% × $380K)</span><span class="lv neg">−$567</span></div>
+      <div class="li" style="border-top:1px solid #ccc;padding-top:4px;margin-top:2px;"><span class="ll" style="font-weight:700;">Total Expenses</span><span class="lv neg" style="font-weight:700;">−$3,154/mo</span></div>
+      <div class="li"><span class="ll">NOI (before debt)</span><span class="lv">$2,766/mo</span></div>
+      <div class="li"><span class="ll">Debt service (4% I/O)</span><span class="lv neg">−$1,267</span></div>
+      <div class="li total"><span class="ll">Net Cash Flow</span><span class="lv pos">$1,499/mo</span></div>
+      <div style="margin-top:10px; font-size:11px; color:#888;">Annual: $17,988 · CoC: 20.9% · At 3% IO: $1,816/mo · CoC: 25.3% ✅</div>
+    </div>
+
+    <!-- OPTIMISTIC -->
+    <div class="cf-col opt-col">
+      <h3>Optimistic</h3>
+      <div class="cf-sub">$175/wk · 95% occ · 4% IO · Year 2+</div>
+      <div class="li"><span class="ll">9 rooms @ $175/wk avg</span><span class="lv">$6,825/mo</span></div>
+      <div class="li"><span class="ll">Gross (95% occ)</span><span class="lv">$6,484/mo</span></div>
+      <div class="li divider"></div>
+      <div class="li"><span class="ll">Cleaning</span><span class="lv neg">−$300</span></div>
+      <div class="li"><span class="ll">Electric</span><span class="lv neg">−$800</span></div>
+      <div class="li"><span class="ll">Water / Sewer</span><span class="lv neg">−$225</span></div>
+      <div class="li"><span class="ll">Maintenance (10% GER)</span><span class="lv neg">−$683</span></div>
+      <div class="li"><span class="ll">CapEx reserve (3% GER)</span><span class="lv neg">−$205</span></div>
+      <div class="li"><span class="ll">Insurance (+ pool rider)</span><span class="lv neg">−$425</span></div>
+      <div class="li"><span class="ll">Taxes (1.79% × $380K)</span><span class="lv neg">−$567</span></div>
+      <div class="li" style="border-top:1px solid #ccc;padding-top:4px;margin-top:2px;"><span class="ll" style="font-weight:700;">Total Expenses</span><span class="lv neg" style="font-weight:700;">−$3,205/mo</span></div>
+      <div class="li"><span class="ll">NOI (before debt)</span><span class="lv">$3,279/mo</span></div>
+      <div class="li"><span class="ll">Debt service (4% I/O)</span><span class="lv neg">−$1,267</span></div>
+      <div class="li total"><span class="ll">Net Cash Flow</span><span class="lv pos">$2,012/mo</span></div>
+      <div style="margin-top:10px; font-size:11px; color:#888;">Annual: $24,144 · CoC: 28.1% · At 3% IO: $2,329/mo · CoC: 32.5% ✅</div>
+    </div>
+
+  </div>
+
+  <!-- SCENARIO SUMMARY -->
+  <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; margin-bottom:20px;">
+    <div class="dark-box" style="margin-bottom:0;">
+      <h4>Conservative · 4% IO</h4>
+      <div class="dark-row"><span class="dlbl">Monthly CF</span><span class="dval gold">$598/mo</span></div>
+      <div class="dark-row"><span class="dlbl">Annual CF</span><span class="dval">$7,176</span></div>
+      <div class="dark-row"><span class="dlbl">CoC Return</span><span class="dval gold">8.3%</span></div>
+      <div class="dark-row"><span class="dlbl">DSCR</span><span class="dval">1.47×</span></div>
+    </div>
+    <div class="dark-box" style="margin-bottom:0; border: 2px solid #e8a020;">
+      <h4>&#9733; Market Rate — Base Case</h4>
+      <div class="dark-row"><span class="dlbl">Monthly CF @ 4% IO</span><span class="dval gold">$1,499/mo</span></div>
+      <div class="dark-row"><span class="dlbl">Monthly CF @ 3% IO</span><span class="dval green">$1,816/mo ✅</span></div>
+      <div class="dark-row"><span class="dlbl">CoC @ 3% IO</span><span class="dval gold">25.3%</span></div>
+      <div class="dark-row"><span class="dlbl">DSCR @ 4% IO</span><span class="dval green">2.18×</span></div>
+    </div>
+    <div class="dark-box" style="margin-bottom:0;">
+      <h4>Optimistic · 4% IO</h4>
+      <div class="dark-row"><span class="dlbl">Monthly CF</span><span class="dval gold">$2,012/mo</span></div>
+      <div class="dark-row"><span class="dlbl">Annual CF</span><span class="dval">$24,144</span></div>
+      <div class="dark-row"><span class="dlbl">CoC Return</span><span class="dval gold">28.1%</span></div>
+      <div class="dark-row"><span class="dlbl">DSCR</span><span class="dval green">2.59×</span></div>
+    </div>
+  </div>
+
+  <div style="background:#fff3cd; border:1px solid #e8a020; border-radius:6px; padding:14px 18px; font-size:12px; color:#856404; line-height:1.8;">
+    <strong>Rate Is the Lever:</strong> The difference between 3% and 4% IO = $317/mo ($3,804/yr). On an $86K entry, that's a 4.4% CoC swing. Negotiate to 3% first. Accept 4% max. Do not accept 5% — that drops CoC to 14.3% and breaks the model. This deal lives or dies by the rate Raj accepts. Lead with the Skycrest bundle offer to create negotiating pressure on both rates simultaneously.
+  </div>
+
+  <div class="page-foot">1645 Forest Hills Rd · RE_OS Deal File · Page 2 of 5 · In-house model · 32208 market rates · $165/wk base · Updated March 2026</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 3 — OPERATING EXPENSE BREAKDOWN
+═══════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="page-hdr">
+    <h2>Operating Expense Breakdown</h2>
+    <span>Per Month · Market Rate GER $6,435/mo · 1950 Build · Indoor Pool · 5,775 sqft</span>
+  </div>
+
+  <div style="margin-bottom:28px;">
+    <div style="font-size:11px; font-weight:700; color:#555; text-transform:uppercase; letter-spacing:.8px; margin-bottom:12px;">Fixed Expenses — Same Every Month</div>
+    <table class="exp-table">
+      <thead>
+        <tr>
+          <th style="width:26%;">Expense</th>
+          <th class="right" style="width:13%;">Per Month</th>
+          <th class="right" style="width:13%;">Per Year</th>
+          <th>How It's Calculated</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="section-hdr"><td colspan="4">Cleaning</td></tr>
+        <tr>
+          <td>Common Area / Weekly</td>
+          <td class="right" style="color:#8b0000;">−$175</td>
+          <td class="right" style="color:#888;">−$2,100</td>
+          <td class="note-cell">Weekly crew · large common areas in 5,775 sqft house</td>
+        </tr>
+        <tr>
+          <td>Kitchen &amp; Bath Deep Clean</td>
+          <td class="right" style="color:#8b0000;">−$125</td>
+          <td class="right" style="color:#888;">−$1,500</td>
+          <td class="note-cell">3 baths minimum · kitchen shared by 9 occupants</td>
+        </tr>
+        <tr class="subtotal"><td style="padding-left:20px;">&#8627; Cleaning Total</td><td class="right">−$300</td><td class="right" style="color:#888;">−$3,600</td><td class="note-cell">Higher than Skycrest due to larger house</td></tr>
+
+        <tr class="section-hdr"><td colspan="4">Utilities — Electric + City Water/Sewer · No Gas (confirm)</td></tr>
+        <tr>
+          <td>Electric</td>
+          <td class="right" style="color:#8b0000;">−$800</td>
+          <td class="right" style="color:#888;">−$9,600</td>
+          <td class="note-cell">5,775 sqft · 9 occupants · 1950 construction (poor insulation) · pool mechanical if operational · primary cost driver — validate with current utility bills before close</td>
+        </tr>
+        <tr>
+          <td>Water / Sewer (city)</td>
+          <td class="right" style="color:#8b0000;">−$225</td>
+          <td class="right" style="color:#888;">−$2,700</td>
+          <td class="note-cell">City water + sewer · high usage with 9 occupants + pool fill (if operational)</td>
+        </tr>
+        <tr class="subtotal"><td style="padding-left:20px;">&#8627; Utilities Total</td><td class="right">−$1,025</td><td class="right" style="color:#888;">−$12,300</td><td class="note-cell">Largest fixed cost driver — 16.0% of GER</td></tr>
+
+        <tr class="section-hdr"><td colspan="4">Insurance</td></tr>
+        <tr>
+          <td>Dwelling / Landlord Policy</td>
+          <td class="right" style="color:#8b0000;">−$350</td>
+          <td class="right" style="color:#888;">−$4,200</td>
+          <td class="note-cell">Multi-tenant dwelling · 32208 · 1950 construction · confirm exact quote before offer</td>
+        </tr>
+        <tr>
+          <td>Pool Liability Rider (if operational)</td>
+          <td class="right" style="color:#8b0000;">−$75</td>
+          <td class="right" style="color:#888;">−$900</td>
+          <td class="note-cell">Required if indoor pool remains in use · drops to $0 if pool sealed/filled</td>
+        </tr>
+        <tr class="subtotal"><td style="padding-left:20px;">&#8627; Insurance Total</td><td class="right">−$425</td><td class="right" style="color:#888;">−$5,100</td><td class="note-cell">$75/mo drops if pool decision eliminates liability</td></tr>
+
+        <tr class="section-hdr"><td colspan="4">Property Tax</td></tr>
+        <tr>
+          <td>Duval County Property Tax</td>
+          <td class="right" style="color:#8b0000;">−$567</td>
+          <td class="right" style="color:#888;">−$6,804</td>
+          <td class="note-cell">1.79% Duval actual millage × $380,000 ÷ 12 · no homestead · confirm assessed value post-purchase</td>
+        </tr>
+        <tr class="total-row">
+          <td>TOTAL FIXED</td>
+          <td class="right">−$2,317</td>
+          <td class="right">−$27,804</td>
+          <td class="note-cell" style="color:#aac4d8;">36.0% of GER · does not scale with revenue</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="margin-bottom:28px;">
+    <div style="font-size:11px; font-weight:700; color:#555; text-transform:uppercase; letter-spacing:.8px; margin-bottom:12px;">Variable Expenses — Scale with Revenue</div>
+    <table class="exp-table">
+      <thead>
+        <tr>
+          <th style="width:26%;">Expense</th>
+          <th class="right" style="width:13%;">Conservative</th>
+          <th class="right" style="width:13%;">Market Rate</th>
+          <th>How It's Calculated</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Maintenance</td>
+          <td class="right" style="color:#8b0000;">−$566</td>
+          <td class="right" style="color:#8b0000;">−$644</td>
+          <td class="note-cell">10% of GER · 1950 build = elevated maintenance vs newer stock · repairs, turnovers, appliances, plumbing</td>
+        </tr>
+        <tr>
+          <td>CapEx Reserve</td>
+          <td class="right" style="color:#8b0000;">−$170</td>
+          <td class="right" style="color:#8b0000;">−$193</td>
+          <td class="note-cell">3% of GER · 1950 build: roof (already old), HVAC, plumbing replacement, electrical — set aside monthly without exception</td>
+        </tr>
+        <tr class="total-row">
+          <td>TOTAL VARIABLE</td>
+          <td class="right">−$736</td>
+          <td class="right">−$837</td>
+          <td class="note-cell" style="color:#aac4d8;">13% of GER · grows with revenue · 1950 build risk priced in</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="two-col">
+    <div class="dark-box" style="margin-bottom:0;">
+      <h4>Total OpEx — Market Rate</h4>
+      <div class="dark-row"><span class="dlbl">Fixed expenses</span><span class="dval red">−$2,317/mo</span></div>
+      <div class="dark-row"><span class="dlbl">Variable (13% GER)</span><span class="dval red">−$837/mo</span></div>
+      <div class="dark-row" style="border-top:1px solid rgba(255,255,255,.2); margin-top:4px; padding-top:10px;">
+        <span class="dlbl" style="color:white; font-weight:700;">Total OpEx</span>
+        <span class="dval red" style="font-size:16px;">−$3,154/mo</span>
+      </div>
+      <div class="dark-row"><span class="dlbl">GER (market, 92% occ)</span><span class="dval">$5,920/mo</span></div>
+      <div class="dark-row"><span class="dlbl">OpEx burden</span><span class="dval gold">53.3% of GER</span></div>
+      <div class="dark-row" style="border-bottom:none;">
+        <span class="dlbl" style="color:white; font-weight:700;">NOI (before debt)</span>
+        <span class="dval green" style="font-size:16px;">$2,766/mo</span>
+      </div>
+    </div>
+    <div class="info-card">
+      <h4>Expense Analysis — Forest Hills vs. Skycrest</h4>
+      <div class="info-row"><span class="lbl">Electric (5,775 sqft · 1950 build)</span><span class="val red">$800/mo · 12.4% of GER</span></div>
+      <div class="info-row"><span class="lbl">Water / Sewer (city)</span><span class="val orange">$225/mo · 3.5% of GER</span></div>
+      <div class="info-row"><span class="lbl">Total utilities</span><span class="val orange">$1,025/mo · 15.9% of GER</span></div>
+      <div class="info-row"><span class="lbl">Taxes + insurance</span><span class="val orange">$992/mo · 15.4% of GER</span></div>
+      <div class="info-row"><span class="lbl">Maintenance + CapEx (13%)</span><span class="val orange">$837/mo · 13.0% of GER</span></div>
+      <div class="info-row"><span class="lbl">Cleaning</span><span class="val orange">$300/mo · 4.7% of GER</span></div>
+      <div class="info-row"><span class="lbl">Revenue retained as NOI</span><span class="val orange">46.7% — lower than Skycrest (60.1%)</span></div>
+      <div style="margin-top:10px; font-size:11px; color:#555; line-height:1.7; border-top:1px solid #f0f0f0; padding-top:10px;">
+        Forest Hills retains only 46.7% of GER as NOI vs. Skycrest's 60.1%. The 13.4% gap is driven by: (1) electric $200/mo higher (bigger house, older construction), (2) pool insurance rider, (3) higher cleaning for 5,775 sqft. This deal requires higher rates OR lower IO rate to compensate. <strong>Confirm electric bill from seller before close.</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-foot">1645 Forest Hills Rd · RE_OS Deal File · Page 3 of 5 · OpEx basis: $6,435/mo GER · Updated March 2026</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 4 — 5-YEAR PROJECTION + BALLOON EXIT
+═══════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="page-hdr">
+    <h2>5-Year Projection &amp; Balloon Exit</h2>
+    <span>Market Rate Scenario · 4% IO · 3% Annual Rent Growth · $86K Rehab Netted Year 1</span>
+  </div>
+
+  <table class="year-table">
+    <thead>
+      <tr><th>Metric</th><th>Year 1</th><th>Year 2</th><th>Year 3</th><th>Year 4</th><th>Year 5</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Avg Weekly Rate</td>
+        <td>$160/wk</td><td>$165/wk</td><td>$170/wk</td><td>$175/wk</td><td>$175/wk</td>
+      </tr>
+      <tr><td>Occupancy</td><td>90%</td><td>92%</td><td>93%</td><td>94%</td><td>95%</td></tr>
+      <tr>
+        <td>GER (after occupancy)</td>
+        <td>$5,600</td><td>$5,920</td><td>$6,166</td><td>$6,416</td><td>$6,484</td>
+      </tr>
+      <tr>
+        <td>Total OpEx</td>
+        <td>($3,073)</td><td>($3,154)</td><td>($3,179)</td><td>($3,205)</td><td>($3,205)</td>
+      </tr>
+      <tr>
+        <td>NOI (pre-debt)</td>
+        <td>$2,527</td><td>$2,766</td><td>$2,987</td><td>$3,211</td><td>$3,279</td>
+      </tr>
+      <tr>
+        <td>Debt Service (4% I/O)</td>
+        <td style="color:#8b0000;">($1,267)</td>
+        <td style="color:#8b0000;">($1,267)</td>
+        <td style="color:#8b0000;">($1,267)</td>
+        <td style="color:#8b0000;">($1,267)</td>
+        <td style="color:#8b0000;">($1,267)</td>
+      </tr>
+      <tr class="hl">
+        <td>Net Cash / Month</td>
+        <td style="color:#b07700;">$1,260</td>
+        <td style="color:#b07700;">$1,499</td>
+        <td style="color:#b07700;">$1,720</td>
+        <td style="color:#b07700;">$1,944</td>
+        <td style="color:#1e7e34; font-weight:900;">$2,012</td>
+      </tr>
+      <tr>
+        <td>Annual Net Cash</td>
+        <td>$15,120</td><td>$17,988</td><td>$20,640</td><td>$23,328</td><td>$24,144</td>
+      </tr>
+      <tr>
+        <td>Less Rehab + Closing (Year 1)</td>
+        <td style="color:#8b0000;">($86,000)</td><td>—</td><td>—</td><td>—</td><td>—</td>
+      </tr>
+      <tr class="cumrow">
+        <td>Cumulative Net (after all-in)</td>
+        <td style="color:#8b0000;">($70,880)</td>
+        <td style="color:#8b0000;">($52,892)</td>
+        <td style="color:#8b0000;">($32,252)</td>
+        <td style="color:#8b0000;">($8,924)</td>
+        <td style="color:#1e7e34; font-size:14px;">$15,220</td>
+      </tr>
+      <tr>
+        <td>Balloon Still Owed</td>
+        <td style="color:#8b0000;">$380,000</td>
+        <td style="color:#8b0000;">$380,000</td>
+        <td style="color:#8b0000;">$380,000</td>
+        <td style="color:#8b0000;">$380,000</td>
+        <td style="color:#8b0000; font-weight:700;">$380,000</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- BALLOON ANALYSIS -->
+  <div style="font-size:11px; font-weight:700; color:#555; text-transform:uppercase; letter-spacing:.8px; margin-bottom:12px;">Balloon Exit Analysis — Year 5 ($380K Note Due)</div>
+  <div class="balloon-grid">
+    <div class="balloon-card">
+      <h4>IO Note Balance</h4>
+      <div class="balloon-num">$380,000</div>
+      <div class="balloon-sub">Still owed at balloon — IO pays no principal</div>
+      <div class="balloon-detail">
+        No equity built through amortization. All equity must come from: (1) ARV appreciation, (2) cash flow retained, or (3) value-add improvements. ARV currently UNKNOWN — pull DealMachine before making any balloon assumptions.
+      </div>
+    </div>
+    <div class="balloon-card">
+      <h4>DSCR Refi Threshold</h4>
+      <div class="balloon-num">$507K+</div>
+      <div class="balloon-sub">ARV needed for 75% LTV DSCR refi to cover balloon</div>
+      <div class="balloon-detail">
+        75% LTV × ARV = $380K → ARV must be ≥ $507K. At Year 5 NOI of $39,348/yr, a 7.5% DSCR loan at $507K ARV: P&amp;I = ~$2,660/mo. DSCR = $3,279 NOI ÷ $2,660 = 1.23× (marginal). Get ARV before you structure the deal.
+      </div>
+    </div>
+    <div class="balloon-card">
+      <h4>5-Year Cash Value Created</h4>
+      <div class="balloon-num">$15,220</div>
+      <div class="balloon-sub">Cumulative CF net of $86K all-in · by end of Year 5</div>
+      <div class="balloon-detail">
+        Full payback of all-in occurs in Month 55–57 (mid Year 5). Every month after is pure return. If extended to Year 7: cumulative CF ≈ $67,000+. Extension option from Raj should be built into contract language at signing.
+      </div>
+    </div>
+  </div>
+
+  <!-- BREAK-EVEN -->
+  <div style="font-size:11px; font-weight:700; color:#555; text-transform:uppercase; letter-spacing:.8px; margin-bottom:12px;">Break-Even Analysis</div>
+  <div>
+    <div class="be-row">
+      <div class="be-lbl">Minimum weekly rate per room to cash-flow at 4% IO (92% occ, market expenses)</div>
+      <div style="text-align:right;"><div class="be-val">$152/wk</div><div class="be-note">32208 floor comps expected at $150–155/wk — thin margin at floor · confirm actual rates</div></div>
+    </div>
+    <div class="be-row">
+      <div class="be-lbl">Months to recover $86K all-in (market case, $1,499/mo net CF @ 4% IO)</div>
+      <div style="text-align:right;"><div class="be-val amber">57 mo</div><div class="be-note">4.8 years to full payback at market rate · at 3% IO ($1,816/mo): 47 months (3.9 years)</div></div>
+    </div>
+    <div class="be-row">
+      <div class="be-lbl">Months to recover $86K all-in (optimistic, $2,012/mo @ 4% IO)</div>
+      <div style="text-align:right;"><div class="be-val">43 mo</div><div class="be-note">3.6 years — all CF after Month 43 is pure return above investment</div></div>
+    </div>
+    <div class="be-row">
+      <div class="be-lbl">Rate arbitrage savings vs DSCR market loan (4% IO vs 7.5% amortized)</div>
+      <div style="text-align:right;"><div class="be-val">$1,577/mo</div><div class="be-note">$2,844/mo P&amp;I at 7.5% vs $1,267/mo IO = $94,620 in CF preserved over 5 years</div></div>
+    </div>
+    <div class="be-row">
+      <div class="be-lbl">Max rehab budget to maintain 20% CoC floor (market rate, 4% IO)</div>
+      <div style="text-align:right;"><div class="be-val amber">$97K</div><div class="be-note">Above $97K all-in, CoC drops below 20% floor at market rate · GC bid is non-negotiable pre-offer</div></div>
+    </div>
+  </div>
+
+  <div class="page-foot">1645 Forest Hills Rd · RE_OS Deal File · Page 4 of 5 · Market Rate Projection · 4% IO · 3% Growth · Updated March 2026</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 5 — RISK FLAGS + NEGOTIATION + DECISION GATES
+═══════════════════════════════════════════════════ -->
+<div class="section section-last">
+  <div class="page-hdr">
+    <h2>Risk Flags + Negotiation + Decision Gates</h2>
+    <span>Open Items · Pre-Offer Checklist · Closing Script</span>
+  </div>
+
+  <div class="flag-grid">
+    <div class="flag-card">
+      <div class="flag-dot red"></div>
+      <div>
+        <div class="flag-title">Indoor Pool — Decision Required Before Offer</div>
+        <div class="flag-text">Operational pool: adds $75/mo insurance rider, maintenance, fencing liability. Pool sealed/filled ($5–15K): eliminates liability, may free ~500+ sqft for potential 10th room. GC must assess removal or repurposing cost. Pool disposition decision directly affects insurance, room count, and NOI by $75–125/mo.</div>
+      </div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-dot red"></div>
+      <div>
+        <div class="flag-title">32208 Co-Living Rates — Confirm Before Offer</div>
+        <div class="flag-text">Model uses $160–165/wk. At $150/wk (floor), CoC drops to 17.2% at 4% IO — below the 20% floor. Call Emanuel Premate (904) 684-7482 and request 32208 weekly rates, occupancy, and fill time. If 32208 confirms below $155/wk, renegotiate IO rate to 3% to compensate.</div>
+      </div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-dot red"></div>
+      <div>
+        <div class="flag-title">1950 Build — Full Systems Audit</div>
+        <div class="flag-text">1950 construction carries real risk: cast-iron or galvanized plumbing (rust, leaks), knob-and-tube or fuse-box electrical (code violations, insurance issues), original HVAC (expect replacement), potential asbestos in insulation or flooring. GC must specifically audit all systems. $150K worst-case rehab reflects this. If GC comes in over $100K, renegotiate price or IO rate before signing.</div>
+      </div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-dot red"></div>
+      <div>
+        <div class="flag-title">COJ Zoning — 32208 Rooming House Permit</div>
+        <div class="flag-text">32208 zoning for co-living / rooming house use must be confirmed with City of Jacksonville before any offer is signed. A CUP or special use permit in 32208 could add 60–90 days and $1,500–5,000. If zoning is incompatible, this deal does not exist. Confirm at coj.net before engaging Raj further.</div>
+      </div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-dot red"></div>
+      <div>
+        <div class="flag-title">2nd Floor Bath Ratio — 4:1 Flag</div>
+        <div class="flag-text">2nd floor has 1 bath (10'11"×15'0") serving 4 proposed rooms = 4:1 ratio. Standard co-living max: 3 per bath. Options: (A) Add 2nd bath upstairs in rehab budget (~$6–10K); (B) Drop to 3 rooms on 2nd floor = 8 total; (C) Accept 4:1 and price rooms 6–9 slightly lower. Confirm bath location and decision on GC walkthrough.</div>
+      </div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-dot orange"></div>
+      <div>
+        <div class="flag-title">ARV Unknown — DealMachine Pull Required</div>
+        <div class="flag-text">5,775 sqft in 32208 — comparable comps will be rare. Without ARV, Year 5 balloon exit is undefined. Minimum ARV for DSCR refi: $507K. If ARV is lower, Jerel needs an extension option or a sale exit strategy. Pull DealMachine ARV before finalizing offer price.</div>
+      </div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-dot orange"></div>
+      <div>
+        <div class="flag-title">Electric Bill — Validate Before Close</div>
+        <div class="flag-text">$800/mo electric is an estimate for a 5,775 sqft, 1950-built, inefficient structure. Ask seller for last 12 months of utility bills before close. If actual bills are $1,000+/mo, that's an additional $200/mo drag — reducing market rate CF from $1,499 to $1,299 and CoC from 20.9% to 18.7%. Material enough to affect the offer.</div>
+      </div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-dot green"></div>
+      <div>
+        <div class="flag-title">Bundle with Skycrest — Strongest Play</div>
+        <div class="flag-text">Raj Mody owns both Forest Hills and Skycrest. A bundled offer on both properties simultaneously creates negotiating pressure to lower rates on both deals. Present: "I'll take both — same IO structure, two notes, you move two assets at once." This is the highest-ROMA move before any individual negotiation starts.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NEGOTIATION SCRIPT -->
+  <div class="neg-box">
+    <h4>Negotiation Script — Raj Mody · Forest Hills (Bundle Play)</h4>
+    <div class="neg-step">
+      <div class="neg-num">1</div>
+      <div>
+        <div class="nt-title">Open with the Bundle — Don't Negotiate Individually</div>
+        <div class="nt-body">"Raj, I want to make this simple for you. I'll take both properties — Forest Hills and Skycrest. Same IO structure on both. You're carrying two notes, getting reliable monthly income on two assets that have been difficult to move. I handle the rehab and operations on both."</div>
+        <div class="nt-note">Don't let him separate the deals. The bundle is your leverage. If he tries to do them one at a time, slow down.</div>
+      </div>
+    </div>
+    <div class="neg-step">
+      <div class="neg-num">2</div>
+      <div>
+        <div class="nt-title">Name the Rate You Want</div>
+        <div class="nt-body">"On the rate — I'm looking at 3% IO on both. Forest Hills is a 1950 build with a pool and needs significant rehab. At 3%, my numbers work and I can commit to both. At 5%, I'm stretched thin on Forest Hills specifically given the age of the building."</div>
+        <div class="nt-note">Let the 1950 build and pool do work for you. It's a legitimate reason to push toward 3%.</div>
+      </div>
+    </div>
+    <div class="neg-step">
+      <div class="neg-num">3</div>
+      <div>
+        <div class="nt-title">Pool — Put It on the Table Early</div>
+        <div class="nt-body">"One thing I need to address before I finalize Forest Hills — the indoor pool. I need a GC walkthrough to understand if it stays operational, gets sealed, or gets converted to usable space. That directly affects my rehab budget and my offer. Can I schedule a walk before we lock in terms?"</div>
+        <div class="nt-note">This buys you time and signals you're a serious, professional buyer. It also protects you from overcommitting.</div>
+      </div>
+    </div>
+    <div class="neg-step">
+      <div class="neg-num">4</div>
+      <div>
+        <div class="nt-title">Request Utility Bills</div>
+        <div class="nt-body">"Can you share the last 12 months of electric bills for Forest Hills? At this size house with a pool, I want to model my operating costs accurately. It helps me commit to a structure you can count on long-term."</div>
+        <div class="nt-note">Frame it as doing him a favor — better underwriting = more reliable borrower. Don't make it adversarial.</div>
+      </div>
+    </div>
+    <div class="neg-step">
+      <div class="neg-num">5</div>
+      <div>
+        <div class="nt-title">Close on the Extension + No Cross-Default</div>
+        <div class="nt-body">"Two things I want to build into both notes: a 5-year extension option at balloon, and no cross-default clause between the two properties. Each property stands on its own. That protects both of us."</div>
+        <div class="nt-note">Non-negotiable for Forest Hills specifically — 1950 rehab complexity means you may need the extension if something runs long. Get it in writing at signing.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DECISION BOX -->
+  <div class="decision-box">
+    <h4>Open Items Before Go / No-Go</h4>
+    <div class="decision-item">
+      <div class="decision-num">1</div>
+      <div>
+        <div class="dt-title">GC Walkthrough + Bid (Non-Negotiable)</div>
+        <div class="dt-body">1950 build + indoor pool = highest rehab variance in portfolio. Schedule GC before any offer. GC bid under $100K = deal works at 4% IO. Bid over $100K = renegotiate price or rate. Do not sign without a number in hand. Pool disposition decision comes from this walkthrough.</div>
+      </div>
+    </div>
+    <div class="decision-item">
+      <div class="decision-num">2</div>
+      <div>
+        <div class="dt-title">Call Emanuel Premate — Confirm 32208 Rates</div>
+        <div class="dt-body">Phone: (904) 684-7482. Ask for: current 32208 active listings, avg weekly rate, occupancy, days to fill. If rates confirm at $160+/wk, model holds at 4% IO. If below $155/wk, need 3% IO to maintain 20%+ CoC. This is a 5-minute call that validates the entire revenue model.</div>
+      </div>
+    </div>
+    <div class="decision-item">
+      <div class="decision-num">3</div>
+      <div>
+        <div class="dt-title">COJ Zoning Confirmation — 32208</div>
+        <div class="dt-body">Confirm rooming house / co-living use is permitted at 1645 Forest Hills Rd before any signed agreement. Check coj.net zoning portal or call COJ Planning (904) 255-7800. Non-negotiable pre-condition — if zoning doesn't allow it, deal doesn't exist.</div>
+      </div>
+    </div>
+    <div class="decision-item">
+      <div class="decision-num">4</div>
+      <div>
+        <div class="dt-title">DealMachine ARV Pull</div>
+        <div class="dt-body">Pull ARV for 1645 Forest Hills Rd. Need confirmation ARV is ≥ $507K for DSCR refi at balloon, or structure a seller extension option as the exit plan. Without ARV, balloon exit strategy is undefined — that's not how Jerel closes deals.</div>
+      </div>
+    </div>
+    <div class="decision-item">
+      <div class="decision-num">5</div>
+      <div>
+        <div class="dt-title">Request 12-Month Electric Bills from Raj</div>
+        <div class="dt-body">$800/mo electric estimate must be validated with actual bills before close. If bills run $1,000+, revise model and adjust offer price or IO rate accordingly. Frame as professional underwriting diligence — not as pushback. Raj respects this.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-foot">1645 Forest Hills Rd · RE_OS Deal File · Page 5 of 5 · Floor plans by Kubi Casa · Photos: Old Photos/IMG_1350–1369 · Updated March 2026 · Ainsley / Jerel Williams</div>
+</div>
+
+</body>
+</html>
