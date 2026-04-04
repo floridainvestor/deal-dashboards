@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>11714 Harts Rd — 7-Room PadSplit Deal Review</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #f0f2f5; color: #1a1a1a; font-size: 13px; }
+
+  /* ── COVER ─────────────────────────────── */
+  .cover {
+    display: grid; grid-template-columns: 38% 1fr;
+    min-height: 480px; page-break-after: always;
+    max-width: 1100px; margin: 0 auto;
+    overflow: hidden;
+  }
+  .cover-photo { object-fit: cover; width: 100%; height: 100%; display: block; }
+  .cover-text {
+    background: #1a2b3c; color: white;
+    padding: 50px 40px; display: flex; flex-direction: column; justify-content: center;
+  }
+  .cover-eyebrow { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #7fb3d3; margin-bottom: 12px; }
+  .cover-text h1 { font-size: 36px; font-weight: 900; line-height: 1.1; margin-bottom: 8px; }
+  .cover-text h2 { font-size: 14px; font-weight: 400; color: #7fb3d3; margin-bottom: 22px; }
+  .cover-rule { width: 44px; height: 4px; background: #e8a020; margin-bottom: 22px; }
+  .cover-meta { font-size: 12px; color: #aac4d8; line-height: 2.3; margin-bottom: 24px; }
+  .cover-meta strong { color: white; }
+  .stat-row {
+    display: flex; flex-wrap: wrap; gap: 0;
+    border: 1px solid rgba(255,255,255,.15); border-radius: 6px; overflow: hidden; margin-bottom: 22px;
+  }
+  .stat-cell { flex: 1; min-width: 90px; padding: 14px 10px; text-align: center; border-right: 1px solid rgba(255,255,255,.12); }
+  .stat-cell:last-child { border-right: none; }
+  .stat-num { font-size: 20px; font-weight: 900; color: #e8a020; line-height: 1; }
+  .stat-lbl { font-size: 8px; text-transform: uppercase; letter-spacing: 1px; color: #aac4d8; margin-top: 4px; }
+  .type-badge {
+    display: inline-block; background: #e8a020; color: #1a1a1a;
+    font-size: 10px; font-weight: 900; letter-spacing: .6px;
+    padding: 8px 18px; border-radius: 30px; text-transform: uppercase;
+  }
+
+  /* ── COC HERO ───────────────────────────── */
+  .coc-hero {
+    background: #1a2b3c; border-radius: 8px; padding: 24px 32px;
+    margin-bottom: 24px;
+    display: grid; grid-template-columns: auto 1fr 1fr 1fr; gap: 0; align-items: center;
+  }
+  .coc-main { padding-right: 32px; border-right: 1px solid rgba(255,255,255,.12); }
+  .coc-eyebrow { font-size: 10px; font-weight: 700; color: #7fb3d3; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .coc-pct { font-size: 64px; font-weight: 900; color: #e8a020; line-height: 1; letter-spacing: -2px; }
+  .coc-sub { font-size: 11px; color: #aac4d8; margin-top: 6px; }
+  .coc-item { text-align: center; padding: 0 18px; border-right: 1px solid rgba(255,255,255,.12); }
+  .coc-item:last-child { border-right: none; }
+  .coc-item-lbl { font-size: 10px; color: #7fb3d3; text-transform: uppercase; letter-spacing: .8px; margin-bottom: 6px; }
+  .coc-item-val { font-size: 32px; font-weight: 900; line-height: 1; }
+  .coc-item-note { font-size: 11px; color: #aac4d8; margin-top: 4px; }
+
+  /* ── SECTIONS ───────────────────────────── */
+  .section { background: white; padding: 36px 40px; page-break-after: always; max-width: 1100px; margin: 0 auto; }
+  .section-last { page-break-after: auto; }
+  .page-hdr {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    border-bottom: 3px solid #1a2b3c; padding-bottom: 10px; margin-bottom: 24px;
+    flex-wrap: wrap; gap: 6px;
+  }
+  .page-hdr h2 { font-size: 18px; font-weight: 900; text-transform: uppercase; letter-spacing: .8px; color: #1a2b3c; }
+  .page-hdr span { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #999; }
+
+  /* ── GRIDS ──────────────────────────────── */
+  .two-col   { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+
+  /* ── INFO CARDS ─────────────────────────── */
+  .info-card { border: 1px solid #e0e0e0; border-radius: 6px; padding: 18px 20px; border-top: 4px solid #1a2b3c; }
+  .info-card h4 { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: #888; margin-bottom: 12px; }
+  .info-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f0f0f0; font-size: 13px; gap: 8px; }
+  .info-row:last-child { border-bottom: none; }
+  .info-row .lbl { color: #555; flex-shrink: 0; }
+  .info-row .val { font-weight: 700; color: #1a2b3c; text-align: right; }
+  .info-row .val.green  { color: #1e7e34; }
+  .info-row .val.orange { color: #b07700; }
+  .info-row .val.gold   { color: #e8a020; }
+  .info-row .val.red    { color: #8b0000; }
+
+  /* ── DARK BOX ───────────────────────────── */
+  .dark-box { background: #1a2b3c; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px; }
+  .dark-box h4 { color: #7fb3d3; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 14px; }
+  .dark-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,.08); font-size: 13px; color: white; gap: 8px; }
+  .dark-row:last-child { border-bottom: none; }
+  .dark-row .dlbl { color: #aac4d8; }
+  .dark-row .dval { font-weight: 700; color: white; text-align: right; }
+  .dark-row .dval.gold  { color: #e8a020; }
+  .dark-row .dval.green { color: #4caf50; }
+  .dark-row .dval.red   { color: #ef9a9a; }
+
+  /* ── UTILITY BAR ────────────────────────── */
+  .utility-bar {
+    background: #fff8e6; border: 1px solid #e8a020; border-radius: 6px;
+    padding: 11px 18px; margin-bottom: 22px;
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  }
+  .util-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #b07700; margin-right: 4px; }
+  .util-chip {
+    background: white; border: 1px solid #e0e0e0; border-radius: 20px;
+    padding: 3px 11px; font-size: 11px; font-weight: 700; color: #1a2b3c; white-space: nowrap;
+  }
+  .util-chip.warn { border-color: #dc3545; color: #8b0000; background: #fff0f0; }
+  .util-chip.gold { border-color: #e8a020; color: #b07700; }
+
+  /* ── PHOTO STRIP ────────────────────────── */
+  .photo-strip {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px; border-radius: 8px; overflow: hidden; margin-bottom: 24px; height: 190px;
+  }
+  .photo-strip img { object-fit: cover; width: 100%; height: 100%; display: block; }
+
+  /* ── ROOM TABLE ─────────────────────────── */
+  .room-map-note {
+    background: #fff8e6; border: 1px solid #e8a020; border-radius: 6px;
+    padding: 10px 16px; margin-bottom: 12px; font-size: 12px; color: #555; line-height: 1.7;
+  }
+  table.room-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 24px; }
+  .room-table th {
+    background: #1a2b3c; color: white; padding: 9px 12px;
+    text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 1px;
+  }
+  .room-table th.right { text-align: right; }
+  .room-table td { padding: 9px 12px; border-bottom: 1px solid #eee; vertical-align: middle; }
+  .room-table td.right { text-align: right; }
+  .room-table tr:hover td { background: #fafafa; }
+  .room-table tr.floor-hdr td {
+    background: #f0f2f5; font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .8px; color: #555; padding: 6px 12px;
+  }
+  .room-num-badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; background: #1a2b3c; color: #e8a020;
+    border-radius: 50%; font-weight: 900; font-size: 11px;
+  }
+  .room-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; white-space: nowrap; }
+  .badge-existing { background: #e8f4ea; color: #1e7e34; border: 1px solid #1e7e34; }
+  .badge-convert  { background: #fff3cd; color: #856404; border: 1px solid #e8a020; }
+
+  /* ── CASH FLOW GRID ─────────────────────── */
+  .cf-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0;
+    border: 1px solid #e0e0e0; border-radius: 6px; overflow: hidden; margin-bottom: 20px;
+  }
+  .cf-col { padding: 22px 20px; border-right: 1px solid #e8e8e8; }
+  .cf-col:last-child { border-right: none; }
+  .cf-col.base-col  { background: #fffbf0; border-top: 4px solid #e8a020; }
+  .cf-col.cons-col  { border-top: 4px solid #1a2b3c; }
+  .cf-col.worst-col { border-top: 4px solid #dc3545; background: #fff8f8; }
+  .cf-col h3 { font-size: 13px; font-weight: 900; color: #1a2b3c; margin-bottom: 2px; }
+  .cf-sub { font-size: 10px; color: #999; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 14px; }
+  .li { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #f5f5f5; font-size: 12px; gap: 6px; }
+  .li.divider { border-top: 1px solid #ddd; border-bottom: none; margin-top: 4px; padding-top: 7px; }
+  .li.total { border-top: 2px solid #1a2b3c; border-bottom: none; padding-top: 9px; margin-top: 4px; font-weight: 900; font-size: 15px; }
+  .ll { color: #555; }
+  .lv { font-weight: 600; color: #1a2b3c; }
+  .lv.neg  { color: #8b0000; }
+  .lv.pos  { color: #1e7e34; }
+  .lv.gold { color: #b07700; }
+
+  /* ── EXPENSE TABLE ──────────────────────── */
+  table.exp-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 12px; }
+  .exp-table th { background: #1a2b3c; color: white; padding: 9px 12px; text-align: left; font-size: 9px; text-transform: uppercase; letter-spacing: 1px; }
+  .exp-table th.right { text-align: right; }
+  .exp-table td { padding: 9px 12px; border-bottom: 1px solid #eee; }
+  .exp-table td.right { text-align: right; font-weight: 600; }
+  .exp-table tr.section-hdr td { background: #f0f2f5; color: #555; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; padding: 6px 12px; }
+  .exp-table tr.subtotal td { background: #fffbf0; font-weight: 700; }
+  .exp-table tr.total-row td { background: #1a2b3c; color: white; font-weight: 700; font-size: 13px; }
+  .exp-table tr.total-row td.right { color: #ef9a9a; }
+  .note-cell { font-size: 11px; color: #888; }
+
+  /* ── SENSITIVITY TABLE ──────────────────── */
+  table.sens-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 20px; }
+  .sens-table th { background: #1a2b3c; color: white; padding: 10px 14px; text-align: right; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
+  .sens-table th:first-child { text-align: left; }
+  .sens-table td { padding: 10px 14px; border-bottom: 1px solid #eee; text-align: right; }
+  .sens-table td:first-child { text-align: left; color: #555; }
+  .sens-table tr.hl td { background: #fffbf0; font-weight: 700; }
+  .sens-table tr.hl td:first-child { color: #1a2b3c; }
+  .sens-table tr.warn-row td { background: #fff0f0; }
+  .sens-table tr.warn-row td:first-child { color: #8b0000; font-weight: 700; }
+
+  /* ── BALLOON / CASH STACK CARDS ─────────── */
+  .balloon-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .balloon-card { border: 1px solid #e0e0e0; border-radius: 6px; padding: 18px 16px; border-top: 4px solid #1a2b3c; }
+  .balloon-card h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 8px; }
+  .balloon-num { font-size: 22px; font-weight: 900; color: #e8a020; line-height: 1; margin-bottom: 6px; }
+  .balloon-sub { font-size: 11px; color: #999; margin-bottom: 10px; }
+  .balloon-detail { font-size: 12px; color: #555; line-height: 1.9; }
+
+  /* ── FLAGS ──────────────────────────────── */
+  .flag-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+  .flag-card { border: 1px solid #e0e0e0; border-radius: 6px; padding: 14px 16px; display: flex; gap: 12px; align-items: flex-start; }
+  .flag-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; }
+  .flag-dot.red    { background: #dc3545; }
+  .flag-dot.orange { background: #e8a020; }
+  .flag-dot.green  { background: #1e7e34; }
+  .flag-title { font-weight: 700; font-size: 13px; color: #1a2b3c; margin-bottom: 3px; }
+  .flag-text  { font-size: 12px; color: #555; line-height: 1.6; }
+
+  /* ── NEGOTIATION ────────────────────────── */
+  .neg-box { background: #fff8e6; border: 1px solid #e8a020; border-radius: 8px; padding: 22px 26px; margin-bottom: 20px; }
+  .neg-box h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: #b07700; margin-bottom: 16px; }
+  .neg-step { display: flex; gap: 14px; padding: 10px 0; border-bottom: 1px solid #f5e6c8; }
+  .neg-step:last-child { border-bottom: none; }
+  .neg-num { font-size: 22px; font-weight: 900; color: #e8a020; line-height: 1; flex-shrink: 0; width: 28px; }
+  .nt-title { font-weight: 700; color: #1a2b3c; font-size: 13px; margin-bottom: 4px; }
+  .nt-body  { font-size: 12px; color: #555; line-height: 1.7; font-style: italic; }
+  .nt-note  { font-size: 11px; color: #b07700; margin-top: 4px; }
+
+  /* ── DECISION BOX ───────────────────────── */
+  .decision-box { background: #1a2b3c; border-radius: 8px; padding: 24px 28px; margin-top: 24px; }
+  .decision-box h4 { color: #e8a020; font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 18px; }
+  .decision-item { display: flex; gap: 12px; padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,.08); }
+  .decision-item:last-child { border-bottom: none; }
+  .decision-num { font-size: 20px; font-weight: 900; color: #e8a020; line-height: 1; flex-shrink: 0; width: 28px; }
+  .dt-title { font-weight: 700; color: white; font-size: 13px; margin-bottom: 3px; }
+  .dt-body  { color: #aac4d8; font-size: 12px; line-height: 1.6; }
+
+  .page-foot { margin-top: 24px; padding-top: 10px; border-top: 1px solid #eee; font-size: 10px; color: #bbb; text-align: center; letter-spacing: 1px; }
+
+  @media print {
+    body { background: white; }
+    .cover, .section { max-width: 100%; }
+    @page { margin: .4in; }
+  }
+  @media (max-width: 700px) {
+    .cover { grid-template-columns: 1fr; }
+    .cover-photo-placeholder { height: 180px; }
+    .section { padding: 24px 20px; }
+    .two-col, .three-col, .balloon-grid, .cf-grid { grid-template-columns: 1fr; }
+    .flag-grid { grid-template-columns: 1fr; }
+    .coc-hero { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════
+     COVER
+═══════════════════════════════════════════════════ -->
+<div class="cover">
+  <img class="cover-photo" src="photos/cover.jpg" alt="11714 Harts Rd — Foyer / Staircase">
+  <div class="cover-text">
+    <div class="cover-eyebrow">Subject-To · PadSplit Conversion · Deal Review — Jerel Williams</div>
+    <h1>11714 Harts Rd</h1>
+    <h2>7-Room Co-Living · Sub-To 5.25% · Jacksonville FL 32218 · North Jax</h2>
+    <div class="cover-rule"></div>
+    <div class="cover-meta">
+      <strong>Structure:</strong> Subject-To existing mortgage · $29K entry (arrears + assignment) + CC/TC<br>
+      <strong>All-In Cash:</strong> ~$62K (entry $31.5K + conversion $20K + carry/reserves $10.3K)<br>
+      <strong>Property:</strong> 4 BD / 2.5 BA · 2,252 SF · Target: 7 BD / 4 BA · No HOA<br>
+      <strong>Utilities:</strong> City Water / City Sewer · PVC plumbing
+    </div>
+    <div class="stat-row">
+      <div class="stat-cell"><div class="stat-num">7</div><div class="stat-lbl">Rooms</div></div>
+      <div class="stat-cell"><div class="stat-num">~$62K</div><div class="stat-lbl">All-In Cash</div></div>
+      <div class="stat-cell"><div class="stat-num">17.6%</div><div class="stat-lbl">CoC Return</div></div>
+      <div class="stat-cell"><div class="stat-num">$908</div><div class="stat-lbl">Mo. Cash Flow</div></div>
+      <div class="stat-cell"><div class="stat-num">4 of 7</div><div class="stat-lbl">Break-Even</div></div>
+    </div>
+    <div class="type-badge">5.25% Sub-To · $908/mo · 4 Rooms Covers All Costs</div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 1 — OVERVIEW · FINANCE · PROPERTY
+═══════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="page-hdr">
+    <h2>Deal Overview</h2>
+    <span>Property · Finance · Mortgage · Conversion Plan</span>
+  </div>
+
+  <div class="two-col">
+    <div class="info-card">
+      <h4>Property Details</h4>
+      <div class="info-row"><span class="lbl">Address</span><span class="val">11714 Harts Rd, Jacksonville FL 32218</span></div>
+      <div class="info-row"><span class="lbl">Configuration (Current)</span><span class="val">4 BD / 2.5 BA · 2,252 SF</span></div>
+      <div class="info-row"><span class="lbl">Configuration (Target)</span><span class="val gold">7 BD / 4 BA · PadSplit conversion</span></div>
+      <div class="info-row"><span class="lbl">Lot / Utilities</span><span class="val green">City Water · City Sewer · PVC plumbing</span></div>
+      <div class="info-row"><span class="lbl">HOA</span><span class="val green">None ✓</span></div>
+      <div class="info-row"><span class="lbl">Roof</span><span class="val green">2018 · 8 years old ✓</span></div>
+      <div class="info-row"><span class="lbl">AC — Air Handler</span><span class="val green">2022 · 4 years old ✓</span></div>
+      <div class="info-row"><span class="lbl">AC — Condenser</span><span class="val orange">2014 · 12 years old ⚠ Near end of life</span></div>
+      <div class="info-row"><span class="lbl">ARV Estimate (32218)</span><span class="val gold">~$315,000–$360,000 <span style="font-size:11px;color:#888;font-weight:normal;">· Verify DealMachine</span></span></div>
+      <div class="info-row"><span class="lbl">Photos</span><span class="val"><a href="https://www.dropbox.com/scl/fo/4q4vu8sgb395i9qkjyfwc/APBdMnllL_qgA-xgMHHzqRs?rlkey=qw2xvrbu2ql0iko5xcx4vg09b&st=3yz98iah&dl=0" target="_blank" style="color:#1a6db5;">Dropbox — View Photos ↗</a></span></div>
+    </div>
+
+    <div class="info-card">
+      <h4>Finance Structure — Subject-To Existing Mortgage</h4>
+      <div class="info-row"><span class="lbl">Entry Fee</span><span class="val">$29,000 (arrears $10,197 + assignment $18,803)</span></div>
+      <div class="info-row"><span class="lbl">Closing Costs + TC Fees</span><span class="val">~$2,500</span></div>
+      <div class="info-row"><span class="lbl">Total Acquisition Cost</span><span class="val gold">$31,500</span></div>
+      <div class="info-row"><span class="lbl">Interest Rate (locked)</span><span class="val green">5.25% Fixed · Sub-To</span></div>
+      <div class="info-row"><span class="lbl">Principal Balance</span><span class="val">$266,684.12</span></div>
+      <div class="info-row"><span class="lbl">Total Payoff (w/ arrears)</span><span class="val">$276,881.08</span></div>
+      <div class="info-row"><span class="lbl">Current Payment</span><span class="val red">$2,466.22/mo <span style="font-size:11px;font-weight:normal;color:#888;">(includes arrears)</span></span></div>
+      <div class="info-row"><span class="lbl">New PITI (caught up)</span><span class="val green">$1,966.89/mo ✓</span></div>
+      <div class="info-row"><span class="lbl">Monthly Savings at Close</span><span class="val green">$499/mo freed immediately</span></div>
+      <div class="info-row"><span class="lbl">Rate vs. DSCR Market</span><span class="val green">Saves ~$600/mo vs. 7.5% DSCR</span></div>
+    </div>
+  </div>
+
+  <!-- UTILITY BAR -->
+  <div class="utility-bar">
+    <span class="util-label">Utilities (tenant-included in PadSplit):</span>
+    <span class="util-chip warn">Electric: Est. $300–$450/mo</span>
+    <span class="util-chip">City Water/Sewer: ~$150/mo</span>
+    <span class="util-chip gold">Total Utilities: ~$600/mo</span>
+    <span class="util-chip" style="color:#555;font-weight:400;">No gas line · all electric · PVC plumbing · city hookup = no septic risk</span>
+  </div>
+
+  <!-- PHOTO STRIP -->
+  <div class="photo-strip">
+    <img src="photos/interior1.jpg" alt="Interior — Staircase">
+    <img src="photos/interior2.jpg" alt="Interior — Room">
+    <img src="photos/interior3.jpg" alt="Interior — Common Area">
+  </div>
+
+  <!-- CONVERSION MAP NOTE -->
+  <div class="room-map-note">
+    <strong>7-Room Conversion Plan —</strong> Current 4 BD / 2.5 BA → 7 BD / 4 BA. Adding 3 bedrooms requires partition walls, egress windows, and closets in larger common areas. Adding 1.5 bathrooms. <strong>Walk required to confirm feasibility</strong> — 2,252 SF supports 7 rooms on paper (~320 SF avg per room including common areas) but floor plan layout must be verified before committing.
+  </div>
+
+  <!-- ROOM TABLE -->
+  <table class="room-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Room / Space</th>
+        <th>Type</th>
+        <th>Bath Assignment</th>
+        <th class="right">Est. Weekly Rate</th>
+        <th class="right">Est. Monthly</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="floor-hdr"><td colspan="7">Existing Bedrooms (4) — No conversion required</td></tr>
+      <tr>
+        <td><span class="room-num-badge">1</span></td>
+        <td>Existing Bedroom 1</td>
+        <td><span class="room-badge badge-existing">Existing</span></td>
+        <td>Existing bath</td>
+        <td class="right">$175/wk</td>
+        <td class="right">$700</td>
+        <td class="note-cell">Ready as-is</td>
+      </tr>
+      <tr>
+        <td><span class="room-num-badge">2</span></td>
+        <td>Existing Bedroom 2</td>
+        <td><span class="room-badge badge-existing">Existing</span></td>
+        <td>Existing bath</td>
+        <td class="right">$175/wk</td>
+        <td class="right">$700</td>
+        <td class="note-cell">Ready as-is</td>
+      </tr>
+      <tr>
+        <td><span class="room-num-badge">3</span></td>
+        <td>Existing Bedroom 3</td>
+        <td><span class="room-badge badge-existing">Existing</span></td>
+        <td>Half bath / new bath</td>
+        <td class="right">$175/wk</td>
+        <td class="right">$700</td>
+        <td class="note-cell">Confirm bath access</td>
+      </tr>
+      <tr>
+        <td><span class="room-num-badge">4</span></td>
+        <td>Existing Bedroom 4</td>
+        <td><span class="room-badge badge-existing">Existing</span></td>
+        <td>Existing bath</td>
+        <td class="right">$175/wk</td>
+        <td class="right">$700</td>
+        <td class="note-cell">Ready as-is</td>
+      </tr>
+      <tr class="floor-hdr"><td colspan="7">Conversion Rooms (3) — Require build-out · Feasibility TBD at walk</td></tr>
+      <tr>
+        <td><span class="room-num-badge">5</span></td>
+        <td>Conversion Room A (e.g. living/dining partition)</td>
+        <td><span class="room-badge badge-convert">Convert</span></td>
+        <td>New bath #1</td>
+        <td class="right">$175/wk</td>
+        <td class="right">$700</td>
+        <td class="note-cell">Wall + egress required · confirm at walk</td>
+      </tr>
+      <tr>
+        <td><span class="room-num-badge">6</span></td>
+        <td>Conversion Room B</td>
+        <td><span class="room-badge badge-convert">Convert</span></td>
+        <td>New bath #2</td>
+        <td class="right">$175/wk</td>
+        <td class="right">$700</td>
+        <td class="note-cell">TBD at walk</td>
+      </tr>
+      <tr>
+        <td><span class="room-num-badge">7</span></td>
+        <td>Conversion Room C</td>
+        <td><span class="room-badge badge-convert">Convert</span></td>
+        <td>Shared</td>
+        <td class="right">$175/wk</td>
+        <td class="right">$700</td>
+        <td class="note-cell">TBD at walk · may not be feasible</td>
+      </tr>
+      <tr style="background:#fffbf0; font-weight:700;">
+        <td colspan="4" style="color:#1a2b3c;">GROSS MONTHLY (7 rooms · stabilized)</td>
+        <td class="right" style="color:#e8a020;">$175/wk avg</td>
+        <td class="right" style="color:#1e7e34;">$4,900/mo</td>
+        <td class="note-cell">Before PadSplit fee</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="page-foot">11714 Harts Rd · Jacksonville FL 32218 · Page 1 of 3</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 2 — CASH FLOW · EXPENSES · SENSITIVITY
+═══════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="page-hdr">
+    <h2>Cash Flow Analysis</h2>
+    <span>P&amp;L · Scenarios · All-In Cash Stack · Sensitivity</span>
+  </div>
+
+  <!-- COC HERO -->
+  <div class="coc-hero">
+    <div class="coc-main">
+      <div class="coc-eyebrow">Cash-on-Cash Return · All-In Basis</div>
+      <div class="coc-pct">17.6%</div>
+      <div class="coc-sub">$10,896 annual / $62K all-in<br>34.6% CoC on acquisition only ($31.5K)</div>
+    </div>
+    <div class="coc-item">
+      <div class="coc-item-lbl">Monthly Cash Flow</div>
+      <div class="coc-item-val" style="color:#4caf50;">+$908</div>
+      <div class="coc-item-note">Stabilized · 7 rooms</div>
+    </div>
+    <div class="coc-item">
+      <div class="coc-item-lbl">Break-Even Rooms</div>
+      <div class="coc-item-val" style="color:#e8a020;">4 of 7</div>
+      <div class="coc-item-note">57% occupancy covers all costs</div>
+    </div>
+    <div class="coc-item">
+      <div class="coc-item-lbl">Annual Cash Flow</div>
+      <div class="coc-item-val" style="color:#4caf50;">$10,896</div>
+      <div class="coc-item-note">Base scenario</div>
+    </div>
+  </div>
+
+  <!-- 3-SCENARIO CASH FLOW -->
+  <div class="cf-grid">
+    <div class="cf-col base-col">
+      <h3>Base Case</h3>
+      <div class="cf-sub">7 rooms · $700/mo · 10% vacancy</div>
+      <div class="li"><span class="ll">Gross Revenue (7 rooms)</span><span class="lv">$4,900</span></div>
+      <div class="li"><span class="ll">PadSplit Fee (15%)</span><span class="lv neg">-$735</span></div>
+      <div class="li"><span class="ll">Vacancy (10%)</span><span class="lv neg">-$490</span></div>
+      <div class="li divider"></div>
+      <div class="li"><span class="ll">Net Platform Revenue</span><span class="lv">$3,675</span></div>
+      <div class="li"><span class="ll">Utilities</span><span class="lv neg">-$600</span></div>
+      <div class="li"><span class="ll">Maintenance</span><span class="lv neg">-$200</span></div>
+      <div class="li"><span class="ll">NOI</span><span class="lv">$2,875</span></div>
+      <div class="li"><span class="ll">PITI</span><span class="lv neg">-$1,967</span></div>
+      <div class="li total"><span class="ll">Net Cash Flow</span><span class="lv pos">+$908</span></div>
+    </div>
+    <div class="cf-col cons-col">
+      <h3>Conservative</h3>
+      <div class="cf-sub">7 rooms · $650/mo · 15% vacancy</div>
+      <div class="li"><span class="ll">Gross Revenue (7 rooms)</span><span class="lv">$4,550</span></div>
+      <div class="li"><span class="ll">PadSplit Fee (15%)</span><span class="lv neg">-$683</span></div>
+      <div class="li"><span class="ll">Vacancy (15%)</span><span class="lv neg">-$683</span></div>
+      <div class="li divider"></div>
+      <div class="li"><span class="ll">Net Platform Revenue</span><span class="lv">$3,184</span></div>
+      <div class="li"><span class="ll">Utilities</span><span class="lv neg">-$600</span></div>
+      <div class="li"><span class="ll">Maintenance</span><span class="lv neg">-$200</span></div>
+      <div class="li"><span class="ll">NOI</span><span class="lv">$2,384</span></div>
+      <div class="li"><span class="ll">PITI</span><span class="lv neg">-$1,967</span></div>
+      <div class="li total"><span class="ll">Net Cash Flow</span><span class="lv gold">+$417</span></div>
+    </div>
+    <div class="cf-col worst-col">
+      <h3>Worst Case</h3>
+      <div class="cf-sub">6 rooms only · $650/mo · 20% vacancy</div>
+      <div class="li"><span class="ll">Gross Revenue (6 rooms)</span><span class="lv">$3,900</span></div>
+      <div class="li"><span class="ll">PadSplit Fee (15%)</span><span class="lv neg">-$585</span></div>
+      <div class="li"><span class="ll">Vacancy (20%)</span><span class="lv neg">-$780</span></div>
+      <div class="li divider"></div>
+      <div class="li"><span class="ll">Net Platform Revenue</span><span class="lv">$2,535</span></div>
+      <div class="li"><span class="ll">Utilities</span><span class="lv neg">-$600</span></div>
+      <div class="li"><span class="ll">Maintenance</span><span class="lv neg">-$200</span></div>
+      <div class="li"><span class="ll">NOI</span><span class="lv">$1,735</span></div>
+      <div class="li"><span class="ll">PITI</span><span class="lv neg">-$1,967</span></div>
+      <div class="li total"><span class="ll">Net Cash Flow</span><span class="lv neg">-$232</span></div>
+    </div>
+  </div>
+
+  <!-- FULL EXPENSE TABLE -->
+  <table class="exp-table">
+    <thead>
+      <tr>
+        <th>Line Item</th>
+        <th>Category</th>
+        <th class="right">Monthly</th>
+        <th class="right">Annual</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="section-hdr"><td colspan="5">REVENUE</td></tr>
+      <tr><td>Gross Room Revenue</td><td>PadSplit</td><td class="right" style="color:#1e7e34;">$4,900</td><td class="right" style="color:#1e7e34;">$58,800</td><td class="note-cell">7 rooms × $700 (base)</td></tr>
+      <tr><td>PadSplit Platform Fee</td><td>Platform</td><td class="right" style="color:#8b0000;">-$735</td><td class="right" style="color:#8b0000;">-$8,820</td><td class="note-cell">15% of gross</td></tr>
+      <tr class="subtotal"><td>Net Platform Revenue</td><td></td><td class="right">$4,165</td><td class="right">$49,980</td><td class="note-cell">Before operating expenses</td></tr>
+
+      <tr class="section-hdr"><td colspan="5">OPERATING EXPENSES</td></tr>
+      <tr><td>Utilities (electric, water, internet)</td><td>OpEx</td><td class="right" style="color:#8b0000;">-$600</td><td class="right" style="color:#8b0000;">-$7,200</td><td class="note-cell">Landlord pays · included in PadSplit rent</td></tr>
+      <tr><td>Vacancy Buffer</td><td>OpEx</td><td class="right" style="color:#8b0000;">-$490</td><td class="right" style="color:#8b0000;">-$5,880</td><td class="note-cell">10% of gross</td></tr>
+      <tr><td>Maintenance / Repairs</td><td>OpEx</td><td class="right" style="color:#8b0000;">-$200</td><td class="right" style="color:#8b0000;">-$2,400</td><td class="note-cell">Routine · excludes CapEx</td></tr>
+      <tr class="subtotal"><td>Total Operating Expenses</td><td></td><td class="right" style="color:#8b0000;">-$1,290</td><td class="right" style="color:#8b0000;">-$15,480</td><td></td></tr>
+      <tr><td><strong>Net Operating Income</strong></td><td></td><td class="right"><strong>$2,875</strong></td><td class="right"><strong>$34,500</strong></td><td></td></tr>
+
+      <tr class="section-hdr"><td colspan="5">DEBT SERVICE</td></tr>
+      <tr><td>Principal + Interest (5.25% sub-to)</td><td>PITI</td><td class="right" style="color:#8b0000;">-$1,534</td><td class="right" style="color:#8b0000;">-$18,408</td><td class="note-cell">Locked at 5.25%</td></tr>
+      <tr><td>Property Taxes (impound)</td><td>PITI</td><td class="right" style="color:#8b0000;">-$236</td><td class="right" style="color:#8b0000;">-$2,832</td><td class="note-cell">Per wholesaler</td></tr>
+      <tr><td>Homeowners Insurance (est.)</td><td>PITI</td><td class="right" style="color:#8b0000;">-$197</td><td class="right" style="color:#8b0000;">-$2,364</td><td class="note-cell">New policy required at close</td></tr>
+      <tr class="subtotal"><td>Total PITI</td><td></td><td class="right" style="color:#8b0000;">-$1,967</td><td class="right" style="color:#8b0000;">-$23,604</td><td></td></tr>
+
+      <tr class="total-row"><td>NET CASH FLOW (Base)</td><td></td><td class="right" style="color:#4caf50; font-size:14px;">+$908</td><td class="right" style="color:#4caf50; font-size:14px;">+$10,896</td><td style="color:#aac4d8;">17.6% CoC on ~$62K all-in</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ALL-IN CASH STACK -->
+  <div class="balloon-grid">
+    <div class="balloon-card">
+      <h4>Acquisition</h4>
+      <div class="balloon-num">$31,500</div>
+      <div class="balloon-sub">Day 1 — hand to wholesaler at close</div>
+      <div class="balloon-detail">
+        Entry fee: $29,000<br>
+        Closing costs + TC fees: $2,500<br>
+        <br>
+        Entry fee breakdown:<br>
+        Arrears caught up: $10,197<br>
+        Assignment fee: $18,803
+      </div>
+    </div>
+    <div class="balloon-card">
+      <h4>Conversion</h4>
+      <div class="balloon-num">$20,000</div>
+      <div class="balloon-sub">Post-close · ~4–6 weeks</div>
+      <div class="balloon-detail">
+        3 bedroom additions: $9,000<br>
+        1.5 bath additions: $8,000<br>
+        PadSplit compliance (fire/locks): $3,000<br>
+        <br>
+        <strong style="color:#b07700;">Get contractor quote before committing</strong>
+      </div>
+    </div>
+    <div class="balloon-card">
+      <h4>Carry + Reserves</h4>
+      <div class="balloon-num">$10,351</div>
+      <div class="balloon-sub">Hold at close · deploy as needed</div>
+      <div class="balloon-detail">
+        Carry during conversion (6 wks): $2,950<br>
+        3-month PITI reserve: $5,901<br>
+        Working capital: $1,500<br>
+        <br>
+        <strong>Total All-In: ~$62,000</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- SENSITIVITY TABLE -->
+  <table class="sens-table">
+    <thead>
+      <tr>
+        <th>Scenario</th>
+        <th>Rooms</th>
+        <th>Rate</th>
+        <th>Gross Rev</th>
+        <th>Mo. CF</th>
+        <th>Annual CF</th>
+        <th>CoC (All-In)</th>
+        <th>Verdict</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="hl">
+        <td>Base: 7 rooms @ $700 ✓</td>
+        <td>7</td>
+        <td>$700</td>
+        <td>$4,900</td>
+        <td style="color:#1e7e34; font-weight:700;">+$908</td>
+        <td style="color:#1e7e34;">$10,896</td>
+        <td style="color:#1e7e34; font-weight:700;">17.6%</td>
+        <td style="color:#1e7e34; font-weight:700;">STRONG BUY</td>
+      </tr>
+      <tr>
+        <td>Conservative: 7 rooms @ $650</td>
+        <td>7</td>
+        <td>$650</td>
+        <td>$4,550</td>
+        <td style="color:#b07700; font-weight:700;">+$611</td>
+        <td style="color:#b07700;">$7,332</td>
+        <td style="color:#b07700;">11.8%</td>
+        <td style="color:#1e7e34;">BUY</td>
+      </tr>
+      <tr>
+        <td>6 rooms only (conversion partial)</td>
+        <td>6</td>
+        <td>$700</td>
+        <td>$4,200</td>
+        <td style="color:#b07700; font-weight:700;">+$313</td>
+        <td style="color:#b07700;">$3,756</td>
+        <td style="color:#b07700;">6.1%</td>
+        <td style="color:#b07700;">MARGINAL</td>
+      </tr>
+      <tr class="warn-row">
+        <td>5 rooms + 20% vacancy (worst case)</td>
+        <td>5</td>
+        <td>$650</td>
+        <td>$3,250</td>
+        <td style="color:#8b0000; font-weight:700;">-$282</td>
+        <td style="color:#8b0000;">-$3,384</td>
+        <td style="color:#8b0000;">Negative</td>
+        <td style="color:#8b0000; font-weight:700;">WALK AWAY</td>
+      </tr>
+      <tr>
+        <td>Conversion balloons to $30K</td>
+        <td>7</td>
+        <td>$700</td>
+        <td>$4,900</td>
+        <td style="color:#1e7e34; font-weight:700;">+$908</td>
+        <td style="color:#1e7e34;">$10,896</td>
+        <td style="color:#b07700;">15.1%</td>
+        <td style="color:#1e7e34;">STILL WORKS</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="page-foot">11714 Harts Rd · Jacksonville FL 32218 · Page 2 of 3</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 3 — FLAGS · NEGOTIATION · DECISION
+═══════════════════════════════════════════════════ -->
+<div class="section section-last">
+  <div class="page-hdr">
+    <h2>Risk Flags · Negotiation · Decision</h2>
+    <span>Due Diligence · Leverage · Next Steps</span>
+  </div>
+
+  <!-- FLAGS -->
+  <div class="flag-grid">
+    <div class="flag-card">
+      <div class="flag-dot red"></div>
+      <div>
+        <div class="flag-title">Title — Junior Liens</div>
+        <div class="flag-text">Run full title search before committing $29K. Sub-to deals inherit the property "as-is." Any junior lien (IRS, HOA, mechanic's) could surface at payoff. This is a hard stop — walk if liens exist beyond the first mortgage.</div>
+      </div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-dot red"></div>
+      <div>
+        <div class="flag-title">Conversion Feasibility — Must Walk First</div>
+        <div class="flag-text">7-room conversion from 4BD/2.5BA is the core assumption. 2,252 SF supports it mathematically but the floor plan layout may not. Walk the property and get a contractor quote before the entry fee is non-refundable.</div>
+      </div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-dot red"></div>
+      <div>
+        <div class="flag-title">Mortgage Servicer — Sub-To Compatibility</div>
+        <div class="flag-text">Confirm the servicer does not have an active "due-on-sale" enforcement posture. Some servicers flag title transfers. Get servicer name from wholesaler before close and verify payment history.</div>
+      </div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-dot orange"></div>
+      <div>
+        <div class="flag-title">2014 AC Condenser — Near End of Life</div>
+        <div class="flag-text">Average condenser lifespan is 15–20 years. This one is 12 years old. Budget $3,000–$5,000 for replacement within 3 years. Negotiate a credit from the wholesaler or include in conversion budget. The air handler (2022) is fine.</div>
+      </div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-dot orange"></div>
+      <div>
+        <div class="flag-title">PadSplit Market Comp — 32218 Rate Validation</div>
+        <div class="flag-text">$700/room is the wholesaler's estimate. Verify on the PadSplit host site for 32218 (North Jax / near Airport). If comps support $650–$700, base case holds. If market is below $625, re-run numbers before buying.</div>
+      </div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-dot green"></div>
+      <div>
+        <div class="flag-title">Rate Lock — Significant Advantage</div>
+        <div class="flag-text">5.25% sub-to vs. 7.5%+ DSCR market rate saves approximately $600/mo in debt service over a new loan. This rate lock is the structural advantage that makes the deal work. Protect it.</div>
+      </div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-dot green"></div>
+      <div>
+        <div class="flag-title">No HOA — PadSplit Friendly</div>
+        <div class="flag-text">HOAs frequently restrict or ban co-living / room rental arrangements. No HOA removes this regulatory risk entirely. City of Jacksonville permits PadSplit operations in residential zones — no special use permit required.</div>
+      </div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-dot green"></div>
+      <div>
+        <div class="flag-title">Roof + Plumbing — Clean Mechanicals</div>
+        <div class="flag-text">2018 roof (8 years old), PVC plumbing, city water/sewer. No polybutylene or copper risk. No septic. These are the items that kill margins on PadSplit conversions — this property avoids all of them.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NEGOTIATION STEPS -->
+  <div class="neg-box">
+    <h4>Negotiation Leverage — Ask For Before Signing</h4>
+    <div class="neg-step">
+      <div class="neg-num">1</div>
+      <div>
+        <div class="nt-title">AC Condenser Credit — $3,000–$5,000</div>
+        <div class="nt-body">"The condenser is 12 years old — it's going to need replacement within a few years. I need a $4,000 credit at closing or a reduction in the entry fee to cover it."</div>
+        <div class="nt-note">Wholesaler is making $18,803 on assignment. They have room. This drops your all-in to ~$58K and bumps CoC to 18.8%.</div>
+      </div>
+    </div>
+    <div class="neg-step">
+      <div class="neg-num">2</div>
+      <div>
+        <div class="nt-title">30-Day Inspection Period Before Entry Fee Goes Hard</div>
+        <div class="nt-body">"I need 30 days to walk the property, get a contractor conversion quote, and clear title before my entry fee becomes non-refundable."</div>
+        <div class="nt-note">Standard on any subject-to deal. If the wholesaler won't give you an inspection period, that's a red flag about the condition or title.</div>
+      </div>
+    </div>
+    <div class="neg-step">
+      <div class="neg-num">3</div>
+      <div>
+        <div class="nt-title">Confirm CC + TC Fee Cap (~$2,500 max)</div>
+        <div class="nt-body">"What exactly is included in CC and TC fees? I need those itemized and capped in the purchase agreement."</div>
+        <div class="nt-note">Vague "CC + TC" language can balloon. Get it in writing before you sign anything.</div>
+      </div>
+    </div>
+    <div class="neg-step">
+      <div class="neg-num">4</div>
+      <div>
+        <div class="nt-title">Confirm Assignment Fee Is Final — No Hidden Fees</div>
+        <div class="nt-body">"Just confirming the $29K entry is all-in for your side. No additional fees, no wholesaler split at closing?"</div>
+        <div class="nt-note">Some wholesalers stack fees at the title company. Confirm the net to you in writing.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DECISION BOX -->
+  <div class="decision-box">
+    <h4>Decision Framework — Sequence Before You Wire</h4>
+    <div class="decision-item">
+      <div class="decision-num">1</div>
+      <div>
+        <div class="dt-title">Run Title Search — Hard Stop if Junior Liens Exist</div>
+        <div class="dt-body">Order title search immediately. Any lien beyond the first mortgage = walk. This step costs ~$200 and saves you from a $29K mistake.</div>
+      </div>
+    </div>
+    <div class="decision-item">
+      <div class="decision-num">2</div>
+      <div>
+        <div class="dt-title">Walk the Property + Get Conversion Quote</div>
+        <div class="dt-body">The 7-room conversion is the hinge assumption. If the floor plan doesn't support 7 rooms, the base case evaporates. Walk first, get a contractor number, then decide.</div>
+      </div>
+    </div>
+    <div class="decision-item">
+      <div class="decision-num">3</div>
+      <div>
+        <div class="dt-title">Verify PadSplit Comps for 32218</div>
+        <div class="dt-body">Log into PadSplit host site. Confirm active rooms in 32218 zip are clearing $650–$700+/mo. If market is at $625 or below, re-run the conservative scenario and decide if the deal still pencils.</div>
+      </div>
+    </div>
+    <div class="decision-item">
+      <div class="decision-num">4</div>
+      <div>
+        <div class="dt-title">Confirm Servicer + Payment History</div>
+        <div class="dt-body">Get the servicer name and account number from the wholesaler. Confirm the mortgage has only the arrears shown ($10,197) and no additional missed payments, escrow shortfalls, or force-placed insurance.</div>
+      </div>
+    </div>
+    <div class="decision-item">
+      <div class="decision-num">5</div>
+      <div>
+        <div class="dt-title">If Steps 1–4 Clear → Wire $31,500 and Go</div>
+        <div class="dt-body">If title is clean, conversion is feasible, comps support $700/room, and servicer is manageable — this deal works at 17.6% CoC. Hold $10,351 in reserve, begin conversion immediately at close.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-foot">11714 Harts Rd · Jacksonville FL 32218 · Deal Review · Generated 2026-04-03 · Ainsley RE_OS · All figures based on wholesaler-provided data — verify before closing.</div>
+</div>
+
+</body>
+</html>
