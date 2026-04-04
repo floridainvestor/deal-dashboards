@@ -8,6 +8,31 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: Arial, sans-serif; background: #f0f2f5; color: #1a1a1a; font-size: 13px; }
 
+  /* ── PHOTO STRIP ── */
+  .photo-hero {
+    width: 100%; max-height: 340px; object-fit: cover; display: block;
+  }
+  .photo-strip {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px;
+    margin-bottom: 0;
+  }
+  .photo-strip img {
+    width: 100%; height: 200px; object-fit: cover; display: block;
+  }
+  .photo-caption {
+    background: #1a2b3c; color: #7fb3d3; font-size: 10px;
+    text-transform: uppercase; letter-spacing: 2px;
+    padding: 8px 16px; text-align: center;
+  }
+  .aerial-strip {
+    display: grid; grid-template-columns: 1fr; gap: 0;
+    margin-bottom: 24px;
+  }
+  .aerial-strip img {
+    width: 100%; max-height: 220px; object-fit: cover; display: block;
+    border-radius: 6px;
+  }
+
   .cover {
     background: #1a2b3c; color: white;
     padding: 70px 60px; text-align: center;
@@ -161,6 +186,15 @@
 </head>
 <body>
 
+<!-- ══ HERO PHOTO ══ -->
+<img class="photo-hero" src="https://floridainvestor.github.io/deal-dashboards/images/catoma/after1.jpg" alt="5849 Catoma St — Post-Rehab Unit">
+<div class="photo-strip">
+  <img src="https://floridainvestor.github.io/deal-dashboards/images/catoma/thumb1.jpg" alt="Site View 1">
+  <img src="https://floridainvestor.github.io/deal-dashboards/images/catoma/thumb2.jpg" alt="Site View 2">
+  <img src="https://floridainvestor.github.io/deal-dashboards/images/catoma/thumb3.jpg" alt="Site View 3">
+</div>
+<div class="photo-caption">5849 &amp; 5859 Catoma St · As-Is Site Photos · Jacksonville FL 32244</div>
+
 <!-- ══ COVER ══ -->
 <div class="cover">
   <div class="cover-eyebrow">Confidential · Deal Analysis — Jerel Williams</div>
@@ -240,6 +274,11 @@
       <div class="info-row"><span class="lbl">RE# (Main)</span><span class="val">103285-0010</span></div>
       <div class="info-row"><span class="lbl">RE# (Bonus)</span><span class="val">103285-0015</span></div>
     </div>
+  </div>
+
+  <div class="aerial-strip">
+    <img src="https://floridainvestor.github.io/deal-dashboards/images/catoma/overview.png" alt="Aerial view — 5849 &amp; 5859 Catoma St parcels">
+    <div style="font-size:10px;color:#999;text-transform:uppercase;letter-spacing:1px;padding:6px 0;">Aerial — 1.02 Acre Site · Both Parcels Outlined · Source: Duval PAO</div>
   </div>
 
   <div class="dark-box">
