@@ -165,6 +165,39 @@ main { max-width: 480px; margin: 0 auto; padding: 12px; }
 .arch-tool { font-size: 14px; font-weight: 800; color: #FFD54F; }
 .arch-desc { font-size: 11px; opacity: .7; margin-top: 4px; }
 
+/* === PROGRESS BAR === */
+.progress-strip { background: white; border-radius: 14px; box-shadow: var(--shadow); padding: 14px 16px; margin-bottom: 12px; }
+.progress-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.progress-title { font-size: 15px; font-weight: 800; color: var(--dark); }
+.progress-fraction { font-size: 22px; font-weight: 800; color: var(--blue); }
+.progress-bar-track { width: 100%; height: 12px; background: #E0E0E0; border-radius: 100px; overflow: hidden; }
+.progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--green), #4CAF50); border-radius: 100px; transition: width .4s ease; }
+.progress-bar-fill.danger { background: linear-gradient(90deg, var(--red), #E53935); }
+.progress-bar-fill.warn { background: linear-gradient(90deg, var(--yellow), #FDD835); }
+.progress-sub { font-size: 12px; color: var(--gray); margin-top: 6px; }
+.progress-reset { background: none; border: 1px solid #E0E0E0; border-radius: 6px; padding: 4px 10px; font-size: 11px; color: var(--gray); cursor: pointer; }
+.progress-reset:active { background: var(--gray-bg); }
+
+/* === DONE TOGGLE === */
+.done-toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 0 16px 12px; }
+.done-toggle { display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; }
+.done-checkbox { width: 24px; height: 24px; border-radius: 6px; border: 2.5px solid #BDBDBD; background: white; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: all .2s; flex-shrink: 0; }
+.done-checkbox.checked { background: var(--green); border-color: var(--green); color: white; }
+.done-label { font-size: 13px; font-weight: 700; color: var(--gray); }
+.done-label.checked { color: var(--green); }
+
+/* completed task styling */
+.next-action.task-done { border-left-color: var(--green) !important; opacity: .55; }
+.next-action.task-done .na-title { text-decoration: line-through; color: var(--gray); }
+.next-action.task-done .na-step { color: var(--green) !important; }
+
+/* completed summary at bottom */
+.completed-summary { background: var(--green-bg); border: 1.5px solid var(--green-border); border-radius: 14px; padding: 14px 16px; margin-top: 8px; display: none; }
+.completed-summary.visible { display: block; }
+.completed-summary-title { font-size: 13px; font-weight: 800; color: var(--green); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .5px; }
+.completed-item { display: flex; align-items: center; gap: 8px; padding: 5px 0; font-size: 13px; color: var(--green); border-bottom: 1px solid rgba(0,0,0,.06); }
+.completed-item:last-child { border-bottom: none; }
+
 /* === RESPONSIVE === */
 @media (max-width: 480px) {
   .kpi-bar { grid-template-columns: repeat(2, 1fr); }
@@ -263,70 +296,128 @@ main { max-width: 480px; margin: 0 auto; padding: 12px; }
   <!-- NEXT ACTION QUEUE -->
   <div class="sec-label">&#9889; Siguiente Accion / Next Action</div>
 
-  <div class="next-action urgent">
+  <!-- PROGRESS STRIP -->
+  <div class="progress-strip" id="hoy-progress-strip">
+    <div class="progress-header">
+      <div>
+        <div class="progress-title">&#128203; Progreso de hoy</div>
+        <div class="progress-sub" id="hoy-progress-sub">0 de 5 tareas completadas</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div class="progress-fraction" id="hoy-progress-frac">0/5</div>
+        <button class="progress-reset" onclick="resetProgress()" title="Empezar de nuevo">&#8635; Reset</button>
+      </div>
+    </div>
+    <div class="progress-bar-track">
+      <div class="progress-bar-fill danger" id="hoy-progress-fill" style="width:0%"></div>
+    </div>
+  </div>
+
+  <!-- PASO 1 -->
+  <div class="next-action urgent" id="task-1">
     <div class="na-top">
-      <div class="na-step">&#128308; PASO 1 — AHORA</div>
-      <div class="na-title">Cobrar a Jhoan — 6132 Horseshoe A</div>
+      <div class="na-step" id="task-1-step">&#128308; PASO 1 — AHORA</div>
+      <div class="na-title" id="task-1-title">Cobrar a Jhoan — 6132 Horseshoe A</div>
       <div class="na-sub">Debe: $180 &nbsp;|&nbsp; Paga: $135 siempre &nbsp;|&nbsp; Acumulado: $180+ &nbsp;|&nbsp; <strong style="color:var(--red)">CRONICO 4 semanas</strong></div>
     </div>
     <div class="na-buttons">
-      <button class="na-btn na-btn-green">&#10003; Pagado $180</button>
+      <button class="na-btn na-btn-green" onclick="markDone(1, this)">&#10003; Pagado $180</button>
       <button class="na-btn na-btn-yellow">Parcial</button>
       <button class="na-btn na-btn-outline">&#128247; Efectivo + Recibo</button>
-      <button class="na-btn na-btn-red">No pago</button>
+      <button class="na-btn na-btn-red" onclick="markDone(1, this)">No pago</button>
+    </div>
+    <div class="done-toggle-row">
+      <label class="done-toggle" onclick="toggleTask(1)">
+        <div class="done-checkbox" id="check-1"></div>
+        <span class="done-label" id="check-1-label">Marcar como hecho</span>
+      </label>
     </div>
   </div>
 
-  <div class="next-action urgent">
+  <!-- PASO 2 -->
+  <div class="next-action urgent" id="task-2">
     <div class="na-top">
-      <div class="na-step">&#128308; PASO 2 — AHORA</div>
-      <div class="na-title">Cobrar a Victoria — 6132 Horseshoe RV1 (EFECTIVO)</div>
+      <div class="na-step" id="task-2-step">&#128308; PASO 2 — AHORA</div>
+      <div class="na-title" id="task-2-title">Cobrar a Victoria — 6132 Horseshoe RV1 (EFECTIVO)</div>
       <div class="na-sub">Debe: $212 &nbsp;|&nbsp; Metodo: Efectivo &nbsp;|&nbsp; <strong style="color:var(--orange)">&#128274; Requiere foto de recibo</strong></div>
     </div>
     <div class="na-buttons">
-      <button class="na-btn na-btn-outline" style="flex:2;">&#128247; Tomar Foto de Recibo</button>
+      <button class="na-btn na-btn-outline" style="flex:2;" onclick="markDone(2, this)">&#128247; Tomar Foto de Recibo</button>
       <button class="na-btn na-btn-disabled">&#128274; Pagado (foto requerida)</button>
+    </div>
+    <div class="done-toggle-row">
+      <label class="done-toggle" onclick="toggleTask(2)">
+        <div class="done-checkbox" id="check-2"></div>
+        <span class="done-label" id="check-2-label">Marcar como hecho</span>
+      </label>
     </div>
   </div>
 
-  <div class="next-action normal" style="border-left-color:var(--blue);">
+  <!-- PASO 3 -->
+  <div class="next-action normal" style="border-left-color:var(--blue);" id="task-3">
     <div class="na-top">
-      <div class="na-step na-step-blue">&#128312; PASO 3 — 2:00 PM</div>
-      <div class="na-title">Showing: Maria G. — 7862 Hastings Room D</div>
+      <div class="na-step na-step-blue" id="task-3-step">&#128312; PASO 3 — 2:00 PM</div>
+      <div class="na-title" id="task-3-title">Showing: Maria G. — 7862 Hastings Room D</div>
       <div class="na-sub">Budget: $150/wk &nbsp;|&nbsp; Move-in: ASAP &nbsp;|&nbsp; Idioma: Espanol &nbsp;|&nbsp; AI agendo &nbsp;|&nbsp; <a href="https://www.google.com/maps/search/7862+Hastings+St+Jacksonville+FL" target="_blank" style="color:var(--blue);font-weight:700">&#128506; Maps</a></div>
     </div>
     <div class="na-buttons">
-      <button class="na-btn na-btn-green">&#10003; Rentado</button>
-      <button class="na-btn na-btn-red">No vino</button>
-      <button class="na-btn na-btn-blue">Otra casa</button>
+      <button class="na-btn na-btn-green" onclick="markDone(3, this)">&#10003; Rentado</button>
+      <button class="na-btn na-btn-red" onclick="markDone(3, this)">No vino</button>
+      <button class="na-btn na-btn-blue" onclick="markDone(3, this)">Otra casa</button>
       <button class="na-btn na-btn-outline">&#128222; Llamar</button>
+    </div>
+    <div class="done-toggle-row">
+      <label class="done-toggle" onclick="toggleTask(3)">
+        <div class="done-checkbox" id="check-3"></div>
+        <span class="done-label" id="check-3-label">Marcar como hecho</span>
+      </label>
     </div>
   </div>
 
-  <div class="next-action warning" style="border-left-color:var(--yellow);">
+  <!-- PASO 4 -->
+  <div class="next-action warning" style="border-left-color:var(--yellow);" id="task-4">
     <div class="na-top">
-      <div class="na-step" style="color:var(--yellow);">&#128312; PASO 4 — HOY</div>
-      <div class="na-title">Seguimiento: Jorge M. — pregunto por 1160 Tumbleweed</div>
+      <div class="na-step" style="color:var(--yellow);" id="task-4-step">&#128312; PASO 4 — HOY</div>
+      <div class="na-title" id="task-4-title">Seguimiento: Jorge M. — pregunto por 1160 Tumbleweed</div>
       <div class="na-sub">Budget: $160/wk &nbsp;|&nbsp; Dijo "muy lejos del trabajo" &nbsp;|&nbsp; AI ofrecio 2331 W 10th ($175) &nbsp;|&nbsp; Sin respuesta 2 dias</div>
     </div>
     <div class="na-buttons">
-      <button class="na-btn na-btn-blue">Enviar seguimiento</button>
-      <button class="na-btn na-btn-blue">Ofrecer otra casa</button>
-      <button class="na-btn na-btn-outline">Pasar a Sandra</button>
+      <button class="na-btn na-btn-blue" onclick="markDone(4, this)">Enviar seguimiento</button>
+      <button class="na-btn na-btn-blue" onclick="markDone(4, this)">Ofrecer otra casa</button>
+      <button class="na-btn na-btn-outline" onclick="markDone(4, this)">Pasar a Sandra</button>
       <button class="na-btn na-btn-disabled">&#128274; Perdido</button>
+    </div>
+    <div class="done-toggle-row">
+      <label class="done-toggle" onclick="toggleTask(4)">
+        <div class="done-checkbox" id="check-4"></div>
+        <span class="done-label" id="check-4-label">Marcar como hecho</span>
+      </label>
     </div>
   </div>
 
-  <div class="next-action warning" style="border-left-color:var(--red);">
+  <!-- PASO 5 -->
+  <div class="next-action warning" style="border-left-color:var(--red);" id="task-5">
     <div class="na-top">
-      <div class="na-step">&#128308; PASO 5 — HOY</div>
-      <div class="na-title">Limpieza VENCIDA — 355 Linden Ln</div>
+      <div class="na-step" id="task-5-step">&#128308; PASO 5 — HOY</div>
+      <div class="na-title" id="task-5-title">Limpieza VENCIDA — 355 Linden Ln</div>
       <div class="na-sub">Ultima limpieza: Mar 22 (hace 17 dias) &nbsp;|&nbsp; Felix asignado &nbsp;|&nbsp; <strong style="color:var(--red)">Requiere foto para completar</strong></div>
     </div>
     <div class="na-buttons">
-      <button class="na-btn na-btn-outline" style="flex:2;">&#128247; Subir Foto de Limpieza</button>
+      <button class="na-btn na-btn-outline" style="flex:2;" onclick="markDone(5, this)">&#128247; Subir Foto de Limpieza</button>
       <button class="na-btn na-btn-disabled">&#128274; Completado (foto requerida)</button>
     </div>
+    <div class="done-toggle-row">
+      <label class="done-toggle" onclick="toggleTask(5)">
+        <div class="done-checkbox" id="check-5"></div>
+        <span class="done-label" id="check-5-label">Marcar como hecho</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- COMPLETED SUMMARY -->
+  <div class="completed-summary" id="completed-summary">
+    <div class="completed-summary-title">&#9989; Completado hoy</div>
+    <div id="completed-list"></div>
   </div>
 
 </div>
@@ -619,6 +710,7 @@ main { max-width: 480px; margin: 0 auto; padding: 12px; }
 </div>
 
 <script>
+/* ===== ROLE / TAB SWITCHING ===== */
 function switchRole(role) {
   document.querySelectorAll('[id^="role-"]').forEach(el => el.style.display = 'none');
   document.getElementById('role-' + role).style.display = 'block';
@@ -632,6 +724,120 @@ function showTab(role, tab) {
   parent.querySelectorAll('.nav-icon').forEach(n => n.classList.remove('active'));
   event.target.closest('.nav-icon').classList.add('active');
 }
+
+/* ===== HOY CHECKLIST ===== */
+const TOTAL_TASKS = 5;
+const STORAGE_KEY = 'hgrt_hoy_tasks_' + new Date().toDateString(); // resets each day
+
+const TASK_LABELS = {
+  1: 'Cobrar a Jhoan — Horseshoe A',
+  2: 'Cobrar a Victoria — foto de recibo',
+  3: 'Showing: Maria G. — Hastings 2pm',
+  4: 'Seguimiento: Jorge M.',
+  5: 'Limpieza VENCIDA — 355 Linden'
+};
+
+function getTaskState() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
+  catch(e) { return {}; }
+}
+function saveTaskState(state) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function toggleTask(id) {
+  const state = getTaskState();
+  state[id] = !state[id];
+  saveTaskState(state);
+  renderChecklist();
+}
+
+function markDone(id, btn) {
+  const state = getTaskState();
+  state[id] = true;
+  saveTaskState(state);
+  renderChecklist();
+  // brief button feedback
+  const orig = btn.textContent;
+  btn.textContent = '✓ Hecho';
+  btn.style.background = 'var(--green)';
+  btn.style.color = 'white';
+  setTimeout(() => { btn.textContent = orig; btn.style.background = ''; btn.style.color = ''; }, 1200);
+}
+
+function resetProgress() {
+  if (!confirm('¿Empezar de nuevo? Esto limpia el progreso de hoy.')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  renderChecklist();
+}
+
+function renderChecklist() {
+  const state = getTaskState();
+  let done = 0;
+  const completedNames = [];
+
+  for (let i = 1; i <= TOTAL_TASKS; i++) {
+    const isDone = !!state[i];
+    if (isDone) { done++; completedNames.push(TASK_LABELS[i]); }
+
+    const card = document.getElementById('task-' + i);
+    const box = document.getElementById('check-' + i);
+    const lbl = document.getElementById('check-' + i + '-label');
+
+    if (!card) continue;
+
+    if (isDone) {
+      card.classList.add('task-done');
+      box.classList.add('checked');
+      box.textContent = '✓';
+      lbl.textContent = '✓ Completado';
+      lbl.classList.add('checked');
+    } else {
+      card.classList.remove('task-done');
+      box.classList.remove('checked');
+      box.textContent = '';
+      lbl.textContent = 'Marcar como hecho';
+      lbl.classList.remove('checked');
+    }
+  }
+
+  // update progress strip
+  const pct = Math.round((done / TOTAL_TASKS) * 100);
+  const fill = document.getElementById('hoy-progress-fill');
+  const frac = document.getElementById('hoy-progress-frac');
+  const sub  = document.getElementById('hoy-progress-sub');
+
+  fill.style.width = pct + '%';
+  fill.className = 'progress-bar-fill ' + (pct === 100 ? '' : pct >= 60 ? 'warn' : 'danger');
+  frac.textContent = done + '/' + TOTAL_TASKS;
+  frac.style.color = pct === 100 ? 'var(--green)' : pct >= 60 ? 'var(--yellow)' : 'var(--red)';
+
+  const messages = {
+    0: '0 de 5 tareas completadas — ¡Vamos Andrea!',
+    1: '1 de 5 tareas completadas — Buen comienzo ✊',
+    2: '2 de 5 tareas completadas — Vas bien 👍',
+    3: '3 de 5 tareas completadas — A mitad del camino 💪',
+    4: '4 de 5 tareas completadas — ¡Casi lista! 🔥',
+    5: '5 de 5 — ¡Todo listo hoy! ⭐'
+  };
+  sub.textContent = messages[done] || (done + ' de ' + TOTAL_TASKS + ' tareas completadas');
+
+  // completed summary panel
+  const panel = document.getElementById('completed-summary');
+  const list = document.getElementById('completed-list');
+  if (done > 0) {
+    panel.classList.add('visible');
+    list.innerHTML = completedNames.map(n =>
+      `<div class="completed-item">✅ ${n}</div>`
+    ).join('');
+  } else {
+    panel.classList.remove('visible');
+    list.innerHTML = '';
+  }
+}
+
+// Init on load
+document.addEventListener('DOMContentLoaded', renderChecklist);
 </script>
 </body>
 </html>
