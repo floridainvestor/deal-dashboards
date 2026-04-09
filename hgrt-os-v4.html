@@ -175,6 +175,13 @@ main { max-width: 480px; margin: 0 auto; padding: 12px; }
 .decision-card .dc-title { font-size: 15px; font-weight: 800; }
 .decision-card .dc-sub { font-size: 13px; color: var(--gray); margin: 4px 0 10px; }
 
+/* OWNER DECISION BANNER */
+.owner-decision-banner { background: linear-gradient(135deg, #1A237E, #283593); border-radius: 14px; padding: 14px 16px; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+.owner-decision-banner .odb-icon { font-size: 22px; }
+.owner-decision-banner .odb-text { flex: 1; }
+.owner-decision-banner .odb-title { font-size: 13px; font-weight: 900; color: white; text-transform: uppercase; letter-spacing: .8px; }
+.owner-decision-banner .odb-sub { font-size: 11px; color: rgba(255,255,255,.7); margin-top: 3px; }
+
 /* ROUTE */
 .route-card { background: linear-gradient(135deg, #FF8F00 0%, #F57C00 100%); border-radius: 14px; padding: 16px; color: white; margin-bottom: 12px; box-shadow: var(--shadow); }
 .route-card h3 { font-size: 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
@@ -292,6 +299,61 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
 .vac-cost-chip { display: inline-flex; flex-direction: column; align-items: center; background: var(--red-bg); border-radius: 8px; padding: 4px 8px; font-size: 10px; font-weight: 800; color: var(--red); margin-top: 4px; }
 .vac-cost-chip span { font-size: 14px; }
 
+/* INVENTORY TAB */
+.inv-hero { border-radius: 16px; padding: 20px; margin-bottom: 12px; text-align: center; color: white; box-shadow: var(--shadow-lg); }
+.inv-hero.ready { background: linear-gradient(135deg, #1B5E20, #2E7D32); }
+.inv-hero.low { background: linear-gradient(135deg, #E65100, #F57C00); }
+.inv-hero.critical { background: linear-gradient(135deg, #B71C1C, #C62828); }
+.inv-hero-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; opacity: .8; }
+.inv-hero-val { font-size: 60px; font-weight: 900; letter-spacing: -3px; margin: 4px 0; line-height: 1; }
+.inv-hero-sub { font-size: 13px; opacity: .85; }
+
+.kit-counter { background: white; border-radius: 14px; box-shadow: var(--shadow); padding: 16px; margin-bottom: 12px; }
+.kit-counter-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.kit-counter-label { font-size: 14px; font-weight: 800; }
+.kit-counter-controls { display: flex; align-items: center; gap: 12px; }
+.kit-btn { width: 40px; height: 40px; border-radius: 10px; border: none; font-size: 22px; font-weight: 900; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all .15s; }
+.kit-btn:active { transform: scale(.93); }
+.kit-btn-minus { background: var(--red-bg); color: var(--red); }
+.kit-btn-plus { background: var(--green-bg); color: var(--green); }
+.kit-count-display { font-size: 28px; font-weight: 900; min-width: 40px; text-align: center; }
+
+.inv-item-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #F0F0F0; }
+.inv-item-row:last-child { border-bottom: none; }
+.inv-item-name { font-size: 13px; }
+.inv-item-qty { display: flex; align-items: center; gap: 8px; }
+.inv-qty-num { font-size: 14px; font-weight: 800; min-width: 24px; text-align: center; }
+.inv-qty-btn { width: 28px; height: 28px; border-radius: 6px; border: none; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: 800; }
+.inv-qty-btn-minus { background: #FEE2E2; color: var(--red); }
+.inv-qty-btn-plus { background: var(--green-bg); color: var(--green); }
+
+.reorder-btn { display: block; width: 100%; padding: 16px; border-radius: 14px; border: none; background: linear-gradient(135deg, #FF8F00, #F57C00); color: white; font-size: 15px; font-weight: 800; cursor: pointer; text-align: center; box-shadow: var(--shadow-lg); margin-bottom: 12px; }
+.reorder-btn:active { transform: scale(.98); }
+.reorder-btn.reorder-disabled { background: #E0E0E0; color: #9E9E9E; box-shadow: none; cursor: not-allowed; }
+
+.turn-readiness { border-radius: 14px; padding: 16px; margin-bottom: 12px; }
+.turn-readiness.tr-ready { background: var(--green-bg); border: 2px solid var(--green-border); }
+.turn-readiness.tr-critical { background: var(--red-bg); border: 2px solid var(--red-border); }
+.tr-title { font-size: 14px; font-weight: 800; margin-bottom: 4px; }
+.tr-sub { font-size: 12px; line-height: 1.5; }
+
+/* PHOTO LOG */
+.photo-required-badge { display: inline-flex; align-items: center; gap: 4px; background: #FFF3E0; border: 1px solid #FFB74D; border-radius: 6px; padding: 3px 8px; font-size: 10px; font-weight: 800; color: var(--orange); margin-top: 6px; }
+.photo-log-entry { background: white; border-radius: 10px; box-shadow: var(--shadow); padding: 12px; margin-bottom: 8px; border-left: 4px solid var(--blue); }
+.photo-log-entry.ple-notice { border-left-color: var(--red); }
+.photo-log-entry.ple-cleaning { border-left-color: var(--green); }
+.ple-header { display: flex; justify-content: space-between; align-items: flex-start; }
+.ple-addr { font-size: 13px; font-weight: 800; }
+.ple-type { font-size: 10px; font-weight: 800; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; }
+.ple-type-notice { background: var(--red-bg); color: var(--red); }
+.ple-type-cleaning { background: var(--green-bg); color: var(--green); }
+.ple-ts { font-size: 11px; color: var(--gray); margin-top: 4px; }
+.ple-status { font-size: 11px; font-weight: 700; margin-top: 4px; }
+.ple-status.pending { color: var(--orange); }
+.ple-status.logged { color: var(--green); }
+.photo-search { width: 100%; padding: 10px 14px; border: 2px solid #E0E0E0; border-radius: 10px; font-size: 13px; margin-bottom: 12px; outline: none; }
+.photo-search:focus { border-color: var(--blue); }
+
 /* RESPONSIVE */
 @media (max-width: 480px) {
   .kpi-bar { grid-template-columns: repeat(2, 1fr); }
@@ -354,7 +416,7 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
     <div style="display:flex;justify-content:space-between;align-items:center;">
       <div>
         <div style="font-size:28px;font-weight:900;color:var(--green);" id="target-val">$3,245</div>
-        <div style="font-size:12px;color:var(--gray);">to recover today</div>
+        <div style="font-size:12px;color:var(--gray);">cash collections + vacancy unlocks</div>
       </div>
       <div style="text-align:right;">
         <div style="font-size:20px;font-weight:900;color:var(--blue);" id="recovered-val">$0</div>
@@ -396,10 +458,11 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
         <div class="tc-title">Deliver 3-Day Notice: Dominico &mdash; 346 Linden RV2</div>
         <div class="tc-sub">14 days late &bull; Owes: $500+ &bull; <strong style="color:var(--red)">Policy: Notice required by Day 2</strong></div>
         <div class="tc-dollar tc-dollar-red">Losing $95/wk = $4,940/yr</div>
+        <div class="photo-required-badge">&#128247; PHOTO REQUIRED — legally defensible proof</div>
       </div>
       <div class="tc-btns">
-        <button class="tc-btn tc-btn-outline" style="flex:2;">&#128247; Photo of Delivered Notice</button>
-        <button class="tc-btn tc-btn-disabled">&#128274; Complete (photo first)</button>
+        <button class="tc-btn tc-btn-outline" style="flex:2;" onclick="logPhotoFromTask('notice','346 Linden RV2','Dominico');markDone(2,this)">&#128247; Log Notice Photo</button>
+        <button class="tc-btn tc-btn-disabled" id="task2-complete-btn">&#128274; Complete (photo first)</button>
       </div>
       <div class="tc-done-row" onclick="toggleTask(2)">
         <div class="tc-check" id="chk-2"></div>
@@ -452,9 +515,10 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
         <div class="tc-title">Upload Cleaning Photo &mdash; 355 Linden Ln</div>
         <div class="tc-sub">Last cleaned: Mar 22 (17 days ago) &bull; Felix assigned &bull; <strong style="color:var(--red)">Photo required</strong></div>
         <div class="tc-dollar tc-dollar-green">Unlocks $175/wk &bull; $425 lost so far</div>
+        <div class="photo-required-badge">&#128247; PHOTO REQUIRED — room cannot list without it</div>
       </div>
       <div class="tc-btns">
-        <button class="tc-btn tc-btn-outline" style="flex:2;" onclick="markDone(5,this)">&#128247; Upload After Photo</button>
+        <button class="tc-btn tc-btn-outline" style="flex:2;" onclick="logPhotoFromTask('cleaning','355 Linden Ln','');markDone(5,this)">&#128247; Log Cleaning Photo</button>
         <button class="tc-btn tc-btn-disabled">&#128274; Complete (photo first)</button>
       </div>
       <div class="tc-done-row" onclick="toggleTask(5)">
@@ -467,15 +531,13 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
   <!-- TIER 5 -->
   <div class="pri-section">
     <div class="pri-header pri-header-gray">&#128337; If Time Permits</div>
-    <div class="task-card" id="task-6">
+    <div class="task-card" id="task-6" style="border-left-color:var(--blue);">
       <div class="tc-top">
-        <div class="tc-title">&#128680; Respond to Roberto &mdash; Grove Park F</div>
-        <div class="tc-sub">Inquiry 45 min ago &bull; No response yet &bull; <strong style="color:var(--red)">SLA at risk (&gt;60 min = miss)</strong></div>
-        <div class="tc-dollar tc-dollar-blue">+$160/wk possible</div>
+        <div class="tc-title">&#128680; Roberto inquiry &mdash; SLA at risk</div>
+        <div class="tc-sub">45 min ago &bull; Grove Park F &bull; $160/wk &bull; <strong style="color:var(--blue)">&#8594; Go to Leads tab to respond</strong></div>
       </div>
       <div class="tc-btns">
-        <button class="tc-btn tc-btn-blue" onclick="markDone(6,this)">Send AI Response</button>
-        <button class="tc-btn tc-btn-outline" onclick="markDone(6,this)">Escalate to Sandra</button>
+        <button class="tc-btn tc-btn-blue" onclick="showTab('andrea','leads',document.querySelector('#andrea-nav .nav-icon:nth-child(2)'));markDone(6,this)">Open Leads Tab &rarr;</button>
       </div>
       <div class="tc-done-row" onclick="toggleTask(6)">
         <div class="tc-check" id="chk-6"></div>
@@ -804,8 +866,8 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
   </div>
   <div class="brief-card">
     <div class="brief-row"><span class="brief-label">Est. Drive Time</span><span class="brief-val">~1.5 hrs</span></div>
-    <div class="brief-row"><span class="brief-label">Collections Target</span><span class="brief-val green">$2,257</span></div>
-    <div class="brief-row"><span class="brief-label">Vacancy Unlocks</span><span class="brief-val blue">$625/wk</span></div>
+    <div class="brief-row"><span class="brief-label">Collections Target <span style="font-size:10px;color:#78909C;">(cash only)</span></span><span class="brief-val green">$2,257</span></div>
+    <div class="brief-row"><span class="brief-label">Vacancy Unlocks <span style="font-size:10px;color:#78909C;">(wkly revenue if rooms filled)</span></span><span class="brief-val blue">$625/wk</span></div>
     <div class="brief-row"><span class="brief-label">Notices to Deliver</span><span class="brief-val red">1 (Dominico)</span></div>
   </div>
 </div>
@@ -840,7 +902,9 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
 <div class="nav-icons" id="sandra-nav">
   <button class="nav-icon active" onclick="showTab('sandra','exceptions',this)"><span class="ico">&#128680;</span>Exceptions</button>
   <button class="nav-icon" onclick="showTab('sandra','supply',this)"><span class="ico">&#128230;</span>Supply</button>
+  <button class="nav-icon" onclick="showTab('sandra','inventory',this)"><span class="ico">&#128716;</span>Inventory</button>
   <button class="nav-icon" onclick="showTab('sandra','listings',this)"><span class="ico">&#128203;</span>Listings</button>
+  <button class="nav-icon" onclick="showTab('sandra','photolog',this)"><span class="ico">&#128247;</span>Photos</button>
 </div>
 <main>
 
@@ -1043,6 +1107,126 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
   </details>
 </div>
 
+<!-- ===== INVENTORY ===== -->
+<div class="view" id="sandra-inventory">
+
+  <div class="inv-hero critical" id="inv-hero-block">
+    <div class="inv-hero-label">Complete Kits in Storage</div>
+    <div class="inv-hero-val" id="inv-kit-count">0</div>
+    <div class="inv-hero-sub" id="inv-hero-sub">&#128308; CRITICAL — rooms cannot turn in 2 days</div>
+  </div>
+
+  <div class="turn-readiness tr-critical" id="inv-turn-readiness">
+    <div class="tr-title" id="inv-tr-title">&#128308; 2-Day Turn: NOT POSSIBLE</div>
+    <div class="tr-sub" id="inv-tr-sub">You need at least 1 complete kit on shelf to turn a room same day. With 0 kits, every vacancy waits on Amazon (3–7 days). Restock now.</div>
+  </div>
+
+  <div class="kit-counter">
+    <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--gray);margin-bottom:12px;">&#128230; Kit Count Tracker</div>
+    <div class="kit-counter-row">
+      <div>
+        <div class="kit-counter-label">Complete Kits on Shelf</div>
+        <div style="font-size:11px;color:var(--gray);">1 kit = 2 pillows + 2 protectors + comforter + mattress protector</div>
+      </div>
+      <div class="kit-counter-controls">
+        <button class="kit-btn kit-btn-minus" onclick="adjustKits(-1)">−</button>
+        <div class="kit-count-display" id="kit-count-display">0</div>
+        <button class="kit-btn kit-btn-plus" onclick="adjustKits(1)">+</button>
+      </div>
+    </div>
+    <div style="font-size:11px;color:var(--gray);background:var(--yellow-bg);border-radius:8px;padding:8px;margin-top:4px;">
+      &#9888;&#65039; Target: 3 kits on shelf at all times. Reorder trigger: drops to 1 or below.
+    </div>
+  </div>
+
+  <div class="brief-card" style="padding:16px;">
+    <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--gray);margin-bottom:10px;">&#128717; Per-Item Inventory</div>
+    <div class="inv-item-row">
+      <span class="inv-item-name">JOLLYVOGUE Pillows (2-pk)</span>
+      <div class="inv-item-qty">
+        <button class="inv-qty-btn inv-qty-btn-minus" onclick="adjustItem('pillows',-1)">−</button>
+        <span class="inv-qty-num" id="item-pillows">0</span>
+        <button class="inv-qty-btn inv-qty-btn-plus" onclick="adjustItem('pillows',1)">+</button>
+      </div>
+    </div>
+    <div class="inv-item-row">
+      <span class="inv-item-name">Pillow Protectors (pairs)</span>
+      <div class="inv-item-qty">
+        <button class="inv-qty-btn inv-qty-btn-minus" onclick="adjustItem('pillow_prot',-1)">−</button>
+        <span class="inv-qty-num" id="item-pillow_prot">0</span>
+        <button class="inv-qty-btn inv-qty-btn-plus" onclick="adjustItem('pillow_prot',1)">+</button>
+      </div>
+    </div>
+    <div class="inv-item-row">
+      <span class="inv-item-name">Comforter Sets (7pc Full)</span>
+      <div class="inv-item-qty">
+        <button class="inv-qty-btn inv-qty-btn-minus" onclick="adjustItem('comforter',-1)">−</button>
+        <span class="inv-qty-num" id="item-comforter">0</span>
+        <button class="inv-qty-btn inv-qty-btn-plus" onclick="adjustItem('comforter',1)">+</button>
+      </div>
+    </div>
+    <div class="inv-item-row">
+      <span class="inv-item-name">Mattress Protectors</span>
+      <div class="inv-item-qty">
+        <button class="inv-qty-btn inv-qty-btn-minus" onclick="adjustItem('mattress_prot',-1)">−</button>
+        <span class="inv-qty-num" id="item-mattress_prot">0</span>
+        <button class="inv-qty-btn inv-qty-btn-plus" onclick="adjustItem('mattress_prot',1)">+</button>
+      </div>
+    </div>
+  </div>
+
+  <button class="reorder-btn" id="reorder-btn" onclick="triggerReorder()">&#128722; Reorder 3 Reserve Kits — ~$270</button>
+
+  <details>
+    <summary>&#128717; What's in a Complete Kit (~$111)</summary>
+    <div class="details-body">
+      2× JOLLYVOGUE Pillows 2-pk (~$20) &bull; 2× Utopia Pillow Protectors pairs (~$21) &bull; 1× Sweet Home Comforter Full 7pc (~$38) &bull; 1× Utopia Mattress Protector Queen (~$32)<br><br>
+      <strong>Reorder rule:</strong> When kits on shelf ≤ 1, order 3 kits same day.<br>
+      <strong>Strip rule:</strong> Pillows and mattress protectors are single-use (bed bug prevention). Comforters: reuse if 7/10+ condition.
+    </div>
+  </details>
+
+  <details>
+    <summary>&#128666; Orders In Transit</summary>
+    <div class="details-body">
+      <strong>Order #114-5839492</strong> — $188.42 — Arriving Apr 10<br>Pillows, protectors, 2 comforters → Caxton A, B, C<br><br>
+      <strong>Order #114-2709568</strong> — $74.94 — Arriving Apr 14<br>Mattress protectors 4-pk → Caxton A, B + 2 reserve<br><br>
+      <span style="color:var(--orange);font-weight:700;">After Apr 10 delivery: update kit count above to 3.</span>
+    </div>
+  </details>
+
+</div>
+
+<!-- ===== PHOTO LOG ===== -->
+<div class="view" id="sandra-photolog">
+
+  <div style="background:var(--blue-light);border-left:5px solid var(--blue);border-radius:10px;padding:12px;margin-bottom:12px;">
+    <div style="font-size:13px;font-weight:800;color:var(--blue);">Every notice delivery and cleaning sign-off requires a photo entry. No photo = not done.</div>
+  </div>
+
+  <input class="photo-search" id="photo-search-input" type="text" placeholder="Search by address (e.g. Caxton, Linden, Horseshoe)..." oninput="renderPhotoLog(this.value)">
+
+  <div class="sec-label">&#128247; Evidence Log</div>
+  <div id="photo-log-list"></div>
+
+  <div style="margin-top:16px;">
+    <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--gray);margin-bottom:10px;">&#128221; Log New Entry</div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <select id="pl-type" style="padding:10px;border-radius:8px;border:2px solid #E0E0E0;font-size:13px;">
+        <option value="">Select type...</option>
+        <option value="notice">3-Day Notice Delivered</option>
+        <option value="cleaning">Cleaning Sign-Off</option>
+        <option value="condition">Room Condition (move-in)</option>
+        <option value="damage">Damage Documentation</option>
+      </select>
+      <input id="pl-addr" type="text" placeholder="Address (e.g. 346 Linden RV2)" style="padding:10px;border-radius:8px;border:2px solid #E0E0E0;font-size:13px;">
+      <input id="pl-tenant" type="text" placeholder="Tenant name (optional)" style="padding:10px;border-radius:8px;border:2px solid #E0E0E0;font-size:13px;">
+      <button onclick="addPhotoLogEntry()" style="padding:14px;border-radius:10px;border:none;background:var(--blue);color:white;font-size:14px;font-weight:800;cursor:pointer;">&#10003; Log Photo Evidence</button>
+    </div>
+  </div>
+
+</div>
+
 </main>
 </div>
 
@@ -1091,7 +1275,7 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
     <div class="wf-row"><span class="wf-label">&#128308; Chronic Underpayment (8 tenants)</span><span class="wf-val" style="color:var(--red);">−$577</span></div>
     <div class="wf-row"><span class="wf-label">&#128308; Short/Late Non-Chronic (11)</span><span class="wf-val" style="color:var(--red);">−$2,648</span></div>
     <div class="wf-row collected"><span class="wf-label"><strong>Collected</strong></span><span class="wf-val" style="color:var(--green);font-size:18px;"><strong>$9,400</strong></span></div>
-    <div class="wf-row total"><span class="wf-label"><strong>Annual Leak Rate</strong></span><span class="wf-val" style="color:var(--red);font-size:18px;"><strong>$395,200/yr</strong></span></div>
+    <div class="wf-row total"><span class="wf-label"><strong>Annual Cost at Today's 55% Capture</strong></span><span class="wf-val" style="color:var(--red);font-size:18px;"><strong>$395,200/yr</strong></span></div>
   </div>
 
   <!-- CONVERSION FUNNEL -->
@@ -1165,6 +1349,14 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
 
 <!-- ===== DECISIONS ===== -->
 <div class="view" id="owner-decisions">
+
+  <div class="owner-decision-banner">
+    <div class="odb-icon">&#128274;</div>
+    <div class="odb-text">
+      <div class="odb-title">Owner Decisions — Not Field Work</div>
+      <div class="odb-sub">Enforce / Accept / Evict are irreversible. These are not on Andrea or Sandra's screen.</div>
+    </div>
+  </div>
 
   <div style="background:var(--red-bg);border-left:5px solid var(--red);border-radius:10px;padding:12px;margin-bottom:16px;">
     <div style="font-size:13px;font-weight:800;color:var(--red);">3 undecided chronic underpayers = $577/week leaking. Each auto-defaults on Apr 16 if no decision.</div>
@@ -1342,7 +1534,8 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
       Weekly potential at full occupancy: $17,000+<br>
       Weekly collected: ~$9,400 (55% capture rate)<br>
       Target capture rate: 95%<br>
-      Gap to target: ~$6,700/wk = $348,400/yr
+      Revenue gap to 95% target: ~$6,700/wk = <strong>$348,400/yr potential gain</strong><br>
+      <span style="font-size:11px;color:#78909C;">(Different from $395K waterfall: that is cost of current state. This is upside if fully fixed.)</span>
     </div>
   </details>
 
@@ -1457,7 +1650,164 @@ function confirmLost() {
   closeLostModal();
 }
 
-document.addEventListener('DOMContentLoaded', render);
+document.addEventListener('DOMContentLoaded', () => { render(); renderInventory(); renderPhotoLog(''); });
+
+/* ===== INVENTORY ENGINE ===== */
+const INV_KEY = 'hgrt_inventory';
+const INV_REORDER_THRESHOLD = 1;
+const INV_TARGET = 3;
+
+function getInventory() {
+  try { return JSON.parse(localStorage.getItem(INV_KEY)) || { kits: 0, pillows: 0, pillow_prot: 0, comforter: 0, mattress_prot: 0 }; }
+  catch(e) { return { kits: 0, pillows: 0, pillow_prot: 0, comforter: 0, mattress_prot: 0 }; }
+}
+function saveInventory(inv) { localStorage.setItem(INV_KEY, JSON.stringify(inv)); }
+
+function adjustKits(delta) {
+  const inv = getInventory();
+  inv.kits = Math.max(0, inv.kits + delta);
+  saveInventory(inv);
+  renderInventory();
+}
+
+function adjustItem(item, delta) {
+  const inv = getInventory();
+  inv[item] = Math.max(0, (inv[item] || 0) + delta);
+  saveInventory(inv);
+  renderInventory();
+}
+
+function renderInventory() {
+  const inv = getInventory();
+  const kits = inv.kits;
+
+  // Update hero
+  const hero = document.getElementById('inv-hero-block');
+  const heroVal = document.getElementById('inv-kit-count');
+  const heroSub = document.getElementById('inv-hero-sub');
+  const readiness = document.getElementById('inv-turn-readiness');
+  const trTitle = document.getElementById('inv-tr-title');
+  const trSub = document.getElementById('inv-tr-sub');
+  const reorderBtn = document.getElementById('reorder-btn');
+
+  if (heroVal) heroVal.textContent = kits;
+
+  if (hero) {
+    if (kits === 0) {
+      hero.className = 'inv-hero critical';
+      heroSub.textContent = '🔴 CRITICAL — rooms cannot turn in 2 days';
+      readiness.className = 'turn-readiness tr-critical';
+      trTitle.textContent = '🔴 2-Day Turn: NOT POSSIBLE';
+      trSub.textContent = 'You need at least 1 complete kit on shelf to turn a room same day. With 0 kits, every vacancy waits on Amazon (3–7 days). Restock now.';
+    } else if (kits <= INV_REORDER_THRESHOLD) {
+      hero.className = 'inv-hero low';
+      heroSub.textContent = '⚠️ LOW — reorder today. 1 kit = 1 room turn max.';
+      readiness.className = 'turn-readiness tr-critical';
+      trTitle.textContent = '⚠️ 2-Day Turn: POSSIBLE (1 room only) — Reorder Now';
+      trSub.textContent = 'You have 1 kit. You can turn 1 room in 2 days. Order reserve immediately so the next vacancy doesn\'t wait on Amazon.';
+    } else {
+      hero.className = 'inv-hero ready';
+      heroSub.textContent = `✅ ${kits} of ${INV_TARGET} target — 2-day turn ready`;
+      readiness.className = 'turn-readiness tr-ready';
+      trTitle.textContent = `✅ 2-Day Turn: READY (${kits} room${kits > 1 ? 's' : ''})`;
+      trSub.textContent = `You have ${kits} complete kits. Any room that turns today can be rent-ready within 2 days. Maintain reserve — reorder when you reach 1.`;
+    }
+  }
+
+  // Update kit display
+  const kd = document.getElementById('kit-count-display');
+  if (kd) {
+    kd.textContent = kits;
+    kd.style.color = kits === 0 ? 'var(--red)' : kits <= 1 ? 'var(--orange)' : 'var(--green)';
+  }
+
+  // Per-item displays
+  ['pillows','pillow_prot','comforter','mattress_prot'].forEach(item => {
+    const el = document.getElementById('item-' + item);
+    if (el) el.textContent = inv[item] || 0;
+  });
+
+  // Reorder button
+  if (reorderBtn) {
+    if (kits <= INV_REORDER_THRESHOLD) {
+      reorderBtn.className = 'reorder-btn';
+    } else {
+      reorderBtn.className = 'reorder-btn reorder-disabled';
+      reorderBtn.textContent = `✅ Stock OK — Reorder at ${INV_REORDER_THRESHOLD} kit`;
+    }
+  }
+}
+
+function triggerReorder() {
+  const inv = getInventory();
+  if (inv.kits > INV_REORDER_THRESHOLD) { alert('Stock is OK. Reorder triggers when kits reach 1.'); return; }
+  const amazonUrl = 'https://www.amazon.com/s?k=JOLLYVOGUE+pillows+comforter+mattress+protector';
+  const msg = `Reorder: 3 Reserve Kits (~$270 total)\n\n• JOLLYVOGUE Pillows 2-pk ×3 — $60\n• Utopia Pillow Protectors 6-pk ×1 — $21\n• Sweet Home Comforter Full ×3 — $114\n• Utopia Mattress Protector 4-pk ×1 — $75\n\nOpening Amazon search. After ordering, tap + to update kit count.`;
+  alert(msg);
+  window.open(amazonUrl, '_blank');
+}
+
+/* ===== PHOTO LOG ENGINE ===== */
+const PHOTO_LOG_KEY = 'hgrt_photo_log';
+
+function getPhotoLog() {
+  try { return JSON.parse(localStorage.getItem(PHOTO_LOG_KEY)) || []; }
+  catch(e) { return []; }
+}
+function savePhotoLog(log) { localStorage.setItem(PHOTO_LOG_KEY, JSON.stringify(log)); }
+
+function addPhotoLogEntry() {
+  const type = document.getElementById('pl-type').value;
+  const addr = document.getElementById('pl-addr').value.trim();
+  const tenant = document.getElementById('pl-tenant').value.trim();
+  if (!type || !addr) { alert('Select a type and enter an address.'); return; }
+  const log = getPhotoLog();
+  log.unshift({ type, addr, tenant, ts: new Date().toISOString(), status: 'logged' });
+  savePhotoLog(log);
+  document.getElementById('pl-type').value = '';
+  document.getElementById('pl-addr').value = '';
+  document.getElementById('pl-tenant').value = '';
+  renderPhotoLog(document.getElementById('photo-search-input')?.value || '');
+  alert(`✅ Photo evidence logged\n${addr} — ${typeLabel(type)}\n${new Date().toLocaleString()}`);
+}
+
+function logPhotoFromTask(type, addr, tenant) {
+  const log = getPhotoLog();
+  log.unshift({ type, addr, tenant, ts: new Date().toISOString(), status: 'logged' });
+  savePhotoLog(log);
+  renderPhotoLog('');
+}
+
+function typeLabel(t) {
+  return { notice: '3-Day Notice Delivered', cleaning: 'Cleaning Sign-Off', condition: 'Move-In Condition', damage: 'Damage Documentation' }[t] || t;
+}
+
+function formatTs(iso) {
+  const d = new Date(iso);
+  return d.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric' }) + ' ' + d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+}
+
+function renderPhotoLog(filter) {
+  const container = document.getElementById('photo-log-list');
+  if (!container) return;
+  const log = getPhotoLog();
+  const q = (filter || '').toLowerCase();
+  const filtered = q ? log.filter(e => e.addr.toLowerCase().includes(q) || (e.tenant||'').toLowerCase().includes(q)) : log;
+  if (!filtered.length) {
+    container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--gray);font-size:13px;">No entries yet. Log a photo from a task card or use the form below.</div>';
+    return;
+  }
+  container.innerHTML = filtered.map(e => `
+    <div class="photo-log-entry ple-${e.type}">
+      <div class="ple-header">
+        <div class="ple-addr">${e.addr}${e.tenant ? ' — ' + e.tenant : ''}</div>
+        <span class="ple-type ple-type-${e.type === 'notice' ? 'notice' : 'cleaning'}">${typeLabel(e.type)}</span>
+      </div>
+      <div class="ple-ts">&#128336; ${formatTs(e.ts)}</div>
+      <div class="ple-status logged">&#10003; Logged</div>
+    </div>
+  `).join('');
+}
 </script>
 </body>
 </html>
