@@ -522,25 +522,62 @@ main { max-width: 480px; margin: 0 auto; padding: 12px; }
     <div class="hero-metric-sub">Costing $179/day &bull; $1,253/wk &bull; Total lost so far: $4,825+</div>
   </div>
 
-  <div class="sec-label">&#128230; Supply Orders In Transit &mdash; Amazon</div>
+  <!-- ROOM-READY KIT INVENTORY -->
+  <div class="policy-box" style="border:2px solid #FFD54F;">
+    <h3>&#128230; Room-Ready Kit Inventory</h3>
+    <div style="display:flex;gap:12px;margin-bottom:12px;">
+      <div style="flex:1;text-align:center;background:rgba(255,255,255,.1);border-radius:10px;padding:12px;">
+        <div style="font-size:36px;font-weight:900;color:#FF5252;">0</div>
+        <div style="font-size:11px;opacity:.8;">Kits Ready</div>
+      </div>
+      <div style="flex:1;text-align:center;background:rgba(255,255,255,.1);border-radius:10px;padding:12px;">
+        <div style="font-size:36px;font-weight:900;color:#FFD54F;">3</div>
+        <div style="font-size:11px;opacity:.8;">Target Reserve</div>
+      </div>
+      <div style="flex:1;text-align:center;background:rgba(255,255,255,.1);border-radius:10px;padding:12px;">
+        <div style="font-size:36px;font-weight:900;color:#FF5252;">3</div>
+        <div style="font-size:11px;opacity:.8;">Rooms Blocked</div>
+      </div>
+    </div>
+    <div style="font-size:12px;opacity:.9;margin-bottom:8px;">
+      <strong>1 Kit = 1 Room Ready</strong><br>
+      2 pillows &bull; 2 pillow protectors &bull; 1 comforter set (7pc) &bull; 1 mattress protector<br>
+      <strong>Cost per kit: ~$111</strong> &bull; Reserve cost: ~$333 total
+    </div>
+    <div style="background:rgba(255,82,82,.3);border-radius:8px;padding:8px;font-size:12px;font-weight:700;">
+      &#128680; RESTOCK ALERT: Reserve is at 0. Rooms are waiting on Amazon. Order 3 kits after current delivery to build reserve.
+    </div>
+  </div>
+
+  <div class="sec-label">&#128666; Orders In Transit</div>
 
   <div class="brief-card" style="border-left:5px solid var(--orange);">
-    <div class="brief-title">&#128666; Order #114-5839492-3656222</div>
+    <div class="brief-title">&#128666; Order #114-5839492-3656222 &mdash; $188.42</div>
     <div class="brief-row"><span class="brief-label">Ordered</span><span class="brief-val">Apr 7</span></div>
-    <div class="brief-row"><span class="brief-label">Arriving</span><span class="brief-val green">Tomorrow (Apr 10)</span></div>
-    <div class="brief-row"><span class="brief-label">Items</span><span class="brief-val" style="font-size:12px;text-align:right;max-width:200px;">4-pack pillows, 2-pack pillows, 6x pillow protectors, 2x teal comforter sets</span></div>
-    <div class="brief-row"><span class="brief-label">Total</span><span class="brief-val">$188.42</span></div>
+    <div class="brief-row"><span class="brief-label">Arriving</span><span class="brief-val green">Tomorrow (Apr 10) &mdash; Day 3</span></div>
+    <div class="brief-row"><span class="brief-label">Contents</span><span class="brief-val" style="font-size:11px;text-align:right;max-width:220px;">JOLLYVOGUE Pillows 4-pk ($33) &bull; JOLLYVOGUE Pillows 2-pk ($20) &bull; Utopia Pillow Protectors 6-pk ($21) &bull; Sweet Home Teal Comforter Full x2 ($76)</span></div>
     <div class="brief-row"><span class="brief-label">For rooms</span><span class="brief-val blue">Caxton A, B, C</span></div>
-    <div style="background:var(--yellow-bg);border-radius:8px;padding:8px;margin-top:8px;font-size:12px;font-weight:700;color:var(--yellow);">&#9888;&#65039; Rooms BLOCKED until delivery. Cannot clean/photograph until bedding arrives.</div>
+    <div style="background:var(--red-bg);border-radius:8px;padding:8px;margin-top:8px;font-size:12px;font-weight:700;color:var(--red);">&#128308; 3 rooms BLOCKED &mdash; $450/wk lost ($64/day) waiting on this delivery. With reserve stock this would be $0 lost.</div>
   </div>
 
   <div class="brief-card" style="border-left:5px solid var(--orange);">
-    <div class="brief-title">&#128666; Order #114-2709568-8671402</div>
+    <div class="brief-title">&#128666; Order #114-2709568-8671402 &mdash; $74.94</div>
     <div class="brief-row"><span class="brief-label">Ordered</span><span class="brief-val">Apr 7</span></div>
-    <div class="brief-row"><span class="brief-label">Arriving</span><span class="brief-val yellow">Monday (Apr 14)</span></div>
-    <div class="brief-row"><span class="brief-label">Items</span><span class="brief-val" style="font-size:12px;">4x Queen mattress protectors</span></div>
-    <div class="brief-row"><span class="brief-label">Total</span><span class="brief-val">$74.94</span></div>
-    <div class="brief-row"><span class="brief-label">For rooms</span><span class="brief-val blue">Caxton A, B + reserve stock</span></div>
+    <div class="brief-row"><span class="brief-label">Arriving</span><span class="brief-val yellow">Monday (Apr 14) &mdash; Day 7</span></div>
+    <div class="brief-row"><span class="brief-label">Contents</span><span class="brief-val" style="font-size:11px;text-align:right;max-width:220px;">Utopia Mattress Protector Queen Zippered 4-pk ($75)</span></div>
+    <div class="brief-row"><span class="brief-label">For rooms</span><span class="brief-val blue">Caxton A, B + 2 for reserve</span></div>
+    <div style="background:var(--yellow-bg);border-radius:8px;padding:8px;margin-top:8px;font-size:12px;font-weight:700;color:var(--yellow);">&#9888;&#65039; Caxton rooms can use bedding from Order 1 (Apr 10) but full setup requires these protectors. Rooms rentable but not fully protected until Apr 14.</div>
+  </div>
+
+  <div class="sec-label" style="margin-top:16px;">&#128161; After These Orders Arrive &mdash; Restock Action</div>
+  <div class="brief-card" style="border-left:5px solid var(--green);">
+    <div class="brief-title">&#128722; Restock Order Needed: 3 Reserve Kits</div>
+    <div class="brief-row"><span class="brief-label">JOLLYVOGUE Pillows 2-pk x3</span><span class="brief-val">$60.00</span></div>
+    <div class="brief-row"><span class="brief-label">Utopia Pillow Protectors 6-pk x1</span><span class="brief-val">$21.47</span></div>
+    <div class="brief-row"><span class="brief-label">Sweet Home Comforter Full (Teal) x3</span><span class="brief-val">$113.97</span></div>
+    <div class="brief-row"><span class="brief-label">Utopia Mattress Protector Queen 4-pk x1</span><span class="brief-val">$74.94</span></div>
+    <div class="brief-row" style="border-top:2px solid #E0E0E0;padding-top:10px;"><span class="brief-label"><strong>Total Reserve Order</strong></span><span class="brief-val" style="color:var(--green);font-size:16px;"><strong>~$270</strong></span></div>
+    <div style="background:var(--green-bg);border-radius:8px;padding:8px;margin-top:8px;font-size:12px;font-weight:700;color:var(--green);">&#10003; This $270 prevents the next $450+/wk vacancy gap. Pays for itself in &lt;5 days of one room rented.</div>
   </div>
 
   <div class="sec-label">&#127968; Room Pipeline</div>
@@ -634,8 +671,13 @@ main { max-width: 480px; margin: 0 auto; padding: 12px; }
     </div>
   </div>
 
-  <div style="background:var(--red-bg);border:2px solid var(--red-border);border-radius:14px;padding:14px;font-size:13px;margin-top:12px;">
-    <strong>&#128680; Supply Chain Rule:</strong> Rooms cannot move from "Waiting on Supplies" to "Cleaning" until delivery is confirmed. Keep 2-room buffer of bedding sets in stock to prevent future 3-day gaps. Next restock trigger: when reserve drops below 2 sets.
+  <div class="policy-box" style="margin-top:12px;">
+    <h3>&#128274; Room-Ready Kit Rules</h3>
+    <div class="policy-row"><div class="policy-day">Rule 1</div><div>Maintain 3 complete kits in reserve at all times (pillows + protectors + comforter + mattress protector)</div></div>
+    <div class="policy-row"><div class="policy-day">Rule 2</div><div>Restock trigger: when reserve drops to 1 kit, place Amazon order SAME DAY</div></div>
+    <div class="policy-row"><div class="policy-day">Rule 3</div><div>Room cannot move from "Waiting on Supplies" to "Cleaning" until kit is physically in hand</div></div>
+    <div class="policy-row"><div class="policy-day">Rule 4</div><div>When a tenant moves out, strip ALL bedding. Do NOT reuse pillows or mattress protectors (bed bug prevention). Comforter sets: wash and reuse if condition is 7/10+</div></div>
+    <div class="policy-row"><div class="policy-day">Cost</div><div>~$111/kit &bull; Reserve investment: $333 &bull; ROI: prevents $175-250/wk vacancy per room while waiting on Amazon (3-7 day delivery)</div></div>
   </div>
 </div>
 
@@ -693,12 +735,37 @@ main { max-width: 480px; margin: 0 auto; padding: 12px; }
     </tbody>
   </table>
 
-  <div class="sec-label" style="margin-top:20px;">&#128230; Supply Chain Status</div>
-  <div class="brief-card">
+  <div class="sec-label" style="margin-top:20px;">&#128230; Room-Ready Kit Inventory &mdash; Sandra Manages</div>
+  <div class="brief-card" style="border-left:5px solid var(--red);">
+    <div style="display:flex;gap:10px;margin-bottom:10px;">
+      <div style="flex:1;text-align:center;background:var(--red-bg);border-radius:8px;padding:10px;">
+        <div style="font-size:28px;font-weight:900;color:var(--red);">0</div>
+        <div style="font-size:10px;font-weight:700;color:var(--red);">KITS READY</div>
+      </div>
+      <div style="flex:1;text-align:center;background:var(--yellow-bg);border-radius:8px;padding:10px;">
+        <div style="font-size:28px;font-weight:900;color:var(--yellow);">3</div>
+        <div style="font-size:10px;font-weight:700;color:var(--yellow);">TARGET</div>
+      </div>
+      <div style="flex:1;text-align:center;background:var(--red-bg);border-radius:8px;padding:10px;">
+        <div style="font-size:28px;font-weight:900;color:var(--red);">3</div>
+        <div style="font-size:10px;font-weight:700;color:var(--red);">ROOMS BLOCKED</div>
+      </div>
+    </div>
     <div class="brief-row"><span class="brief-label">Order #...3656222 (bedding)</span><span class="brief-val green">Arriving Tomorrow</span></div>
-    <div class="brief-row"><span class="brief-label">Order #...8671402 (mattress protectors)</span><span class="brief-val yellow">Arriving Monday</span></div>
-    <div class="brief-row"><span class="brief-label">Rooms blocked by supplies</span><span class="brief-val red">3 (Caxton A/B/C)</span></div>
-    <div class="brief-row"><span class="brief-label">Reserve bedding sets</span><span class="brief-val red">0 &mdash; restock needed</span></div>
+    <div class="brief-row"><span class="brief-label">Order #...8671402 (protectors)</span><span class="brief-val yellow">Arriving Monday</span></div>
+    <div style="background:var(--red-bg);border-radius:8px;padding:8px;margin-top:8px;font-size:12px;font-weight:700;color:var(--red);">
+      &#128680; RESTOCK ALERT: After Caxton A/B/C are set up, reserve will still be 0. Order 3 reserve kits (~$270) immediately after current delivery.
+    </div>
+  </div>
+
+  <div class="brief-card" style="border-left:5px solid var(--blue);">
+    <div class="brief-title">&#128722; Standard Room-Ready Kit (~$111 each)</div>
+    <div class="brief-row"><span class="brief-label">JOLLYVOGUE Pillows 2-pk</span><span class="brief-val">$20.00</span></div>
+    <div class="brief-row"><span class="brief-label">Utopia Pillow Protectors (from 6-pk)</span><span class="brief-val">~$7.15</span></div>
+    <div class="brief-row"><span class="brief-label">Sweet Home Comforter Set 7pc Teal Full</span><span class="brief-val">$37.99</span></div>
+    <div class="brief-row"><span class="brief-label">Utopia Mattress Protector Queen (from 4-pk)</span><span class="brief-val">~$18.74</span></div>
+    <div class="brief-row" style="border-top:2px solid #E0E0E0;"><span class="brief-label"><strong>Per-Kit Total</strong></span><span class="brief-val"><strong>~$84-111</strong></span></div>
+    <div style="font-size:11px;color:var(--gray);margin-top:6px;">Restock trigger: When reserve drops to 1 kit, order same day. Never let it hit 0 again.</div>
   </div>
 </div>
 
@@ -887,14 +954,40 @@ main { max-width: 480px; margin: 0 auto; padding: 12px; }
   </div>
 
   <!-- SUPPLY CHAIN -->
-  <div class="sec-label">&#128230; Amazon Supply Chain</div>
-  <div class="brief-card">
+  <div class="sec-label">&#128230; Room-Ready Kit Supply Chain</div>
+  <div class="brief-card" style="border-left:5px solid var(--red);">
+    <div style="display:flex;gap:10px;margin-bottom:12px;">
+      <div style="flex:1;text-align:center;background:var(--red-bg);border-radius:10px;padding:12px;">
+        <div style="font-size:32px;font-weight:900;color:var(--red);">0</div>
+        <div style="font-size:10px;font-weight:700;color:var(--red);">KITS IN RESERVE</div>
+      </div>
+      <div style="flex:1;text-align:center;background:var(--yellow-bg);border-radius:10px;padding:12px;">
+        <div style="font-size:32px;font-weight:900;color:var(--yellow);">3</div>
+        <div style="font-size:10px;font-weight:700;color:var(--yellow);">TARGET</div>
+      </div>
+    </div>
     <div class="brief-row"><span class="brief-label">Active orders</span><span class="brief-val">2 ($263.36)</span></div>
     <div class="brief-row"><span class="brief-label">Rooms blocked by supplies</span><span class="brief-val red">3 (Caxton A/B/C)</span></div>
-    <div class="brief-row"><span class="brief-label">Revenue blocked</span><span class="brief-val red">$450/wk until delivery</span></div>
-    <div class="brief-row"><span class="brief-label">Reserve bedding sets</span><span class="brief-val red">0 &mdash; should be 2+</span></div>
-    <div style="background:var(--yellow-bg);border-radius:8px;padding:8px;margin-top:8px;font-size:12px;">
-      <strong>&#128161; Process fix:</strong> Keep 2 complete room kits (pillows + comforter + protectors) in reserve. Order replacements when reserve hits 1. Eliminates 3-5 day vacancy gaps waiting on Amazon.
+    <div class="brief-row"><span class="brief-label">Revenue blocked</span><span class="brief-val red">$450/wk ($64/day)</span></div>
+    <div class="brief-row"><span class="brief-label">Days blocked so far</span><span class="brief-val red">3 days = $192 lost</span></div>
+    <div class="brief-row"><span class="brief-label">If reserve had existed</span><span class="brief-val green">$0 lost &mdash; rooms ready same day</span></div>
+  </div>
+
+  <div class="brief-card" style="border-left:5px solid var(--green);">
+    <div class="brief-title">&#128161; Room-Ready Kit System (NEW PROCESS)</div>
+    <div style="font-size:13px;margin-bottom:10px;">
+      <strong>The problem:</strong> Every room turn needs bedding. Amazon takes 3-7 days. Rooms sit empty earning $0 while we wait.<br><br>
+      <strong>The fix:</strong> Keep 3 complete kits on the shelf. When a room turns, grab a kit &mdash; room is ready same day. Restock when reserve hits 1.
+    </div>
+    <div class="brief-row"><span class="brief-label"><strong>Kit contents</strong></span><span class="brief-val" style="font-size:12px;">2 pillows + 2 protectors + comforter set + mattress protector</span></div>
+    <div class="brief-row"><span class="brief-label">Cost per kit</span><span class="brief-val">~$111</span></div>
+    <div class="brief-row"><span class="brief-label">Reserve investment (3 kits)</span><span class="brief-val">~$333 one-time</span></div>
+    <div class="brief-row"><span class="brief-label">Cost of NOT having reserve</span><span class="brief-val red">$175-250/wk per room</span></div>
+    <div class="brief-row"><span class="brief-label">Payback period</span><span class="brief-val green">&lt;2 weeks (one room rented)</span></div>
+    <div class="brief-row"><span class="brief-label">Restock trigger</span><span class="brief-val">Reserve drops to 1 &rarr; order same day</span></div>
+    <div class="brief-row"><span class="brief-label">Sandra owns this</span><span class="brief-val">Monitors count, places orders</span></div>
+    <div style="background:var(--green-bg);border-radius:8px;padding:10px;margin-top:10px;font-size:13px;font-weight:700;color:var(--green);">
+      &#9989; ACTION: After current orders arrive + Caxton set up, order 3 reserve kits (~$270). This is a one-time investment that permanently eliminates the #1 cause of preventable vacancy days.
     </div>
   </div>
 
