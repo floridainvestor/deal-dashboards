@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>HGRT Command Center</title>
+<title>HGRT Operating System</title>
 <style>
 :root {
   --blue: #1565C0; --blue-dark: #0D47A1; --blue-light: #E3F2FD;
@@ -26,9 +26,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe 
 .topbar-left { display: flex; align-items: center; gap: 12px; }
 .topbar-logo { font-size: 18px; font-weight: 800; letter-spacing: -.5px; }
 .topbar-logo span { color: #FFD54F; }
-.topbar-right { display: flex; align-items: center; gap: 8px; }
-
-/* ROLE AVATARS */
 .avatars { display: flex; gap: 4px; }
 .avatar { width: 36px; height: 36px; border-radius: 50%; border: 2px solid rgba(255,255,255,.3); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; cursor: pointer; transition: all .2s; position: relative; }
 .avatar:hover { border-color: white; transform: scale(1.1); }
@@ -38,9 +35,9 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe 
 .avatar-jerel { background: #1E88E5; }
 .avatar .notif { position: absolute; top: -2px; right: -2px; width: 14px; height: 14px; border-radius: 50%; background: #FFD54F; color: var(--dark); font-size: 9px; font-weight: 800; display: flex; align-items: center; justify-content: center; border: 1.5px solid var(--blue-dark); }
 
-/* === NAV ICONS === */
-.nav-icons { display: flex; justify-content: center; gap: 2px; padding: 8px 12px; background: white; border-bottom: 1px solid #E0E0E0; position: sticky; top: 60px; z-index: 190; }
-.nav-icon { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 16px; border-radius: 8px; border: none; background: none; cursor: pointer; color: var(--gray); font-size: 10px; font-weight: 600; transition: all .15s; min-width: 64px; }
+/* === NAV === */
+.nav-icons { display: flex; justify-content: center; gap: 2px; padding: 8px 12px; background: white; border-bottom: 1px solid #E0E0E0; position: sticky; top: 60px; z-index: 190; overflow-x: auto; }
+.nav-icon { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 12px; border-radius: 8px; border: none; background: none; cursor: pointer; color: var(--gray); font-size: 10px; font-weight: 600; transition: all .15s; min-width: 56px; white-space: nowrap; }
 .nav-icon .ico { font-size: 20px; }
 .nav-icon:hover { background: var(--blue-light); color: var(--blue); }
 .nav-icon.active { background: var(--blue); color: white; border-radius: 10px; }
@@ -51,61 +48,126 @@ main { max-width: 480px; margin: 0 auto; padding: 12px; }
 .view { display: none; }
 .view.active { display: block; }
 
-/* === COMMAND CENTER CARDS === */
-.cc-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
-@media (min-width: 768px) { .cc-grid { grid-template-columns: 1fr 1fr 1fr; } .cc-grid-2 { grid-template-columns: 1fr 1fr; } }
+/* === HERO METRIC === */
+.hero-metric { background: linear-gradient(135deg, #B71C1C 0%, #C62828 50%, #D32F2F 100%); border-radius: 16px; padding: 20px; color: white; margin-bottom: 12px; text-align: center; box-shadow: var(--shadow-lg); }
+.hero-metric.green { background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #388E3C 100%); }
+.hero-metric-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; opacity: .8; }
+.hero-metric-val { font-size: 48px; font-weight: 900; letter-spacing: -2px; margin: 4px 0; }
+.hero-metric-sub { font-size: 14px; opacity: .85; }
+.hero-metric-bar { width: 100%; height: 10px; background: rgba(255,255,255,.2); border-radius: 100px; margin-top: 12px; overflow: hidden; }
+.hero-metric-fill { height: 100%; background: white; border-radius: 100px; transition: width .4s ease; }
 
-.cc-card { background: white; border-radius: 14px; box-shadow: var(--shadow); overflow: hidden; }
-.cc-header { padding: 12px 16px; color: white; font-weight: 700; font-size: 15px; display: flex; align-items: center; justify-content: space-between; }
-.cc-header .ico { font-size: 18px; }
-.cc-header-blue { background: var(--blue); }
-.cc-header-green { background: var(--green); }
-.cc-header-red { background: var(--red); }
-.cc-header-orange { background: var(--orange); }
-.cc-header-purple { background: var(--purple); }
-.cc-body { padding: 12px 16px; }
-.cc-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #F0F0F0; }
-.cc-row:last-child { border-bottom: none; }
-.cc-row-left { display: flex; align-items: center; gap: 10px; }
-.cc-num { font-size: 24px; font-weight: 800; color: var(--red); min-width: 28px; }
-.cc-num-green { color: var(--green); }
-.cc-num-yellow { color: var(--yellow); }
-.cc-label { font-size: 14px; color: var(--text); }
-.cc-badge { padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; }
-.cc-badge-red { background: var(--red-bg); color: var(--red); }
-.cc-badge-yellow { background: var(--yellow-bg); color: var(--yellow); }
-.cc-badge-green { background: var(--green-bg); color: var(--green); }
-.cc-badge-orange { background: var(--orange-bg); color: var(--orange); }
-.cc-footer { padding: 10px 16px; border-top: 1px solid #F0F0F0; }
-.cc-footer-btn { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 10px 14px; border-radius: 8px; border: none; font-size: 14px; font-weight: 700; cursor: pointer; color: white; }
-.cc-footer-btn-green { background: var(--green); }
-.cc-footer-btn-blue { background: var(--blue); }
-.cc-footer-btn-red { background: var(--red); }
-.cc-footer-btn-orange { background: var(--orange); }
+/* === MORNING BRIEF === */
+.brief-card { background: white; border-radius: 14px; box-shadow: var(--shadow); padding: 16px; margin-bottom: 12px; }
+.brief-title { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--gray); margin-bottom: 10px; }
+.brief-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid #F5F5F5; }
+.brief-row:last-child { border-bottom: none; }
+.brief-label { font-size: 14px; color: var(--text); }
+.brief-val { font-size: 14px; font-weight: 800; }
+.brief-val.red { color: var(--red); }
+.brief-val.green { color: var(--green); }
+.brief-val.yellow { color: var(--yellow); }
 
-/* === NEXT ACTION QUEUE === */
-.next-action { background: white; border-radius: 14px; box-shadow: var(--shadow); margin-bottom: 12px; overflow: hidden; border-left: 5px solid var(--red); }
-.next-action.done { border-left-color: var(--green); opacity: .6; }
-.next-action.urgent { border-left-color: var(--red); }
-.next-action.normal { border-left-color: var(--blue); }
-.next-action.warning { border-left-color: var(--yellow); }
-.na-top { padding: 14px 16px; }
-.na-step { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--red); margin-bottom: 4px; }
-.na-step-blue { color: var(--blue); }
-.na-step-green { color: var(--green); }
-.na-title { font-size: 17px; font-weight: 700; color: var(--dark); }
-.na-sub { font-size: 13px; color: var(--gray); margin-top: 4px; line-height: 1.4; }
-.na-buttons { padding: 0 16px 14px; display: flex; gap: 8px; flex-wrap: wrap; }
-.na-btn { padding: 10px 18px; border-radius: 10px; border: none; font-size: 14px; font-weight: 700; cursor: pointer; transition: all .15s; flex: 1; min-width: 100px; text-align: center; }
-.na-btn-green { background: var(--green); color: white; }
-.na-btn-red { background: var(--red); color: white; }
-.na-btn-blue { background: var(--blue); color: white; }
-.na-btn-yellow { background: var(--yellow); color: white; }
-.na-btn-outline { background: white; border: 2px solid #E0E0E0; color: var(--text); }
-.na-btn-disabled { background: #E0E0E0; color: #9E9E9E; cursor: not-allowed; }
-.na-btn:active:not(.na-btn-disabled) { transform: scale(.97); }
+/* === PRIORITY SECTIONS === */
+.pri-section { margin-bottom: 16px; }
+.pri-header { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: 10px; margin-bottom: 8px; color: white; font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: .5px; }
+.pri-header-red { background: var(--red); }
+.pri-header-orange { background: var(--orange); }
+.pri-header-blue { background: var(--blue); }
+.pri-header-green { background: var(--green); }
+.pri-header-gray { background: var(--gray); }
 
-/* === ROUTE CARD === */
+/* === TASK CARD === */
+.task-card { background: white; border-radius: 14px; box-shadow: var(--shadow); overflow: hidden; margin-bottom: 10px; border-left: 5px solid var(--gray); transition: opacity .3s, border-color .3s; }
+.task-card.t-red { border-left-color: var(--red); }
+.task-card.t-orange { border-left-color: var(--orange); }
+.task-card.t-blue { border-left-color: var(--blue); }
+.task-card.t-green { border-left-color: var(--green); }
+.task-card.t-yellow { border-left-color: var(--yellow); }
+.task-card.task-done { border-left-color: var(--green) !important; opacity: .45; }
+.task-card.task-done .tc-title { text-decoration: line-through; color: var(--gray); }
+.tc-top { padding: 14px 16px 8px; }
+.tc-title { font-size: 16px; font-weight: 800; color: var(--dark); }
+.tc-sub { font-size: 13px; color: var(--gray); margin-top: 4px; line-height: 1.4; }
+.tc-dollar { display: inline-block; padding: 3px 10px; border-radius: 6px; font-size: 13px; font-weight: 800; margin-top: 6px; }
+.tc-dollar-green { background: var(--green-bg); color: var(--green); }
+.tc-dollar-red { background: var(--red-bg); color: var(--red); }
+.tc-dollar-blue { background: var(--blue-light); color: var(--blue); }
+.tc-btns { padding: 8px 16px 14px; display: flex; gap: 6px; flex-wrap: wrap; }
+.tc-btn { padding: 10px 16px; border-radius: 10px; border: none; font-size: 13px; font-weight: 700; cursor: pointer; transition: all .15s; flex: 1; min-width: 80px; text-align: center; }
+.tc-btn:active { transform: scale(.97); }
+.tc-btn-green { background: var(--green); color: white; }
+.tc-btn-red { background: var(--red); color: white; }
+.tc-btn-blue { background: var(--blue); color: white; }
+.tc-btn-yellow { background: var(--yellow); color: white; }
+.tc-btn-outline { background: white; border: 2px solid #E0E0E0; color: var(--text); }
+.tc-btn-disabled { background: #E0E0E0; color: #9E9E9E; cursor: not-allowed; }
+.tc-done-row { display: flex; align-items: center; gap: 8px; padding: 0 16px 12px; cursor: pointer; user-select: none; }
+.tc-check { width: 22px; height: 22px; border-radius: 6px; border: 2.5px solid #BDBDBD; background: white; display: flex; align-items: center; justify-content: center; font-size: 13px; transition: all .2s; flex-shrink: 0; }
+.tc-check.checked { background: var(--green); border-color: var(--green); color: white; }
+.tc-check-label { font-size: 12px; font-weight: 700; color: var(--gray); }
+.tc-check-label.checked { color: var(--green); }
+
+/* === VACANCY KANBAN === */
+.kanban-scroll { overflow-x: auto; margin: 0 -12px; padding: 0 12px 12px; }
+.kanban { display: flex; gap: 10px; min-width: max-content; }
+.kanban-col { width: 200px; flex-shrink: 0; }
+.kanban-col-header { padding: 8px 12px; border-radius: 10px 10px 0 0; color: white; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .5px; text-align: center; }
+.kanban-col-body { background: #F0F2F5; border-radius: 0 0 10px 10px; padding: 8px; min-height: 100px; }
+.kanban-card { background: white; border-radius: 8px; padding: 10px; margin-bottom: 6px; box-shadow: 0 1px 3px rgba(0,0,0,.1); font-size: 12px; }
+.kanban-card:last-child { margin-bottom: 0; }
+.kc-addr { font-weight: 800; font-size: 13px; color: var(--dark); }
+.kc-room { font-weight: 600; color: var(--blue); }
+.kc-days { color: var(--red); font-weight: 700; font-size: 11px; margin-top: 4px; }
+.kc-cost { color: var(--red); font-size: 11px; }
+.kc-blocker { background: var(--yellow-bg); border: 1px solid var(--yellow-border); border-radius: 4px; padding: 4px 6px; font-size: 10px; font-weight: 700; color: var(--yellow); margin-top: 4px; }
+.kc-amazon { background: #FFF3E0; border: 1px solid #FFB74D; border-radius: 4px; padding: 4px 6px; font-size: 10px; font-weight: 700; color: var(--orange); margin-top: 4px; }
+.kc-amazon-ok { background: var(--green-bg); border: 1px solid var(--green-border); color: var(--green); }
+
+/* === POLICY BOX === */
+.policy-box { background: linear-gradient(135deg, #263238, #37474F); color: white; border-radius: 14px; padding: 16px; margin-bottom: 12px; }
+.policy-box h3 { font-size: 14px; margin-bottom: 10px; color: #FFD54F; }
+.policy-row { display: flex; gap: 12px; align-items: flex-start; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,.1); font-size: 13px; }
+.policy-row:last-child { border-bottom: none; }
+.policy-day { font-weight: 800; min-width: 60px; color: #FFD54F; }
+
+/* === SCORECARD TABLE === */
+.score-table { width: 100%; border-collapse: collapse; font-size: 13px; background: white; border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); }
+.score-table th { text-align: left; padding: 10px 10px; background: var(--blue-dark); color: white; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; }
+.score-table td { padding: 8px 10px; border-bottom: 1px solid #F0F0F0; }
+.score-table tr:last-child td { border-bottom: none; }
+.score-table .trend-up { color: var(--green); font-weight: 700; }
+.score-table .trend-down { color: var(--red); font-weight: 700; }
+
+/* === FUNNEL === */
+.funnel { display: flex; align-items: center; justify-content: center; gap: 4px; margin-bottom: 12px; flex-wrap: wrap; }
+.funnel-step { text-align: center; flex: 1; min-width: 60px; }
+.funnel-num { font-size: 22px; font-weight: 900; color: var(--blue); }
+.funnel-label { font-size: 9px; font-weight: 700; text-transform: uppercase; color: var(--gray); }
+.funnel-arrow { font-size: 16px; color: #BDBDBD; }
+.funnel-rate { font-size: 10px; color: var(--gray); text-align: center; }
+
+/* === WATERFALL === */
+.waterfall { background: white; border-radius: 14px; box-shadow: var(--shadow); overflow: hidden; margin-bottom: 12px; }
+.wf-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; border-bottom: 1px solid #F0F0F0; }
+.wf-row:last-child { border-bottom: none; }
+.wf-label { font-size: 14px; }
+.wf-val { font-size: 14px; font-weight: 800; }
+.wf-row.total { background: var(--red-bg); }
+.wf-row.collected { background: var(--green-bg); }
+
+/* === CAPACITY === */
+.capacity-card { background: white; border-radius: 14px; box-shadow: var(--shadow); padding: 16px; margin-bottom: 12px; border-left: 5px solid var(--orange); }
+.cap-bar { width: 100%; height: 20px; background: #E0E0E0; border-radius: 100px; overflow: hidden; margin: 8px 0; }
+.cap-fill { height: 100%; border-radius: 100px; background: var(--red); }
+
+/* === DECISION CARD === */
+.decision-card { background: white; border-radius: 14px; box-shadow: var(--shadow); padding: 16px; margin-bottom: 10px; border-left: 5px solid var(--red); }
+.decision-card .timer { font-size: 11px; font-weight: 700; color: var(--red); background: var(--red-bg); padding: 3px 8px; border-radius: 4px; display: inline-block; margin-bottom: 6px; }
+.decision-card .dc-title { font-size: 15px; font-weight: 800; }
+.decision-card .dc-sub { font-size: 13px; color: var(--gray); margin: 4px 0 10px; }
+
+/* === ROUTE === */
 .route-card { background: linear-gradient(135deg, #FF8F00 0%, #F57C00 100%); border-radius: 14px; padding: 16px; color: white; margin-bottom: 12px; box-shadow: var(--shadow); }
 .route-card h3 { font-size: 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
 .route-stop { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,.2); align-items: flex-start; }
@@ -114,95 +176,32 @@ main { max-width: 480px; margin: 0 auto; padding: 12px; }
 .rs-detail { flex: 1; }
 .rs-addr { font-weight: 700; font-size: 14px; }
 .rs-reason { font-size: 12px; opacity: .85; margin-top: 2px; }
+.rs-dollar { font-size: 12px; font-weight: 800; color: #FFD54F; margin-top: 2px; }
 .route-map-btn { display: block; width: 100%; padding: 12px; border-radius: 10px; background: white; color: var(--orange); font-weight: 800; font-size: 15px; border: none; cursor: pointer; margin-top: 12px; text-align: center; }
 
+/* === SECTION LABEL === */
+.sec-label { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--gray); margin: 20px 0 8px; padding-left: 4px; }
+
 /* === KPI BAR === */
-.kpi-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; }
+.kpi-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+.kpi-bar-4 { grid-template-columns: repeat(4, 1fr); }
 .kpi { background: white; border-radius: 12px; padding: 12px 8px; text-align: center; box-shadow: var(--shadow); }
-.kpi-val { font-size: 26px; font-weight: 800; }
+.kpi-val { font-size: 24px; font-weight: 800; }
 .kpi-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; color: var(--gray); margin-top: 2px; }
 .kpi-red { color: var(--red); }
 .kpi-green { color: var(--green); }
 .kpi-blue { color: var(--blue); }
 
-/* === SECTION LABEL === */
-.sec-label { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--gray); margin: 20px 0 8px; padding-left: 4px; }
-
-/* === LEAD CARD === */
-.lead-card { background: white; border-radius: 14px; box-shadow: var(--shadow); padding: 14px 16px; margin-bottom: 10px; border-left: 5px solid var(--blue); }
-.lead-card.urgent { border-left-color: var(--red); }
-.lead-card.waiting { border-left-color: var(--yellow); }
-.lead-card.escalated { border-left-color: var(--purple); }
-.lc-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-.lc-name { font-weight: 800; font-size: 16px; }
-.lc-badge { padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; }
-.lc-meta { font-size: 12px; color: var(--gray); margin-bottom: 10px; }
-.lc-next { font-size: 12px; font-weight: 700; color: var(--red); margin-bottom: 8px; }
-.lc-buttons { display: flex; gap: 6px; flex-wrap: wrap; }
-.lc-btn { padding: 8px 14px; border-radius: 8px; border: none; font-size: 13px; font-weight: 700; cursor: pointer; }
-
-/* === EXCEPTIONS (Sandra) === */
-.exc-card { background: white; border-radius: 14px; box-shadow: var(--shadow); padding: 14px 16px; margin-bottom: 10px; border-left: 5px solid var(--red); }
-.exc-card.warn { border-left-color: var(--yellow); }
-.exc-card.info { border-left-color: var(--blue); }
-.exc-title { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
-.exc-sub { font-size: 13px; color: var(--gray); margin-bottom: 10px; }
-
-/* === OWNER TABLE === */
-.owner-table { width: 100%; border-collapse: collapse; font-size: 14px; }
-.owner-table th { text-align: left; padding: 10px 12px; background: var(--blue-dark); color: white; font-size: 12px; text-transform: uppercase; letter-spacing: .5px; }
-.owner-table td { padding: 10px 12px; border-bottom: 1px solid #E0E0E0; }
-.owner-table tr:hover { background: var(--blue-light); }
-
-/* === ARCHITECTURE DIAGRAM === */
-.arch { background: linear-gradient(135deg, #0D47A1 0%, #1565C0 50%, #1976D2 100%); border-radius: 14px; padding: 20px; color: white; margin-bottom: 16px; }
-.arch h2 { font-size: 18px; margin-bottom: 4px; }
-.arch p { font-size: 13px; opacity: .8; margin-bottom: 16px; }
-.arch-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-@media (min-width: 768px) { .arch-grid { grid-template-columns: repeat(4, 1fr); } }
-.arch-box { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); border-radius: 10px; padding: 14px; text-align: center; }
-.arch-icon { font-size: 24px; margin-bottom: 6px; }
-.arch-tool { font-size: 14px; font-weight: 800; color: #FFD54F; }
-.arch-desc { font-size: 11px; opacity: .7; margin-top: 4px; }
-
-/* === PROGRESS BAR === */
-.progress-strip { background: white; border-radius: 14px; box-shadow: var(--shadow); padding: 14px 16px; margin-bottom: 12px; }
-.progress-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-.progress-title { font-size: 15px; font-weight: 800; color: var(--dark); }
-.progress-fraction { font-size: 22px; font-weight: 800; color: var(--blue); }
-.progress-bar-track { width: 100%; height: 12px; background: #E0E0E0; border-radius: 100px; overflow: hidden; }
-.progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--green), #4CAF50); border-radius: 100px; transition: width .4s ease; }
-.progress-bar-fill.danger { background: linear-gradient(90deg, var(--red), #E53935); }
-.progress-bar-fill.warn { background: linear-gradient(90deg, var(--yellow), #FDD835); }
-.progress-sub { font-size: 12px; color: var(--gray); margin-top: 6px; }
-.progress-reset { background: none; border: 1px solid #E0E0E0; border-radius: 6px; padding: 4px 10px; font-size: 11px; color: var(--gray); cursor: pointer; }
-.progress-reset:active { background: var(--gray-bg); }
-
-/* === DONE TOGGLE === */
-.done-toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 0 16px 12px; }
-.done-toggle { display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; }
-.done-checkbox { width: 24px; height: 24px; border-radius: 6px; border: 2.5px solid #BDBDBD; background: white; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: all .2s; flex-shrink: 0; }
-.done-checkbox.checked { background: var(--green); border-color: var(--green); color: white; }
-.done-label { font-size: 13px; font-weight: 700; color: var(--gray); }
-.done-label.checked { color: var(--green); }
-
-/* completed task styling */
-.next-action.task-done { border-left-color: var(--green) !important; opacity: .55; }
-.next-action.task-done .na-title { text-decoration: line-through; color: var(--gray); }
-.next-action.task-done .na-step { color: var(--green) !important; }
-
-/* completed summary at bottom */
-.completed-summary { background: var(--green-bg); border: 1.5px solid var(--green-border); border-radius: 14px; padding: 14px 16px; margin-top: 8px; display: none; }
-.completed-summary.visible { display: block; }
-.completed-summary-title { font-size: 13px; font-weight: 800; color: var(--green); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .5px; }
-.completed-item { display: flex; align-items: center; gap: 8px; padding: 5px 0; font-size: 13px; color: var(--green); border-bottom: 1px solid rgba(0,0,0,.06); }
-.completed-item:last-child { border-bottom: none; }
+/* === CLOSE DAY === */
+.close-day-btn { display: block; width: 100%; padding: 16px; border-radius: 14px; border: none; background: linear-gradient(135deg, var(--blue-dark), var(--blue)); color: white; font-size: 16px; font-weight: 800; cursor: pointer; margin: 20px 0; text-align: center; box-shadow: var(--shadow-lg); }
+.close-day-btn:active { transform: scale(.98); }
 
 /* === RESPONSIVE === */
 @media (max-width: 480px) {
   .kpi-bar { grid-template-columns: repeat(2, 1fr); }
-  .na-buttons { flex-direction: column; }
-  .na-btn { min-width: auto; }
+  .tc-btns { flex-direction: column; }
+  .tc-btn { min-width: auto; }
+  .hero-metric-val { font-size: 36px; }
 }
 </style>
 </head>
@@ -211,272 +210,260 @@ main { max-width: 480px; margin: 0 auto; padding: 12px; }
 <!-- TOP BAR -->
 <div class="topbar">
   <div class="topbar-left">
-    <div class="topbar-logo">HGRT <span>Command Center</span></div>
+    <div class="topbar-logo">HGRT <span>Operating System</span></div>
   </div>
-  <div class="topbar-right">
-    <div class="avatars">
-      <div class="avatar avatar-andrea active" onclick="switchRole('andrea')" title="Andrea">A<div class="notif">3</div></div>
-      <div class="avatar avatar-sandra" onclick="switchRole('sandra')" title="Sandra">S<div class="notif">4</div></div>
-      <div class="avatar avatar-jerel" onclick="switchRole('owner')" title="Jerel">J<div class="notif">1</div></div>
-    </div>
+  <div class="avatars">
+    <div class="avatar avatar-andrea active" onclick="switchRole('andrea')" title="Andrea">A<div class="notif">6</div></div>
+    <div class="avatar avatar-sandra" onclick="switchRole('sandra')" title="Sandra">S<div class="notif">3</div></div>
+    <div class="avatar avatar-jerel" onclick="switchRole('owner')" title="Jerel">J<div class="notif">2</div></div>
   </div>
 </div>
 
-<!-- ===== ANDREA ===== -->
+<!-- ===================== ANDREA ===================== -->
 <div id="role-andrea">
 <div class="nav-icons" id="andrea-nav">
-  <button class="nav-icon active" onclick="showTab('andrea','hoy')"><span class="ico">&#127968;</span>Today</button>
-  <button class="nav-icon" onclick="showTab('andrea','cobros')"><span class="ico">&#128176;</span>Collections</button>
-  <button class="nav-icon" onclick="showTab('andrea','prospectos')"><span class="ico">&#128100;</span>Leads</button>
-  <button class="nav-icon" onclick="showTab('andrea','limpieza')"><span class="ico">&#129529;</span>Cleaning</button>
-  <button class="nav-icon" onclick="showTab('andrea','ruta')"><span class="ico">&#128205;</span>Route</button>
+  <button class="nav-icon active" onclick="showTab('andrea','today')"><span class="ico">&#9889;</span>Today</button>
+  <button class="nav-icon" onclick="showTab('andrea','collections')"><span class="ico">&#128176;</span>Collect</button>
+  <button class="nav-icon" onclick="showTab('andrea','leads')"><span class="ico">&#128100;</span>Leads</button>
+  <button class="nav-icon" onclick="showTab('andrea','vacancy')"><span class="ico">&#127968;</span>Vacancy</button>
+  <button class="nav-icon" onclick="showTab('andrea','route')"><span class="ico">&#128205;</span>Route</button>
 </div>
 <main>
 
-<!-- ========== HOY ========== -->
-<div class="view active" id="andrea-hoy">
+<!-- ========== TODAY ========== -->
+<div class="view active" id="andrea-today">
 
-  <!-- COMMAND CENTER SUMMARY -->
-  <div class="cc-grid" style="margin-bottom:16px;">
-    <div class="cc-card">
-      <div class="cc-header cc-header-red">&#128176; Collections Today <span class="ico">&#9881;</span></div>
-      <div class="cc-body">
-        <div class="cc-row"><div class="cc-row-left"><div class="cc-num">4</div><div class="cc-label">due today</div></div><div class="cc-badge cc-badge-red">$845</div></div>
-        <div class="cc-row"><div class="cc-row-left"><div class="cc-num">2</div><div class="cc-label">past due</div></div><div class="cc-badge cc-badge-orange">$345</div></div>
-        <div class="cc-row"><div class="cc-row-left"><div class="cc-num cc-num-yellow">1</div><div class="cc-label">with late fee</div></div><div class="cc-badge cc-badge-yellow">1 Alert</div></div>
-      </div>
-      <div class="cc-footer"><button class="cc-footer-btn cc-footer-btn-green" onclick="showTab('andrea','cobros')">View Collections <span>$845 &#8594;</span></button></div>
-    </div>
-
-    <div class="cc-card">
-      <div class="cc-header cc-header-blue">&#127968; Showings Today <span class="ico">&#9881;</span></div>
-      <div class="cc-body">
-        <div class="cc-row"><div class="cc-row-left"><div class="cc-num cc-num-green">4</div><div class="cc-label">scheduled today</div></div><div style="font-size:20px">&#9888;&#65039;</div></div>
-        <div class="cc-row"><div class="cc-row-left"><div class="cc-num cc-num-yellow">1</div><div class="cc-label">needs confirmation</div></div><div style="font-size:20px">&#128312;</div></div>
-        <div class="cc-row"><div class="cc-row-left"><div class="cc-num">1</div><div class="cc-label">no follow-up sent</div></div><div style="font-size:20px">&#128308;</div></div>
-      </div>
-      <div class="cc-footer"><button class="cc-footer-btn cc-footer-btn-blue" onclick="showTab('andrea','prospectos')">View Showings <span>1 &#8594;</span></button></div>
-    </div>
-
-    <div class="cc-card">
-      <div class="cc-header cc-header-green">&#128100; Leads Today <span class="ico">&#9881;</span></div>
-      <div class="cc-body">
-        <div class="cc-row"><div class="cc-row-left"><div class="cc-num cc-num-green">5</div><div class="cc-label">new leads</div></div><div style="font-size:16px">&#128172;&#10003;</div></div>
-        <div class="cc-row"><div class="cc-row-left"><div class="cc-num cc-num-yellow">2</div><div class="cc-label">follow-up today</div></div><div style="font-size:20px">&#9888;&#65039;</div></div>
-        <div class="cc-row"><div class="cc-row-left"><div class="cc-num">1</div><div class="cc-label">needs alt room offer</div></div><div style="font-size:20px">&#128308;</div></div>
-      </div>
-      <div class="cc-footer"><button class="cc-footer-btn cc-footer-btn-green" onclick="showTab('andrea','prospectos')">View Leads <span>1 Alert &#8594;</span></button></div>
-    </div>
+  <!-- HERO: THE ONE NUMBER -->
+  <div class="hero-metric" id="hero-leak">
+    <div class="hero-metric-label">Weekly Revenue Leak</div>
+    <div class="hero-metric-val" id="hero-val">$7,600</div>
+    <div class="hero-metric-sub">55% captured &mdash; Target: 95% &mdash; <strong>$395K/yr lost</strong></div>
+    <div class="hero-metric-bar"><div class="hero-metric-fill" style="width:55%"></div></div>
   </div>
 
-  <div class="cc-grid cc-grid-2" style="margin-bottom:16px;">
-    <div class="cc-card">
-      <div class="cc-header" style="background:#558B2F;">&#129529; Cleaning / Repairs Today <span class="ico">&#9881;</span></div>
-      <div class="cc-body">
-        <div class="cc-row"><div class="cc-row-left"><div class="cc-num">3</div><div class="cc-label">cleanings pending</div></div><div style="font-size:20px">&#9888;&#65039;</div></div>
-        <div class="cc-row"><div class="cc-row-left"><div class="cc-num cc-num-yellow">2</div><div class="cc-label">repairs pending</div></div><div style="font-size:20px">&#9888;&#65039;</div></div>
-        <div class="cc-row"><div class="cc-row-left"><div class="cc-num">1</div><div class="cc-label">waiting on supplies</div></div><div style="font-size:20px">&#128308;</div></div>
-      </div>
-      <div class="cc-footer"><button class="cc-footer-btn cc-footer-btn-green" onclick="showTab('andrea','limpieza')">View Tasks <span>1 &#8594;</span></button></div>
-    </div>
-
-    <!-- ROUTE MINI -->
-    <div class="cc-card">
-      <div class="cc-header" style="background:#F57C00;">&#128205; Today's Route <span class="ico">&#9881;</span></div>
-      <div class="cc-body" style="font-size:14px;">
-        <div class="cc-row"><div class="cc-row-left"><strong>1.</strong>&nbsp; 7821 Caxton Cir</div><div style="font-size:12px;color:var(--gray)">Repair + Collect</div></div>
-        <div class="cc-row"><div class="cc-row-left"><strong>2.</strong>&nbsp; 7862 Hastings St</div><div style="font-size:12px;color:var(--blue);font-weight:700">Showing 2pm</div></div>
-        <div class="cc-row"><div class="cc-row-left"><strong>3.</strong>&nbsp; 6132 Horseshoe Dr</div><div style="font-size:12px;color:var(--gray)">Collect</div></div>
-        <div class="cc-row"><div class="cc-row-left"><strong>4.</strong>&nbsp; 355 Linden Ln</div><div style="font-size:12px;color:var(--red);font-weight:700">Clean OVERDUE</div></div>
-      </div>
-      <div class="cc-footer"><a href="https://www.google.com/maps/dir/7821+Caxton+Cir+E+Jacksonville+FL/7862+Hastings+St+Jacksonville+FL/6132+Horseshoe+Dr+Jacksonville+FL/355+Linden+Ln+Orange+Park+FL" target="_blank" style="text-decoration:none;"><button class="cc-footer-btn cc-footer-btn-orange" style="width:100%;">&#128506; Open in Maps &#8594;</button></a></div>
-    </div>
+  <!-- YESTERDAY'S RESULTS -->
+  <div class="brief-card">
+    <div class="brief-title">&#128202; Yesterday's Results</div>
+    <div class="brief-row"><span class="brief-label">Collections</span><span class="brief-val yellow">$1,845 of $2,800 (66%)</span></div>
+    <div class="brief-row"><span class="brief-label">Showings</span><span class="brief-val red">2 done, 1 no-show, 0 signed</span></div>
+    <div class="brief-row"><span class="brief-label">Rooms turned market-ready</span><span class="brief-val red">0 (target: 1)</span></div>
+    <div class="brief-row"><span class="brief-label">Photos submitted</span><span class="brief-val green">3 &#10003;</span></div>
+    <div class="brief-row"><span class="brief-label">Your $/hr yesterday</span><span class="brief-val yellow">$307/hr (6 hrs)</span></div>
   </div>
 
-  <!-- NEXT ACTION QUEUE -->
-  <div class="sec-label">&#9889; Next Action Queue</div>
-
-  <!-- PROGRESS STRIP -->
-  <div class="progress-strip" id="hoy-progress-strip">
-    <div class="progress-header">
+  <!-- TODAY'S TARGET -->
+  <div class="brief-card" style="border-left: 5px solid var(--green);">
+    <div class="brief-title">&#127919; Today's Target</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;">
       <div>
-        <div class="progress-title">&#128203; Today's Progress</div>
-        <div class="progress-sub" id="hoy-progress-sub">0 of 5 tasks completed</div>
+        <div style="font-size:28px;font-weight:900;color:var(--green);" id="target-val">$3,245</div>
+        <div style="font-size:12px;color:var(--gray);">to recover today</div>
       </div>
-      <div style="display:flex;align-items:center;gap:12px;">
-        <div class="progress-fraction" id="hoy-progress-frac">0/5</div>
-        <button class="progress-reset" onclick="resetProgress()" title="Start over">&#8635; Reset</button>
+      <div style="text-align:right;">
+        <div style="font-size:20px;font-weight:900;color:var(--blue);" id="recovered-val">$0</div>
+        <div style="font-size:12px;color:var(--gray);">recovered so far</div>
       </div>
     </div>
-    <div class="progress-bar-track">
-      <div class="progress-bar-fill danger" id="hoy-progress-fill" style="width:0%"></div>
+    <div style="width:100%;height:10px;background:#E0E0E0;border-radius:100px;margin-top:10px;overflow:hidden;">
+      <div id="target-fill" style="width:0%;height:100%;background:var(--green);border-radius:100px;transition:width .4s;"></div>
     </div>
   </div>
 
-  <!-- PASO 1 -->
-  <div class="next-action urgent" id="task-1">
-    <div class="na-top">
-      <div class="na-step" id="task-1-step">&#128308; STEP 1 — NOW</div>
-      <div class="na-title" id="task-1-title">Collect from Jhoan — 6132 Horseshoe A</div>
-      <div class="na-sub">Owes: $180 &nbsp;|&nbsp; Always pays: $135 &nbsp;|&nbsp; Running balance: $180+ &nbsp;|&nbsp; <strong style="color:var(--red)">CHRONIC — 4 weeks</strong></div>
-    </div>
-    <div class="na-buttons">
-      <button class="na-btn na-btn-green" onclick="markDone(1, this)">&#10003; Paid $180</button>
-      <button class="na-btn na-btn-yellow">Partial</button>
-      <button class="na-btn na-btn-outline">&#128247; Cash + Receipt Photo</button>
-      <button class="na-btn na-btn-red" onclick="markDone(1, this)">Didn't Pay</button>
-    </div>
-    <div class="done-toggle-row">
-      <label class="done-toggle" onclick="toggleTask(1)">
-        <div class="done-checkbox" id="check-1"></div>
-        <span class="done-label" id="check-1-label">Mark as done</span>
-      </label>
+  <!-- PRIORITY TIER 1: HIGHEST VALUE -->
+  <div class="pri-section">
+    <div class="pri-header pri-header-red">&#128308; Highest Value &mdash; Do First</div>
+
+    <div class="task-card t-red" id="task-1">
+      <div class="tc-top">
+        <div class="tc-title">Show Room D to Maria G. &mdash; 7862 Hastings</div>
+        <div class="tc-sub">Budget: $150/wk &bull; Move-in: ASAP &bull; Spanish &bull; AI booked &bull; <a href="https://www.google.com/maps/search/7862+Hastings+St+Jacksonville+FL" target="_blank" style="color:var(--blue);font-weight:700">&#128506; Maps</a></div>
+        <div class="tc-dollar tc-dollar-green">+$9,100/yr if signed &bull; ~30 min</div>
+      </div>
+      <div class="tc-btns">
+        <button class="tc-btn tc-btn-green" onclick="markDone(1,this,'$9,100/yr')">&#10003; Rented</button>
+        <button class="tc-btn tc-btn-red" onclick="markDone(1,this)">No-Show</button>
+        <button class="tc-btn tc-btn-blue" onclick="markDone(1,this)">Offer Alt Room</button>
+        <button class="tc-btn tc-btn-outline">&#128222; Call</button>
+      </div>
+      <div class="tc-done-row" onclick="toggleTask(1)">
+        <div class="tc-check" id="chk-1"></div>
+        <span class="tc-check-label" id="chk-1-lbl">Mark as done</span>
+      </div>
     </div>
   </div>
 
-  <!-- PASO 2 -->
-  <div class="next-action urgent" id="task-2">
-    <div class="na-top">
-      <div class="na-step" id="task-2-step">&#128308; STEP 2 — NOW</div>
-      <div class="na-title" id="task-2-title">Collect from Victoria — 6132 Horseshoe RV1 (CASH)</div>
-      <div class="na-sub">Owes: $212 &nbsp;|&nbsp; Method: Cash &nbsp;|&nbsp; <strong style="color:var(--orange)">&#128274; Receipt photo required to mark paid</strong></div>
-    </div>
-    <div class="na-buttons">
-      <button class="na-btn na-btn-outline" style="flex:2;" onclick="markDone(2, this)">&#128247; Take Receipt Photo</button>
-      <button class="na-btn na-btn-disabled">&#128274; Mark Paid (photo required)</button>
-    </div>
-    <div class="done-toggle-row">
-      <label class="done-toggle" onclick="toggleTask(2)">
-        <div class="done-checkbox" id="check-2"></div>
-        <span class="done-label" id="check-2-label">Mark as done</span>
-      </label>
+  <!-- PRIORITY TIER 2: STOP THE BLEEDING -->
+  <div class="pri-section">
+    <div class="pri-header pri-header-orange">&#9888;&#65039; Stop the Bleeding &mdash; Policy Enforcement</div>
+
+    <div class="task-card t-orange" id="task-2">
+      <div class="tc-top">
+        <div class="tc-title">Deliver 3-Day Notice: Dominico &mdash; 346 Linden RV2</div>
+        <div class="tc-sub">14 days late &bull; Owes: $500+ &bull; No workout plan on file &bull; <strong style="color:var(--red)">Policy: Notice required by Day 2</strong></div>
+        <div class="tc-dollar tc-dollar-red">Losing $95/wk = $4,940/yr</div>
+      </div>
+      <div class="tc-btns">
+        <button class="tc-btn tc-btn-outline" style="flex:2;">&#128247; Photo of Delivered Notice</button>
+        <button class="tc-btn tc-btn-disabled">&#128274; Complete (photo required)</button>
+      </div>
+      <div class="tc-done-row" onclick="toggleTask(2)">
+        <div class="tc-check" id="chk-2"></div>
+        <span class="tc-check-label" id="chk-2-lbl">Mark as done</span>
+      </div>
     </div>
   </div>
 
-  <!-- PASO 3 -->
-  <div class="next-action normal" style="border-left-color:var(--blue);" id="task-3">
-    <div class="na-top">
-      <div class="na-step na-step-blue" id="task-3-step">&#128312; STEP 3 — 2:00 PM</div>
-      <div class="na-title" id="task-3-title">Showing: Maria G. — 7862 Hastings Room D</div>
-      <div class="na-sub">Budget: $150/wk &nbsp;|&nbsp; Move-in: ASAP &nbsp;|&nbsp; Language: Spanish &nbsp;|&nbsp; AI booked &nbsp;|&nbsp; <a href="https://www.google.com/maps/search/7862+Hastings+St+Jacksonville+FL" target="_blank" style="color:var(--blue);font-weight:700">&#128506; Maps</a></div>
+  <!-- PRIORITY TIER 3: COLLECT -->
+  <div class="pri-section">
+    <div class="pri-header pri-header-blue">&#128176; Collect &mdash; Money in Hand</div>
+
+    <div class="task-card t-blue" id="task-3">
+      <div class="tc-top">
+        <div class="tc-title">Collect from Victoria &mdash; 6132 Horseshoe RV1</div>
+        <div class="tc-sub">Owes: $212 &bull; Method: Cash &bull; <strong style="color:var(--orange)">&#128274; Receipt photo required</strong></div>
+        <div class="tc-dollar tc-dollar-blue">+$212 if collected &bull; ~15 min</div>
+      </div>
+      <div class="tc-btns">
+        <button class="tc-btn tc-btn-outline" style="flex:2;" onclick="markDone(3,this,'+$212')">&#128247; Take Receipt Photo</button>
+        <button class="tc-btn tc-btn-disabled">&#128274; Mark Paid (photo first)</button>
+      </div>
+      <div class="tc-done-row" onclick="toggleTask(3)">
+        <div class="tc-check" id="chk-3"></div>
+        <span class="tc-check-label" id="chk-3-lbl">Mark as done</span>
+      </div>
     </div>
-    <div class="na-buttons">
-      <button class="na-btn na-btn-green" onclick="markDone(3, this)">&#10003; Rented</button>
-      <button class="na-btn na-btn-red" onclick="markDone(3, this)">No-Show</button>
-      <button class="na-btn na-btn-blue" onclick="markDone(3, this)">Offer Alt Room</button>
-      <button class="na-btn na-btn-outline">&#128222; Call</button>
-    </div>
-    <div class="done-toggle-row">
-      <label class="done-toggle" onclick="toggleTask(3)">
-        <div class="done-checkbox" id="check-3"></div>
-        <span class="done-label" id="check-3-label">Mark as done</span>
-      </label>
+
+    <div class="task-card t-blue" id="task-4">
+      <div class="tc-top">
+        <div class="tc-title">Collect from Jhoan &mdash; 6132 Horseshoe A</div>
+        <div class="tc-sub">Owes: $180 &bull; Always pays $135 &bull; Running balance: $180+ &bull; <strong style="color:var(--red)">CHRONIC &mdash; 4 weeks &bull; $15 late fee + $5/day accruing</strong></div>
+        <div class="tc-dollar tc-dollar-blue">+$180 if full &bull; ~15 min</div>
+      </div>
+      <div class="tc-btns">
+        <button class="tc-btn tc-btn-green" onclick="markDone(4,this,'+$180')">Paid $180</button>
+        <button class="tc-btn tc-btn-yellow">Partial</button>
+        <button class="tc-btn tc-btn-red" onclick="markDone(4,this)">Didn't Pay</button>
+      </div>
+      <div class="tc-done-row" onclick="toggleTask(4)">
+        <div class="tc-check" id="chk-4"></div>
+        <span class="tc-check-label" id="chk-4-lbl">Mark as done</span>
+      </div>
     </div>
   </div>
 
-  <!-- PASO 4 -->
-  <div class="next-action warning" style="border-left-color:var(--yellow);" id="task-4">
-    <div class="na-top">
-      <div class="na-step" style="color:var(--yellow);" id="task-4-step">&#128312; STEP 4 — TODAY</div>
-      <div class="na-title" id="task-4-title">Follow-Up: Jorge M. — asked about 1160 Tumbleweed</div>
-      <div class="na-sub">Budget: $160/wk &nbsp;|&nbsp; Said "too far from work" &nbsp;|&nbsp; AI offered 2331 W 10th ($175) &nbsp;|&nbsp; No reply in 2 days</div>
-    </div>
-    <div class="na-buttons">
-      <button class="na-btn na-btn-blue" onclick="markDone(4, this)">Send Follow-Up</button>
-      <button class="na-btn na-btn-blue" onclick="markDone(4, this)">Offer Alt Room</button>
-      <button class="na-btn na-btn-outline" onclick="markDone(4, this)">Escalate to Sandra</button>
-      <button class="na-btn na-btn-disabled">&#128274; Mark Lost</button>
-    </div>
-    <div class="done-toggle-row">
-      <label class="done-toggle" onclick="toggleTask(4)">
-        <div class="done-checkbox" id="check-4"></div>
-        <span class="done-label" id="check-4-label">Mark as done</span>
-      </label>
+  <!-- PRIORITY TIER 4: UNBLOCK VACANCY -->
+  <div class="pri-section">
+    <div class="pri-header pri-header-green">&#127968; Unblock Vacancy &mdash; Every Day Costs $$$</div>
+
+    <div class="task-card t-green" id="task-5">
+      <div class="tc-top">
+        <div class="tc-title">Upload Cleaning Photo &mdash; 355 Linden Ln</div>
+        <div class="tc-sub">Last cleaned: Mar 22 (17 days ago) &bull; Felix assigned &bull; <strong style="color:var(--red)">Photo required to mark complete</strong></div>
+        <div class="tc-dollar tc-dollar-green">Unlocks $175/wk listing &bull; $425 lost so far</div>
+      </div>
+      <div class="tc-btns">
+        <button class="tc-btn tc-btn-outline" style="flex:2;" onclick="markDone(5,this)">&#128247; Upload After Photo</button>
+        <button class="tc-btn tc-btn-disabled">&#128274; Complete (photo required)</button>
+      </div>
+      <div class="tc-done-row" onclick="toggleTask(5)">
+        <div class="tc-check" id="chk-5"></div>
+        <span class="tc-check-label" id="chk-5-lbl">Mark as done</span>
+      </div>
     </div>
   </div>
 
-  <!-- PASO 5 -->
-  <div class="next-action warning" style="border-left-color:var(--red);" id="task-5">
-    <div class="na-top">
-      <div class="na-step" id="task-5-step">&#128308; STEP 5 — TODAY</div>
-      <div class="na-title" id="task-5-title">OVERDUE Cleaning — 355 Linden Ln</div>
-      <div class="na-sub">Last cleaned: Mar 22 (17 days ago) &nbsp;|&nbsp; Felix assigned &nbsp;|&nbsp; <strong style="color:var(--red)">Photo required to complete</strong></div>
-    </div>
-    <div class="na-buttons">
-      <button class="na-btn na-btn-outline" style="flex:2;" onclick="markDone(5, this)">&#128247; Upload Cleaning Photo</button>
-      <button class="na-btn na-btn-disabled">&#128274; Complete (photo required)</button>
-    </div>
-    <div class="done-toggle-row">
-      <label class="done-toggle" onclick="toggleTask(5)">
-        <div class="done-checkbox" id="check-5"></div>
-        <span class="done-label" id="check-5-label">Mark as done</span>
-      </label>
+  <!-- PRIORITY TIER 5: IF TIME PERMITS -->
+  <div class="pri-section">
+    <div class="pri-header pri-header-gray">&#128337; If Time Permits</div>
+
+    <div class="task-card" id="task-6">
+      <div class="tc-top">
+        <div class="tc-title">Follow-Up: Jorge M. &mdash; asked about 1160 Tumbleweed</div>
+        <div class="tc-sub">Budget: $160/wk &bull; Said "too far from work" &bull; AI offered 2331 W 10th ($175) &bull; No reply 2 days</div>
+        <div class="tc-dollar tc-dollar-blue">+$160/wk possible</div>
+      </div>
+      <div class="tc-btns">
+        <button class="tc-btn tc-btn-blue" onclick="markDone(6,this)">Send Follow-Up</button>
+        <button class="tc-btn tc-btn-blue" onclick="markDone(6,this)">Offer Alt Room</button>
+        <button class="tc-btn tc-btn-outline" onclick="markDone(6,this)">Escalate to Sandra</button>
+      </div>
+      <div class="tc-done-row" onclick="toggleTask(6)">
+        <div class="tc-check" id="chk-6"></div>
+        <span class="tc-check-label" id="chk-6-lbl">Mark as done</span>
+      </div>
     </div>
   </div>
 
-  <!-- COMPLETED SUMMARY -->
-  <div class="completed-summary" id="completed-summary">
-    <div class="completed-summary-title">&#9989; Completed Today</div>
-    <div id="completed-list"></div>
-  </div>
+  <!-- CLOSE DAY BUTTON -->
+  <button class="close-day-btn" onclick="closeDay()">&#127769; Close Day &mdash; Submit Results</button>
 
 </div>
 
-<!-- ========== COBROS ========== -->
-<div class="view" id="andrea-cobros">
-  <div class="kpi-bar">
+<!-- ========== COLLECTIONS ========== -->
+<div class="view" id="andrea-collections">
+
+  <div class="kpi-bar kpi-bar-4">
     <div class="kpi"><div class="kpi-val kpi-green">$9.4K</div><div class="kpi-label">Collected</div></div>
     <div class="kpi"><div class="kpi-val kpi-red">$17K</div><div class="kpi-label">Potential</div></div>
     <div class="kpi"><div class="kpi-val kpi-red">11</div><div class="kpi-label">Short/Late</div></div>
     <div class="kpi"><div class="kpi-val kpi-red">8</div><div class="kpi-label">Chronic</div></div>
   </div>
 
-  <div class="sec-label">&#128680; Chronic Underpayers — Jerel decision needed</div>
-  <div class="next-action urgent">
-    <div class="na-top">
-      <div class="na-step">&#128308; CHRONIC — $45/week = $2,340/year</div>
-      <div class="na-title">Jhoan — 6132 Horseshoe A</div>
-      <div class="na-sub">Rent: $180 &nbsp;|&nbsp; Always pays: $135 &nbsp;|&nbsp; Running balance (4 wks): $180</div>
-    </div>
-    <div class="na-buttons">
-      <button class="na-btn na-btn-green">Paid $180</button>
-      <button class="na-btn na-btn-yellow">Partial</button>
-      <button class="na-btn na-btn-red">Didn't Pay</button>
-    </div>
+  <!-- LATE FEE POLICY -->
+  <div class="policy-box">
+    <h3>&#128274; Late Fee Policy &mdash; System Enforced</h3>
+    <div class="policy-row"><div class="policy-day">Day 1 Late</div><div>$15 late fee added automatically</div></div>
+    <div class="policy-row"><div class="policy-day">Day 2+</div><div>+$5/day added automatically &bull; <strong>3-Day Notice posted</strong> (unless workout plan documented)</div></div>
+    <div class="policy-row"><div class="policy-day">Day 5+</div><div>Escalated to Jerel for eviction decision</div></div>
+    <div class="policy-row"><div class="policy-day">Workout</div><div>If tenant has a documented payment plan, 3-Day Notice is paused &mdash; but late fees still accrue</div></div>
   </div>
-  <div class="next-action urgent">
-    <div class="na-top">
-      <div class="na-step">&#128308; CHRONIC — $95/week = $4,940/year</div>
-      <div class="na-title">Dominico — 346 Linden RV2</div>
-      <div class="na-sub">Rent: $250 &nbsp;|&nbsp; Pays: $145-170 &nbsp;|&nbsp; Running balance (4 wks): $320+</div>
+
+  <div class="sec-label">&#128680; Chronic Underpayers &mdash; Active Enforcement</div>
+
+  <div class="task-card t-red">
+    <div class="tc-top">
+      <div class="tc-title">Dominico &mdash; 346 Linden RV2</div>
+      <div class="tc-sub">Rent: $250 &bull; Pays: $145-170 &bull; Running balance: $320+ &bull; 4 weeks &bull; <strong style="color:var(--red)">3-Day Notice required</strong></div>
+      <div class="tc-dollar tc-dollar-red">$95/wk loss = $4,940/yr &bull; Late fees: $15 + $65 accrued</div>
     </div>
-    <div class="na-buttons">
-      <button class="na-btn na-btn-green">Paid $250</button>
-      <button class="na-btn na-btn-yellow">Partial</button>
-      <button class="na-btn na-btn-red">Escalate to Jerel</button>
+    <div class="tc-btns">
+      <button class="tc-btn tc-btn-green">Paid $250</button>
+      <button class="tc-btn tc-btn-yellow">Partial</button>
+      <button class="tc-btn tc-btn-outline">&#128247; Deliver Notice + Photo</button>
     </div>
   </div>
 
-  <div class="sec-label">&#128176; Paid This Week</div>
-  <div class="next-action done">
-    <div class="na-top">
-      <div class="na-step na-step-green">&#9989; PAID</div>
-      <div class="na-title">Carlos — 840 Harrison A</div>
-      <div class="na-sub">Rent: $340 &nbsp;|&nbsp; Paid: $340 &nbsp;|&nbsp; Zelle</div>
+  <div class="task-card t-red">
+    <div class="tc-top">
+      <div class="tc-title">Jhoan &mdash; 6132 Horseshoe A</div>
+      <div class="tc-sub">Rent: $180 &bull; Always pays: $135 &bull; Running balance: $180 &bull; 4 weeks &bull; Late fees: $15 + $45 accrued</div>
+      <div class="tc-dollar tc-dollar-red">$45/wk loss = $2,340/yr</div>
+    </div>
+    <div class="tc-btns">
+      <button class="tc-btn tc-btn-green">Paid $180</button>
+      <button class="tc-btn tc-btn-yellow">Partial</button>
+      <button class="tc-btn tc-btn-red">Didn't Pay</button>
     </div>
   </div>
-  <div class="next-action done">
-    <div class="na-top">
-      <div class="na-step na-step-green">&#9989; PAID</div>
-      <div class="na-title">Jorge — 7848 Hastings A</div>
-      <div class="na-sub">Rent: $175 &nbsp;|&nbsp; Paid: $175 &nbsp;|&nbsp; Cash App</div>
+
+  <div class="sec-label">&#9989; Paid This Week</div>
+  <div class="task-card t-green" style="opacity:.5;">
+    <div class="tc-top">
+      <div class="tc-title" style="text-decoration:line-through;">Carlos &mdash; 840 Harrison A</div>
+      <div class="tc-sub">Rent: $340 &bull; Paid: $340 &bull; Zelle &bull; On time</div>
+    </div>
+  </div>
+  <div class="task-card t-green" style="opacity:.5;">
+    <div class="tc-top">
+      <div class="tc-title" style="text-decoration:line-through;">Jorge &mdash; 7848 Hastings A</div>
+      <div class="tc-sub">Rent: $175 &bull; Paid: $175 &bull; Cash App &bull; On time</div>
     </div>
   </div>
 </div>
 
-<!-- ========== PROSPECTOS ========== -->
-<div class="view" id="andrea-prospectos">
-  <div class="kpi-bar">
+<!-- ========== LEADS ========== -->
+<div class="view" id="andrea-leads">
+  <div class="kpi-bar kpi-bar-4">
     <div class="kpi"><div class="kpi-val kpi-blue">7</div><div class="kpi-label">Active</div></div>
     <div class="kpi"><div class="kpi-val kpi-green">&lt;2m</div><div class="kpi-label">AI Response</div></div>
     <div class="kpi"><div class="kpi-val kpi-blue">3</div><div class="kpi-label">Showings</div></div>
@@ -485,224 +472,430 @@ main { max-width: 480px; margin: 0 auto; padding: 12px; }
 
   <div class="sec-label">&#9889; Action Required</div>
 
-  <div class="lead-card urgent">
-    <div class="lc-top"><div class="lc-name">Maria G.</div><span class="lc-badge" style="background:var(--blue);color:white;">Showing Today 2pm</span></div>
-    <div class="lc-meta">FB Marketplace &nbsp;|&nbsp; $150/wk &nbsp;|&nbsp; Westside &nbsp;|&nbsp; ASAP &nbsp;|&nbsp; Spanish</div>
-    <div class="lc-next">&#9889; NEXT: Show 7862 Hastings Room D at 2:00 PM</div>
-    <div class="lc-buttons">
-      <button class="lc-btn" style="background:var(--green);color:white;">&#10003; Rented</button>
-      <button class="lc-btn" style="background:var(--red);color:white;">No-Show</button>
-      <button class="lc-btn" style="background:var(--blue);color:white;">Offer Alt Room</button>
+  <div class="task-card t-blue">
+    <div class="tc-top">
+      <div class="tc-title">Maria G. &mdash; Showing Today 2pm</div>
+      <div class="tc-sub">FB Marketplace &bull; $150/wk &bull; Westside &bull; ASAP &bull; Spanish</div>
+      <div class="tc-dollar tc-dollar-green">Show 7862 Hastings Room D at 2:00 PM</div>
+    </div>
+    <div class="tc-btns">
+      <button class="tc-btn tc-btn-green">&#10003; Rented</button>
+      <button class="tc-btn tc-btn-red">No-Show</button>
+      <button class="tc-btn tc-btn-blue">Offer Alt Room</button>
     </div>
   </div>
 
-  <div class="lead-card waiting">
-    <div class="lc-top"><div class="lc-name">Jorge M.</div><span class="lc-badge" style="background:var(--yellow);color:white;">Follow-Up Today</span></div>
-    <div class="lc-meta">FB Marketplace &nbsp;|&nbsp; $160/wk &nbsp;|&nbsp; Orange Park &nbsp;|&nbsp; Apr 15</div>
-    <div class="lc-next">&#9889; NEXT: Send follow-up or offer alt room (no reply in 2 days)</div>
-    <div class="lc-buttons">
-      <button class="lc-btn" style="background:var(--blue);color:white;">Send Follow-Up</button>
-      <button class="lc-btn" style="background:var(--blue);color:white;">Offer Alt Room</button>
-      <button class="lc-btn" style="background:white;border:2px solid #E0E0E0;">Escalate to Sandra</button>
-      <button class="lc-btn" style="background:#E0E0E0;color:#9E9E9E;cursor:not-allowed;">&#128274; Mark Lost</button>
+  <div class="task-card t-yellow">
+    <div class="tc-top">
+      <div class="tc-title">Jorge M. &mdash; Follow-Up Today</div>
+      <div class="tc-sub">FB Marketplace &bull; $160/wk &bull; Orange Park &bull; Apr 15 &bull; No reply 2 days</div>
+      <div class="tc-dollar tc-dollar-blue">Send follow-up or offer alt room</div>
+    </div>
+    <div class="tc-btns">
+      <button class="tc-btn tc-btn-blue">Send Follow-Up</button>
+      <button class="tc-btn tc-btn-blue">Offer Alt Room</button>
+      <button class="tc-btn tc-btn-outline">Escalate to Sandra</button>
+      <button class="tc-btn tc-btn-disabled">&#128274; Mark Lost</button>
     </div>
   </div>
 
-  <div class="lead-card escalated">
-    <div class="lc-top"><div class="lc-name">Roberto L.</div><span class="lc-badge" style="background:var(--purple);color:white;">Escalated to Sandra</span></div>
-    <div class="lc-meta">FB Marketplace &nbsp;|&nbsp; $200/wk &nbsp;|&nbsp; Any area &nbsp;|&nbsp; "Wants to talk to someone"</div>
-    <div class="lc-next">&#128276; Sandra notified at 11:30 AM. Waiting for response.</div>
-  </div>
-
-  <div class="sec-label" style="margin-top:24px;">&#128274; System Rule</div>
-  <div style="background:#FFF8E1;border:2px solid #FFD54F;border-radius:12px;padding:14px;font-size:13px;">
-    <strong>A lead CANNOT be marked "Lost"</strong> until an alternate room has been offered. The button stays locked until "Alt Room Offered" is checked.
-  </div>
-</div>
-
-<!-- ========== LIMPIEZA ========== -->
-<div class="view" id="andrea-limpieza">
-  <div class="sec-label">&#128680; Overdue</div>
-  <div class="next-action urgent">
-    <div class="na-top">
-      <div class="na-step">&#128308; OVERDUE 3 DAYS</div>
-      <div class="na-title">355 Linden Ln — Scheduled Cleaning</div>
-      <div class="na-sub">Last cleaned: Mar 22 &nbsp;|&nbsp; Felix assigned: Yes &nbsp;|&nbsp; Photo required to complete</div>
-    </div>
-    <div class="na-buttons">
-      <button class="na-btn na-btn-outline" style="flex:2;">&#128247; Upload Photo</button>
-      <button class="na-btn na-btn-disabled">&#128274; Complete</button>
+  <div class="task-card" style="border-left-color:var(--purple);">
+    <div class="tc-top">
+      <div class="tc-title">Roberto L. &mdash; Escalated to Sandra</div>
+      <div class="tc-sub">FB Marketplace &bull; $200/wk &bull; Any area &bull; "Wants to talk to someone"</div>
+      <div class="tc-dollar" style="background:var(--purple-bg);color:var(--purple);">Sandra notified 11:30 AM &mdash; waiting</div>
     </div>
   </div>
 
-  <div class="sec-label">&#128736; Repairs In Progress</div>
-  <div class="next-action normal" style="border-left-color:var(--blue);">
-    <div class="na-top">
-      <div class="na-step na-step-blue">IN PROGRESS</div>
-      <div class="na-title">7821 Caxton B — Wall repair + cleaning</div>
-      <div class="na-sub">Supplies: &#9989; Bought &nbsp;|&nbsp; Felix: &#9989; Assigned &nbsp;|&nbsp; Before photo: &#9989; &nbsp;|&nbsp; <strong style="color:var(--blue)">Waiting on after photo</strong></div>
-    </div>
-    <div class="na-buttons">
-      <button class="na-btn na-btn-green" style="flex:2;">&#128247; Upload After Photo</button>
-      <button class="na-btn na-btn-outline">View Details</button>
-    </div>
-  </div>
-
-  <div class="next-action warning" style="border-left-color:var(--yellow);">
-    <div class="na-top">
-      <div class="na-step" style="color:var(--yellow);">WAITING ON SUPPLIES</div>
-      <div class="na-title">7821 Caxton A — Deep clean + ready to list</div>
-      <div class="na-sub">Needs: Cleaning supplies, floor wax &nbsp;|&nbsp; <strong style="color:var(--yellow)">Sandra needs to buy supplies first</strong></div>
-    </div>
-    <div class="na-buttons">
-      <button class="na-btn na-btn-outline">Notify Sandra</button>
-    </div>
-  </div>
-
-  <div class="sec-label">&#128197; Upcoming Cleanings</div>
-  <div class="next-action" style="border-left-color:var(--green);">
-    <div class="na-top">
-      <div class="na-step na-step-green">IN 3 DAYS — Apr 11</div>
-      <div class="na-title">7862 Hastings St — Scheduled Cleaning</div>
-      <div class="na-sub">Last cleaned: Mar 28 &nbsp;|&nbsp; Apr 1 cleaning: &#9989;</div>
-    </div>
-  </div>
-
-  <div style="background:#FFF8E1;border:2px solid #FFD54F;border-radius:12px;padding:14px;font-size:13px;margin-top:16px;">
-    <strong>&#128274; System Rules:</strong><br>
-    1. Felix doesn't see the task until Sandra marks "Supplies Bought"<br>
-    2. Task cannot be completed without an after photo<br>
-    3. Room cannot be "Ready to Show" if it has an open task
+  <div class="policy-box" style="margin-top:16px;">
+    <h3>&#128274; System Rule</h3>
+    <div style="font-size:13px;">A lead <strong>CANNOT be marked "Lost"</strong> until an alternate room has been offered. Button stays locked until "Alt Room Offered" is checked.</div>
   </div>
 </div>
 
-<!-- ========== RUTA ========== -->
-<div class="view" id="andrea-ruta">
+<!-- ========== VACANCY PIPELINE ========== -->
+<div class="view" id="andrea-vacancy">
+
+  <div class="hero-metric" style="background:linear-gradient(135deg,#E65100,#F57C00);">
+    <div class="hero-metric-label">Vacant Rooms Not Ready</div>
+    <div class="hero-metric-val">14</div>
+    <div class="hero-metric-sub">Costing $179/day &bull; $1,253/wk &bull; Total lost so far: $4,825+</div>
+  </div>
+
+  <div class="sec-label">&#128230; Supply Orders In Transit &mdash; Amazon</div>
+
+  <div class="brief-card" style="border-left:5px solid var(--orange);">
+    <div class="brief-title">&#128666; Order #114-5839492-3656222</div>
+    <div class="brief-row"><span class="brief-label">Ordered</span><span class="brief-val">Apr 7</span></div>
+    <div class="brief-row"><span class="brief-label">Arriving</span><span class="brief-val green">Tomorrow (Apr 10)</span></div>
+    <div class="brief-row"><span class="brief-label">Items</span><span class="brief-val" style="font-size:12px;text-align:right;max-width:200px;">4-pack pillows, 2-pack pillows, 6x pillow protectors, 2x teal comforter sets</span></div>
+    <div class="brief-row"><span class="brief-label">Total</span><span class="brief-val">$188.42</span></div>
+    <div class="brief-row"><span class="brief-label">For rooms</span><span class="brief-val blue">Caxton A, B, C</span></div>
+    <div style="background:var(--yellow-bg);border-radius:8px;padding:8px;margin-top:8px;font-size:12px;font-weight:700;color:var(--yellow);">&#9888;&#65039; Rooms BLOCKED until delivery. Cannot clean/photograph until bedding arrives.</div>
+  </div>
+
+  <div class="brief-card" style="border-left:5px solid var(--orange);">
+    <div class="brief-title">&#128666; Order #114-2709568-8671402</div>
+    <div class="brief-row"><span class="brief-label">Ordered</span><span class="brief-val">Apr 7</span></div>
+    <div class="brief-row"><span class="brief-label">Arriving</span><span class="brief-val yellow">Monday (Apr 14)</span></div>
+    <div class="brief-row"><span class="brief-label">Items</span><span class="brief-val" style="font-size:12px;">4x Queen mattress protectors</span></div>
+    <div class="brief-row"><span class="brief-label">Total</span><span class="brief-val">$74.94</span></div>
+    <div class="brief-row"><span class="brief-label">For rooms</span><span class="brief-val blue">Caxton A, B + reserve stock</span></div>
+  </div>
+
+  <div class="sec-label">&#127968; Room Pipeline</div>
+
+  <div class="kanban-scroll">
+    <div class="kanban">
+      <div class="kanban-col">
+        <div class="kanban-col-header" style="background:var(--red);">Waiting on Supplies (3)</div>
+        <div class="kanban-col-body">
+          <div class="kanban-card">
+            <div class="kc-addr">7821 Caxton Cir</div>
+            <div class="kc-room">Room A</div>
+            <div class="kc-days">18 days vacant</div>
+            <div class="kc-cost">$450 lost</div>
+            <div class="kc-amazon">&#128666; Bedding arriving Apr 10</div>
+          </div>
+          <div class="kanban-card">
+            <div class="kc-addr">7821 Caxton Cir</div>
+            <div class="kc-room">Room B</div>
+            <div class="kc-days">18 days vacant</div>
+            <div class="kc-cost">$450 lost</div>
+            <div class="kc-amazon">&#128666; Bedding arriving Apr 10</div>
+          </div>
+          <div class="kanban-card">
+            <div class="kc-addr">7821 Caxton Cir</div>
+            <div class="kc-room">Room C</div>
+            <div class="kc-days">18 days vacant</div>
+            <div class="kc-cost">$450 lost</div>
+            <div class="kc-amazon">&#128666; Bedding arriving Apr 10</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="kanban-col">
+        <div class="kanban-col-header" style="background:var(--orange);">Needs Cleaning (2)</div>
+        <div class="kanban-col-body">
+          <div class="kanban-card">
+            <div class="kc-addr">355 Linden Ln</div>
+            <div class="kc-room">Room &mdash;</div>
+            <div class="kc-days">17 days vacant</div>
+            <div class="kc-cost">$425 lost</div>
+            <div class="kc-blocker">&#9888;&#65039; Felix assigned, no after photo</div>
+          </div>
+          <div class="kanban-card">
+            <div class="kc-addr">7821 Caxton Cir</div>
+            <div class="kc-room">Room B &mdash; wall repair</div>
+            <div class="kc-days">18 days vacant</div>
+            <div class="kc-cost">$450 lost</div>
+            <div class="kc-blocker">&#9888;&#65039; Repair done, waiting after photo</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="kanban-col">
+        <div class="kanban-col-header" style="background:var(--yellow);">Needs Photos (0)</div>
+        <div class="kanban-col-body" style="color:var(--gray);font-size:12px;text-align:center;padding:30px 8px;">
+          No rooms in this stage
+        </div>
+      </div>
+
+      <div class="kanban-col">
+        <div class="kanban-col-header" style="background:var(--blue);">Listed &mdash; Waiting for Lead (2)</div>
+        <div class="kanban-col-body">
+          <div class="kanban-card">
+            <div class="kc-addr">2228 W 16th St</div>
+            <div class="kc-room">Room A</div>
+            <div class="kc-days">21 days listed, 0 leads</div>
+            <div class="kc-cost">$525 lost</div>
+            <div class="kc-blocker">&#9888;&#65039; Price? Photos? Condition?</div>
+          </div>
+          <div class="kanban-card">
+            <div class="kc-addr">2228 W 16th St</div>
+            <div class="kc-room">Room B</div>
+            <div class="kc-days">21 days listed, 0 leads</div>
+            <div class="kc-cost">$525 lost</div>
+            <div class="kc-blocker">&#9888;&#65039; Same listing &mdash; audit needed</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="kanban-col">
+        <div class="kanban-col-header" style="background:var(--green);">Showing Scheduled (1)</div>
+        <div class="kanban-col-body">
+          <div class="kanban-card">
+            <div class="kc-addr">7862 Hastings St</div>
+            <div class="kc-room">Room D</div>
+            <div class="kc-amazon kc-amazon-ok">&#10003; Maria G. &mdash; Today 2pm</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:var(--red-bg);border:2px solid var(--red-border);border-radius:14px;padding:14px;font-size:13px;margin-top:12px;">
+    <strong>&#128680; Supply Chain Rule:</strong> Rooms cannot move from "Waiting on Supplies" to "Cleaning" until delivery is confirmed. Keep 2-room buffer of bedding sets in stock to prevent future 3-day gaps. Next restock trigger: when reserve drops below 2 sets.
+  </div>
+</div>
+
+<!-- ========== ROUTE ========== -->
+<div class="view" id="andrea-route">
   <div class="route-card">
-    <h3>&#128205; Today's Route — 5 stops</h3>
-    <div class="route-stop"><div class="rs-num">1</div><div class="rs-detail"><div class="rs-addr">7821 Caxton Cir E, 32208</div><div class="rs-reason">&#128736; Check repair (Felix) &nbsp;|&nbsp; &#128176; Collect from Joseb ($200)</div></div></div>
-    <div class="route-stop"><div class="rs-num">2</div><div class="rs-detail"><div class="rs-addr">7862 Hastings St, 32220</div><div class="rs-reason">&#127968; SHOWING 2:00 PM — Maria G., Room D ($150/wk) &nbsp;|&nbsp; &#128176; Collect from Jhon ($150)</div></div></div>
-    <div class="route-stop"><div class="rs-num">3</div><div class="rs-detail"><div class="rs-addr">6132 Horseshoe Dr, 32254</div><div class="rs-reason">&#128176; Collect from Jhoan ($180 — CHRONIC) &nbsp;|&nbsp; &#128176; Collect from Reniel ($180)</div></div></div>
-    <div class="route-stop"><div class="rs-num">4</div><div class="rs-detail"><div class="rs-addr">355 Linden Ln, 32073</div><div class="rs-reason">&#129529; OVERDUE CLEANING (17 days) — upload photo &nbsp;|&nbsp; &#128176; Collect from 5 tenants</div></div></div>
-    <div class="route-stop"><div class="rs-num">5</div><div class="rs-detail"><div class="rs-addr">346 Linden Ln, 32073</div><div class="rs-reason">&#128176; Collect from 6 tenants — 4 chronic &nbsp;|&nbsp; Isaiah, Misty, Zakkiyah, Dominico</div></div></div>
-    <a href="https://www.google.com/maps/dir/7821+Caxton+Cir+E+Jacksonville+FL/7862+Hastings+St+Jacksonville+FL/6132+Horseshoe+Dr+Jacksonville+FL/355+Linden+Ln+Orange+Park+FL/346+Linden+Ln+Orange+Park+FL" target="_blank"><button class="route-map-btn">&#128506; Open Full Route in Maps &#8594;</button></a>
+    <h3>&#128205; Today's Route &mdash; 5 stops</h3>
+    <div class="route-stop"><div class="rs-num">1</div><div class="rs-detail"><div class="rs-addr">346 Linden Ln, 32073</div><div class="rs-reason">&#128176; Collect from 6 tenants (4 chronic) &bull; &#128220; Deliver 3-Day Notice to Dominico</div><div class="rs-dollar">$1,540 collectible + notice</div></div></div>
+    <div class="route-stop"><div class="rs-num">2</div><div class="rs-detail"><div class="rs-addr">7862 Hastings St, 32220</div><div class="rs-reason">&#127968; SHOWING 2:00 PM &mdash; Maria G., Room D ($150/wk) &bull; &#128176; Collect from Jhon ($150)</div><div class="rs-dollar">$325 + showing ($9,100/yr)</div></div></div>
+    <div class="route-stop"><div class="rs-num">3</div><div class="rs-detail"><div class="rs-addr">6132 Horseshoe Dr, 32254</div><div class="rs-reason">&#128176; Collect from Jhoan ($180 CHRONIC) &bull; Victoria ($212 CASH)</div><div class="rs-dollar">$392 collectible</div></div></div>
+    <div class="route-stop"><div class="rs-num">4</div><div class="rs-detail"><div class="rs-addr">355 Linden Ln, 32073</div><div class="rs-reason">&#128247; Upload cleaning photo (17 days overdue) &bull; &#128176; Collect from 5 tenants</div><div class="rs-dollar">$0 today, unlocks $175/wk</div></div></div>
+    <div class="route-stop"><div class="rs-num">5</div><div class="rs-detail"><div class="rs-addr">7821 Caxton Cir E, 32208</div><div class="rs-reason">&#128736; Check Felix repair &bull; Confirm Amazon delivery tomorrow for Rooms A/B/C</div><div class="rs-dollar">$0 today, unlocks $450/wk</div></div></div>
+    <a href="https://www.google.com/maps/dir/346+Linden+Ln+Orange+Park+FL/7862+Hastings+St+Jacksonville+FL/6132+Horseshoe+Dr+Jacksonville+FL/355+Linden+Ln+Orange+Park+FL/7821+Caxton+Cir+E+Jacksonville+FL" target="_blank"><button class="route-map-btn">&#128506; Open Full Route in Maps &#8594;</button></a>
   </div>
 
-  <div style="background:white;border-radius:14px;padding:16px;box-shadow:var(--shadow);font-size:13px;color:var(--gray);">
-    <strong>Est. Drive Time:</strong> ~1.5 hrs &nbsp;|&nbsp; <strong>Stops:</strong> 5 &nbsp;|&nbsp; <strong>Collections:</strong> ~$2,800 &nbsp;|&nbsp; <strong>Showing:</strong> 1 &nbsp;|&nbsp; <strong>Cleaning:</strong> 1
+  <div class="brief-card">
+    <div class="brief-row"><span class="brief-label">Est. Drive Time</span><span class="brief-val">~1.5 hrs</span></div>
+    <div class="brief-row"><span class="brief-label">Collections Target</span><span class="brief-val green">$2,257</span></div>
+    <div class="brief-row"><span class="brief-label">Vacancy Unlocks</span><span class="brief-val blue">$625/wk potential</span></div>
+    <div class="brief-row"><span class="brief-label">Notices to Deliver</span><span class="brief-val red">1 (Dominico)</span></div>
   </div>
 </div>
 
 </main>
 </div>
 
-<!-- ===== SANDRA ===== -->
+<!-- ===================== SANDRA ===================== -->
 <div id="role-sandra" style="display:none;">
-<div class="nav-icons"><button class="nav-icon active"><span class="ico">&#128161;</span>Supervision</button></div>
+<div class="nav-icons">
+  <button class="nav-icon active" onclick="showTab('sandra','scorecard')"><span class="ico">&#128202;</span>Scorecard</button>
+  <button class="nav-icon" onclick="showTab('sandra','pipeline')"><span class="ico">&#127968;</span>Vacancy</button>
+  <button class="nav-icon" onclick="showTab('sandra','funnel')"><span class="ico">&#128100;</span>Funnel</button>
+  <button class="nav-icon" onclick="showTab('sandra','exceptions')"><span class="ico">&#128680;</span>Alerts</button>
+</div>
 <main>
-<div class="view active">
+
+<!-- SCORECARD -->
+<div class="view active" id="sandra-scorecard">
   <div class="kpi-bar">
-    <div class="kpi"><div class="kpi-val kpi-red">3</div><div class="kpi-label">Leads</div></div>
-    <div class="kpi"><div class="kpi-val kpi-red">4</div><div class="kpi-label">Ad Issues</div></div>
-    <div class="kpi"><div class="kpi-val kpi-red">2</div><div class="kpi-label">Andrea</div></div>
-    <div class="kpi"><div class="kpi-val" style="color:var(--purple)">1</div><div class="kpi-label">Escalate</div></div>
+    <div class="kpi"><div class="kpi-val kpi-red">66%</div><div class="kpi-label">Collection %</div></div>
+    <div class="kpi"><div class="kpi-val kpi-red">$307</div><div class="kpi-label">Andrea $/hr</div></div>
+    <div class="kpi"><div class="kpi-val kpi-red">0</div><div class="kpi-label">Rooms Turned</div></div>
   </div>
 
-  <div class="sec-label">&#128680; Leads Needing Attention</div>
-  <div class="exc-card">
-    <div class="exc-title">Roberto L. — Wants to talk to someone</div>
-    <div class="exc-sub">Budget: $200/wk &nbsp;|&nbsp; Any area &nbsp;|&nbsp; Waiting since 11:30 AM</div>
-    <div style="display:flex;gap:8px;"><button class="na-btn na-btn-green">&#128222; Call</button><button class="na-btn na-btn-outline">View Conversation</button></div>
-  </div>
+  <div class="sec-label">&#128202; Andrea's 7-Day Scorecard</div>
+  <table class="score-table">
+    <thead><tr><th>Metric</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Avg</th><th>Target</th></tr></thead>
+    <tbody>
+      <tr><td>$ Collected</td><td>$1.2K</td><td>$1.8K</td><td>$0.9K</td><td class="trend-down">$1.3K</td><td>$2.4K</td></tr>
+      <tr><td>Tasks Done</td><td>4/6</td><td>5/5</td><td>3/6</td><td class="trend-down">80%</td><td>95%</td></tr>
+      <tr><td>Showings</td><td>1</td><td>2</td><td>0</td><td>1.0</td><td>1.5</td></tr>
+      <tr><td>Rooms Turned</td><td>0</td><td>0</td><td>0</td><td class="trend-down">0</td><td>0.7</td></tr>
+      <tr><td>Photos Submitted</td><td>2</td><td>4</td><td>1</td><td>2.3</td><td>3</td></tr>
+      <tr><td>$/hr</td><td>$200</td><td>$300</td><td>$150</td><td class="trend-down">$217</td><td>$400</td></tr>
+    </tbody>
+  </table>
 
-  <div class="sec-label">&#128680; Ad Problems</div>
-  <div class="exc-card">
-    <div class="exc-title">Caxton A, B, C — Vacant 18 days, NO LISTING</div>
-    <div class="exc-sub">3 rooms, $450/wk potential &nbsp;|&nbsp; Not cleaned, not posted &nbsp;|&nbsp; $900 lost</div>
-    <div style="display:flex;gap:8px;"><button class="na-btn na-btn-blue">Post Listing</button></div>
-  </div>
-  <div class="exc-card warn">
-    <div class="exc-title">2228 W 16th St — Listing expired 21 days, 0 leads</div>
-    <div class="exc-sub">2 rooms vacant &nbsp;|&nbsp; $160/wk &nbsp;|&nbsp; <strong>What's wrong with this house?</strong></div>
-    <div style="display:flex;gap:6px;flex-wrap:wrap;"><button class="na-btn na-btn-outline">Price?</button><button class="na-btn na-btn-outline">Photos?</button><button class="na-btn na-btn-outline">Condition?</button><button class="na-btn na-btn-outline">Area?</button></div>
-  </div>
-
-  <div class="sec-label">&#128680; Andrea Pending Items</div>
-  <div class="exc-card">
-    <div class="exc-title">355 Linden — Cleaning photo overdue 3 days</div>
-    <div class="exc-sub">Last cleaned Mar 22 &nbsp;|&nbsp; 17 days without photo</div>
-    <div style="display:flex;gap:8px;"><button class="na-btn na-btn-outline">Notify Andrea</button></div>
-  </div>
-
-  <div class="sec-label">&#128680; Escalations to Jerel</div>
-  <div class="exc-card" style="border-left-color:var(--purple);">
-    <div class="exc-title">Dominico (346 Linden RV2) — Chronic $320+ running balance</div>
-    <div class="exc-sub">Rent: $250 &nbsp;|&nbsp; Pays: $145-170 &nbsp;|&nbsp; 4 consecutive weeks</div>
-    <div style="display:flex;gap:8px;"><button class="na-btn" style="background:var(--purple);color:white;">Escalate to Jerel</button></div>
+  <div class="sec-label" style="margin-top:20px;">&#128230; Supply Chain Status</div>
+  <div class="brief-card">
+    <div class="brief-row"><span class="brief-label">Order #...3656222 (bedding)</span><span class="brief-val green">Arriving Tomorrow</span></div>
+    <div class="brief-row"><span class="brief-label">Order #...8671402 (mattress protectors)</span><span class="brief-val yellow">Arriving Monday</span></div>
+    <div class="brief-row"><span class="brief-label">Rooms blocked by supplies</span><span class="brief-val red">3 (Caxton A/B/C)</span></div>
+    <div class="brief-row"><span class="brief-label">Reserve bedding sets</span><span class="brief-val red">0 &mdash; restock needed</span></div>
   </div>
 </div>
+
+<!-- VACANCY PIPELINE -->
+<div class="view" id="sandra-pipeline">
+  <div class="hero-metric" style="background:linear-gradient(135deg,#E65100,#F57C00);">
+    <div class="hero-metric-label">Rooms Not Generating Revenue</div>
+    <div class="hero-metric-val">14</div>
+    <div class="hero-metric-sub">$179/day lost &bull; Sandra: unblock what you can</div>
+  </div>
+
+  <div class="sec-label">&#9888;&#65039; Blocked by Sandra</div>
+  <div class="task-card t-yellow">
+    <div class="tc-top">
+      <div class="tc-title">Caxton A &mdash; Needs cleaning supplies + floor wax</div>
+      <div class="tc-sub">18 days vacant = $450 lost &bull; Bedding arriving tomorrow &bull; <strong style="color:var(--yellow)">Buy supplies so Andrea can clean day after delivery</strong></div>
+    </div>
+    <div class="tc-btns">
+      <button class="tc-btn tc-btn-green">&#10003; Supplies Bought</button>
+      <button class="tc-btn tc-btn-outline">Order on Amazon</button>
+    </div>
+  </div>
+
+  <div class="sec-label">&#9888;&#65039; Listings Needing Audit</div>
+  <div class="task-card t-yellow">
+    <div class="tc-top">
+      <div class="tc-title">2228 W 16th St A &amp; B &mdash; 21 days listed, 0 leads</div>
+      <div class="tc-sub">2 rooms, $160/wk each &bull; $1,050 lost &bull; <strong>What's wrong?</strong></div>
+    </div>
+    <div class="tc-btns">
+      <button class="tc-btn tc-btn-outline">Price?</button>
+      <button class="tc-btn tc-btn-outline">Photos?</button>
+      <button class="tc-btn tc-btn-outline">Condition?</button>
+      <button class="tc-btn tc-btn-outline">Area?</button>
+    </div>
+  </div>
+</div>
+
+<!-- LEAD FUNNEL -->
+<div class="view" id="sandra-funnel">
+  <div class="sec-label">&#128202; This Week's Lead Funnel</div>
+  <div class="funnel">
+    <div class="funnel-step"><div class="funnel-num">1,200</div><div class="funnel-label">FB Views</div></div>
+    <div class="funnel-arrow">&rarr;</div>
+    <div class="funnel-step"><div class="funnel-num">47</div><div class="funnel-label">Messages</div></div>
+    <div class="funnel-arrow">&rarr;</div>
+    <div class="funnel-step"><div class="funnel-num">12</div><div class="funnel-label">AI Qualified</div></div>
+    <div class="funnel-arrow">&rarr;</div>
+    <div class="funnel-step"><div class="funnel-num">5</div><div class="funnel-label">Booked</div></div>
+    <div class="funnel-arrow">&rarr;</div>
+    <div class="funnel-step"><div class="funnel-num">3</div><div class="funnel-label">Showed</div></div>
+    <div class="funnel-arrow">&rarr;</div>
+    <div class="funnel-step"><div class="funnel-num" style="color:var(--green);">1</div><div class="funnel-label">Signed</div></div>
+  </div>
+  <div class="brief-card">
+    <div class="brief-row"><span class="brief-label">Message &rarr; Qualified</span><span class="brief-val">25.5%</span></div>
+    <div class="brief-row"><span class="brief-label">Qualified &rarr; Booked</span><span class="brief-val">41.7%</span></div>
+    <div class="brief-row"><span class="brief-label">Booked &rarr; Showed</span><span class="brief-val yellow">60% &#9888;&#65039;</span></div>
+    <div class="brief-row"><span class="brief-label">Showed &rarr; Signed</span><span class="brief-val red">33% &#128308;</span></div>
+    <div class="brief-row"><span class="brief-label"><strong>Bottleneck</strong></span><span class="brief-val red">Show-up &amp; Close rate</span></div>
+  </div>
+
+  <div class="policy-box" style="margin-top:12px;">
+    <h3>&#128161; What This Means</h3>
+    <div style="font-size:13px;">
+      40% of booked leads don't show up. Of those who do, only 1 in 3 signs.<br><br>
+      <strong>Check:</strong> Are rooms clean when shown? Are prices competitive? Is Andrea pitching or just unlocking the door?
+    </div>
+  </div>
+</div>
+
+<!-- EXCEPTIONS -->
+<div class="view" id="sandra-exceptions">
+  <div class="sec-label">&#128680; Leads Needing Attention</div>
+  <div class="task-card" style="border-left-color:var(--purple);">
+    <div class="tc-top">
+      <div class="tc-title">Roberto L. &mdash; Wants to talk to someone</div>
+      <div class="tc-sub">$200/wk &bull; Any area &bull; Waiting since 11:30 AM</div>
+    </div>
+    <div class="tc-btns">
+      <button class="tc-btn tc-btn-green">&#128222; Call</button>
+      <button class="tc-btn tc-btn-outline">View Conversation</button>
+    </div>
+  </div>
+
+  <div class="sec-label">&#128680; Andrea Pending</div>
+  <div class="task-card t-red">
+    <div class="tc-top">
+      <div class="tc-title">355 Linden &mdash; Cleaning photo overdue 3 days</div>
+      <div class="tc-sub">17 days without photo &bull; $425 lost</div>
+    </div>
+    <div class="tc-btns"><button class="tc-btn tc-btn-outline">Notify Andrea</button></div>
+  </div>
+</div>
+
 </main>
 </div>
 
-<!-- ===== JEREL ===== -->
+<!-- ===================== JEREL ===================== -->
 <div id="role-owner" style="display:none;">
-<div class="nav-icons"><button class="nav-icon active"><span class="ico">&#128202;</span>Summary</button></div>
+<div class="nav-icons"><button class="nav-icon active"><span class="ico">&#128202;</span>CEO Dashboard</button></div>
 <main>
 <div class="view active">
 
-  <div class="arch">
-    <h2>HGRT Operating System</h2>
-    <p>AI-Powered Room Rental Workflow</p>
-    <div class="arch-grid">
-      <div class="arch-box"><div class="arch-icon">&#128172;</div><div class="arch-tool">FB Marketplace</div><div class="arch-desc">Andrea posts multi-room ads</div></div>
-      <div class="arch-box"><div class="arch-icon">&#129302;</div><div class="arch-tool">GHL AI Speakly</div><div class="arch-desc">Qualifies, cross-sells, books 24/7</div></div>
-      <div class="arch-box"><div class="arch-icon">&#128204;</div><div class="arch-tool">Airtable</div><div class="arch-desc">6 tables, source of truth</div></div>
-      <div class="arch-box"><div class="arch-icon">&#128181;</div><div class="arch-tool">DoorLoop</div><div class="arch-desc">Back-office ledger only</div></div>
-    </div>
-  </div>
-
+  <!-- THREE NUMBERS -->
   <div class="kpi-bar">
-    <div class="kpi"><div class="kpi-val kpi-red">76%</div><div class="kpi-label">Occupancy</div></div>
-    <div class="kpi"><div class="kpi-val kpi-red">$7.6K</div><div class="kpi-label">Leak/wk</div></div>
-    <div class="kpi"><div class="kpi-val kpi-green">$9.4K</div><div class="kpi-label">Collected</div></div>
-    <div class="kpi"><div class="kpi-val kpi-red">8</div><div class="kpi-label">Chronic</div></div>
+    <div class="kpi"><div class="kpi-val kpi-red" style="font-size:28px;">55%</div><div class="kpi-label">Capture Rate</div></div>
+    <div class="kpi"><div class="kpi-val kpi-red" style="font-size:28px;">14</div><div class="kpi-label">Rooms Not Ready</div></div>
+    <div class="kpi"><div class="kpi-val kpi-red" style="font-size:28px;">$7.6K</div><div class="kpi-label">Weekly Leak</div></div>
   </div>
 
-  <div class="cc-card" style="margin-bottom:16px;">
-    <div class="cc-header cc-header-blue">Weekly Scorecard</div>
-    <div style="overflow-x:auto;">
-    <table class="owner-table">
-      <thead><tr><th>KPI</th><th>Current</th><th>Target</th><th>Status</th></tr></thead>
-      <tbody>
-        <tr><td>Occupancy %</td><td>76%</td><td>95%+</td><td><span class="cc-badge cc-badge-red">Behind</span></td></tr>
-        <tr><td>Rent Collected %</td><td>55%</td><td>98%+</td><td><span class="cc-badge cc-badge-red">Behind</span></td></tr>
-        <tr><td>Market-Ready Rooms</td><td>6/20</td><td>20/20</td><td><span class="cc-badge cc-badge-red">Behind</span></td></tr>
-        <tr><td>AI Response SLA</td><td>92%</td><td>100%</td><td><span class="cc-badge cc-badge-yellow">Close</span></td></tr>
-        <tr><td>Showings Booked</td><td>3</td><td>5+</td><td><span class="cc-badge cc-badge-yellow">Close</span></td></tr>
-        <tr><td>Leases Signed</td><td>1</td><td>2+</td><td><span class="cc-badge cc-badge-yellow">Close</span></td></tr>
-        <tr><td>Late Fees Enforced</td><td>~0%</td><td>100%</td><td><span class="cc-badge cc-badge-red">Behind</span></td></tr>
-        <tr><td>Cleanings On Schedule</td><td>80%</td><td>100%</td><td><span class="cc-badge cc-badge-yellow">Close</span></td></tr>
-      </tbody>
-    </table>
+  <!-- WATERFALL -->
+  <div class="sec-label">&#128176; Weekly Revenue Waterfall</div>
+  <div class="waterfall">
+    <div class="wf-row"><span class="wf-label">Potential Rent (83 rooms)</span><span class="wf-val" style="color:var(--dark);">$17,000/wk</span></div>
+    <div class="wf-row"><span class="wf-label">&#128308; Vacancy (20 rooms)</span><span class="wf-val" style="color:var(--red);">-$4,375</span></div>
+    <div class="wf-row"><span class="wf-label">&#128308; Chronic Underpayment (8 tenants)</span><span class="wf-val" style="color:var(--red);">-$577</span></div>
+    <div class="wf-row"><span class="wf-label">&#128308; Short/Late Non-Chronic (11)</span><span class="wf-val" style="color:var(--red);">-$2,648</span></div>
+    <div class="wf-row collected"><span class="wf-label"><strong>Collected</strong></span><span class="wf-val" style="color:var(--green);font-size:18px;"><strong>$9,400</strong></span></div>
+    <div class="wf-row total"><span class="wf-label"><strong>Annual Leak Rate</strong></span><span class="wf-val" style="color:var(--red);font-size:18px;"><strong>$395,200/yr</strong></span></div>
+  </div>
+
+  <!-- DECISIONS WITH DEADLINES -->
+  <div class="sec-label">&#128308; Decisions Needed &mdash; Costing $577/week While Undecided</div>
+
+  <div class="decision-card">
+    <div class="timer">&#9200; AUTO-DEFAULTS TO "ACCEPT $155" ON APR 16</div>
+    <div class="dc-title">Dominico &mdash; 346 Linden RV2</div>
+    <div class="dc-sub">Rent: $250 &bull; Pays: $155 &bull; Loss: $95/wk ($4,940/yr) &bull; Cost of delay: $95/wk</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;">
+      <button class="tc-btn tc-btn-green" style="font-size:12px;">Enforce Full $250</button>
+      <button class="tc-btn tc-btn-outline" style="font-size:12px;">Accept $155 (reset rent)</button>
+      <button class="tc-btn tc-btn-red" style="font-size:12px;">Begin Eviction</button>
     </div>
   </div>
 
-  <div class="sec-label">&#9888;&#65039; Decisions Needed</div>
-  <div class="cc-card" style="border-left:5px solid var(--red);">
-    <div class="cc-header cc-header-red">Chronic Underpayers — ~$30K/year leak</div>
-    <div style="overflow-x:auto;">
-    <table class="owner-table">
-      <thead><tr><th>Tenant</th><th>Property</th><th>Rent</th><th>Pays</th><th>Loss/yr</th><th>Decision</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Dominico</strong></td><td>346 Linden RV2</td><td>$250</td><td>$155</td><td style="color:var(--red);font-weight:700">$4,940</td><td><button class="na-btn na-btn-green" style="padding:4px 10px;font-size:11px;">Enforce</button> <button class="na-btn na-btn-outline" style="padding:4px 10px;font-size:11px;">Accept $155</button></td></tr>
-        <tr><td><strong>Issabella</strong></td><td>1665 Natalie RV2</td><td>$250</td><td>$170</td><td style="color:var(--red);font-weight:700">$4,160</td><td><button class="na-btn na-btn-green" style="padding:4px 10px;font-size:11px;">Enforce</button> <button class="na-btn na-btn-outline" style="padding:4px 10px;font-size:11px;">Accept $170</button></td></tr>
-        <tr><td><strong>Kaska</strong></td><td>2331 W 10th D</td><td>$250</td><td>$200</td><td style="color:var(--red);font-weight:700">$2,600</td><td><button class="na-btn na-btn-green" style="padding:4px 10px;font-size:11px;">Enforce</button> <button class="na-btn na-btn-outline" style="padding:4px 10px;font-size:11px;">Accept $200</button></td></tr>
-        <tr><td><strong>Jhoan</strong></td><td>6132 Horseshoe A</td><td>$180</td><td>$135</td><td style="color:var(--red);font-weight:700">$2,340</td><td><button class="na-btn na-btn-green" style="padding:4px 10px;font-size:11px;">Enforce</button> <button class="na-btn na-btn-outline" style="padding:4px 10px;font-size:11px;">Accept $135</button></td></tr>
-        <tr><td><strong>Zakkiyah</strong></td><td>346 Linden D</td><td>$190</td><td>$150</td><td style="color:var(--red);font-weight:700">$2,080</td><td><button class="na-btn na-btn-green" style="padding:4px 10px;font-size:11px;">Enforce</button> <button class="na-btn na-btn-outline" style="padding:4px 10px;font-size:11px;">Accept $150</button></td></tr>
-      </tbody>
-    </table>
+  <div class="decision-card">
+    <div class="timer">&#9200; AUTO-DEFAULTS TO "ACCEPT $170" ON APR 16</div>
+    <div class="dc-title">Issabella &mdash; 1665 Natalie RV2</div>
+    <div class="dc-sub">Rent: $250 &bull; Pays: $170 &bull; Loss: $80/wk ($4,160/yr)</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;">
+      <button class="tc-btn tc-btn-green" style="font-size:12px;">Enforce Full $250</button>
+      <button class="tc-btn tc-btn-outline" style="font-size:12px;">Accept $170</button>
+      <button class="tc-btn tc-btn-red" style="font-size:12px;">Begin Eviction</button>
     </div>
-    <div style="margin-top:12px;padding:12px;background:var(--red-bg);border-radius:8px;font-size:13px;font-weight:600;color:#991b1b;">Each "Accept" resets the rent. Each "Enforce" triggers a written notice via Andrea.</div>
+  </div>
+
+  <div class="decision-card">
+    <div class="timer">&#9200; AUTO-DEFAULTS TO "ACCEPT $200" ON APR 16</div>
+    <div class="dc-title">Kaska &mdash; 2331 W 10th D</div>
+    <div class="dc-sub">Rent: $250 &bull; Pays: $200 &bull; Loss: $50/wk ($2,600/yr)</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;">
+      <button class="tc-btn tc-btn-green" style="font-size:12px;">Enforce Full $250</button>
+      <button class="tc-btn tc-btn-outline" style="font-size:12px;">Accept $200</button>
+      <button class="tc-btn tc-btn-red" style="font-size:12px;">Begin Eviction</button>
+    </div>
+  </div>
+
+  <!-- LATE FEE POLICY SUMMARY -->
+  <div class="policy-box" style="margin-top:16px;">
+    <h3>&#128274; Active Late Fee Policy</h3>
+    <div class="policy-row"><div class="policy-day">Day 1 Late</div><div>$15 late fee &mdash; auto-added to balance</div></div>
+    <div class="policy-row"><div class="policy-day">Day 2</div><div>+$5/day &mdash; 3-Day Notice posted (unless documented workout plan)</div></div>
+    <div class="policy-row"><div class="policy-day">Day 5+</div><div>Auto-escalated to you for eviction decision</div></div>
+    <div style="font-size:12px;opacity:.7;margin-top:8px;">Revenue from late fees this month: $0 (not yet enforced). Projected if enforced: $340-$500/mo.</div>
+  </div>
+
+  <!-- CAPACITY ANALYSIS -->
+  <div class="sec-label">&#9888;&#65039; Capacity Analysis</div>
+  <div class="capacity-card">
+    <div style="font-size:15px;font-weight:800;color:var(--dark);margin-bottom:8px;">Andrea is at 100% capacity</div>
+    <div class="cap-bar"><div class="cap-fill" style="width:100%;"></div></div>
+    <div style="font-size:13px;margin-bottom:12px;">
+      <strong>Available:</strong> 30 hrs/wk (6 hrs &times; 5 days)<br>
+      <strong>Driving:</strong> -7.5 hrs<br>
+      <strong>Collections (80 tenants):</strong> ~12 hrs<br>
+      <strong>Showings (3-5/wk):</strong> ~4 hrs<br>
+      <strong>Cleaning oversight:</strong> ~3 hrs<br>
+      <strong>Lead follow-up:</strong> ~2 hrs<br>
+      <strong>Photo docs:</strong> ~1.5 hrs<br>
+      <strong>Total demand:</strong> 30 hrs = <strong style="color:var(--red);">0 hours surplus</strong>
+    </div>
+    <div style="background:var(--yellow-bg);border-radius:8px;padding:10px;font-size:13px;">
+      <strong>&#128161; Recommendation:</strong> Split collections from showings. A $15/hr VA sends Zelle/CashApp reminders for digital payers. Andrea handles cash-only + showings + room turns. Frees ~6 hrs/week for vacancy pipeline. <strong>Cost: ~$300/mo. Revenue unlocked: $2,600+/mo from faster room turns.</strong>
+    </div>
+  </div>
+
+  <!-- SUPPLY CHAIN -->
+  <div class="sec-label">&#128230; Amazon Supply Chain</div>
+  <div class="brief-card">
+    <div class="brief-row"><span class="brief-label">Active orders</span><span class="brief-val">2 ($263.36)</span></div>
+    <div class="brief-row"><span class="brief-label">Rooms blocked by supplies</span><span class="brief-val red">3 (Caxton A/B/C)</span></div>
+    <div class="brief-row"><span class="brief-label">Revenue blocked</span><span class="brief-val red">$450/wk until delivery</span></div>
+    <div class="brief-row"><span class="brief-label">Reserve bedding sets</span><span class="brief-val red">0 &mdash; should be 2+</span></div>
+    <div style="background:var(--yellow-bg);border-radius:8px;padding:8px;margin-top:8px;font-size:12px;">
+      <strong>&#128161; Process fix:</strong> Keep 2 complete room kits (pillows + comforter + protectors) in reserve. Order replacements when reserve hits 1. Eliminates 3-5 day vacancy gaps waiting on Amazon.
+    </div>
   </div>
 
 </div>
@@ -725,119 +918,68 @@ function showTab(role, tab) {
   event.target.closest('.nav-icon').classList.add('active');
 }
 
-/* ===== HOY CHECKLIST ===== */
-const TOTAL_TASKS = 5;
-const STORAGE_KEY = 'hgrt_hoy_tasks_' + new Date().toDateString(); // resets each day
-
-const TASK_LABELS = {
-  1: 'Collect from Jhoan — Horseshoe A',
-  2: 'Collect from Victoria — receipt photo',
-  3: 'Showing: Maria G. — Hastings 2pm',
-  4: 'Follow-up: Jorge M.',
-  5: 'OVERDUE Cleaning — 355 Linden'
+/* ===== CHECKLIST ENGINE ===== */
+const TOTAL = 6;
+const KEY = 'hgrt_v3_' + new Date().toDateString();
+const LABELS = {
+  1: 'Showing: Maria G. — Hastings 2pm',
+  2: 'Deliver Notice: Dominico',
+  3: 'Collect Victoria $212',
+  4: 'Collect Jhoan $180',
+  5: 'Upload cleaning photo — 355 Linden',
+  6: 'Follow-up: Jorge M.'
 };
+const DOLLARS = { 1: 175, 2: 0, 3: 212, 4: 180, 5: 0, 6: 0 };
+const TARGET = 3245;
 
-function getTaskState() {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
-  catch(e) { return {}; }
-}
-function saveTaskState(state) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-}
+function getState() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e) { return {}; } }
+function saveState(s) { localStorage.setItem(KEY, JSON.stringify(s)); }
 
 function toggleTask(id) {
-  const state = getTaskState();
-  state[id] = !state[id];
-  saveTaskState(state);
-  renderChecklist();
+  const s = getState(); s[id] = !s[id]; saveState(s); render();
+}
+function markDone(id, btn, label) {
+  const s = getState(); s[id] = true; saveState(s); render();
+  if (btn) {
+    const orig = btn.textContent;
+    btn.textContent = '✓ Done'; btn.style.background = 'var(--green)'; btn.style.color = 'white';
+    setTimeout(() => { btn.textContent = orig; btn.style.background = ''; btn.style.color = ''; }, 1200);
+  }
 }
 
-function markDone(id, btn) {
-  const state = getTaskState();
-  state[id] = true;
-  saveTaskState(state);
-  renderChecklist();
-  // brief button feedback
-  const orig = btn.textContent;
-  btn.textContent = '✓ Done';
-  btn.style.background = 'var(--green)';
-  btn.style.color = 'white';
-  setTimeout(() => { btn.textContent = orig; btn.style.background = ''; btn.style.color = ''; }, 1200);
-}
-
-function resetProgress() {
-  if (!confirm('Reset today\'s progress? This clears all checkmarks.')) return;
-  localStorage.removeItem(STORAGE_KEY);
-  renderChecklist();
-}
-
-function renderChecklist() {
-  const state = getTaskState();
-  let done = 0;
-  const completedNames = [];
-
-  for (let i = 1; i <= TOTAL_TASKS; i++) {
-    const isDone = !!state[i];
-    if (isDone) { done++; completedNames.push(TASK_LABELS[i]); }
-
+function render() {
+  const s = getState();
+  let done = 0, dollars = 0;
+  for (let i = 1; i <= TOTAL; i++) {
     const card = document.getElementById('task-' + i);
-    const box = document.getElementById('check-' + i);
-    const lbl = document.getElementById('check-' + i + '-label');
-
+    const chk = document.getElementById('chk-' + i);
+    const lbl = document.getElementById('chk-' + i + '-lbl');
     if (!card) continue;
-
-    if (isDone) {
+    if (s[i]) {
+      done++; dollars += (DOLLARS[i] || 0);
       card.classList.add('task-done');
-      box.classList.add('checked');
-      box.textContent = '✓';
-      lbl.textContent = '✓ Completed';
-      lbl.classList.add('checked');
+      if (chk) { chk.classList.add('checked'); chk.textContent = '✓'; }
+      if (lbl) { lbl.textContent = '✓ Completed'; lbl.classList.add('checked'); }
     } else {
       card.classList.remove('task-done');
-      box.classList.remove('checked');
-      box.textContent = '';
-      lbl.textContent = 'Mark as done';
-      lbl.classList.remove('checked');
+      if (chk) { chk.classList.remove('checked'); chk.textContent = ''; }
+      if (lbl) { lbl.textContent = 'Mark as done'; lbl.classList.remove('checked'); }
     }
   }
-
-  // update progress strip
-  const pct = Math.round((done / TOTAL_TASKS) * 100);
-  const fill = document.getElementById('hoy-progress-fill');
-  const frac = document.getElementById('hoy-progress-frac');
-  const sub  = document.getElementById('hoy-progress-sub');
-
-  fill.style.width = pct + '%';
-  fill.className = 'progress-bar-fill ' + (pct === 100 ? '' : pct >= 60 ? 'warn' : 'danger');
-  frac.textContent = done + '/' + TOTAL_TASKS;
-  frac.style.color = pct === 100 ? 'var(--green)' : pct >= 60 ? 'var(--yellow)' : 'var(--red)';
-
-  const messages = {
-    0: '0 of 5 tasks completed — Let\'s go!',
-    1: '1 of 5 tasks completed — Good start ✊',
-    2: '2 of 5 tasks completed — Making progress 👍',
-    3: '3 of 5 tasks completed — Halfway there 💪',
-    4: '4 of 5 tasks completed — Almost done! 🔥',
-    5: '5 of 5 — All done today! ⭐'
-  };
-  sub.textContent = messages[done] || (done + ' of ' + TOTAL_TASKS + ' tasks completed');
-
-  // completed summary panel
-  const panel = document.getElementById('completed-summary');
-  const list = document.getElementById('completed-list');
-  if (done > 0) {
-    panel.classList.add('visible');
-    list.innerHTML = completedNames.map(n =>
-      `<div class="completed-item">✅ ${n}</div>`
-    ).join('');
-  } else {
-    panel.classList.remove('visible');
-    list.innerHTML = '';
-  }
+  const rv = document.getElementById('recovered-val');
+  const tf = document.getElementById('target-fill');
+  if (rv) rv.textContent = '$' + dollars.toLocaleString();
+  if (tf) tf.style.width = Math.min(100, Math.round(dollars / TARGET * 100)) + '%';
 }
 
-// Init on load
-document.addEventListener('DOMContentLoaded', renderChecklist);
+function closeDay() {
+  const s = getState();
+  let done = 0;
+  for (let i = 1; i <= TOTAL; i++) { if (s[i]) done++; }
+  alert('Day closed!\n\nTasks completed: ' + done + '/' + TOTAL + '\n\nResults saved. Great work today.');
+}
+
+document.addEventListener('DOMContentLoaded', render);
 </script>
 </body>
 </html>
