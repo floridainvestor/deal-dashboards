@@ -225,11 +225,11 @@ main { max-width: 480px; margin: 0 auto; padding: 12px; }
 <!-- ===== ANDREA ===== -->
 <div id="role-andrea">
 <div class="nav-icons" id="andrea-nav">
-  <button class="nav-icon active" onclick="showTab('andrea','hoy')"><span class="ico">&#127968;</span>Hoy</button>
-  <button class="nav-icon" onclick="showTab('andrea','cobros')"><span class="ico">&#128176;</span>Cobros</button>
-  <button class="nav-icon" onclick="showTab('andrea','prospectos')"><span class="ico">&#128100;</span>Prospectos</button>
-  <button class="nav-icon" onclick="showTab('andrea','limpieza')"><span class="ico">&#129529;</span>Limpieza</button>
-  <button class="nav-icon" onclick="showTab('andrea','ruta')"><span class="ico">&#128205;</span>Ruta</button>
+  <button class="nav-icon active" onclick="showTab('andrea','hoy')"><span class="ico">&#127968;</span>Today</button>
+  <button class="nav-icon" onclick="showTab('andrea','cobros')"><span class="ico">&#128176;</span>Collections</button>
+  <button class="nav-icon" onclick="showTab('andrea','prospectos')"><span class="ico">&#128100;</span>Leads</button>
+  <button class="nav-icon" onclick="showTab('andrea','limpieza')"><span class="ico">&#129529;</span>Cleaning</button>
+  <button class="nav-icon" onclick="showTab('andrea','ruta')"><span class="ico">&#128205;</span>Route</button>
 </div>
 <main>
 
@@ -239,73 +239,73 @@ main { max-width: 480px; margin: 0 auto; padding: 12px; }
   <!-- COMMAND CENTER SUMMARY -->
   <div class="cc-grid" style="margin-bottom:16px;">
     <div class="cc-card">
-      <div class="cc-header cc-header-red">&#128176; Cobros hoy <span class="ico">&#9881;</span></div>
+      <div class="cc-header cc-header-red">&#128176; Collections Today <span class="ico">&#9881;</span></div>
       <div class="cc-body">
-        <div class="cc-row"><div class="cc-row-left"><div class="cc-num">4</div><div class="cc-label">por vencer hoy</div></div><div class="cc-badge cc-badge-red">$845</div></div>
-        <div class="cc-row"><div class="cc-row-left"><div class="cc-num">2</div><div class="cc-label">atrasados</div></div><div class="cc-badge cc-badge-orange">$/.45</div></div>
-        <div class="cc-row"><div class="cc-row-left"><div class="cc-num cc-num-yellow">1</div><div class="cc-label">con recargo</div></div><div class="cc-badge cc-badge-yellow">1 Alerta</div></div>
+        <div class="cc-row"><div class="cc-row-left"><div class="cc-num">4</div><div class="cc-label">due today</div></div><div class="cc-badge cc-badge-red">$845</div></div>
+        <div class="cc-row"><div class="cc-row-left"><div class="cc-num">2</div><div class="cc-label">past due</div></div><div class="cc-badge cc-badge-orange">$345</div></div>
+        <div class="cc-row"><div class="cc-row-left"><div class="cc-num cc-num-yellow">1</div><div class="cc-label">with late fee</div></div><div class="cc-badge cc-badge-yellow">1 Alert</div></div>
       </div>
-      <div class="cc-footer"><button class="cc-footer-btn cc-footer-btn-green" onclick="showTab('andrea','cobros')">Ver Cobros <span>$845 &#8594;</span></button></div>
+      <div class="cc-footer"><button class="cc-footer-btn cc-footer-btn-green" onclick="showTab('andrea','cobros')">View Collections <span>$845 &#8594;</span></button></div>
     </div>
 
     <div class="cc-card">
-      <div class="cc-header cc-header-blue">&#127968; Visitas hoy <span class="ico">&#9881;</span></div>
+      <div class="cc-header cc-header-blue">&#127968; Showings Today <span class="ico">&#9881;</span></div>
       <div class="cc-body">
-        <div class="cc-row"><div class="cc-row-left"><div class="cc-num cc-num-green">4</div><div class="cc-label">agendadas hoy</div></div><div style="font-size:20px">&#9888;&#65039;</div></div>
-        <div class="cc-row"><div class="cc-row-left"><div class="cc-num cc-num-yellow">1</div><div class="cc-label">por confirmar</div></div><div style="font-size:20px">&#128312;</div></div>
-        <div class="cc-row"><div class="cc-row-left"><div class="cc-num">1</div><div class="cc-label">sin seguimiento</div></div><div style="font-size:20px">&#128308;</div></div>
+        <div class="cc-row"><div class="cc-row-left"><div class="cc-num cc-num-green">4</div><div class="cc-label">scheduled today</div></div><div style="font-size:20px">&#9888;&#65039;</div></div>
+        <div class="cc-row"><div class="cc-row-left"><div class="cc-num cc-num-yellow">1</div><div class="cc-label">needs confirmation</div></div><div style="font-size:20px">&#128312;</div></div>
+        <div class="cc-row"><div class="cc-row-left"><div class="cc-num">1</div><div class="cc-label">no follow-up sent</div></div><div style="font-size:20px">&#128308;</div></div>
       </div>
-      <div class="cc-footer"><button class="cc-footer-btn cc-footer-btn-blue" onclick="showTab('andrea','prospectos')">Ver Visitas <span>1 &#8594;</span></button></div>
+      <div class="cc-footer"><button class="cc-footer-btn cc-footer-btn-blue" onclick="showTab('andrea','prospectos')">View Showings <span>1 &#8594;</span></button></div>
     </div>
 
     <div class="cc-card">
-      <div class="cc-header cc-header-green">&#128100; Prospectos hoy <span class="ico">&#9881;</span></div>
+      <div class="cc-header cc-header-green">&#128100; Leads Today <span class="ico">&#9881;</span></div>
       <div class="cc-body">
-        <div class="cc-row"><div class="cc-row-left"><div class="cc-num cc-num-green">5</div><div class="cc-label">nuevos</div></div><div style="font-size:16px">&#128172;&#10003;</div></div>
-        <div class="cc-row"><div class="cc-row-left"><div class="cc-num cc-num-yellow">2</div><div class="cc-label">seguimiento hoy</div></div><div style="font-size:20px">&#9888;&#65039;</div></div>
-        <div class="cc-row"><div class="cc-row-left"><div class="cc-num">1</div><div class="cc-label">falta otra casa</div></div><div style="font-size:20px">&#128308;</div></div>
+        <div class="cc-row"><div class="cc-row-left"><div class="cc-num cc-num-green">5</div><div class="cc-label">new leads</div></div><div style="font-size:16px">&#128172;&#10003;</div></div>
+        <div class="cc-row"><div class="cc-row-left"><div class="cc-num cc-num-yellow">2</div><div class="cc-label">follow-up today</div></div><div style="font-size:20px">&#9888;&#65039;</div></div>
+        <div class="cc-row"><div class="cc-row-left"><div class="cc-num">1</div><div class="cc-label">needs alt room offer</div></div><div style="font-size:20px">&#128308;</div></div>
       </div>
-      <div class="cc-footer"><button class="cc-footer-btn cc-footer-btn-green" onclick="showTab('andrea','prospectos')">Ver Prospectos <span>1 Alert &#8594;</span></button></div>
+      <div class="cc-footer"><button class="cc-footer-btn cc-footer-btn-green" onclick="showTab('andrea','prospectos')">View Leads <span>1 Alert &#8594;</span></button></div>
     </div>
   </div>
 
   <div class="cc-grid cc-grid-2" style="margin-bottom:16px;">
     <div class="cc-card">
-      <div class="cc-header" style="background:#558B2F;">&#129529; Limpieza / reparaciones hoy <span class="ico">&#9881;</span></div>
+      <div class="cc-header" style="background:#558B2F;">&#129529; Cleaning / Repairs Today <span class="ico">&#9881;</span></div>
       <div class="cc-body">
-        <div class="cc-row"><div class="cc-row-left"><div class="cc-num">3</div><div class="cc-label">limpiezas pendientes</div></div><div style="font-size:20px">&#9888;&#65039;</div></div>
-        <div class="cc-row"><div class="cc-row-left"><div class="cc-num cc-num-yellow">2</div><div class="cc-label">reparaciones pendientes</div></div><div style="font-size:20px">&#9888;&#65039;</div></div>
-        <div class="cc-row"><div class="cc-row-left"><div class="cc-num">1</div><div class="cc-label">falta material</div></div><div style="font-size:20px">&#128308;</div></div>
+        <div class="cc-row"><div class="cc-row-left"><div class="cc-num">3</div><div class="cc-label">cleanings pending</div></div><div style="font-size:20px">&#9888;&#65039;</div></div>
+        <div class="cc-row"><div class="cc-row-left"><div class="cc-num cc-num-yellow">2</div><div class="cc-label">repairs pending</div></div><div style="font-size:20px">&#9888;&#65039;</div></div>
+        <div class="cc-row"><div class="cc-row-left"><div class="cc-num">1</div><div class="cc-label">waiting on supplies</div></div><div style="font-size:20px">&#128308;</div></div>
       </div>
-      <div class="cc-footer"><button class="cc-footer-btn cc-footer-btn-green" onclick="showTab('andrea','limpieza')">Ver Tareas <span>1 &#8594;</span></button></div>
+      <div class="cc-footer"><button class="cc-footer-btn cc-footer-btn-green" onclick="showTab('andrea','limpieza')">View Tasks <span>1 &#8594;</span></button></div>
     </div>
 
     <!-- ROUTE MINI -->
     <div class="cc-card">
-      <div class="cc-header" style="background:#F57C00;">&#128205; Ruta de hoy <span class="ico">&#9881;</span></div>
+      <div class="cc-header" style="background:#F57C00;">&#128205; Today's Route <span class="ico">&#9881;</span></div>
       <div class="cc-body" style="font-size:14px;">
         <div class="cc-row"><div class="cc-row-left"><strong>1.</strong>&nbsp; 7821 Caxton Cir</div><div style="font-size:12px;color:var(--gray)">Repair + Collect</div></div>
         <div class="cc-row"><div class="cc-row-left"><strong>2.</strong>&nbsp; 7862 Hastings St</div><div style="font-size:12px;color:var(--blue);font-weight:700">Showing 2pm</div></div>
         <div class="cc-row"><div class="cc-row-left"><strong>3.</strong>&nbsp; 6132 Horseshoe Dr</div><div style="font-size:12px;color:var(--gray)">Collect</div></div>
         <div class="cc-row"><div class="cc-row-left"><strong>4.</strong>&nbsp; 355 Linden Ln</div><div style="font-size:12px;color:var(--red);font-weight:700">Clean OVERDUE</div></div>
       </div>
-      <div class="cc-footer"><a href="https://www.google.com/maps/dir/7821+Caxton+Cir+E+Jacksonville+FL/7862+Hastings+St+Jacksonville+FL/6132+Horseshoe+Dr+Jacksonville+FL/355+Linden+Ln+Orange+Park+FL" target="_blank" style="text-decoration:none;"><button class="cc-footer-btn cc-footer-btn-orange" style="width:100%;">&#128506; Abrir en Maps &#8594;</button></a></div>
+      <div class="cc-footer"><a href="https://www.google.com/maps/dir/7821+Caxton+Cir+E+Jacksonville+FL/7862+Hastings+St+Jacksonville+FL/6132+Horseshoe+Dr+Jacksonville+FL/355+Linden+Ln+Orange+Park+FL" target="_blank" style="text-decoration:none;"><button class="cc-footer-btn cc-footer-btn-orange" style="width:100%;">&#128506; Open in Maps &#8594;</button></a></div>
     </div>
   </div>
 
   <!-- NEXT ACTION QUEUE -->
-  <div class="sec-label">&#9889; Siguiente Accion / Next Action</div>
+  <div class="sec-label">&#9889; Next Action Queue</div>
 
   <!-- PROGRESS STRIP -->
   <div class="progress-strip" id="hoy-progress-strip">
     <div class="progress-header">
       <div>
-        <div class="progress-title">&#128203; Progreso de hoy</div>
-        <div class="progress-sub" id="hoy-progress-sub">0 de 5 tareas completadas</div>
+        <div class="progress-title">&#128203; Today's Progress</div>
+        <div class="progress-sub" id="hoy-progress-sub">0 of 5 tasks completed</div>
       </div>
       <div style="display:flex;align-items:center;gap:12px;">
         <div class="progress-fraction" id="hoy-progress-frac">0/5</div>
-        <button class="progress-reset" onclick="resetProgress()" title="Empezar de nuevo">&#8635; Reset</button>
+        <button class="progress-reset" onclick="resetProgress()" title="Start over">&#8635; Reset</button>
       </div>
     </div>
     <div class="progress-bar-track">
@@ -316,20 +316,20 @@ main { max-width: 480px; margin: 0 auto; padding: 12px; }
   <!-- PASO 1 -->
   <div class="next-action urgent" id="task-1">
     <div class="na-top">
-      <div class="na-step" id="task-1-step">&#128308; PASO 1 — AHORA</div>
-      <div class="na-title" id="task-1-title">Cobrar a Jhoan — 6132 Horseshoe A</div>
-      <div class="na-sub">Debe: $180 &nbsp;|&nbsp; Paga: $135 siempre &nbsp;|&nbsp; Acumulado: $180+ &nbsp;|&nbsp; <strong style="color:var(--red)">CRONICO 4 semanas</strong></div>
+      <div class="na-step" id="task-1-step">&#128308; STEP 1 — NOW</div>
+      <div class="na-title" id="task-1-title">Collect from Jhoan — 6132 Horseshoe A</div>
+      <div class="na-sub">Owes: $180 &nbsp;|&nbsp; Always pays: $135 &nbsp;|&nbsp; Running balance: $180+ &nbsp;|&nbsp; <strong style="color:var(--red)">CHRONIC — 4 weeks</strong></div>
     </div>
     <div class="na-buttons">
-      <button class="na-btn na-btn-green" onclick="markDone(1, this)">&#10003; Pagado $180</button>
-      <button class="na-btn na-btn-yellow">Parcial</button>
-      <button class="na-btn na-btn-outline">&#128247; Efectivo + Recibo</button>
-      <button class="na-btn na-btn-red" onclick="markDone(1, this)">No pago</button>
+      <button class="na-btn na-btn-green" onclick="markDone(1, this)">&#10003; Paid $180</button>
+      <button class="na-btn na-btn-yellow">Partial</button>
+      <button class="na-btn na-btn-outline">&#128247; Cash + Receipt Photo</button>
+      <button class="na-btn na-btn-red" onclick="markDone(1, this)">Didn't Pay</button>
     </div>
     <div class="done-toggle-row">
       <label class="done-toggle" onclick="toggleTask(1)">
         <div class="done-checkbox" id="check-1"></div>
-        <span class="done-label" id="check-1-label">Marcar como hecho</span>
+        <span class="done-label" id="check-1-label">Mark as done</span>
       </label>
     </div>
   </div>
@@ -337,18 +337,18 @@ main { max-width: 480px; margin: 0 auto; padding: 12px; }
   <!-- PASO 2 -->
   <div class="next-action urgent" id="task-2">
     <div class="na-top">
-      <div class="na-step" id="task-2-step">&#128308; PASO 2 — AHORA</div>
-      <div class="na-title" id="task-2-title">Cobrar a Victoria — 6132 Horseshoe RV1 (EFECTIVO)</div>
-      <div class="na-sub">Debe: $212 &nbsp;|&nbsp; Metodo: Efectivo &nbsp;|&nbsp; <strong style="color:var(--orange)">&#128274; Requiere foto de recibo</strong></div>
+      <div class="na-step" id="task-2-step">&#128308; STEP 2 — NOW</div>
+      <div class="na-title" id="task-2-title">Collect from Victoria — 6132 Horseshoe RV1 (CASH)</div>
+      <div class="na-sub">Owes: $212 &nbsp;|&nbsp; Method: Cash &nbsp;|&nbsp; <strong style="color:var(--orange)">&#128274; Receipt photo required to mark paid</strong></div>
     </div>
     <div class="na-buttons">
-      <button class="na-btn na-btn-outline" style="flex:2;" onclick="markDone(2, this)">&#128247; Tomar Foto de Recibo</button>
-      <button class="na-btn na-btn-disabled">&#128274; Pagado (foto requerida)</button>
+      <button class="na-btn na-btn-outline" style="flex:2;" onclick="markDone(2, this)">&#128247; Take Receipt Photo</button>
+      <button class="na-btn na-btn-disabled">&#128274; Mark Paid (photo required)</button>
     </div>
     <div class="done-toggle-row">
       <label class="done-toggle" onclick="toggleTask(2)">
         <div class="done-checkbox" id="check-2"></div>
-        <span class="done-label" id="check-2-label">Marcar como hecho</span>
+        <span class="done-label" id="check-2-label">Mark as done</span>
       </label>
     </div>
   </div>
@@ -356,20 +356,20 @@ main { max-width: 480px; margin: 0 auto; padding: 12px; }
   <!-- PASO 3 -->
   <div class="next-action normal" style="border-left-color:var(--blue);" id="task-3">
     <div class="na-top">
-      <div class="na-step na-step-blue" id="task-3-step">&#128312; PASO 3 — 2:00 PM</div>
+      <div class="na-step na-step-blue" id="task-3-step">&#128312; STEP 3 — 2:00 PM</div>
       <div class="na-title" id="task-3-title">Showing: Maria G. — 7862 Hastings Room D</div>
-      <div class="na-sub">Budget: $150/wk &nbsp;|&nbsp; Move-in: ASAP &nbsp;|&nbsp; Idioma: Espanol &nbsp;|&nbsp; AI agendo &nbsp;|&nbsp; <a href="https://www.google.com/maps/search/7862+Hastings+St+Jacksonville+FL" target="_blank" style="color:var(--blue);font-weight:700">&#128506; Maps</a></div>
+      <div class="na-sub">Budget: $150/wk &nbsp;|&nbsp; Move-in: ASAP &nbsp;|&nbsp; Language: Spanish &nbsp;|&nbsp; AI booked &nbsp;|&nbsp; <a href="https://www.google.com/maps/search/7862+Hastings+St+Jacksonville+FL" target="_blank" style="color:var(--blue);font-weight:700">&#128506; Maps</a></div>
     </div>
     <div class="na-buttons">
-      <button class="na-btn na-btn-green" onclick="markDone(3, this)">&#10003; Rentado</button>
-      <button class="na-btn na-btn-red" onclick="markDone(3, this)">No vino</button>
-      <button class="na-btn na-btn-blue" onclick="markDone(3, this)">Otra casa</button>
-      <button class="na-btn na-btn-outline">&#128222; Llamar</button>
+      <button class="na-btn na-btn-green" onclick="markDone(3, this)">&#10003; Rented</button>
+      <button class="na-btn na-btn-red" onclick="markDone(3, this)">No-Show</button>
+      <button class="na-btn na-btn-blue" onclick="markDone(3, this)">Offer Alt Room</button>
+      <button class="na-btn na-btn-outline">&#128222; Call</button>
     </div>
     <div class="done-toggle-row">
       <label class="done-toggle" onclick="toggleTask(3)">
         <div class="done-checkbox" id="check-3"></div>
-        <span class="done-label" id="check-3-label">Marcar como hecho</span>
+        <span class="done-label" id="check-3-label">Mark as done</span>
       </label>
     </div>
   </div>
@@ -377,20 +377,20 @@ main { max-width: 480px; margin: 0 auto; padding: 12px; }
   <!-- PASO 4 -->
   <div class="next-action warning" style="border-left-color:var(--yellow);" id="task-4">
     <div class="na-top">
-      <div class="na-step" style="color:var(--yellow);" id="task-4-step">&#128312; PASO 4 — HOY</div>
-      <div class="na-title" id="task-4-title">Seguimiento: Jorge M. — pregunto por 1160 Tumbleweed</div>
-      <div class="na-sub">Budget: $160/wk &nbsp;|&nbsp; Dijo "muy lejos del trabajo" &nbsp;|&nbsp; AI ofrecio 2331 W 10th ($175) &nbsp;|&nbsp; Sin respuesta 2 dias</div>
+      <div class="na-step" style="color:var(--yellow);" id="task-4-step">&#128312; STEP 4 — TODAY</div>
+      <div class="na-title" id="task-4-title">Follow-Up: Jorge M. — asked about 1160 Tumbleweed</div>
+      <div class="na-sub">Budget: $160/wk &nbsp;|&nbsp; Said "too far from work" &nbsp;|&nbsp; AI offered 2331 W 10th ($175) &nbsp;|&nbsp; No reply in 2 days</div>
     </div>
     <div class="na-buttons">
-      <button class="na-btn na-btn-blue" onclick="markDone(4, this)">Enviar seguimiento</button>
-      <button class="na-btn na-btn-blue" onclick="markDone(4, this)">Ofrecer otra casa</button>
-      <button class="na-btn na-btn-outline" onclick="markDone(4, this)">Pasar a Sandra</button>
-      <button class="na-btn na-btn-disabled">&#128274; Perdido</button>
+      <button class="na-btn na-btn-blue" onclick="markDone(4, this)">Send Follow-Up</button>
+      <button class="na-btn na-btn-blue" onclick="markDone(4, this)">Offer Alt Room</button>
+      <button class="na-btn na-btn-outline" onclick="markDone(4, this)">Escalate to Sandra</button>
+      <button class="na-btn na-btn-disabled">&#128274; Mark Lost</button>
     </div>
     <div class="done-toggle-row">
       <label class="done-toggle" onclick="toggleTask(4)">
         <div class="done-checkbox" id="check-4"></div>
-        <span class="done-label" id="check-4-label">Marcar como hecho</span>
+        <span class="done-label" id="check-4-label">Mark as done</span>
       </label>
     </div>
   </div>
@@ -398,25 +398,25 @@ main { max-width: 480px; margin: 0 auto; padding: 12px; }
   <!-- PASO 5 -->
   <div class="next-action warning" style="border-left-color:var(--red);" id="task-5">
     <div class="na-top">
-      <div class="na-step" id="task-5-step">&#128308; PASO 5 — HOY</div>
-      <div class="na-title" id="task-5-title">Limpieza VENCIDA — 355 Linden Ln</div>
-      <div class="na-sub">Ultima limpieza: Mar 22 (hace 17 dias) &nbsp;|&nbsp; Felix asignado &nbsp;|&nbsp; <strong style="color:var(--red)">Requiere foto para completar</strong></div>
+      <div class="na-step" id="task-5-step">&#128308; STEP 5 — TODAY</div>
+      <div class="na-title" id="task-5-title">OVERDUE Cleaning — 355 Linden Ln</div>
+      <div class="na-sub">Last cleaned: Mar 22 (17 days ago) &nbsp;|&nbsp; Felix assigned &nbsp;|&nbsp; <strong style="color:var(--red)">Photo required to complete</strong></div>
     </div>
     <div class="na-buttons">
-      <button class="na-btn na-btn-outline" style="flex:2;" onclick="markDone(5, this)">&#128247; Subir Foto de Limpieza</button>
-      <button class="na-btn na-btn-disabled">&#128274; Completado (foto requerida)</button>
+      <button class="na-btn na-btn-outline" style="flex:2;" onclick="markDone(5, this)">&#128247; Upload Cleaning Photo</button>
+      <button class="na-btn na-btn-disabled">&#128274; Complete (photo required)</button>
     </div>
     <div class="done-toggle-row">
       <label class="done-toggle" onclick="toggleTask(5)">
         <div class="done-checkbox" id="check-5"></div>
-        <span class="done-label" id="check-5-label">Marcar como hecho</span>
+        <span class="done-label" id="check-5-label">Mark as done</span>
       </label>
     </div>
   </div>
 
   <!-- COMPLETED SUMMARY -->
   <div class="completed-summary" id="completed-summary">
-    <div class="completed-summary-title">&#9989; Completado hoy</div>
+    <div class="completed-summary-title">&#9989; Completed Today</div>
     <div id="completed-list"></div>
   </div>
 
@@ -425,51 +425,51 @@ main { max-width: 480px; margin: 0 auto; padding: 12px; }
 <!-- ========== COBROS ========== -->
 <div class="view" id="andrea-cobros">
   <div class="kpi-bar">
-    <div class="kpi"><div class="kpi-val kpi-green">$9.4K</div><div class="kpi-label">Cobrado</div></div>
-    <div class="kpi"><div class="kpi-val kpi-red">$17K</div><div class="kpi-label">Potencial</div></div>
-    <div class="kpi"><div class="kpi-val kpi-red">11</div><div class="kpi-label">Corto/Tarde</div></div>
-    <div class="kpi"><div class="kpi-val kpi-red">8</div><div class="kpi-label">Cronicos</div></div>
+    <div class="kpi"><div class="kpi-val kpi-green">$9.4K</div><div class="kpi-label">Collected</div></div>
+    <div class="kpi"><div class="kpi-val kpi-red">$17K</div><div class="kpi-label">Potential</div></div>
+    <div class="kpi"><div class="kpi-val kpi-red">11</div><div class="kpi-label">Short/Late</div></div>
+    <div class="kpi"><div class="kpi-val kpi-red">8</div><div class="kpi-label">Chronic</div></div>
   </div>
 
-  <div class="sec-label">&#128680; Cronicos — necesitan decision de Jerel</div>
+  <div class="sec-label">&#128680; Chronic Underpayers — Jerel decision needed</div>
   <div class="next-action urgent">
     <div class="na-top">
-      <div class="na-step">&#128308; CRONICO — $45/semana = $2,340/ano</div>
+      <div class="na-step">&#128308; CHRONIC — $45/week = $2,340/year</div>
       <div class="na-title">Jhoan — 6132 Horseshoe A</div>
-      <div class="na-sub">Renta: $180 &nbsp;|&nbsp; Paga: $135 siempre &nbsp;|&nbsp; Acumulado 4 semanas: $180</div>
+      <div class="na-sub">Rent: $180 &nbsp;|&nbsp; Always pays: $135 &nbsp;|&nbsp; Running balance (4 wks): $180</div>
     </div>
     <div class="na-buttons">
-      <button class="na-btn na-btn-green">Pagado $180</button>
-      <button class="na-btn na-btn-yellow">Parcial</button>
-      <button class="na-btn na-btn-red">No pago</button>
+      <button class="na-btn na-btn-green">Paid $180</button>
+      <button class="na-btn na-btn-yellow">Partial</button>
+      <button class="na-btn na-btn-red">Didn't Pay</button>
     </div>
   </div>
   <div class="next-action urgent">
     <div class="na-top">
-      <div class="na-step">&#128308; CRONICO — $95/semana = $4,940/ano</div>
+      <div class="na-step">&#128308; CHRONIC — $95/week = $4,940/year</div>
       <div class="na-title">Dominico — 346 Linden RV2</div>
-      <div class="na-sub">Renta: $250 &nbsp;|&nbsp; Paga: $145-170 &nbsp;|&nbsp; Acumulado 4 semanas: $320+</div>
+      <div class="na-sub">Rent: $250 &nbsp;|&nbsp; Pays: $145-170 &nbsp;|&nbsp; Running balance (4 wks): $320+</div>
     </div>
     <div class="na-buttons">
-      <button class="na-btn na-btn-green">Pagado $250</button>
-      <button class="na-btn na-btn-yellow">Parcial</button>
-      <button class="na-btn na-btn-red">Escalar a Jerel</button>
+      <button class="na-btn na-btn-green">Paid $250</button>
+      <button class="na-btn na-btn-yellow">Partial</button>
+      <button class="na-btn na-btn-red">Escalate to Jerel</button>
     </div>
   </div>
 
-  <div class="sec-label">&#128176; Pagos de esta semana</div>
+  <div class="sec-label">&#128176; Paid This Week</div>
   <div class="next-action done">
     <div class="na-top">
-      <div class="na-step na-step-green">&#9989; PAGADO</div>
+      <div class="na-step na-step-green">&#9989; PAID</div>
       <div class="na-title">Carlos — 840 Harrison A</div>
-      <div class="na-sub">Renta: $340 &nbsp;|&nbsp; Pagado: $340 &nbsp;|&nbsp; Zelle</div>
+      <div class="na-sub">Rent: $340 &nbsp;|&nbsp; Paid: $340 &nbsp;|&nbsp; Zelle</div>
     </div>
   </div>
   <div class="next-action done">
     <div class="na-top">
-      <div class="na-step na-step-green">&#9989; PAGADO</div>
+      <div class="na-step na-step-green">&#9989; PAID</div>
       <div class="na-title">Jorge — 7848 Hastings A</div>
-      <div class="na-sub">Renta: $175 &nbsp;|&nbsp; Pagado: $175 &nbsp;|&nbsp; Cash App</div>
+      <div class="na-sub">Rent: $175 &nbsp;|&nbsp; Paid: $175 &nbsp;|&nbsp; Cash App</div>
     </div>
   </div>
 </div>
@@ -477,119 +477,119 @@ main { max-width: 480px; margin: 0 auto; padding: 12px; }
 <!-- ========== PROSPECTOS ========== -->
 <div class="view" id="andrea-prospectos">
   <div class="kpi-bar">
-    <div class="kpi"><div class="kpi-val kpi-blue">7</div><div class="kpi-label">Activos</div></div>
-    <div class="kpi"><div class="kpi-val kpi-green">&lt;2m</div><div class="kpi-label">AI Respuesta</div></div>
-    <div class="kpi"><div class="kpi-val kpi-blue">3</div><div class="kpi-label">Visitas</div></div>
-    <div class="kpi"><div class="kpi-val kpi-green">1</div><div class="kpi-label">Firmados</div></div>
+    <div class="kpi"><div class="kpi-val kpi-blue">7</div><div class="kpi-label">Active</div></div>
+    <div class="kpi"><div class="kpi-val kpi-green">&lt;2m</div><div class="kpi-label">AI Response</div></div>
+    <div class="kpi"><div class="kpi-val kpi-blue">3</div><div class="kpi-label">Showings</div></div>
+    <div class="kpi"><div class="kpi-val kpi-green">1</div><div class="kpi-label">Signed</div></div>
   </div>
 
-  <div class="sec-label">&#9889; Accion requerida</div>
+  <div class="sec-label">&#9889; Action Required</div>
 
   <div class="lead-card urgent">
-    <div class="lc-top"><div class="lc-name">Maria G.</div><span class="lc-badge" style="background:var(--blue);color:white;">Visita Hoy 2pm</span></div>
-    <div class="lc-meta">FB Marketplace &nbsp;|&nbsp; $150/sem &nbsp;|&nbsp; Westside &nbsp;|&nbsp; ASAP &nbsp;|&nbsp; Espanol</div>
-    <div class="lc-next">&#9889; SIGUIENTE: Mostrar 7862 Hastings Room D a las 2:00 PM</div>
+    <div class="lc-top"><div class="lc-name">Maria G.</div><span class="lc-badge" style="background:var(--blue);color:white;">Showing Today 2pm</span></div>
+    <div class="lc-meta">FB Marketplace &nbsp;|&nbsp; $150/wk &nbsp;|&nbsp; Westside &nbsp;|&nbsp; ASAP &nbsp;|&nbsp; Spanish</div>
+    <div class="lc-next">&#9889; NEXT: Show 7862 Hastings Room D at 2:00 PM</div>
     <div class="lc-buttons">
-      <button class="lc-btn" style="background:var(--green);color:white;">&#10003; Rentado</button>
-      <button class="lc-btn" style="background:var(--red);color:white;">No vino</button>
-      <button class="lc-btn" style="background:var(--blue);color:white;">Otra casa</button>
+      <button class="lc-btn" style="background:var(--green);color:white;">&#10003; Rented</button>
+      <button class="lc-btn" style="background:var(--red);color:white;">No-Show</button>
+      <button class="lc-btn" style="background:var(--blue);color:white;">Offer Alt Room</button>
     </div>
   </div>
 
   <div class="lead-card waiting">
-    <div class="lc-top"><div class="lc-name">Jorge M.</div><span class="lc-badge" style="background:var(--yellow);color:white;">Seguimiento hoy</span></div>
-    <div class="lc-meta">FB Marketplace &nbsp;|&nbsp; $160/sem &nbsp;|&nbsp; Orange Park &nbsp;|&nbsp; Abr 15</div>
-    <div class="lc-next">&#9889; SIGUIENTE: Enviar seguimiento o ofrecer otra casa (2 dias sin respuesta)</div>
+    <div class="lc-top"><div class="lc-name">Jorge M.</div><span class="lc-badge" style="background:var(--yellow);color:white;">Follow-Up Today</span></div>
+    <div class="lc-meta">FB Marketplace &nbsp;|&nbsp; $160/wk &nbsp;|&nbsp; Orange Park &nbsp;|&nbsp; Apr 15</div>
+    <div class="lc-next">&#9889; NEXT: Send follow-up or offer alt room (no reply in 2 days)</div>
     <div class="lc-buttons">
-      <button class="lc-btn" style="background:var(--blue);color:white;">Seguimiento</button>
-      <button class="lc-btn" style="background:var(--blue);color:white;">Otra casa</button>
-      <button class="lc-btn" style="background:white;border:2px solid #E0E0E0;">Pasar a Sandra</button>
-      <button class="lc-btn" style="background:#E0E0E0;color:#9E9E9E;cursor:not-allowed;">&#128274; Perdido</button>
+      <button class="lc-btn" style="background:var(--blue);color:white;">Send Follow-Up</button>
+      <button class="lc-btn" style="background:var(--blue);color:white;">Offer Alt Room</button>
+      <button class="lc-btn" style="background:white;border:2px solid #E0E0E0;">Escalate to Sandra</button>
+      <button class="lc-btn" style="background:#E0E0E0;color:#9E9E9E;cursor:not-allowed;">&#128274; Mark Lost</button>
     </div>
   </div>
 
   <div class="lead-card escalated">
-    <div class="lc-top"><div class="lc-name">Roberto L.</div><span class="lc-badge" style="background:var(--purple);color:white;">Escalado a Sandra</span></div>
-    <div class="lc-meta">FB Marketplace &nbsp;|&nbsp; $200/sem &nbsp;|&nbsp; Cualquier area &nbsp;|&nbsp; "Quiero hablar con alguien"</div>
-    <div class="lc-next">&#128276; Sandra fue notificada a las 11:30 AM. Esperando respuesta.</div>
+    <div class="lc-top"><div class="lc-name">Roberto L.</div><span class="lc-badge" style="background:var(--purple);color:white;">Escalated to Sandra</span></div>
+    <div class="lc-meta">FB Marketplace &nbsp;|&nbsp; $200/wk &nbsp;|&nbsp; Any area &nbsp;|&nbsp; "Wants to talk to someone"</div>
+    <div class="lc-next">&#128276; Sandra notified at 11:30 AM. Waiting for response.</div>
   </div>
 
-  <div class="sec-label" style="margin-top:24px;">&#128274; Regla del sistema</div>
+  <div class="sec-label" style="margin-top:24px;">&#128274; System Rule</div>
   <div style="background:#FFF8E1;border:2px solid #FFD54F;border-radius:12px;padding:14px;font-size:13px;">
-    <strong>Un prospecto NO puede ser marcado "Perdido"</strong> hasta que se haya ofrecido una casa alternativa. El boton esta bloqueado hasta que "Otra Casa Ofrecida" este marcado.
+    <strong>A lead CANNOT be marked "Lost"</strong> until an alternate room has been offered. The button stays locked until "Alt Room Offered" is checked.
   </div>
 </div>
 
 <!-- ========== LIMPIEZA ========== -->
 <div class="view" id="andrea-limpieza">
-  <div class="sec-label">&#128680; Vencidos</div>
+  <div class="sec-label">&#128680; Overdue</div>
   <div class="next-action urgent">
     <div class="na-top">
-      <div class="na-step">&#128308; VENCIDO 3 DIAS</div>
-      <div class="na-title">355 Linden Ln — Limpieza programada</div>
-      <div class="na-sub">Ultima limpieza: Mar 22 &nbsp;|&nbsp; Felix asignado: Si &nbsp;|&nbsp; Falta foto para completar</div>
+      <div class="na-step">&#128308; OVERDUE 3 DAYS</div>
+      <div class="na-title">355 Linden Ln — Scheduled Cleaning</div>
+      <div class="na-sub">Last cleaned: Mar 22 &nbsp;|&nbsp; Felix assigned: Yes &nbsp;|&nbsp; Photo required to complete</div>
     </div>
     <div class="na-buttons">
-      <button class="na-btn na-btn-outline" style="flex:2;">&#128247; Subir Foto</button>
-      <button class="na-btn na-btn-disabled">&#128274; Completado</button>
+      <button class="na-btn na-btn-outline" style="flex:2;">&#128247; Upload Photo</button>
+      <button class="na-btn na-btn-disabled">&#128274; Complete</button>
     </div>
   </div>
 
-  <div class="sec-label">&#128736; Reparaciones en progreso</div>
+  <div class="sec-label">&#128736; Repairs In Progress</div>
   <div class="next-action normal" style="border-left-color:var(--blue);">
     <div class="na-top">
-      <div class="na-step na-step-blue">EN PROGRESO</div>
-      <div class="na-title">7821 Caxton B — Reparacion pared + limpieza</div>
-      <div class="na-sub">Materiales: &#9989; Comprados &nbsp;|&nbsp; Felix: &#9989; Asignado &nbsp;|&nbsp; Foto antes: &#9989; &nbsp;|&nbsp; <strong style="color:var(--blue)">Esperando foto despues</strong></div>
+      <div class="na-step na-step-blue">IN PROGRESS</div>
+      <div class="na-title">7821 Caxton B — Wall repair + cleaning</div>
+      <div class="na-sub">Supplies: &#9989; Bought &nbsp;|&nbsp; Felix: &#9989; Assigned &nbsp;|&nbsp; Before photo: &#9989; &nbsp;|&nbsp; <strong style="color:var(--blue)">Waiting on after photo</strong></div>
     </div>
     <div class="na-buttons">
-      <button class="na-btn na-btn-green" style="flex:2;">&#128247; Subir Foto Despues</button>
-      <button class="na-btn na-btn-outline">Ver detalles</button>
+      <button class="na-btn na-btn-green" style="flex:2;">&#128247; Upload After Photo</button>
+      <button class="na-btn na-btn-outline">View Details</button>
     </div>
   </div>
 
   <div class="next-action warning" style="border-left-color:var(--yellow);">
     <div class="na-top">
-      <div class="na-step" style="color:var(--yellow);">FALTA MATERIAL</div>
-      <div class="na-title">7821 Caxton A — Limpieza profunda + lista para publicar</div>
-      <div class="na-sub">Necesita: Productos de limpieza, cera para piso &nbsp;|&nbsp; <strong style="color:var(--yellow)">Sandra debe comprar materiales</strong></div>
+      <div class="na-step" style="color:var(--yellow);">WAITING ON SUPPLIES</div>
+      <div class="na-title">7821 Caxton A — Deep clean + ready to list</div>
+      <div class="na-sub">Needs: Cleaning supplies, floor wax &nbsp;|&nbsp; <strong style="color:var(--yellow)">Sandra needs to buy supplies first</strong></div>
     </div>
     <div class="na-buttons">
-      <button class="na-btn na-btn-outline">Avisar a Sandra</button>
+      <button class="na-btn na-btn-outline">Notify Sandra</button>
     </div>
   </div>
 
-  <div class="sec-label">&#128197; Proximas limpiezas</div>
+  <div class="sec-label">&#128197; Upcoming Cleanings</div>
   <div class="next-action" style="border-left-color:var(--green);">
     <div class="na-top">
-      <div class="na-step na-step-green">EN 3 DIAS — Abr 11</div>
-      <div class="na-title">7862 Hastings St — Limpieza programada</div>
-      <div class="na-sub">Ultima limpieza: Mar 28 &nbsp;|&nbsp; Limpieza 1 de abril: &#9989;</div>
+      <div class="na-step na-step-green">IN 3 DAYS — Apr 11</div>
+      <div class="na-title">7862 Hastings St — Scheduled Cleaning</div>
+      <div class="na-sub">Last cleaned: Mar 28 &nbsp;|&nbsp; Apr 1 cleaning: &#9989;</div>
     </div>
   </div>
 
   <div style="background:#FFF8E1;border:2px solid #FFD54F;border-radius:12px;padding:14px;font-size:13px;margin-top:16px;">
-    <strong>&#128274; Reglas del sistema:</strong><br>
-    1. Felix no ve la tarea hasta que Sandra marque "Materiales comprados"<br>
-    2. La tarea no se puede completar sin foto "despues"<br>
-    3. El cuarto no puede ser "Listo para mostrar" si tiene una tarea abierta
+    <strong>&#128274; System Rules:</strong><br>
+    1. Felix doesn't see the task until Sandra marks "Supplies Bought"<br>
+    2. Task cannot be completed without an after photo<br>
+    3. Room cannot be "Ready to Show" if it has an open task
   </div>
 </div>
 
 <!-- ========== RUTA ========== -->
 <div class="view" id="andrea-ruta">
   <div class="route-card">
-    <h3>&#128205; Ruta de Hoy — 5 paradas</h3>
-    <div class="route-stop"><div class="rs-num">1</div><div class="rs-detail"><div class="rs-addr">7821 Caxton Cir E, 32208</div><div class="rs-reason">&#128736; Verificar reparacion (Felix) &nbsp;|&nbsp; &#128176; Cobrar a Joseb ($200)</div></div></div>
-    <div class="route-stop"><div class="rs-num">2</div><div class="rs-detail"><div class="rs-addr">7862 Hastings St, 32220</div><div class="rs-reason">&#127968; SHOWING 2:00 PM — Maria G., Room D ($150/sem) &nbsp;|&nbsp; &#128176; Cobrar a Jhon ($150)</div></div></div>
-    <div class="route-stop"><div class="rs-num">3</div><div class="rs-detail"><div class="rs-addr">6132 Horseshoe Dr, 32254</div><div class="rs-reason">&#128176; Cobrar a Jhoan ($180 — CRONICO) &nbsp;|&nbsp; &#128176; Cobrar a Reniel ($180)</div></div></div>
-    <div class="route-stop"><div class="rs-num">4</div><div class="rs-detail"><div class="rs-addr">355 Linden Ln, 32073</div><div class="rs-reason">&#129529; LIMPIEZA VENCIDA (17 dias) — subir foto &nbsp;|&nbsp; &#128176; Cobrar a 5 inquilinos</div></div></div>
-    <div class="route-stop"><div class="rs-num">5</div><div class="rs-detail"><div class="rs-addr">346 Linden Ln, 32073</div><div class="rs-reason">&#128176; Cobrar a 6 inquilinos — 4 cronicos &nbsp;|&nbsp; Isaiah, Misty, Zakkiyah, Dominico</div></div></div>
-    <a href="https://www.google.com/maps/dir/7821+Caxton+Cir+E+Jacksonville+FL/7862+Hastings+St+Jacksonville+FL/6132+Horseshoe+Dr+Jacksonville+FL/355+Linden+Ln+Orange+Park+FL/346+Linden+Ln+Orange+Park+FL" target="_blank"><button class="route-map-btn">&#128506; Abrir Ruta Completa en Maps &#8594;</button></a>
+    <h3>&#128205; Today's Route — 5 stops</h3>
+    <div class="route-stop"><div class="rs-num">1</div><div class="rs-detail"><div class="rs-addr">7821 Caxton Cir E, 32208</div><div class="rs-reason">&#128736; Check repair (Felix) &nbsp;|&nbsp; &#128176; Collect from Joseb ($200)</div></div></div>
+    <div class="route-stop"><div class="rs-num">2</div><div class="rs-detail"><div class="rs-addr">7862 Hastings St, 32220</div><div class="rs-reason">&#127968; SHOWING 2:00 PM — Maria G., Room D ($150/wk) &nbsp;|&nbsp; &#128176; Collect from Jhon ($150)</div></div></div>
+    <div class="route-stop"><div class="rs-num">3</div><div class="rs-detail"><div class="rs-addr">6132 Horseshoe Dr, 32254</div><div class="rs-reason">&#128176; Collect from Jhoan ($180 — CHRONIC) &nbsp;|&nbsp; &#128176; Collect from Reniel ($180)</div></div></div>
+    <div class="route-stop"><div class="rs-num">4</div><div class="rs-detail"><div class="rs-addr">355 Linden Ln, 32073</div><div class="rs-reason">&#129529; OVERDUE CLEANING (17 days) — upload photo &nbsp;|&nbsp; &#128176; Collect from 5 tenants</div></div></div>
+    <div class="route-stop"><div class="rs-num">5</div><div class="rs-detail"><div class="rs-addr">346 Linden Ln, 32073</div><div class="rs-reason">&#128176; Collect from 6 tenants — 4 chronic &nbsp;|&nbsp; Isaiah, Misty, Zakkiyah, Dominico</div></div></div>
+    <a href="https://www.google.com/maps/dir/7821+Caxton+Cir+E+Jacksonville+FL/7862+Hastings+St+Jacksonville+FL/6132+Horseshoe+Dr+Jacksonville+FL/355+Linden+Ln+Orange+Park+FL/346+Linden+Ln+Orange+Park+FL" target="_blank"><button class="route-map-btn">&#128506; Open Full Route in Maps &#8594;</button></a>
   </div>
 
   <div style="background:white;border-radius:14px;padding:16px;box-shadow:var(--shadow);font-size:13px;color:var(--gray);">
-    <strong>Tiempo estimado:</strong> ~1.5 horas de manejo &nbsp;|&nbsp; <strong>Paradas:</strong> 5 &nbsp;|&nbsp; <strong>Cobros:</strong> ~$2,800 &nbsp;|&nbsp; <strong>Showing:</strong> 1 &nbsp;|&nbsp; <strong>Limpieza:</strong> 1
+    <strong>Est. Drive Time:</strong> ~1.5 hrs &nbsp;|&nbsp; <strong>Stops:</strong> 5 &nbsp;|&nbsp; <strong>Collections:</strong> ~$2,800 &nbsp;|&nbsp; <strong>Showing:</strong> 1 &nbsp;|&nbsp; <strong>Cleaning:</strong> 1
   </div>
 </div>
 
@@ -603,42 +603,42 @@ main { max-width: 480px; margin: 0 auto; padding: 12px; }
 <div class="view active">
   <div class="kpi-bar">
     <div class="kpi"><div class="kpi-val kpi-red">3</div><div class="kpi-label">Leads</div></div>
-    <div class="kpi"><div class="kpi-val kpi-red">4</div><div class="kpi-label">Anuncios</div></div>
+    <div class="kpi"><div class="kpi-val kpi-red">4</div><div class="kpi-label">Ad Issues</div></div>
     <div class="kpi"><div class="kpi-val kpi-red">2</div><div class="kpi-label">Andrea</div></div>
-    <div class="kpi"><div class="kpi-val" style="color:var(--purple)">1</div><div class="kpi-label">Escalar</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:var(--purple)">1</div><div class="kpi-label">Escalate</div></div>
   </div>
 
-  <div class="sec-label">&#128680; Leads sin atender</div>
+  <div class="sec-label">&#128680; Leads Needing Attention</div>
   <div class="exc-card">
-    <div class="exc-title">Roberto L. — Quiere hablar con alguien</div>
-    <div class="exc-sub">Budget: $200/sem &nbsp;|&nbsp; Cualquier area &nbsp;|&nbsp; Esperando desde 11:30 AM</div>
-    <div style="display:flex;gap:8px;"><button class="na-btn na-btn-green">&#128222; Llamar</button><button class="na-btn na-btn-outline">Ver conversacion</button></div>
+    <div class="exc-title">Roberto L. — Wants to talk to someone</div>
+    <div class="exc-sub">Budget: $200/wk &nbsp;|&nbsp; Any area &nbsp;|&nbsp; Waiting since 11:30 AM</div>
+    <div style="display:flex;gap:8px;"><button class="na-btn na-btn-green">&#128222; Call</button><button class="na-btn na-btn-outline">View Conversation</button></div>
   </div>
 
-  <div class="sec-label">&#128680; Anuncios incorrectos</div>
+  <div class="sec-label">&#128680; Ad Problems</div>
   <div class="exc-card">
-    <div class="exc-title">Caxton A, B, C — 18 dias vacante, SIN ANUNCIO</div>
-    <div class="exc-sub">3 cuartos, $450/sem potencial &nbsp;|&nbsp; No limpio, no publicado &nbsp;|&nbsp; $900 perdidos</div>
-    <div style="display:flex;gap:8px;"><button class="na-btn na-btn-blue">Publicar anuncio</button></div>
+    <div class="exc-title">Caxton A, B, C — Vacant 18 days, NO LISTING</div>
+    <div class="exc-sub">3 rooms, $450/wk potential &nbsp;|&nbsp; Not cleaned, not posted &nbsp;|&nbsp; $900 lost</div>
+    <div style="display:flex;gap:8px;"><button class="na-btn na-btn-blue">Post Listing</button></div>
   </div>
   <div class="exc-card warn">
-    <div class="exc-title">2228 W 16th St — Anuncio vencido 21 dias, 0 leads</div>
-    <div class="exc-sub">2 cuartos vacantes &nbsp;|&nbsp; $160/sem &nbsp;|&nbsp; <strong>Que pasa con esta casa?</strong></div>
-    <div style="display:flex;gap:6px;flex-wrap:wrap;"><button class="na-btn na-btn-outline">Precio?</button><button class="na-btn na-btn-outline">Fotos?</button><button class="na-btn na-btn-outline">Condicion?</button><button class="na-btn na-btn-outline">Area?</button></div>
+    <div class="exc-title">2228 W 16th St — Listing expired 21 days, 0 leads</div>
+    <div class="exc-sub">2 rooms vacant &nbsp;|&nbsp; $160/wk &nbsp;|&nbsp; <strong>What's wrong with this house?</strong></div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;"><button class="na-btn na-btn-outline">Price?</button><button class="na-btn na-btn-outline">Photos?</button><button class="na-btn na-btn-outline">Condition?</button><button class="na-btn na-btn-outline">Area?</button></div>
   </div>
 
-  <div class="sec-label">&#128680; Andrea pendientes</div>
+  <div class="sec-label">&#128680; Andrea Pending Items</div>
   <div class="exc-card">
-    <div class="exc-title">355 Linden — Foto de limpieza vencida 3 dias</div>
-    <div class="exc-sub">Ultima limpieza Mar 22 &nbsp;|&nbsp; 17 dias sin foto</div>
-    <div style="display:flex;gap:8px;"><button class="na-btn na-btn-outline">Notificar a Andrea</button></div>
+    <div class="exc-title">355 Linden — Cleaning photo overdue 3 days</div>
+    <div class="exc-sub">Last cleaned Mar 22 &nbsp;|&nbsp; 17 days without photo</div>
+    <div style="display:flex;gap:8px;"><button class="na-btn na-btn-outline">Notify Andrea</button></div>
   </div>
 
-  <div class="sec-label">&#128680; Escalaciones</div>
+  <div class="sec-label">&#128680; Escalations to Jerel</div>
   <div class="exc-card" style="border-left-color:var(--purple);">
-    <div class="exc-title">Dominico (346 Linden RV2) — Cronico $320+ acumulado</div>
-    <div class="exc-sub">Renta: $250 &nbsp;|&nbsp; Paga: $145-170 &nbsp;|&nbsp; 4 semanas consecutivas</div>
-    <div style="display:flex;gap:8px;"><button class="na-btn" style="background:var(--purple);color:white;">Escalar a Jerel</button></div>
+    <div class="exc-title">Dominico (346 Linden RV2) — Chronic $320+ running balance</div>
+    <div class="exc-sub">Rent: $250 &nbsp;|&nbsp; Pays: $145-170 &nbsp;|&nbsp; 4 consecutive weeks</div>
+    <div style="display:flex;gap:8px;"><button class="na-btn" style="background:var(--purple);color:white;">Escalate to Jerel</button></div>
   </div>
 </div>
 </main>
@@ -730,11 +730,11 @@ const TOTAL_TASKS = 5;
 const STORAGE_KEY = 'hgrt_hoy_tasks_' + new Date().toDateString(); // resets each day
 
 const TASK_LABELS = {
-  1: 'Cobrar a Jhoan — Horseshoe A',
-  2: 'Cobrar a Victoria — foto de recibo',
+  1: 'Collect from Jhoan — Horseshoe A',
+  2: 'Collect from Victoria — receipt photo',
   3: 'Showing: Maria G. — Hastings 2pm',
-  4: 'Seguimiento: Jorge M.',
-  5: 'Limpieza VENCIDA — 355 Linden'
+  4: 'Follow-up: Jorge M.',
+  5: 'OVERDUE Cleaning — 355 Linden'
 };
 
 function getTaskState() {
@@ -759,14 +759,14 @@ function markDone(id, btn) {
   renderChecklist();
   // brief button feedback
   const orig = btn.textContent;
-  btn.textContent = '✓ Hecho';
+  btn.textContent = '✓ Done';
   btn.style.background = 'var(--green)';
   btn.style.color = 'white';
   setTimeout(() => { btn.textContent = orig; btn.style.background = ''; btn.style.color = ''; }, 1200);
 }
 
 function resetProgress() {
-  if (!confirm('¿Empezar de nuevo? Esto limpia el progreso de hoy.')) return;
+  if (!confirm('Reset today\'s progress? This clears all checkmarks.')) return;
   localStorage.removeItem(STORAGE_KEY);
   renderChecklist();
 }
@@ -790,13 +790,13 @@ function renderChecklist() {
       card.classList.add('task-done');
       box.classList.add('checked');
       box.textContent = '✓';
-      lbl.textContent = '✓ Completado';
+      lbl.textContent = '✓ Completed';
       lbl.classList.add('checked');
     } else {
       card.classList.remove('task-done');
       box.classList.remove('checked');
       box.textContent = '';
-      lbl.textContent = 'Marcar como hecho';
+      lbl.textContent = 'Mark as done';
       lbl.classList.remove('checked');
     }
   }
@@ -813,14 +813,14 @@ function renderChecklist() {
   frac.style.color = pct === 100 ? 'var(--green)' : pct >= 60 ? 'var(--yellow)' : 'var(--red)';
 
   const messages = {
-    0: '0 de 5 tareas completadas — ¡Vamos Andrea!',
-    1: '1 de 5 tareas completadas — Buen comienzo ✊',
-    2: '2 de 5 tareas completadas — Vas bien 👍',
-    3: '3 de 5 tareas completadas — A mitad del camino 💪',
-    4: '4 de 5 tareas completadas — ¡Casi lista! 🔥',
-    5: '5 de 5 — ¡Todo listo hoy! ⭐'
+    0: '0 of 5 tasks completed — Let\'s go!',
+    1: '1 of 5 tasks completed — Good start ✊',
+    2: '2 of 5 tasks completed — Making progress 👍',
+    3: '3 of 5 tasks completed — Halfway there 💪',
+    4: '4 of 5 tasks completed — Almost done! 🔥',
+    5: '5 of 5 — All done today! ⭐'
   };
-  sub.textContent = messages[done] || (done + ' de ' + TOTAL_TASKS + ' tareas completadas');
+  sub.textContent = messages[done] || (done + ' of ' + TOTAL_TASKS + ' tasks completed');
 
   // completed summary panel
   const panel = document.getElementById('completed-summary');
