@@ -1,735 +1,617 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HGRT Operating System V3</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>HGRT Command Center</title>
 <style>
 :root {
-  --bg: #f8fafc; --surface: #ffffff; --dark: #0f172a; --text: #1e293b; --muted: #64748b;
-  --border: #e2e8f0; --accent: #2563eb; --accent-light: #dbeafe;
-  --green: #16a34a; --green-bg: #dcfce7; --green-border: #86efac;
-  --red: #dc2626; --red-bg: #fee2e2; --red-border: #fca5a5;
-  --yellow: #d97706; --yellow-bg: #fef3c7; --yellow-border: #fcd34d;
-  --orange: #ea580c; --orange-bg: #fff7ed; --orange-border: #fdba74;
-  --purple: #7c3aed; --purple-bg: #f5f3ff;
-  --shadow: 0 1px 3px rgba(0,0,0,.1);
-  --shadow-md: 0 4px 6px -1px rgba(0,0,0,.1);
+  --blue: #1565C0; --blue-dark: #0D47A1; --blue-light: #E3F2FD;
+  --green: #2E7D32; --green-bg: #E8F5E9; --green-border: #81C784;
+  --red: #C62828; --red-bg: #FFEBEE; --red-border: #EF9A9A;
+  --yellow: #F57F17; --yellow-bg: #FFF8E1; --yellow-border: #FFD54F;
+  --orange: #E65100; --orange-bg: #FFF3E0; --orange-border: #FFB74D;
+  --purple: #6A1B9A; --purple-bg: #F3E5F5;
+  --gray: #78909C; --gray-bg: #ECEFF1;
+  --dark: #263238; --text: #37474F; --bg: #F5F7FA;
+  --white: #FFFFFF;
+  --shadow: 0 2px 8px rgba(0,0,0,.12);
+  --shadow-lg: 0 4px 16px rgba(0,0,0,.15);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); font-size: 15px; -webkit-font-smoothing: antialiased; }
 
-/* === ROLE SWITCHER === */
-.role-bar { background: var(--dark); color: white; padding: 0 20px; display: flex; align-items: center; height: 48px; position: sticky; top: 0; z-index: 200; gap: 16px; }
-.role-bar .logo { font-weight: 800; font-size: 15px; letter-spacing: -.5px; }
-.role-bar .logo span { color: #fbbf24; }
-.role-btn { padding: 6px 16px; border-radius: 6px; border: 1px solid rgba(255,255,255,.15); background: none; color: #94a3b8; font-size: 12px; font-weight: 600; cursor: pointer; transition: all .15s; }
-.role-btn:hover { background: rgba(255,255,255,.08); color: white; }
-.role-btn.active { background: rgba(255,255,255,.12); color: white; border-color: rgba(255,255,255,.3); }
-.role-bar .spacer { flex: 1; }
-.role-bar .date { font-size: 12px; color: #64748b; }
+/* === TOP BAR === */
+.topbar { background: var(--blue-dark); color: white; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 200; }
+.topbar-left { display: flex; align-items: center; gap: 12px; }
+.topbar-logo { font-size: 18px; font-weight: 800; letter-spacing: -.5px; }
+.topbar-logo span { color: #FFD54F; }
+.topbar-right { display: flex; align-items: center; gap: 8px; }
 
-/* === TAB NAV === */
-.tab-nav { background: white; border-bottom: 1px solid var(--border); padding: 0 20px; display: flex; gap: 4px; position: sticky; top: 48px; z-index: 190; }
-.tab-btn { padding: 12px 16px; font-size: 13px; font-weight: 500; color: var(--muted); border: none; background: none; cursor: pointer; border-bottom: 2px solid transparent; transition: all .15s; }
-.tab-btn:hover { color: var(--text); }
-.tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+/* ROLE AVATARS */
+.avatars { display: flex; gap: 4px; }
+.avatar { width: 36px; height: 36px; border-radius: 50%; border: 2px solid rgba(255,255,255,.3); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; cursor: pointer; transition: all .2s; position: relative; }
+.avatar:hover { border-color: white; transform: scale(1.1); }
+.avatar.active { border-color: #FFD54F; box-shadow: 0 0 0 2px #FFD54F; }
+.avatar-andrea { background: #E53935; }
+.avatar-sandra { background: #43A047; }
+.avatar-jerel { background: #1E88E5; }
+.avatar .notif { position: absolute; top: -2px; right: -2px; width: 14px; height: 14px; border-radius: 50%; background: #FFD54F; color: var(--dark); font-size: 9px; font-weight: 800; display: flex; align-items: center; justify-content: center; border: 1.5px solid var(--blue-dark); }
+
+/* === NAV ICONS === */
+.nav-icons { display: flex; justify-content: center; gap: 2px; padding: 8px 12px; background: white; border-bottom: 1px solid #E0E0E0; position: sticky; top: 60px; z-index: 190; }
+.nav-icon { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 16px; border-radius: 8px; border: none; background: none; cursor: pointer; color: var(--gray); font-size: 10px; font-weight: 600; transition: all .15s; min-width: 64px; }
+.nav-icon .ico { font-size: 20px; }
+.nav-icon:hover { background: var(--blue-light); color: var(--blue); }
+.nav-icon.active { background: var(--blue); color: white; border-radius: 10px; }
 
 /* === MAIN === */
-main { max-width: 1200px; margin: 0 auto; padding: 20px; }
+main { max-width: 480px; margin: 0 auto; padding: 12px; }
+@media (min-width: 768px) { main { max-width: 900px; } }
 .view { display: none; }
 .view.active { display: block; }
 
-/* === CARDS === */
-.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; box-shadow: var(--shadow); padding: 20px; margin-bottom: 16px; }
-.card h3 { font-size: 15px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+/* === COMMAND CENTER CARDS === */
+.cc-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+@media (min-width: 768px) { .cc-grid { grid-template-columns: 1fr 1fr 1fr; } .cc-grid-2 { grid-template-columns: 1fr 1fr; } }
 
-/* === ALERTS === */
-.alert { padding: 12px 16px; border-radius: 8px; margin-bottom: 8px; font-size: 13px; display: flex; align-items: center; gap: 10px; }
-.alert-red { background: var(--red-bg); border: 1px solid var(--red-border); color: #991b1b; }
-.alert-yellow { background: var(--yellow-bg); border: 1px solid var(--yellow-border); color: #92400e; }
-.alert-green { background: var(--green-bg); border: 1px solid var(--green-border); color: #166534; }
-.alert-orange { background: var(--orange-bg); border: 1px solid var(--orange-border); color: #9a3412; }
+.cc-card { background: white; border-radius: 14px; box-shadow: var(--shadow); overflow: hidden; }
+.cc-header { padding: 12px 16px; color: white; font-weight: 700; font-size: 15px; display: flex; align-items: center; justify-content: space-between; }
+.cc-header .ico { font-size: 18px; }
+.cc-header-blue { background: var(--blue); }
+.cc-header-green { background: var(--green); }
+.cc-header-red { background: var(--red); }
+.cc-header-orange { background: var(--orange); }
+.cc-header-purple { background: var(--purple); }
+.cc-body { padding: 12px 16px; }
+.cc-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #F0F0F0; }
+.cc-row:last-child { border-bottom: none; }
+.cc-row-left { display: flex; align-items: center; gap: 10px; }
+.cc-num { font-size: 24px; font-weight: 800; color: var(--red); min-width: 28px; }
+.cc-num-green { color: var(--green); }
+.cc-num-yellow { color: var(--yellow); }
+.cc-label { font-size: 14px; color: var(--text); }
+.cc-badge { padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; }
+.cc-badge-red { background: var(--red-bg); color: var(--red); }
+.cc-badge-yellow { background: var(--yellow-bg); color: var(--yellow); }
+.cc-badge-green { background: var(--green-bg); color: var(--green); }
+.cc-badge-orange { background: var(--orange-bg); color: var(--orange); }
+.cc-footer { padding: 10px 16px; border-top: 1px solid #F0F0F0; }
+.cc-footer-btn { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 10px 14px; border-radius: 8px; border: none; font-size: 14px; font-weight: 700; cursor: pointer; color: white; }
+.cc-footer-btn-green { background: var(--green); }
+.cc-footer-btn-blue { background: var(--blue); }
+.cc-footer-btn-red { background: var(--red); }
+.cc-footer-btn-orange { background: var(--orange); }
 
-/* === ACTION BUTTONS === */
-.btn { padding: 6px 14px; border-radius: 6px; border: none; font-size: 12px; font-weight: 600; cursor: pointer; transition: all .15s; }
-.btn-green { background: var(--green); color: white; }
-.btn-green:hover { background: #15803d; }
-.btn-red { background: var(--red); color: white; }
-.btn-red:hover { background: #b91c1c; }
-.btn-yellow { background: var(--yellow); color: white; }
-.btn-yellow:hover { background: #b45309; }
-.btn-blue { background: var(--accent); color: white; }
-.btn-blue:hover { background: #1d4ed8; }
-.btn-outline { background: none; border: 1px solid var(--border); color: var(--text); }
-.btn-outline:hover { background: var(--bg); }
-.btn-disabled { background: #d1d5db; color: #9ca3af; cursor: not-allowed; }
-
-/* === TABLE === */
-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-th { text-align: left; padding: 8px 12px; font-weight: 600; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .5px; border-bottom: 2px solid var(--border); }
-td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
-tr:hover { background: #f8fafc; }
-
-/* === BADGES === */
-.badge { display: inline-block; padding: 3px 10px; border-radius: 99px; font-size: 11px; font-weight: 600; }
-.badge-green { background: var(--green-bg); color: var(--green); }
-.badge-red { background: var(--red-bg); color: var(--red); }
-.badge-yellow { background: var(--yellow-bg); color: var(--yellow); }
-.badge-orange { background: var(--orange-bg); color: var(--orange); }
-.badge-blue { background: var(--accent-light); color: var(--accent); }
-.badge-gray { background: #f1f5f9; color: var(--muted); }
-.badge-purple { background: var(--purple-bg); color: var(--purple); }
-.badge-black { background: #1e293b; color: white; }
-
-/* === KPI STRIP === */
-.kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 20px; }
-.kpi { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; text-align: center; }
-.kpi-label { font-size: 10px; text-transform: uppercase; letter-spacing: .7px; color: var(--muted); font-weight: 600; }
-.kpi-value { font-size: 28px; font-weight: 800; margin: 4px 0; }
-.kpi-sub { font-size: 11px; color: var(--muted); }
-.kpi-red .kpi-value { color: var(--red); }
-.kpi-green .kpi-value { color: var(--green); }
-.kpi-yellow .kpi-value { color: var(--yellow); }
-
-/* === SECTION HEADING === */
-.section-head { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); margin: 24px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-
-/* === ACTION ROW === */
-.action-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 8px; }
-.action-row:hover { box-shadow: var(--shadow-md); }
-.action-info { flex: 1; }
-.action-info .title { font-weight: 600; font-size: 14px; }
-.action-info .sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
-.action-buttons { display: flex; gap: 6px; flex-shrink: 0; }
+/* === NEXT ACTION QUEUE === */
+.next-action { background: white; border-radius: 14px; box-shadow: var(--shadow); margin-bottom: 12px; overflow: hidden; border-left: 5px solid var(--red); }
+.next-action.done { border-left-color: var(--green); opacity: .6; }
+.next-action.urgent { border-left-color: var(--red); }
+.next-action.normal { border-left-color: var(--blue); }
+.next-action.warning { border-left-color: var(--yellow); }
+.na-top { padding: 14px 16px; }
+.na-step { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--red); margin-bottom: 4px; }
+.na-step-blue { color: var(--blue); }
+.na-step-green { color: var(--green); }
+.na-title { font-size: 17px; font-weight: 700; color: var(--dark); }
+.na-sub { font-size: 13px; color: var(--gray); margin-top: 4px; line-height: 1.4; }
+.na-buttons { padding: 0 16px 14px; display: flex; gap: 8px; flex-wrap: wrap; }
+.na-btn { padding: 10px 18px; border-radius: 10px; border: none; font-size: 14px; font-weight: 700; cursor: pointer; transition: all .15s; flex: 1; min-width: 100px; text-align: center; }
+.na-btn-green { background: var(--green); color: white; }
+.na-btn-red { background: var(--red); color: white; }
+.na-btn-blue { background: var(--blue); color: white; }
+.na-btn-yellow { background: var(--yellow); color: white; }
+.na-btn-outline { background: white; border: 2px solid #E0E0E0; color: var(--text); }
+.na-btn-disabled { background: #E0E0E0; color: #9E9E9E; cursor: not-allowed; }
+.na-btn:active:not(.na-btn-disabled) { transform: scale(.97); }
 
 /* === ROUTE CARD === */
-.route-stop { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); align-items: flex-start; }
-.route-num { width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
-.route-detail { flex: 1; }
-.route-detail .addr { font-weight: 600; }
-.route-detail .reason { font-size: 12px; color: var(--muted); }
-.route-map-btn { margin-top: 12px; }
+.route-card { background: linear-gradient(135deg, #FF8F00 0%, #F57C00 100%); border-radius: 14px; padding: 16px; color: white; margin-bottom: 12px; box-shadow: var(--shadow); }
+.route-card h3 { font-size: 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.route-stop { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,.2); align-items: flex-start; }
+.route-stop:last-child { border-bottom: none; }
+.rs-num { width: 26px; height: 26px; border-radius: 50%; background: rgba(255,255,255,.25); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px; flex-shrink: 0; }
+.rs-detail { flex: 1; }
+.rs-addr { font-weight: 700; font-size: 14px; }
+.rs-reason { font-size: 12px; opacity: .85; margin-top: 2px; }
+.route-map-btn { display: block; width: 100%; padding: 12px; border-radius: 10px; background: white; color: var(--orange); font-weight: 800; font-size: 15px; border: none; cursor: pointer; margin-top: 12px; text-align: center; }
 
-/* === STATUS GATE VISUAL === */
-.gate-blocked { position: relative; }
-.gate-blocked::after { content: "BLOCKED — Alternate required"; position: absolute; top: 50%; right: 10px; transform: translateY(-50%); background: var(--red); color: white; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; }
+/* === KPI BAR === */
+.kpi-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; }
+.kpi { background: white; border-radius: 12px; padding: 12px 8px; text-align: center; box-shadow: var(--shadow); }
+.kpi-val { font-size: 26px; font-weight: 800; }
+.kpi-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; color: var(--gray); margin-top: 2px; }
+.kpi-red { color: var(--red); }
+.kpi-green { color: var(--green); }
+.kpi-blue { color: var(--blue); }
+
+/* === SECTION LABEL === */
+.sec-label { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--gray); margin: 20px 0 8px; padding-left: 4px; }
 
 /* === LEAD CARD === */
-.lead-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 10px; }
-.lead-card:hover { box-shadow: var(--shadow-md); }
-.lead-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-.lead-name { font-weight: 700; font-size: 15px; }
-.lead-meta { font-size: 12px; color: var(--muted); display: flex; gap: 12px; margin-bottom: 10px; }
+.lead-card { background: white; border-radius: 14px; box-shadow: var(--shadow); padding: 14px 16px; margin-bottom: 10px; border-left: 5px solid var(--blue); }
+.lead-card.urgent { border-left-color: var(--red); }
+.lead-card.waiting { border-left-color: var(--yellow); }
+.lead-card.escalated { border-left-color: var(--purple); }
+.lc-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.lc-name { font-weight: 800; font-size: 16px; }
+.lc-badge { padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; }
+.lc-meta { font-size: 12px; color: var(--gray); margin-bottom: 10px; }
+.lc-next { font-size: 12px; font-weight: 700; color: var(--red); margin-bottom: 8px; }
+.lc-buttons { display: flex; gap: 6px; flex-wrap: wrap; }
+.lc-btn { padding: 8px 14px; border-radius: 8px; border: none; font-size: 13px; font-weight: 700; cursor: pointer; }
+
+/* === EXCEPTIONS (Sandra) === */
+.exc-card { background: white; border-radius: 14px; box-shadow: var(--shadow); padding: 14px 16px; margin-bottom: 10px; border-left: 5px solid var(--red); }
+.exc-card.warn { border-left-color: var(--yellow); }
+.exc-card.info { border-left-color: var(--blue); }
+.exc-title { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+.exc-sub { font-size: 13px; color: var(--gray); margin-bottom: 10px; }
+
+/* === OWNER TABLE === */
+.owner-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.owner-table th { text-align: left; padding: 10px 12px; background: var(--blue-dark); color: white; font-size: 12px; text-transform: uppercase; letter-spacing: .5px; }
+.owner-table td { padding: 10px 12px; border-bottom: 1px solid #E0E0E0; }
+.owner-table tr:hover { background: var(--blue-light); }
+
+/* === ARCHITECTURE DIAGRAM === */
+.arch { background: linear-gradient(135deg, #0D47A1 0%, #1565C0 50%, #1976D2 100%); border-radius: 14px; padding: 20px; color: white; margin-bottom: 16px; }
+.arch h2 { font-size: 18px; margin-bottom: 4px; }
+.arch p { font-size: 13px; opacity: .8; margin-bottom: 16px; }
+.arch-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+@media (min-width: 768px) { .arch-grid { grid-template-columns: repeat(4, 1fr); } }
+.arch-box { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); border-radius: 10px; padding: 14px; text-align: center; }
+.arch-icon { font-size: 24px; margin-bottom: 6px; }
+.arch-tool { font-size: 14px; font-weight: 800; color: #FFD54F; }
+.arch-desc { font-size: 11px; opacity: .7; margin-top: 4px; }
 
 /* === RESPONSIVE === */
-@media (max-width: 768px) {
-  .kpi-strip { grid-template-columns: repeat(2, 1fr); }
-  .tab-nav { overflow-x: auto; }
-  .action-row { flex-direction: column; gap: 10px; align-items: flex-start; }
-  .action-buttons { width: 100%; }
-  .action-buttons .btn { flex: 1; text-align: center; }
+@media (max-width: 480px) {
+  .kpi-bar { grid-template-columns: repeat(2, 1fr); }
+  .na-buttons { flex-direction: column; }
+  .na-btn { min-width: auto; }
 }
-
-/* === FRAMEWORK DIAGRAM === */
-.diagram { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-radius: 12px; padding: 24px; color: white; margin-bottom: 20px; }
-.diagram h2 { font-size: 18px; margin-bottom: 16px; }
-.diagram-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-.diagram-box { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15); border-radius: 8px; padding: 14px; text-align: center; }
-.diagram-box .label { font-size: 10px; text-transform: uppercase; letter-spacing: .7px; color: #94a3b8; margin-bottom: 6px; }
-.diagram-box .tool { font-size: 16px; font-weight: 700; color: #fbbf24; }
-.diagram-box .desc { font-size: 11px; color: #94a3b8; margin-top: 4px; }
-.diagram-arrow { text-align: center; color: #fbbf24; font-size: 20px; padding: 8px 0; }
-@media (max-width: 768px) { .diagram-grid { grid-template-columns: 1fr 1fr; } }
 </style>
 </head>
 <body>
 
-<!-- ROLE SWITCHER -->
-<div class="role-bar">
-  <div class="logo">HGRT <span>Operating System</span></div>
-  <div class="spacer"></div>
-  <button class="role-btn active" onclick="switchRole('andrea')">Andrea</button>
-  <button class="role-btn" onclick="switchRole('sandra')">Sandra</button>
-  <button class="role-btn" onclick="switchRole('owner')">Jerel</button>
-  <div class="date">Wed, Apr 8</div>
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="topbar-logo">HGRT <span>Command Center</span></div>
+  </div>
+  <div class="topbar-right">
+    <div class="avatars">
+      <div class="avatar avatar-andrea active" onclick="switchRole('andrea')" title="Andrea">A<div class="notif">3</div></div>
+      <div class="avatar avatar-sandra" onclick="switchRole('sandra')" title="Sandra">S<div class="notif">4</div></div>
+      <div class="avatar avatar-jerel" onclick="switchRole('owner')" title="Jerel">J<div class="notif">1</div></div>
+    </div>
+  </div>
 </div>
 
-<!-- ============================================================ -->
-<!-- ANDREA INTERFACE -->
-<!-- ============================================================ -->
+<!-- ===== ANDREA ===== -->
 <div id="role-andrea">
-<div class="tab-nav" id="andrea-tabs">
-  <button class="tab-btn active" onclick="showTab('andrea','hoy')">Hoy</button>
-  <button class="tab-btn" onclick="showTab('andrea','cobros')">Cobros</button>
-  <button class="tab-btn" onclick="showTab('andrea','prospectos')">Prospectos</button>
-  <button class="tab-btn" onclick="showTab('andrea','limpieza')">Limpieza</button>
-  <button class="tab-btn" onclick="showTab('andrea','ruta')">Ruta</button>
+<div class="nav-icons" id="andrea-nav">
+  <button class="nav-icon active" onclick="showTab('andrea','hoy')"><span class="ico">&#127968;</span>Hoy</button>
+  <button class="nav-icon" onclick="showTab('andrea','cobros')"><span class="ico">&#128176;</span>Cobros</button>
+  <button class="nav-icon" onclick="showTab('andrea','prospectos')"><span class="ico">&#128100;</span>Prospectos</button>
+  <button class="nav-icon" onclick="showTab('andrea','limpieza')"><span class="ico">&#129529;</span>Limpieza</button>
+  <button class="nav-icon" onclick="showTab('andrea','ruta')"><span class="ico">&#128205;</span>Ruta</button>
 </div>
 <main>
 
-<!-- HOY -->
+<!-- ========== HOY ========== -->
 <div class="view active" id="andrea-hoy">
 
-  <!-- ALERTS -->
-  <div class="section-head">Alertas Rojas</div>
-  <div class="alert alert-red">&#x1F6A8; <strong>3 tenants unpaid 4+ days</strong> — Jhoan (Horseshoe), Isaiah (346 Linden), Dominico (346 Linden). Late fees apply today.</div>
-  <div class="alert alert-red">&#x1F6A8; <strong>Caxton A, B, C vacant 18 days</strong> — Not listed. Not clean. $900 lost.</div>
-  <div class="alert alert-orange">&#x26A0;&#xFE0F; <strong>2 leads unanswered > 2 hours</strong> — AI response failed. Manual response needed.</div>
-  <div class="alert alert-yellow">&#x1F9F9; <strong>355 Linden overdue cleaning</strong> — Last cleaned 17 days ago. Photo required.</div>
-
-  <!-- COBROS HOY -->
-  <div class="section-head">Cobros Hoy / Collections Today</div>
-
-  <div class="action-row">
-    <div class="action-info">
-      <div class="title">Saeid — 2204 Myra A</div>
-      <div class="sub">Due: $190 &nbsp;|&nbsp; Collected: $170 &nbsp;|&nbsp; <span style="color:var(--red);font-weight:600">Short: $20</span> &nbsp;|&nbsp; <span class="badge badge-orange">Chronic 4wk</span></div>
+  <!-- COMMAND CENTER SUMMARY -->
+  <div class="cc-grid" style="margin-bottom:16px;">
+    <div class="cc-card">
+      <div class="cc-header cc-header-red">&#128176; Cobros hoy <span class="ico">&#9881;</span></div>
+      <div class="cc-body">
+        <div class="cc-row"><div class="cc-row-left"><div class="cc-num">4</div><div class="cc-label">por vencer hoy</div></div><div class="cc-badge cc-badge-red">$845</div></div>
+        <div class="cc-row"><div class="cc-row-left"><div class="cc-num">2</div><div class="cc-label">atrasados</div></div><div class="cc-badge cc-badge-orange">$/.45</div></div>
+        <div class="cc-row"><div class="cc-row-left"><div class="cc-num cc-num-yellow">1</div><div class="cc-label">con recargo</div></div><div class="cc-badge cc-badge-yellow">1 Alerta</div></div>
+      </div>
+      <div class="cc-footer"><button class="cc-footer-btn cc-footer-btn-green" onclick="showTab('andrea','cobros')">Ver Cobros <span>$845 &#8594;</span></button></div>
     </div>
-    <div class="action-buttons">
-      <button class="btn btn-green">Pagado</button>
-      <button class="btn btn-yellow">Parcial</button>
-      <button class="btn btn-outline">Efectivo</button>
+
+    <div class="cc-card">
+      <div class="cc-header cc-header-blue">&#127968; Visitas hoy <span class="ico">&#9881;</span></div>
+      <div class="cc-body">
+        <div class="cc-row"><div class="cc-row-left"><div class="cc-num cc-num-green">4</div><div class="cc-label">agendadas hoy</div></div><div style="font-size:20px">&#9888;&#65039;</div></div>
+        <div class="cc-row"><div class="cc-row-left"><div class="cc-num cc-num-yellow">1</div><div class="cc-label">por confirmar</div></div><div style="font-size:20px">&#128312;</div></div>
+        <div class="cc-row"><div class="cc-row-left"><div class="cc-num">1</div><div class="cc-label">sin seguimiento</div></div><div style="font-size:20px">&#128308;</div></div>
+      </div>
+      <div class="cc-footer"><button class="cc-footer-btn cc-footer-btn-blue" onclick="showTab('andrea','prospectos')">Ver Visitas <span>1 &#8594;</span></button></div>
+    </div>
+
+    <div class="cc-card">
+      <div class="cc-header cc-header-green">&#128100; Prospectos hoy <span class="ico">&#9881;</span></div>
+      <div class="cc-body">
+        <div class="cc-row"><div class="cc-row-left"><div class="cc-num cc-num-green">5</div><div class="cc-label">nuevos</div></div><div style="font-size:16px">&#128172;&#10003;</div></div>
+        <div class="cc-row"><div class="cc-row-left"><div class="cc-num cc-num-yellow">2</div><div class="cc-label">seguimiento hoy</div></div><div style="font-size:20px">&#9888;&#65039;</div></div>
+        <div class="cc-row"><div class="cc-row-left"><div class="cc-num">1</div><div class="cc-label">falta otra casa</div></div><div style="font-size:20px">&#128308;</div></div>
+      </div>
+      <div class="cc-footer"><button class="cc-footer-btn cc-footer-btn-green" onclick="showTab('andrea','prospectos')">Ver Prospectos <span>1 Alert &#8594;</span></button></div>
     </div>
   </div>
 
-  <div class="action-row">
-    <div class="action-info">
-      <div class="title">Jhoan — 6132 Horseshoe A</div>
-      <div class="sub">Due: $180 &nbsp;|&nbsp; Collected: $135 &nbsp;|&nbsp; <span style="color:var(--red);font-weight:600">Short: $45</span> &nbsp;|&nbsp; <span class="badge badge-red">Chronic $180+ carryover</span></div>
+  <div class="cc-grid cc-grid-2" style="margin-bottom:16px;">
+    <div class="cc-card">
+      <div class="cc-header" style="background:#558B2F;">&#129529; Limpieza / reparaciones hoy <span class="ico">&#9881;</span></div>
+      <div class="cc-body">
+        <div class="cc-row"><div class="cc-row-left"><div class="cc-num">3</div><div class="cc-label">limpiezas pendientes</div></div><div style="font-size:20px">&#9888;&#65039;</div></div>
+        <div class="cc-row"><div class="cc-row-left"><div class="cc-num cc-num-yellow">2</div><div class="cc-label">reparaciones pendientes</div></div><div style="font-size:20px">&#9888;&#65039;</div></div>
+        <div class="cc-row"><div class="cc-row-left"><div class="cc-num">1</div><div class="cc-label">falta material</div></div><div style="font-size:20px">&#128308;</div></div>
+      </div>
+      <div class="cc-footer"><button class="cc-footer-btn cc-footer-btn-green" onclick="showTab('andrea','limpieza')">Ver Tareas <span>1 &#8594;</span></button></div>
     </div>
-    <div class="action-buttons">
-      <button class="btn btn-green">Pagado</button>
-      <button class="btn btn-yellow">Parcial</button>
-      <button class="btn btn-outline">Efectivo</button>
+
+    <!-- ROUTE MINI -->
+    <div class="cc-card">
+      <div class="cc-header" style="background:#F57C00;">&#128205; Ruta de hoy <span class="ico">&#9881;</span></div>
+      <div class="cc-body" style="font-size:14px;">
+        <div class="cc-row"><div class="cc-row-left"><strong>1.</strong>&nbsp; 7821 Caxton Cir</div><div style="font-size:12px;color:var(--gray)">Repair + Collect</div></div>
+        <div class="cc-row"><div class="cc-row-left"><strong>2.</strong>&nbsp; 7862 Hastings St</div><div style="font-size:12px;color:var(--blue);font-weight:700">Showing 2pm</div></div>
+        <div class="cc-row"><div class="cc-row-left"><strong>3.</strong>&nbsp; 6132 Horseshoe Dr</div><div style="font-size:12px;color:var(--gray)">Collect</div></div>
+        <div class="cc-row"><div class="cc-row-left"><strong>4.</strong>&nbsp; 355 Linden Ln</div><div style="font-size:12px;color:var(--red);font-weight:700">Clean OVERDUE</div></div>
+      </div>
+      <div class="cc-footer"><a href="https://www.google.com/maps/dir/7821+Caxton+Cir+E+Jacksonville+FL/7862+Hastings+St+Jacksonville+FL/6132+Horseshoe+Dr+Jacksonville+FL/355+Linden+Ln+Orange+Park+FL" target="_blank" style="text-decoration:none;"><button class="cc-footer-btn cc-footer-btn-orange" style="width:100%;">&#128506; Abrir en Maps &#8594;</button></a></div>
     </div>
   </div>
 
-  <div class="action-row">
-    <div class="action-info">
-      <div class="title">Carlos — 840 Harrison A</div>
-      <div class="sub">Due: $340 &nbsp;|&nbsp; Collected: $340 &nbsp;|&nbsp; <span style="color:var(--green)">Paid in full</span></div>
+  <!-- NEXT ACTION QUEUE -->
+  <div class="sec-label">&#9889; Siguiente Accion / Next Action</div>
+
+  <div class="next-action urgent">
+    <div class="na-top">
+      <div class="na-step">&#128308; PASO 1 — AHORA</div>
+      <div class="na-title">Cobrar a Jhoan — 6132 Horseshoe A</div>
+      <div class="na-sub">Debe: $180 &nbsp;|&nbsp; Paga: $135 siempre &nbsp;|&nbsp; Acumulado: $180+ &nbsp;|&nbsp; <strong style="color:var(--red)">CRONICO 4 semanas</strong></div>
     </div>
-    <div class="action-buttons">
-      <button class="btn btn-green" style="opacity:.5">Pagado &#10003;</button>
+    <div class="na-buttons">
+      <button class="na-btn na-btn-green">&#10003; Pagado $180</button>
+      <button class="na-btn na-btn-yellow">Parcial</button>
+      <button class="na-btn na-btn-outline">&#128247; Efectivo + Recibo</button>
+      <button class="na-btn na-btn-red">No pago</button>
     </div>
   </div>
 
-  <div class="action-row" style="border-left: 3px solid var(--orange);">
-    <div class="action-info">
-      <div class="title">Victoria — 6132 Horseshoe RV1</div>
-      <div class="sub">Due: $212 &nbsp;|&nbsp; Method: <strong>Cash</strong> &nbsp;|&nbsp; <span class="badge badge-orange">Receipt photo required</span></div>
+  <div class="next-action urgent">
+    <div class="na-top">
+      <div class="na-step">&#128308; PASO 2 — AHORA</div>
+      <div class="na-title">Cobrar a Victoria — 6132 Horseshoe RV1 (EFECTIVO)</div>
+      <div class="na-sub">Debe: $212 &nbsp;|&nbsp; Metodo: Efectivo &nbsp;|&nbsp; <strong style="color:var(--orange)">&#128274; Requiere foto de recibo</strong></div>
     </div>
-    <div class="action-buttons">
-      <button class="btn btn-outline">&#128247; Upload Receipt</button>
-      <button class="btn btn-disabled" title="Blocked until receipt photo uploaded">Pagado</button>
-    </div>
-  </div>
-
-  <!-- VISITAS HOY -->
-  <div class="section-head">Visitas Hoy / Showings Today</div>
-
-  <div class="action-row">
-    <div class="action-info">
-      <div class="title">Maria G. — 7862 Hastings D</div>
-      <div class="sub">2:00 PM &nbsp;|&nbsp; Budget: $150/wk &nbsp;|&nbsp; Move-in: ASAP &nbsp;|&nbsp; <span class="badge badge-blue">AI-booked</span></div>
-    </div>
-    <div class="action-buttons">
-      <button class="btn btn-green">Rentado</button>
-      <button class="btn btn-red">No vino</button>
-      <button class="btn btn-blue">Otra casa</button>
+    <div class="na-buttons">
+      <button class="na-btn na-btn-outline" style="flex:2;">&#128247; Tomar Foto de Recibo</button>
+      <button class="na-btn na-btn-disabled">&#128274; Pagado (foto requerida)</button>
     </div>
   </div>
 
-  <!-- PROSPECTOS HOY -->
-  <div class="section-head">Prospectos Hoy / Leads Today</div>
-
-  <div class="action-row">
-    <div class="action-info">
-      <div class="title">Jorge M. — Asked about 1160 Tumbleweed</div>
-      <div class="sub">Follow-up due today &nbsp;|&nbsp; Budget: $160/wk &nbsp;|&nbsp; <span class="badge badge-yellow">Waiting 2 days</span></div>
+  <div class="next-action normal" style="border-left-color:var(--blue);">
+    <div class="na-top">
+      <div class="na-step na-step-blue">&#128312; PASO 3 — 2:00 PM</div>
+      <div class="na-title">Showing: Maria G. — 7862 Hastings Room D</div>
+      <div class="na-sub">Budget: $150/wk &nbsp;|&nbsp; Move-in: ASAP &nbsp;|&nbsp; Idioma: Espanol &nbsp;|&nbsp; AI agendo &nbsp;|&nbsp; <a href="https://www.google.com/maps/search/7862+Hastings+St+Jacksonville+FL" target="_blank" style="color:var(--blue);font-weight:700">&#128506; Maps</a></div>
     </div>
-    <div class="action-buttons">
-      <button class="btn btn-blue">Enviar opciones</button>
-      <button class="btn btn-blue">Otra casa</button>
-      <button class="btn btn-outline">Pasar a Sandra</button>
-    </div>
-  </div>
-
-  <!-- LIMPIEZA HOY -->
-  <div class="section-head">Limpieza Hoy / Cleaning Today</div>
-
-  <div class="action-row" style="border-left: 3px solid var(--red);">
-    <div class="action-info">
-      <div class="title">355 Linden Ln — Scheduled Clean</div>
-      <div class="sub"><span class="badge badge-red">OVERDUE 3 days</span> &nbsp;|&nbsp; Last cleaned: Mar 22 &nbsp;|&nbsp; Felix assigned: Yes</div>
-    </div>
-    <div class="action-buttons">
-      <button class="btn btn-outline">&#128247; Upload Photo</button>
-      <button class="btn btn-disabled">Limpio</button>
+    <div class="na-buttons">
+      <button class="na-btn na-btn-green">&#10003; Rentado</button>
+      <button class="na-btn na-btn-red">No vino</button>
+      <button class="na-btn na-btn-blue">Otra casa</button>
+      <button class="na-btn na-btn-outline">&#128222; Llamar</button>
     </div>
   </div>
 
-  <div class="action-row">
-    <div class="action-info">
-      <div class="title">7821 Caxton Cir — Repair: Wall patch + bathroom door</div>
-      <div class="sub"><span class="badge badge-yellow">Materials bought</span> &nbsp;|&nbsp; Felix assigned &nbsp;|&nbsp; Cost est: $175</div>
+  <div class="next-action warning" style="border-left-color:var(--yellow);">
+    <div class="na-top">
+      <div class="na-step" style="color:var(--yellow);">&#128312; PASO 4 — HOY</div>
+      <div class="na-title">Seguimiento: Jorge M. — pregunto por 1160 Tumbleweed</div>
+      <div class="na-sub">Budget: $160/wk &nbsp;|&nbsp; Dijo "muy lejos del trabajo" &nbsp;|&nbsp; AI ofrecio 2331 W 10th ($175) &nbsp;|&nbsp; Sin respuesta 2 dias</div>
     </div>
-    <div class="action-buttons">
-      <button class="btn btn-outline">&#128247; Before Photo</button>
-      <button class="btn btn-green">Done + Photo</button>
+    <div class="na-buttons">
+      <button class="na-btn na-btn-blue">Enviar seguimiento</button>
+      <button class="na-btn na-btn-blue">Ofrecer otra casa</button>
+      <button class="na-btn na-btn-outline">Pasar a Sandra</button>
+      <button class="na-btn na-btn-disabled">&#128274; Perdido</button>
+    </div>
+  </div>
+
+  <div class="next-action warning" style="border-left-color:var(--red);">
+    <div class="na-top">
+      <div class="na-step">&#128308; PASO 5 — HOY</div>
+      <div class="na-title">Limpieza VENCIDA — 355 Linden Ln</div>
+      <div class="na-sub">Ultima limpieza: Mar 22 (hace 17 dias) &nbsp;|&nbsp; Felix asignado &nbsp;|&nbsp; <strong style="color:var(--red)">Requiere foto para completar</strong></div>
+    </div>
+    <div class="na-buttons">
+      <button class="na-btn na-btn-outline" style="flex:2;">&#128247; Subir Foto de Limpieza</button>
+      <button class="na-btn na-btn-disabled">&#128274; Completado (foto requerida)</button>
     </div>
   </div>
 
 </div>
 
-<!-- COBROS -->
+<!-- ========== COBROS ========== -->
 <div class="view" id="andrea-cobros">
-  <h2 style="margin-bottom:4px">Cobros — Week of 4/6/2026</h2>
-  <p style="color:var(--muted);margin-bottom:16px;font-size:13px">Sunday collection. Cash requires carbon-copy receipt + photo.</p>
-
-  <div class="kpi-strip">
-    <div class="kpi kpi-green"><div class="kpi-label">Collected</div><div class="kpi-value">$9,442</div><div class="kpi-sub">this week</div></div>
-    <div class="kpi kpi-red"><div class="kpi-label">Potential</div><div class="kpi-value">$17,020</div><div class="kpi-sub">if 100% occupied + paid</div></div>
-    <div class="kpi kpi-red"><div class="kpi-label">Short / Late</div><div class="kpi-value">11</div><div class="kpi-sub">tenants this week</div></div>
-    <div class="kpi kpi-red"><div class="kpi-label">Chronic</div><div class="kpi-value">8</div><div class="kpi-sub">4+ weeks short</div></div>
+  <div class="kpi-bar">
+    <div class="kpi"><div class="kpi-val kpi-green">$9.4K</div><div class="kpi-label">Cobrado</div></div>
+    <div class="kpi"><div class="kpi-val kpi-red">$17K</div><div class="kpi-label">Potencial</div></div>
+    <div class="kpi"><div class="kpi-val kpi-red">11</div><div class="kpi-label">Corto/Tarde</div></div>
+    <div class="kpi"><div class="kpi-val kpi-red">8</div><div class="kpi-label">Cronicos</div></div>
   </div>
 
-  <div class="card">
-    <table>
-      <thead>
-        <tr><th>Tenant</th><th>Property / Room</th><th>Due</th><th>Paid</th><th>Short</th><th>Status</th><th>Carryover</th><th>Action</th></tr>
-      </thead>
-      <tbody>
-        <tr><td><strong>Jhoan</strong></td><td>6132 Horseshoe A</td><td>$180</td><td>$135</td><td style="color:var(--red);font-weight:600">-$45</td><td><span class="badge badge-red">Unpaid</span></td><td><span class="badge badge-red">$180</span></td><td><button class="btn btn-yellow btn-sm">Parcial</button></td></tr>
-        <tr><td><strong>Isaiah</strong></td><td>346 Linden A</td><td>$185</td><td>$150</td><td style="color:var(--red);font-weight:600">-$35</td><td><span class="badge badge-yellow">Partial</span></td><td><span class="badge badge-red">$140</span></td><td><button class="btn btn-outline btn-sm">Follow-up</button></td></tr>
-        <tr><td><strong>Dominico</strong></td><td>346 Linden RV2</td><td>$250</td><td>$145</td><td style="color:var(--red);font-weight:600">-$105</td><td><span class="badge badge-red">Unpaid</span></td><td><span class="badge badge-black">$320+</span></td><td><button class="btn btn-red btn-sm">Escalate</button></td></tr>
-        <tr><td><strong>Saeid</strong></td><td>2204 Myra A</td><td>$190</td><td>$170</td><td style="color:var(--yellow);font-weight:600">-$20</td><td><span class="badge badge-yellow">Partial</span></td><td><span class="badge badge-orange">$80</span></td><td><button class="btn btn-outline btn-sm">Follow-up</button></td></tr>
-        <tr><td><strong>Carlos</strong></td><td>840 Harrison A</td><td>$340</td><td>$340</td><td style="color:var(--green)">$0</td><td><span class="badge badge-green">Paid</span></td><td>$0</td><td></td></tr>
-        <tr><td><strong>Victoria</strong></td><td>6132 Horseshoe RV1</td><td>$212</td><td>$212</td><td style="color:var(--green)">$0</td><td><span class="badge badge-green">Paid</span></td><td>$0</td><td></td></tr>
-        <tr><td><strong>Jorge</strong></td><td>7848 Hastings A</td><td>$175</td><td>$175</td><td style="color:var(--green)">$0</td><td><span class="badge badge-green">Paid</span></td><td>$0</td><td></td></tr>
-      </tbody>
-    </table>
+  <div class="sec-label">&#128680; Cronicos — necesitan decision de Jerel</div>
+  <div class="next-action urgent">
+    <div class="na-top">
+      <div class="na-step">&#128308; CRONICO — $45/semana = $2,340/ano</div>
+      <div class="na-title">Jhoan — 6132 Horseshoe A</div>
+      <div class="na-sub">Renta: $180 &nbsp;|&nbsp; Paga: $135 siempre &nbsp;|&nbsp; Acumulado 4 semanas: $180</div>
+    </div>
+    <div class="na-buttons">
+      <button class="na-btn na-btn-green">Pagado $180</button>
+      <button class="na-btn na-btn-yellow">Parcial</button>
+      <button class="na-btn na-btn-red">No pago</button>
+    </div>
+  </div>
+  <div class="next-action urgent">
+    <div class="na-top">
+      <div class="na-step">&#128308; CRONICO — $95/semana = $4,940/ano</div>
+      <div class="na-title">Dominico — 346 Linden RV2</div>
+      <div class="na-sub">Renta: $250 &nbsp;|&nbsp; Paga: $145-170 &nbsp;|&nbsp; Acumulado 4 semanas: $320+</div>
+    </div>
+    <div class="na-buttons">
+      <button class="na-btn na-btn-green">Pagado $250</button>
+      <button class="na-btn na-btn-yellow">Parcial</button>
+      <button class="na-btn na-btn-red">Escalar a Jerel</button>
+    </div>
   </div>
 
-  <div class="card" style="border-left: 4px solid var(--red);">
-    <h3>Late Fee Schedule</h3>
-    <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:8px; margin-top:8px;">
-      <div style="text-align:center; padding:12px; background:var(--green-bg); border-radius:8px;"><div style="font-weight:700; color:var(--green)">Sun-Wed</div><div style="font-size:20px; font-weight:800;">$0</div><div style="font-size:11px; color:var(--muted)">Grace</div></div>
-      <div style="text-align:center; padding:12px; background:var(--yellow-bg); border-radius:8px;"><div style="font-weight:700; color:var(--yellow)">Day 4-7</div><div style="font-size:20px; font-weight:800;">$25</div><div style="font-size:11px; color:var(--muted)">Flat fee</div></div>
-      <div style="text-align:center; padding:12px; background:var(--orange-bg); border-radius:8px;"><div style="font-weight:700; color:var(--orange)">Day 8-14</div><div style="font-size:20px; font-weight:800;">$50</div><div style="font-size:11px; color:var(--muted)">Final warning</div></div>
-      <div style="text-align:center; padding:12px; background:var(--red-bg); border-radius:8px;"><div style="font-weight:700; color:var(--red)">Day 15+</div><div style="font-size:20px; font-weight:800;">$75</div><div style="font-size:11px; color:var(--muted)">+ Eviction notice</div></div>
+  <div class="sec-label">&#128176; Pagos de esta semana</div>
+  <div class="next-action done">
+    <div class="na-top">
+      <div class="na-step na-step-green">&#9989; PAGADO</div>
+      <div class="na-title">Carlos — 840 Harrison A</div>
+      <div class="na-sub">Renta: $340 &nbsp;|&nbsp; Pagado: $340 &nbsp;|&nbsp; Zelle</div>
+    </div>
+  </div>
+  <div class="next-action done">
+    <div class="na-top">
+      <div class="na-step na-step-green">&#9989; PAGADO</div>
+      <div class="na-title">Jorge — 7848 Hastings A</div>
+      <div class="na-sub">Renta: $175 &nbsp;|&nbsp; Pagado: $175 &nbsp;|&nbsp; Cash App</div>
     </div>
   </div>
 </div>
 
-<!-- PROSPECTOS -->
+<!-- ========== PROSPECTOS ========== -->
 <div class="view" id="andrea-prospectos">
-  <h2 style="margin-bottom:16px">Prospectos — Lead Pipeline</h2>
-
-  <div class="kpi-strip">
-    <div class="kpi"><div class="kpi-label">Active Leads</div><div class="kpi-value">7</div><div class="kpi-sub">in pipeline</div></div>
-    <div class="kpi kpi-green"><div class="kpi-label">AI Response</div><div class="kpi-value">&lt;2m</div><div class="kpi-sub">avg response time</div></div>
-    <div class="kpi"><div class="kpi-label">Showings Booked</div><div class="kpi-value">3</div><div class="kpi-sub">this week</div></div>
-    <div class="kpi kpi-green"><div class="kpi-label">Signed</div><div class="kpi-value">1</div><div class="kpi-sub">this week</div></div>
+  <div class="kpi-bar">
+    <div class="kpi"><div class="kpi-val kpi-blue">7</div><div class="kpi-label">Activos</div></div>
+    <div class="kpi"><div class="kpi-val kpi-green">&lt;2m</div><div class="kpi-label">AI Respuesta</div></div>
+    <div class="kpi"><div class="kpi-val kpi-blue">3</div><div class="kpi-label">Visitas</div></div>
+    <div class="kpi"><div class="kpi-val kpi-green">1</div><div class="kpi-label">Firmados</div></div>
   </div>
 
-  <!-- Lead 1: Active -->
-  <div class="lead-card">
-    <div class="lead-header">
-      <div class="lead-name">Maria G.</div>
-      <span class="badge badge-blue">Showing Booked</span>
-    </div>
-    <div class="lead-meta">
-      <span>FB Marketplace</span>
-      <span>Budget: $150/wk</span>
-      <span>Area: Westside</span>
-      <span>Move-in: ASAP</span>
-      <span>Language: Spanish</span>
-    </div>
-    <div style="font-size:12px; color:var(--muted); margin-bottom:10px;">Asked about: 7862 Hastings D ($150/wk) &nbsp;|&nbsp; Showing: Today 2:00 PM &nbsp;|&nbsp; AI responded in 47 seconds</div>
-    <div class="action-buttons">
-      <button class="btn btn-green">Rentado</button>
-      <button class="btn btn-red">No vino</button>
-      <button class="btn btn-blue">Otra casa</button>
-      <button class="btn btn-outline">Pasar a Sandra</button>
+  <div class="sec-label">&#9889; Accion requerida</div>
+
+  <div class="lead-card urgent">
+    <div class="lc-top"><div class="lc-name">Maria G.</div><span class="lc-badge" style="background:var(--blue);color:white;">Visita Hoy 2pm</span></div>
+    <div class="lc-meta">FB Marketplace &nbsp;|&nbsp; $150/sem &nbsp;|&nbsp; Westside &nbsp;|&nbsp; ASAP &nbsp;|&nbsp; Espanol</div>
+    <div class="lc-next">&#9889; SIGUIENTE: Mostrar 7862 Hastings Room D a las 2:00 PM</div>
+    <div class="lc-buttons">
+      <button class="lc-btn" style="background:var(--green);color:white;">&#10003; Rentado</button>
+      <button class="lc-btn" style="background:var(--red);color:white;">No vino</button>
+      <button class="lc-btn" style="background:var(--blue);color:white;">Otra casa</button>
     </div>
   </div>
 
-  <!-- Lead 2: Needs alternate -->
-  <div class="lead-card" style="border-left: 3px solid var(--yellow);">
-    <div class="lead-header">
-      <div class="lead-name">Jorge M.</div>
-      <span class="badge badge-yellow">Waiting — Follow-up Due</span>
-    </div>
-    <div class="lead-meta">
-      <span>FB Marketplace</span>
-      <span>Budget: $160/wk</span>
-      <span>Area: Orange Park</span>
-      <span>Move-in: Apr 15</span>
-    </div>
-    <div style="font-size:12px; color:var(--muted); margin-bottom:10px;">Asked about: 1160 Tumbleweed C ($160/wk) — said "too far from work." AI offered 2331 W 10th ($175/wk, closer). No response 2 days.</div>
-    <div class="action-buttons">
-      <button class="btn btn-blue">Send Follow-up</button>
-      <button class="btn btn-blue">Offer Another House</button>
-      <button class="btn btn-outline">Pasar a Sandra</button>
-      <button class="btn btn-disabled" title="BLOCKED: Must offer alternate before marking lost">Perdido &#128274;</button>
+  <div class="lead-card waiting">
+    <div class="lc-top"><div class="lc-name">Jorge M.</div><span class="lc-badge" style="background:var(--yellow);color:white;">Seguimiento hoy</span></div>
+    <div class="lc-meta">FB Marketplace &nbsp;|&nbsp; $160/sem &nbsp;|&nbsp; Orange Park &nbsp;|&nbsp; Abr 15</div>
+    <div class="lc-next">&#9889; SIGUIENTE: Enviar seguimiento o ofrecer otra casa (2 dias sin respuesta)</div>
+    <div class="lc-buttons">
+      <button class="lc-btn" style="background:var(--blue);color:white;">Seguimiento</button>
+      <button class="lc-btn" style="background:var(--blue);color:white;">Otra casa</button>
+      <button class="lc-btn" style="background:white;border:2px solid #E0E0E0;">Pasar a Sandra</button>
+      <button class="lc-btn" style="background:#E0E0E0;color:#9E9E9E;cursor:not-allowed;">&#128274; Perdido</button>
     </div>
   </div>
 
-  <!-- Lead 3: Escalated -->
-  <div class="lead-card" style="border-left: 3px solid var(--purple);">
-    <div class="lead-header">
-      <div class="lead-name">Roberto L.</div>
-      <span class="badge badge-purple">Escalated to Sandra</span>
-    </div>
-    <div class="lead-meta">
-      <span>FB Marketplace</span>
-      <span>Budget: $200/wk</span>
-      <span>Area: Any</span>
-      <span>"Quiero hablar con alguien"</span>
-    </div>
-    <div style="font-size:12px; color:var(--muted); margin-bottom:10px;">AI detected live-person request. Sandra notified 11:30 AM. Waiting for Sandra to respond.</div>
+  <div class="lead-card escalated">
+    <div class="lc-top"><div class="lc-name">Roberto L.</div><span class="lc-badge" style="background:var(--purple);color:white;">Escalado a Sandra</span></div>
+    <div class="lc-meta">FB Marketplace &nbsp;|&nbsp; $200/sem &nbsp;|&nbsp; Cualquier area &nbsp;|&nbsp; "Quiero hablar con alguien"</div>
+    <div class="lc-next">&#128276; Sandra fue notificada a las 11:30 AM. Esperando respuesta.</div>
   </div>
 
-  <!-- STATUS GATE EXPLAINER -->
-  <div class="card" style="background: #fffbeb; border-color: var(--yellow-border);">
-    <h3>&#128274; Status Gate Rule</h3>
-    <p style="font-size:13px;">A lead <strong>cannot</strong> be marked "Perdido / Lost" until an alternate property has been offered. The button is disabled (grayed out) until the "Alternate Offered" checkbox is checked and an alternate property is selected. This is enforced at the website level AND the Airtable level.</p>
+  <div class="sec-label" style="margin-top:24px;">&#128274; Regla del sistema</div>
+  <div style="background:#FFF8E1;border:2px solid #FFD54F;border-radius:12px;padding:14px;font-size:13px;">
+    <strong>Un prospecto NO puede ser marcado "Perdido"</strong> hasta que se haya ofrecido una casa alternativa. El boton esta bloqueado hasta que "Otra Casa Ofrecida" este marcado.
   </div>
 </div>
 
-<!-- LIMPIEZA -->
+<!-- ========== LIMPIEZA ========== -->
 <div class="view" id="andrea-limpieza">
-  <h2 style="margin-bottom:16px">Limpieza y Turnos — Cleaning + Repairs</h2>
-
-  <div class="section-head">Scheduled Cleaning (14-day cycle)</div>
-  <div class="card">
-    <table>
-      <thead><tr><th>Property</th><th>Last Cleaned</th><th>Next Due</th><th>Clean 1</th><th>Clean 2</th><th>Status</th><th>Action</th></tr></thead>
-      <tbody>
-        <tr><td><strong>355 Linden Ln</strong></td><td>Mar 22</td><td>Apr 5</td><td>&#9989;</td><td>&#10060;</td><td><span class="badge badge-red">OVERDUE 3d</span></td><td><button class="btn btn-outline">&#128247; Photo</button></td></tr>
-        <tr><td><strong>346 Linden Ln</strong></td><td>Apr 1</td><td>Apr 15</td><td>&#9989;</td><td>&#8212;</td><td><span class="badge badge-green">On schedule</span></td><td></td></tr>
-        <tr><td><strong>7862 Hastings</strong></td><td>Mar 28</td><td>Apr 11</td><td>&#9989;</td><td>&#8212;</td><td><span class="badge badge-yellow">Due in 3d</span></td><td></td></tr>
-        <tr><td><strong>2204 Myra St</strong></td><td>Apr 3</td><td>Apr 17</td><td>&#9989;</td><td>&#8212;</td><td><span class="badge badge-green">On schedule</span></td><td></td></tr>
-        <tr><td><strong>6132 Horseshoe</strong></td><td>Mar 30</td><td>Apr 13</td><td>&#9989;</td><td>&#8212;</td><td><span class="badge badge-yellow">Due in 5d</span></td><td></td></tr>
-      </tbody>
-    </table>
+  <div class="sec-label">&#128680; Vencidos</div>
+  <div class="next-action urgent">
+    <div class="na-top">
+      <div class="na-step">&#128308; VENCIDO 3 DIAS</div>
+      <div class="na-title">355 Linden Ln — Limpieza programada</div>
+      <div class="na-sub">Ultima limpieza: Mar 22 &nbsp;|&nbsp; Felix asignado: Si &nbsp;|&nbsp; Falta foto para completar</div>
+    </div>
+    <div class="na-buttons">
+      <button class="na-btn na-btn-outline" style="flex:2;">&#128247; Subir Foto</button>
+      <button class="na-btn na-btn-disabled">&#128274; Completado</button>
+    </div>
   </div>
 
-  <div class="section-head">Room Turn Pipeline</div>
-  <div class="card">
-    <table>
-      <thead><tr><th>Room</th><th>Task</th><th>Status</th><th>Materials</th><th>Felix</th><th>Photo</th><th>Action</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Caxton A</strong></td><td>Deep clean + list</td><td><span class="badge badge-yellow">Materials needed</span></td><td>Cleaning supplies, floor wax</td><td>&#8212;</td><td>&#8212;</td><td><button class="btn btn-outline">Sandra: Buy</button></td></tr>
-        <tr><td><strong>Caxton B</strong></td><td>Wall repair + clean</td><td><span class="badge badge-blue">Assigned to Felix</span></td><td><span class="badge badge-green">Bought &#10003;</span></td><td>&#9989;</td><td>Before &#10003;</td><td><button class="btn btn-green">&#128247; After Photo</button></td></tr>
-        <tr><td><strong>Caxton C</strong></td><td>Bathroom door fix + deep clean</td><td><span class="badge badge-yellow">Materials needed</span></td><td>Door hinges, cleaning supplies</td><td>&#8212;</td><td>&#8212;</td><td><button class="btn btn-outline">Sandra: Buy</button></td></tr>
-        <tr><td><strong>Wainwright 3</strong></td><td>AC unit noise</td><td><span class="badge badge-purple">In progress</span></td><td><span class="badge badge-green">Bought &#10003;</span></td><td>&#9989;</td><td>Before &#10003;</td><td><button class="btn btn-green">&#128247; After Photo</button></td></tr>
-      </tbody>
-    </table>
+  <div class="sec-label">&#128736; Reparaciones en progreso</div>
+  <div class="next-action normal" style="border-left-color:var(--blue);">
+    <div class="na-top">
+      <div class="na-step na-step-blue">EN PROGRESO</div>
+      <div class="na-title">7821 Caxton B — Reparacion pared + limpieza</div>
+      <div class="na-sub">Materiales: &#9989; Comprados &nbsp;|&nbsp; Felix: &#9989; Asignado &nbsp;|&nbsp; Foto antes: &#9989; &nbsp;|&nbsp; <strong style="color:var(--blue)">Esperando foto despues</strong></div>
+    </div>
+    <div class="na-buttons">
+      <button class="na-btn na-btn-green" style="flex:2;">&#128247; Subir Foto Despues</button>
+      <button class="na-btn na-btn-outline">Ver detalles</button>
+    </div>
   </div>
 
-  <div class="card" style="background: #fffbeb; border-color: var(--yellow-border);">
-    <h3>&#128274; Turn Pipeline Gates</h3>
-    <p style="font-size:13px;"><strong>Gate 1:</strong> Felix cannot see a task until "Materials Bought" is checked. No wasted trips.<br>
-    <strong>Gate 2:</strong> Task cannot be marked "Complete" without an After Photo uploaded.<br>
-    <strong>Gate 3:</strong> Room cannot be marked "Showing-Ready" while any Turn Task is open.</p>
+  <div class="next-action warning" style="border-left-color:var(--yellow);">
+    <div class="na-top">
+      <div class="na-step" style="color:var(--yellow);">FALTA MATERIAL</div>
+      <div class="na-title">7821 Caxton A — Limpieza profunda + lista para publicar</div>
+      <div class="na-sub">Necesita: Productos de limpieza, cera para piso &nbsp;|&nbsp; <strong style="color:var(--yellow)">Sandra debe comprar materiales</strong></div>
+    </div>
+    <div class="na-buttons">
+      <button class="na-btn na-btn-outline">Avisar a Sandra</button>
+    </div>
+  </div>
+
+  <div class="sec-label">&#128197; Proximas limpiezas</div>
+  <div class="next-action" style="border-left-color:var(--green);">
+    <div class="na-top">
+      <div class="na-step na-step-green">EN 3 DIAS — Abr 11</div>
+      <div class="na-title">7862 Hastings St — Limpieza programada</div>
+      <div class="na-sub">Ultima limpieza: Mar 28 &nbsp;|&nbsp; Limpieza 1 de abril: &#9989;</div>
+    </div>
+  </div>
+
+  <div style="background:#FFF8E1;border:2px solid #FFD54F;border-radius:12px;padding:14px;font-size:13px;margin-top:16px;">
+    <strong>&#128274; Reglas del sistema:</strong><br>
+    1. Felix no ve la tarea hasta que Sandra marque "Materiales comprados"<br>
+    2. La tarea no se puede completar sin foto "despues"<br>
+    3. El cuarto no puede ser "Listo para mostrar" si tiene una tarea abierta
   </div>
 </div>
 
-<!-- RUTA -->
+<!-- ========== RUTA ========== -->
 <div class="view" id="andrea-ruta">
-  <h2 style="margin-bottom:16px">Ruta de Hoy — Today's Route</h2>
+  <div class="route-card">
+    <h3>&#128205; Ruta de Hoy — 5 paradas</h3>
+    <div class="route-stop"><div class="rs-num">1</div><div class="rs-detail"><div class="rs-addr">7821 Caxton Cir E, 32208</div><div class="rs-reason">&#128736; Verificar reparacion (Felix) &nbsp;|&nbsp; &#128176; Cobrar a Joseb ($200)</div></div></div>
+    <div class="route-stop"><div class="rs-num">2</div><div class="rs-detail"><div class="rs-addr">7862 Hastings St, 32220</div><div class="rs-reason">&#127968; SHOWING 2:00 PM — Maria G., Room D ($150/sem) &nbsp;|&nbsp; &#128176; Cobrar a Jhon ($150)</div></div></div>
+    <div class="route-stop"><div class="rs-num">3</div><div class="rs-detail"><div class="rs-addr">6132 Horseshoe Dr, 32254</div><div class="rs-reason">&#128176; Cobrar a Jhoan ($180 — CRONICO) &nbsp;|&nbsp; &#128176; Cobrar a Reniel ($180)</div></div></div>
+    <div class="route-stop"><div class="rs-num">4</div><div class="rs-detail"><div class="rs-addr">355 Linden Ln, 32073</div><div class="rs-reason">&#129529; LIMPIEZA VENCIDA (17 dias) — subir foto &nbsp;|&nbsp; &#128176; Cobrar a 5 inquilinos</div></div></div>
+    <div class="route-stop"><div class="rs-num">5</div><div class="rs-detail"><div class="rs-addr">346 Linden Ln, 32073</div><div class="rs-reason">&#128176; Cobrar a 6 inquilinos — 4 cronicos &nbsp;|&nbsp; Isaiah, Misty, Zakkiyah, Dominico</div></div></div>
+    <a href="https://www.google.com/maps/dir/7821+Caxton+Cir+E+Jacksonville+FL/7862+Hastings+St+Jacksonville+FL/6132+Horseshoe+Dr+Jacksonville+FL/355+Linden+Ln+Orange+Park+FL/346+Linden+Ln+Orange+Park+FL" target="_blank"><button class="route-map-btn">&#128506; Abrir Ruta Completa en Maps &#8594;</button></a>
+  </div>
 
-  <a href="https://www.google.com/maps/dir/7821+Caxton+Cir+E+Jacksonville+FL/7862+Hastings+St+Jacksonville+FL/6132+Horseshoe+Dr+Jacksonville+FL/355+Linden+Ln+Orange+Park+FL" target="_blank" class="btn btn-blue" style="display:inline-block; margin-bottom:16px; padding:10px 20px; font-size:14px;">Open Full Route in Google Maps &#8594;</a>
-
-  <div class="card">
-    <div class="route-stop">
-      <div class="route-num">1</div>
-      <div class="route-detail">
-        <div class="addr">7821 Caxton Cir E, 32208</div>
-        <div class="reason">&#128736; Repair check — wall patch (Felix in progress) &nbsp;|&nbsp; &#128176; Collect from Joseb ($200)</div>
-      </div>
-    </div>
-    <div class="route-stop">
-      <div class="route-num">2</div>
-      <div class="route-detail">
-        <div class="addr">7862 Hastings St, 32220</div>
-        <div class="reason">&#127968; Showing 2:00 PM — Maria G., Room D ($150/wk) &nbsp;|&nbsp; &#128176; Collect from Jhon B ($150)</div>
-      </div>
-    </div>
-    <div class="route-stop">
-      <div class="route-num">3</div>
-      <div class="route-detail">
-        <div class="addr">6132 Horseshoe Dr, 32254</div>
-        <div class="reason">&#128176; Collect from Jhoan ($180 due, chronic short) &nbsp;|&nbsp; &#128176; Collect from Reniel ($180)</div>
-      </div>
-    </div>
-    <div class="route-stop">
-      <div class="route-num">4</div>
-      <div class="route-detail">
-        <div class="addr">355 Linden Ln, 32073</div>
-        <div class="reason">&#129529; Overdue cleaning (17 days) — upload photo &nbsp;|&nbsp; &#128176; Collect from 5 tenants</div>
-      </div>
-    </div>
-    <div class="route-stop">
-      <div class="route-num">5</div>
-      <div class="route-detail">
-        <div class="addr">346 Linden Ln, 32073</div>
-        <div class="reason">&#128176; Collect from 6 tenants — 4 chronic short &nbsp;|&nbsp; Isaiah, Misty, Zakkiyah, Dominico</div>
-      </div>
-    </div>
+  <div style="background:white;border-radius:14px;padding:16px;box-shadow:var(--shadow);font-size:13px;color:var(--gray);">
+    <strong>Tiempo estimado:</strong> ~1.5 horas de manejo &nbsp;|&nbsp; <strong>Paradas:</strong> 5 &nbsp;|&nbsp; <strong>Cobros:</strong> ~$2,800 &nbsp;|&nbsp; <strong>Showing:</strong> 1 &nbsp;|&nbsp; <strong>Limpieza:</strong> 1
   </div>
 </div>
 
 </main>
 </div>
 
-<!-- ============================================================ -->
-<!-- SANDRA INTERFACE -->
-<!-- ============================================================ -->
+<!-- ===== SANDRA ===== -->
 <div id="role-sandra" style="display:none;">
-<div class="tab-nav">
-  <button class="tab-btn active">Supervision</button>
-</div>
+<div class="nav-icons"><button class="nav-icon active"><span class="ico">&#128161;</span>Supervision</button></div>
 <main>
 <div class="view active">
-  <h2 style="margin-bottom:4px">Supervision — Exception Board</h2>
-  <p style="color:var(--muted);margin-bottom:16px;font-size:13px">Check midday + evening. Clear red items. If all green, you're done.</p>
-
-  <div class="kpi-strip">
-    <div class="kpi kpi-red"><div class="kpi-label">Lead Exceptions</div><div class="kpi-value">3</div></div>
-    <div class="kpi kpi-yellow"><div class="kpi-label">Ad Issues</div><div class="kpi-value">4</div></div>
-    <div class="kpi kpi-red"><div class="kpi-label">Andrea Overdue</div><div class="kpi-value">2</div></div>
-    <div class="kpi kpi-yellow"><div class="kpi-label">Escalations</div><div class="kpi-value">1</div></div>
+  <div class="kpi-bar">
+    <div class="kpi"><div class="kpi-val kpi-red">3</div><div class="kpi-label">Leads</div></div>
+    <div class="kpi"><div class="kpi-val kpi-red">4</div><div class="kpi-label">Anuncios</div></div>
+    <div class="kpi"><div class="kpi-val kpi-red">2</div><div class="kpi-label">Andrea</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:var(--purple)">1</div><div class="kpi-label">Escalar</div></div>
   </div>
 
-  <!-- LEADS MISSED -->
-  <div class="section-head">Leads Sin Atender / Missed Leads</div>
-
-  <div class="action-row" style="border-left:3px solid var(--red);">
-    <div class="action-info">
-      <div class="title">Roberto L. — Wants live person</div>
-      <div class="sub">"Quiero hablar con alguien" &nbsp;|&nbsp; Budget: $200/wk &nbsp;|&nbsp; Phone: 904-555-1234 &nbsp;|&nbsp; Waiting since 11:30 AM</div>
-    </div>
-    <div class="action-buttons">
-      <button class="btn btn-green">&#128222; Call Now</button>
-      <button class="btn btn-outline">View Convo</button>
-    </div>
+  <div class="sec-label">&#128680; Leads sin atender</div>
+  <div class="exc-card">
+    <div class="exc-title">Roberto L. — Quiere hablar con alguien</div>
+    <div class="exc-sub">Budget: $200/sem &nbsp;|&nbsp; Cualquier area &nbsp;|&nbsp; Esperando desde 11:30 AM</div>
+    <div style="display:flex;gap:8px;"><button class="na-btn na-btn-green">&#128222; Llamar</button><button class="na-btn na-btn-outline">Ver conversacion</button></div>
   </div>
 
-  <div class="action-row" style="border-left:3px solid var(--yellow);">
-    <div class="action-info">
-      <div class="title">Ana R. — No follow-up sent (3 days)</div>
-      <div class="sub">Asked about 2228 W 16th St &nbsp;|&nbsp; Said "maybe" &nbsp;|&nbsp; No alternate offered yet</div>
-    </div>
-    <div class="action-buttons">
-      <button class="btn btn-blue">Send Follow-up</button>
-      <button class="btn btn-blue">Offer Alternate</button>
-    </div>
+  <div class="sec-label">&#128680; Anuncios incorrectos</div>
+  <div class="exc-card">
+    <div class="exc-title">Caxton A, B, C — 18 dias vacante, SIN ANUNCIO</div>
+    <div class="exc-sub">3 cuartos, $450/sem potencial &nbsp;|&nbsp; No limpio, no publicado &nbsp;|&nbsp; $900 perdidos</div>
+    <div style="display:flex;gap:8px;"><button class="na-btn na-btn-blue">Publicar anuncio</button></div>
+  </div>
+  <div class="exc-card warn">
+    <div class="exc-title">2228 W 16th St — Anuncio vencido 21 dias, 0 leads</div>
+    <div class="exc-sub">2 cuartos vacantes &nbsp;|&nbsp; $160/sem &nbsp;|&nbsp; <strong>Que pasa con esta casa?</strong></div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;"><button class="na-btn na-btn-outline">Precio?</button><button class="na-btn na-btn-outline">Fotos?</button><button class="na-btn na-btn-outline">Condicion?</button><button class="na-btn na-btn-outline">Area?</button></div>
   </div>
 
-  <!-- ADS WRONG -->
-  <div class="section-head">Anuncios Incorrectos / Ad Issues</div>
-
-  <div class="action-row" style="border-left:3px solid var(--red);">
-    <div class="action-info">
-      <div class="title">Caxton A, B, C — Vacant 18 days, NO AD LIVE</div>
-      <div class="sub">3 rooms, $450/wk potential &nbsp;|&nbsp; Not clean, not listed &nbsp;|&nbsp; <span class="badge badge-red">$900 lost</span></div>
-    </div>
-    <div class="action-buttons">
-      <button class="btn btn-blue">Post Ad</button>
-    </div>
+  <div class="sec-label">&#128680; Andrea pendientes</div>
+  <div class="exc-card">
+    <div class="exc-title">355 Linden — Foto de limpieza vencida 3 dias</div>
+    <div class="exc-sub">Ultima limpieza Mar 22 &nbsp;|&nbsp; 17 dias sin foto</div>
+    <div style="display:flex;gap:8px;"><button class="na-btn na-btn-outline">Notificar a Andrea</button></div>
   </div>
 
-  <div class="action-row" style="border-left:3px solid var(--orange);">
-    <div class="action-info">
-      <div class="title">11014 Creekwood C — Ad live but room unavailable</div>
-      <div class="sub">Room status: Unavailable &nbsp;|&nbsp; Ad should be OFF</div>
-    </div>
-    <div class="action-buttons">
-      <button class="btn btn-red">Kill Ad</button>
-    </div>
+  <div class="sec-label">&#128680; Escalaciones</div>
+  <div class="exc-card" style="border-left-color:var(--purple);">
+    <div class="exc-title">Dominico (346 Linden RV2) — Cronico $320+ acumulado</div>
+    <div class="exc-sub">Renta: $250 &nbsp;|&nbsp; Paga: $145-170 &nbsp;|&nbsp; 4 semanas consecutivas</div>
+    <div style="display:flex;gap:8px;"><button class="na-btn" style="background:var(--purple);color:white;">Escalar a Jerel</button></div>
   </div>
-
-  <div class="action-row" style="border-left:3px solid var(--yellow);">
-    <div class="action-info">
-      <div class="title">2228 W 16th St — Stale listing 21 days, 0 leads</div>
-      <div class="sub">2 rooms vacant &nbsp;|&nbsp; Price: $160/wk &nbsp;|&nbsp; <strong>What's wrong with this house?</strong></div>
-    </div>
-    <div class="action-buttons">
-      <button class="btn btn-outline">Price?</button>
-      <button class="btn btn-outline">Photos?</button>
-      <button class="btn btn-outline">Condition?</button>
-      <button class="btn btn-outline">Area?</button>
-    </div>
-  </div>
-
-  <!-- ANDREA OVERDUE -->
-  <div class="section-head">Andrea Pendientes / Overdue Tasks</div>
-
-  <div class="action-row" style="border-left:3px solid var(--red);">
-    <div class="action-info">
-      <div class="title">355 Linden — Cleaning photo overdue 3 days</div>
-      <div class="sub">Last cleaned Mar 22 &nbsp;|&nbsp; 17 days without photo proof</div>
-    </div>
-    <div class="action-buttons"><button class="btn btn-outline">Notify Andrea</button></div>
-  </div>
-
-  <!-- ESCALATIONS -->
-  <div class="section-head">Escalaciones</div>
-
-  <div class="action-row" style="border-left:3px solid var(--purple);">
-    <div class="action-info">
-      <div class="title">Dominico (346 Linden RV2) — Chronic underpayer</div>
-      <div class="sub">Rent: $250 &nbsp;|&nbsp; Pays: $145-170 &nbsp;|&nbsp; Carryover: $320+ &nbsp;|&nbsp; <span class="badge badge-black">Escalate to Jerel</span></div>
-    </div>
-    <div class="action-buttons">
-      <button class="btn btn-red">Flag to Jerel</button>
-    </div>
-  </div>
-
 </div>
 </main>
 </div>
 
-<!-- ============================================================ -->
-<!-- JEREL INTERFACE -->
-<!-- ============================================================ -->
+<!-- ===== JEREL ===== -->
 <div id="role-owner" style="display:none;">
-<div class="tab-nav">
-  <button class="tab-btn active">Summary</button>
-</div>
+<div class="nav-icons"><button class="nav-icon active"><span class="ico">&#128202;</span>Summary</button></div>
 <main>
 <div class="view active">
 
-  <!-- ARCHITECTURE DIAGRAM -->
-  <div class="diagram">
-    <h2>HGRT Operating System — Architecture</h2>
-    <div class="diagram-grid">
-      <div class="diagram-box">
-        <div class="label">Lead Source</div>
-        <div class="tool">FB Marketplace</div>
-        <div class="desc">Andrea posts multi-room ads</div>
-      </div>
-      <div class="diagram-box">
-        <div class="label">Sales Engine</div>
-        <div class="tool">GHL / AI Speakly</div>
-        <div class="desc">AI qualifies, cross-sells, books showings 24/7</div>
-      </div>
-      <div class="diagram-box">
-        <div class="label">Source of Truth</div>
-        <div class="tool">Airtable</div>
-        <div class="desc">6 tables: Rooms, Tenants, Collections, Leads, Turns, Rules</div>
-      </div>
-      <div class="diagram-box">
-        <div class="label">Back-office</div>
-        <div class="tool">DoorLoop</div>
-        <div class="desc">Bookkeeper imports weekly. Andrea never sees it.</div>
-      </div>
+  <div class="arch">
+    <h2>HGRT Operating System</h2>
+    <p>AI-Powered Room Rental Workflow</p>
+    <div class="arch-grid">
+      <div class="arch-box"><div class="arch-icon">&#128172;</div><div class="arch-tool">FB Marketplace</div><div class="arch-desc">Andrea posts multi-room ads</div></div>
+      <div class="arch-box"><div class="arch-icon">&#129302;</div><div class="arch-tool">GHL AI Speakly</div><div class="arch-desc">Qualifies, cross-sells, books 24/7</div></div>
+      <div class="arch-box"><div class="arch-icon">&#128204;</div><div class="arch-tool">Airtable</div><div class="arch-desc">6 tables, source of truth</div></div>
+      <div class="arch-box"><div class="arch-icon">&#128181;</div><div class="arch-tool">DoorLoop</div><div class="arch-desc">Back-office ledger only</div></div>
     </div>
   </div>
 
-  <h2 style="margin-bottom:16px">Owner Summary — Portfolio Health</h2>
-
-  <div class="kpi-strip">
-    <div class="kpi kpi-red"><div class="kpi-label">Occupancy</div><div class="kpi-value">76%</div><div class="kpi-sub">Target: 95%</div></div>
-    <div class="kpi kpi-red"><div class="kpi-label">Vacancy Leak</div><div class="kpi-value">$7,578</div><div class="kpi-sub">per week / $394K yr</div></div>
-    <div class="kpi kpi-green"><div class="kpi-label">Collected</div><div class="kpi-value">$9,442</div><div class="kpi-sub">of $17,020 potential</div></div>
-    <div class="kpi kpi-red"><div class="kpi-label">Short/Late</div><div class="kpi-value">11</div><div class="kpi-sub">tenants this week</div></div>
-    <div class="kpi kpi-red"><div class="kpi-label">Chronic</div><div class="kpi-value">8</div><div class="kpi-sub">~$30K/yr leak</div></div>
-    <div class="kpi"><div class="kpi-label">Leads</div><div class="kpi-value">7</div><div class="kpi-sub">this week</div></div>
-    <div class="kpi kpi-green"><div class="kpi-label">AI Response</div><div class="kpi-value">&lt;2m</div><div class="kpi-sub">avg SLA</div></div>
-    <div class="kpi"><div class="kpi-label">Signed</div><div class="kpi-value">1</div><div class="kpi-sub">this week</div></div>
+  <div class="kpi-bar">
+    <div class="kpi"><div class="kpi-val kpi-red">76%</div><div class="kpi-label">Occupancy</div></div>
+    <div class="kpi"><div class="kpi-val kpi-red">$7.6K</div><div class="kpi-label">Leak/wk</div></div>
+    <div class="kpi"><div class="kpi-val kpi-green">$9.4K</div><div class="kpi-label">Collected</div></div>
+    <div class="kpi"><div class="kpi-val kpi-red">8</div><div class="kpi-label">Chronic</div></div>
   </div>
 
-  <!-- SCORECARD -->
-  <div class="card">
-    <h3>Weekly Scorecard</h3>
-    <table>
+  <div class="cc-card" style="margin-bottom:16px;">
+    <div class="cc-header cc-header-blue">Weekly Scorecard</div>
+    <div style="overflow-x:auto;">
+    <table class="owner-table">
       <thead><tr><th>KPI</th><th>Current</th><th>Target</th><th>Status</th></tr></thead>
       <tbody>
-        <tr><td>Occupancy %</td><td>76%</td><td>95%+</td><td><span class="badge badge-red">Behind</span></td></tr>
-        <tr><td>Rent Collected %</td><td>55%</td><td>98%+</td><td><span class="badge badge-red">Behind</span></td></tr>
-        <tr><td>Market-Ready Vacant Rooms</td><td>6 / 20</td><td>20 / 20</td><td><span class="badge badge-red">Behind</span></td></tr>
-        <tr><td>AI Response SLA (&lt;5 min)</td><td>92%</td><td>100%</td><td><span class="badge badge-yellow">Close</span></td></tr>
-        <tr><td>Showings Booked</td><td>3</td><td>5+</td><td><span class="badge badge-yellow">Close</span></td></tr>
-        <tr><td>Leases Signed</td><td>1</td><td>2+</td><td><span class="badge badge-yellow">Close</span></td></tr>
-        <tr><td>Late Fees Enforced</td><td>~0%</td><td>100%</td><td><span class="badge badge-red">Behind</span></td></tr>
-        <tr><td>Cleanings On Schedule</td><td>80%</td><td>100%</td><td><span class="badge badge-yellow">Close</span></td></tr>
-        <tr><td>Open Repairs &gt;48hr</td><td>2</td><td>0</td><td><span class="badge badge-yellow">Close</span></td></tr>
-        <tr><td>Stale Ads (14+ days, 0 leads)</td><td>1</td><td>0</td><td><span class="badge badge-yellow">Close</span></td></tr>
+        <tr><td>Occupancy %</td><td>76%</td><td>95%+</td><td><span class="cc-badge cc-badge-red">Behind</span></td></tr>
+        <tr><td>Rent Collected %</td><td>55%</td><td>98%+</td><td><span class="cc-badge cc-badge-red">Behind</span></td></tr>
+        <tr><td>Market-Ready Rooms</td><td>6/20</td><td>20/20</td><td><span class="cc-badge cc-badge-red">Behind</span></td></tr>
+        <tr><td>AI Response SLA</td><td>92%</td><td>100%</td><td><span class="cc-badge cc-badge-yellow">Close</span></td></tr>
+        <tr><td>Showings Booked</td><td>3</td><td>5+</td><td><span class="cc-badge cc-badge-yellow">Close</span></td></tr>
+        <tr><td>Leases Signed</td><td>1</td><td>2+</td><td><span class="cc-badge cc-badge-yellow">Close</span></td></tr>
+        <tr><td>Late Fees Enforced</td><td>~0%</td><td>100%</td><td><span class="cc-badge cc-badge-red">Behind</span></td></tr>
+        <tr><td>Cleanings On Schedule</td><td>80%</td><td>100%</td><td><span class="cc-badge cc-badge-yellow">Close</span></td></tr>
       </tbody>
     </table>
+    </div>
   </div>
 
-  <!-- DECISIONS NEEDED -->
-  <div class="card" style="border-left: 4px solid var(--red);">
-    <h3>&#9888;&#65039; Decisions Needed</h3>
-
-    <div style="margin-top:12px;">
-      <div class="section-head" style="margin-top:0">Chronic Underpayer Escalations</div>
-      <table>
-        <thead><tr><th>Tenant</th><th>Property</th><th>Rent</th><th>Avg Paid</th><th>Short/wk</th><th>Annual Loss</th><th>Decision</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Jhoan</strong></td><td>6132 Horseshoe A</td><td>$180</td><td>$135</td><td>$45</td><td>$2,340</td><td><button class="btn btn-outline btn-sm">Enforce</button> <button class="btn btn-outline btn-sm">Accept $135</button></td></tr>
-          <tr><td><strong>Dominico</strong></td><td>346 Linden RV2</td><td>$250</td><td>$155</td><td>$95</td><td>$4,940</td><td><button class="btn btn-outline btn-sm">Enforce</button> <button class="btn btn-outline btn-sm">Accept $155</button></td></tr>
-          <tr><td><strong>Isaiah</strong></td><td>346 Linden A</td><td>$185</td><td>$150</td><td>$35</td><td>$1,820</td><td><button class="btn btn-outline btn-sm">Enforce</button> <button class="btn btn-outline btn-sm">Accept $150</button></td></tr>
-          <tr><td><strong>Misty</strong></td><td>346 Linden C</td><td>$185</td><td>$150</td><td>$35</td><td>$1,820</td><td><button class="btn btn-outline btn-sm">Enforce</button> <button class="btn btn-outline btn-sm">Accept $150</button></td></tr>
-          <tr><td><strong>Zakkiyah</strong></td><td>346 Linden D</td><td>$190</td><td>$150</td><td>$40</td><td>$2,080</td><td><button class="btn btn-outline btn-sm">Enforce</button> <button class="btn btn-outline btn-sm">Accept $150</button></td></tr>
-          <tr><td><strong>Saeid</strong></td><td>2204 Myra A</td><td>$190</td><td>$170</td><td>$20</td><td>$1,040</td><td><button class="btn btn-outline btn-sm">Enforce</button> <button class="btn btn-outline btn-sm">Accept $170</button></td></tr>
-          <tr><td><strong>Issabella</strong></td><td>1665 Natalie RV2</td><td>$250</td><td>$170</td><td>$80</td><td>$4,160</td><td><button class="btn btn-outline btn-sm">Enforce</button> <button class="btn btn-outline btn-sm">Accept $170</button></td></tr>
-          <tr><td><strong>Kaska</strong></td><td>2331 W 10th D</td><td>$250</td><td>$200</td><td>$50</td><td>$2,600</td><td><button class="btn btn-outline btn-sm">Enforce</button> <button class="btn btn-outline btn-sm">Accept $200</button></td></tr>
-        </tbody>
-      </table>
-      <div style="margin-top:12px; padding:12px; background:var(--red-bg); border-radius:8px; font-size:13px; font-weight:600; color:#991b1b;">
-        Total estimated chronic underpayment: ~$30,000/year from occupied rooms. Each "Accept" resets the rent. Each "Enforce" triggers a written notice via Andrea.
-      </div>
-    </div>
-
-    <div style="margin-top:16px;">
-      <div class="section-head">Pricing Approval</div>
-      <div class="action-row">
-        <div class="action-info">
-          <div class="title">Ainsley recommends: Lower 1160 Tumbleweed C-F from $160 to $140/wk</div>
-          <div class="sub">4 rooms vacant 21+ days. Area has lower demand. $140 matches competitor pricing.</div>
-        </div>
-        <div class="action-buttons">
-          <button class="btn btn-green">Approve</button>
-          <button class="btn btn-red">Reject</button>
-        </div>
-      </div>
-    </div>
-
-    <div style="margin-top:16px;">
-      <div class="section-head">Data Error Flagged</div>
-      <div class="alert alert-red">&#9888;&#65039; Louis at 1231 Grove Park E shows <strong>$18,000/wk rent</strong> — data entry error. Correct to actual amount.</div>
-    </div>
-
-  </div>
-
-  <!-- BUILD STATUS -->
-  <div class="card">
-    <h3>&#128736; Build Progress</h3>
-    <table>
-      <thead><tr><th>Phase</th><th>What</th><th>Status</th><th>Blocker</th></tr></thead>
+  <div class="sec-label">&#9888;&#65039; Decisions Needed</div>
+  <div class="cc-card" style="border-left:5px solid var(--red);">
+    <div class="cc-header cc-header-red">Chronic Underpayers — ~$30K/year leak</div>
+    <div style="overflow-x:auto;">
+    <table class="owner-table">
+      <thead><tr><th>Tenant</th><th>Property</th><th>Rent</th><th>Pays</th><th>Loss/yr</th><th>Decision</th></tr></thead>
       <tbody>
-        <tr><td><strong>Phase 1</strong></td><td>Airtable 6-table base + data import</td><td><span class="badge badge-yellow">Blocked</span></td><td>Airtable API token invalid</td></tr>
-        <tr><td><strong>Phase 2</strong></td><td>Mobile website (Andrea + Sandra + Jerel screens)</td><td><span class="badge badge-gray">Waiting</span></td><td>Needs Phase 1</td></tr>
-        <tr><td><strong>Phase 3</strong></td><td>GHL AI Sales Engine (5 new workflows)</td><td><span class="badge badge-gray">Waiting</span></td><td>Needs clean inventory in Airtable</td></tr>
-        <tr><td><strong>Phase 4</strong></td><td>Enforcement (contracts, late fees, bathroom policy)</td><td><span class="badge badge-gray">Waiting</span></td><td>Needs Jerel underpayment decisions</td></tr>
+        <tr><td><strong>Dominico</strong></td><td>346 Linden RV2</td><td>$250</td><td>$155</td><td style="color:var(--red);font-weight:700">$4,940</td><td><button class="na-btn na-btn-green" style="padding:4px 10px;font-size:11px;">Enforce</button> <button class="na-btn na-btn-outline" style="padding:4px 10px;font-size:11px;">Accept $155</button></td></tr>
+        <tr><td><strong>Issabella</strong></td><td>1665 Natalie RV2</td><td>$250</td><td>$170</td><td style="color:var(--red);font-weight:700">$4,160</td><td><button class="na-btn na-btn-green" style="padding:4px 10px;font-size:11px;">Enforce</button> <button class="na-btn na-btn-outline" style="padding:4px 10px;font-size:11px;">Accept $170</button></td></tr>
+        <tr><td><strong>Kaska</strong></td><td>2331 W 10th D</td><td>$250</td><td>$200</td><td style="color:var(--red);font-weight:700">$2,600</td><td><button class="na-btn na-btn-green" style="padding:4px 10px;font-size:11px;">Enforce</button> <button class="na-btn na-btn-outline" style="padding:4px 10px;font-size:11px;">Accept $200</button></td></tr>
+        <tr><td><strong>Jhoan</strong></td><td>6132 Horseshoe A</td><td>$180</td><td>$135</td><td style="color:var(--red);font-weight:700">$2,340</td><td><button class="na-btn na-btn-green" style="padding:4px 10px;font-size:11px;">Enforce</button> <button class="na-btn na-btn-outline" style="padding:4px 10px;font-size:11px;">Accept $135</button></td></tr>
+        <tr><td><strong>Zakkiyah</strong></td><td>346 Linden D</td><td>$190</td><td>$150</td><td style="color:var(--red);font-weight:700">$2,080</td><td><button class="na-btn na-btn-green" style="padding:4px 10px;font-size:11px;">Enforce</button> <button class="na-btn na-btn-outline" style="padding:4px 10px;font-size:11px;">Accept $150</button></td></tr>
       </tbody>
     </table>
-
-    <div style="margin-top:12px;">
-      <div class="section-head">5 Blockers to Clear</div>
-      <div class="action-row"><div class="action-info"><div class="title">1. Fix Airtable API token</div><div class="sub">Re-authenticate or generate new personal access token</div></div></div>
-      <div class="action-row"><div class="action-info"><div class="title">2. Get Andrea's current Excel file</div><div class="sub">Need it to import 83 rooms + tenants accurately</div></div></div>
-      <div class="action-row"><div class="action-info"><div class="title">3. Connect FB Messenger to GHL</div><div class="sub">Confirm which FB account posts ads</div></div></div>
-      <div class="action-row"><div class="action-info"><div class="title">4. Decide on chronic underpayers</div><div class="sub">Accept lower rent or enforce contract for each of 8 tenants</div></div></div>
-      <div class="action-row"><div class="action-info"><div class="title">5. Buy carbon-copy receipt book</div><div class="sub">$8 at Office Depot</div></div></div>
     </div>
+    <div style="margin-top:12px;padding:12px;background:var(--red-bg);border-radius:8px;font-size:13px;font-weight:600;color:#991b1b;">Each "Accept" resets the rent. Each "Enforce" triggers a written notice via Andrea.</div>
   </div>
 
 </div>
@@ -737,37 +619,19 @@ tr:hover { background: #f8fafc; }
 </div>
 
 <script>
-// Role switching
 function switchRole(role) {
   document.querySelectorAll('[id^="role-"]').forEach(el => el.style.display = 'none');
   document.getElementById('role-' + role).style.display = 'block';
-  document.querySelectorAll('.role-btn').forEach(btn => btn.classList.remove('active'));
-  event.target.classList.add('active');
+  document.querySelectorAll('.avatar').forEach(a => a.classList.remove('active'));
+  document.querySelector('.avatar-' + role.replace('owner','jerel')).classList.add('active');
 }
-
-// Tab switching within Andrea
 function showTab(role, tab) {
   const parent = document.getElementById('role-' + role);
   parent.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   parent.querySelector('#' + role + '-' + tab).classList.add('active');
-  const nav = parent.querySelector('.tab-nav');
-  nav.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-  event.target.classList.add('active');
+  parent.querySelectorAll('.nav-icon').forEach(n => n.classList.remove('active'));
+  event.target.closest('.nav-icon').classList.add('active');
 }
-
-// Simulate button clicks
-document.querySelectorAll('.btn:not(.btn-disabled)').forEach(btn => {
-  btn.addEventListener('click', function(e) {
-    if (this.classList.contains('btn-disabled')) return;
-    if (this.textContent.includes('Pagado')) {
-      this.style.opacity = '0.5';
-      this.textContent = 'Pagado \u2713';
-      const row = this.closest('.action-row');
-      if (row) { const badge = row.querySelector('.badge'); if(badge) { badge.className = 'badge badge-green'; badge.textContent = 'Paid'; } }
-    }
-  });
-});
 </script>
-
 </body>
 </html>
