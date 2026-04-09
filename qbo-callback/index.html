@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>QBO OAuth Callback</title>
+  <style>
+    body { font-family: monospace; background: #0d1117; color: #e6edf3; padding: 40px; }
+    h2 { color: #58a6ff; }
+    .box { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; margin: 16px 0; }
+    .label { color: #8b949e; font-size: 12px; margin-bottom: 4px; }
+    .value { color: #3fb950; font-size: 14px; word-break: break-all; }
+    .error { color: #f85149; }
+  </style>
+</head>
+<body>
+  <h2>QBO OAuth Callback</h2>
+  <div id="output"></div>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('code');
+    const realmId = params.get('realmId');
+    const state = params.get('state');
+    const error = params.get('error');
+    const out = document.getElementById('output');
+    if (error) {
+      out.innerHTML = `<div class="box"><div class="label">Error</div><div class="value error">${error}</div></div>`;
+    } else if (code && realmId) {
+      out.innerHTML = `
+        <div class="box"><div class="label">CODE</div><div class="value">${code}</div></div>
+        <div class="box"><div class="label">REALM ID</div><div class="value">${realmId}</div></div>
+        <div class="box"><div class="label">STATE</div><div class="value">${state || 'n/a'}</div></div>
+        <p style="color:#8b949e">Copy the CODE and REALM ID — Ainsley will exchange them for tokens.</p>
+      `;
+    } else {
+      out.innerHTML = '<div class="box"><div class="value error">No auth code found in URL.</div></div>';
+    }
+  </script>
+</body>
+</html>
