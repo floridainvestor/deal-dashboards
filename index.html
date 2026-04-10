@@ -424,26 +424,33 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
 <div class="view active" id="andrea-today">
 
   <!-- BONUS INCENTIVE BANNER -->
-  <div id="bonus-banner" style="background:linear-gradient(135deg,#FF6F00 0%,#F9A825 100%);border-radius:14px;padding:14px 16px;color:white;margin-bottom:10px;text-align:center;position:relative;overflow:hidden;">
-    <div style="font-size:10px;font-weight:800;opacity:.85;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:2px;">&#128176; Your Bonus This Week</div>
-    <div style="display:flex;align-items:center;justify-content:center;gap:12px;">
-      <div>
-        <div id="bonus-amount" style="font-size:32px;font-weight:900;">$10</div>
-        <div style="font-size:11px;opacity:.9;">62 of 83 rooms rented</div>
+  <div id="bonus-banner" style="background:linear-gradient(135deg,#B8860B 0%,#DAA520 30%,#FFD700 60%,#DAA520 100%);border-radius:14px;padding:16px;color:#3E2723;margin-bottom:10px;text-align:center;position:relative;overflow:hidden;box-shadow:0 4px 16px rgba(218,165,32,.4),inset 0 1px 0 rgba(255,255,255,.35);">
+    <!-- Gold shimmer overlay -->
+    <div style="position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);animation:goldShimmer 3s infinite;pointer-events:none;"></div>
+    <style>@keyframes goldShimmer{0%{left:-100%}100%{left:200%}}</style>
+    <div style="position:relative;z-index:1;">
+      <div style="font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:2px;margin-bottom:4px;color:#5D4037;">&#129689;&#128176; Your Bonus This Week &#128176;&#129689;</div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:14px;">
+        <div>
+          <div style="font-size:13px;">&#128181;&#128181;&#128181;</div>
+          <div id="bonus-amount" style="font-size:38px;font-weight:900;text-shadow:0 2px 4px rgba(0,0,0,.15);color:#3E2723;">$10</div>
+          <div style="font-size:11px;color:#5D4037;font-weight:700;">62 of 83 rooms rented</div>
+        </div>
+        <div style="width:1px;height:50px;background:rgba(101,67,33,.2);"></div>
+        <div style="text-align:left;">
+          <div style="font-size:12px;font-weight:800;color:#3E2723;">Every room past 61 = <span style="background:rgba(255,255,255,.45);padding:2px 8px;border-radius:6px;font-size:13px;">+$10/wk &#129689;</span></div>
+          <div style="font-size:12px;color:#5D4037;margin-top:4px;">Fill 3 more → <strong style="color:#3E2723;font-size:14px;">$40/wk in your pocket</strong></div>
+          <div style="font-size:11px;color:#795548;margin-top:2px;">Max out all rooms → <strong>$220/wk</strong> &#128176;</div>
+        </div>
       </div>
-      <div style="width:1px;height:40px;background:rgba(255,255,255,.3);"></div>
-      <div style="text-align:left;">
-        <div style="font-size:12px;font-weight:800;">Every room past 61 = <span style="background:rgba(255,255,255,.25);padding:1px 6px;border-radius:4px;">+$10/wk</span></div>
-        <div style="font-size:11px;opacity:.85;margin-top:2px;">Fill 3 more rooms → <strong>$40/wk bonus</strong></div>
+      <div style="margin-top:10px;background:rgba(101,67,33,.15);border-radius:100px;height:10px;overflow:hidden;">
+        <div id="bonus-fill" style="width:1.2%;height:100%;background:linear-gradient(90deg,#B8860B,#FFD700);border-radius:100px;transition:width .4s;box-shadow:0 0 8px rgba(255,215,0,.6);"></div>
       </div>
-    </div>
-    <div style="margin-top:8px;background:rgba(0,0,0,.15);border-radius:100px;height:8px;overflow:hidden;">
-      <div id="bonus-fill" style="width:1.2%;height:100%;background:white;border-radius:100px;transition:width .4s;"></div>
-    </div>
-    <div style="display:flex;justify-content:space-between;font-size:9px;opacity:.7;margin-top:2px;">
-      <span>61 (base)</span>
-      <span>62 now (+$10)</span>
-      <span>83 (max = $220/wk)</span>
+      <div style="display:flex;justify-content:space-between;font-size:9px;color:#795548;margin-top:3px;font-weight:700;">
+        <span>61 (base)</span>
+        <span>&#11088; 62 now (+$10)</span>
+        <span>83 (max = $220/wk) &#128176;</span>
+      </div>
     </div>
   </div>
 
