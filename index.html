@@ -397,7 +397,7 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
       </div>
       <div class="avatar-name">Sandra</div>
     </div>
-    <div class="avatar-wrap" onclick="switchRole('owner')" title="Jerel — hold to update photo" onmousedown="handleAvatarTap('jerel',event)" onmouseup="handleAvatarRelease('jerel',event)" ontouchstart="handleAvatarTap('jerel',event)" ontouchend="handleAvatarRelease('jerel',event)">
+    <div class="avatar-wrap" onclick="ownerAccess()" title="Jerel — owner view (PIN protected)" onmousedown="handleAvatarTap('jerel',event)" onmouseup="handleAvatarRelease('jerel',event)" ontouchstart="handleAvatarTap('jerel',event)" ontouchend="handleAvatarRelease('jerel',event)">
       <div class="avatar avatar-jerel">
         <img src="photos/jerel.jpg" onerror="this.style.display='none'" alt="Jerel">
         <span class="avatar-fallback">J</span>
@@ -1647,6 +1647,45 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
 </main>
 </div>
 
+<!-- OWNER PIN MODAL -->
+<div id="pin-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;align-items:center;justify-content:center;">
+  <div style="background:white;border-radius:20px;padding:28px 24px;max-width:320px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3);">
+    <div style="width:60px;height:60px;border-radius:50%;overflow:hidden;margin:0 auto 12px;border:3px solid var(--blue);">
+      <img src="photos/jerel.jpg" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'">
+    </div>
+    <div style="font-size:18px;font-weight:900;color:var(--dark);margin-bottom:4px;">Owner View</div>
+    <div style="font-size:13px;color:var(--gray);margin-bottom:20px;">Enter PIN to access</div>
+    <div id="pin-dots" style="display:flex;justify-content:center;gap:12px;margin-bottom:20px;">
+      <div class="pin-dot" id="pd1"></div>
+      <div class="pin-dot" id="pd2"></div>
+      <div class="pin-dot" id="pd3"></div>
+      <div class="pin-dot" id="pd4"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px;">
+      <button class="pin-btn" onclick="pinDigit('1')">1</button>
+      <button class="pin-btn" onclick="pinDigit('2')">2</button>
+      <button class="pin-btn" onclick="pinDigit('3')">3</button>
+      <button class="pin-btn" onclick="pinDigit('4')">4</button>
+      <button class="pin-btn" onclick="pinDigit('5')">5</button>
+      <button class="pin-btn" onclick="pinDigit('6')">6</button>
+      <button class="pin-btn" onclick="pinDigit('7')">7</button>
+      <button class="pin-btn" onclick="pinDigit('8')">8</button>
+      <button class="pin-btn" onclick="pinDigit('9')">9</button>
+      <button class="pin-btn pin-btn-clear" onclick="pinClear()" style="font-size:13px;">Clear</button>
+      <button class="pin-btn" onclick="pinDigit('0')">0</button>
+      <button class="pin-btn pin-btn-cancel" onclick="closePinModal()" style="font-size:13px;background:var(--red-bg);color:var(--red);">✕</button>
+    </div>
+    <div id="pin-error" style="color:var(--red);font-size:12px;font-weight:700;min-height:16px;"></div>
+  </div>
+</div>
+
+<style>
+.pin-dot { width:14px;height:14px;border-radius:50%;border:2px solid #CBD5E1;background:transparent;transition:background .15s; }
+.pin-dot.filled { background:var(--blue);border-color:var(--blue); }
+.pin-btn { padding:16px;border-radius:12px;border:none;background:#F1F5F9;font-size:22px;font-weight:700;cursor:pointer;transition:background .1s; }
+.pin-btn:active { background:#CBD5E1; }
+</style>
+
 <script>
 /* ===== AVATAR PHOTO MANAGER ===== */
 const PHOTO_KEY = 'equipo_photos';
@@ -1700,6 +1739,69 @@ function handleAvatarRelease(name, event) {
     };
     input.click();
     event.stopPropagation();
+  }
+}
+
+/* ===== OWNER PIN ===== */
+const OWNER_PIN = '1985'; // Change this to your preferred PIN
+const PIN_SESSION_KEY = 'equipo_owner_unlocked';
+let pinBuffer = '';
+
+function ownerAccess() {
+  // Check if already unlocked this session
+  if (sessionStorage.getItem(PIN_SESSION_KEY) === 'true') {
+    switchRole('owner');
+    return;
+  }
+  pinBuffer = '';
+  updatePinDots();
+  const modal = document.getElementById('pin-modal');
+  modal.style.display = 'flex';
+  document.getElementById('pin-error').textContent = '';
+}
+
+function closePinModal() {
+  document.getElementById('pin-modal').style.display = 'none';
+  pinBuffer = '';
+  updatePinDots();
+}
+
+function pinDigit(d) {
+  if (pinBuffer.length >= 4) return;
+  pinBuffer += d;
+  updatePinDots();
+  if (pinBuffer.length === 4) {
+    setTimeout(checkPin, 120);
+  }
+}
+
+function pinClear() {
+  pinBuffer = '';
+  updatePinDots();
+  document.getElementById('pin-error').textContent = '';
+}
+
+function updatePinDots() {
+  for (let i = 1; i <= 4; i++) {
+    const dot = document.getElementById('pd' + i);
+    if (dot) dot.classList.toggle('filled', i <= pinBuffer.length);
+  }
+}
+
+function checkPin() {
+  if (pinBuffer === OWNER_PIN) {
+    sessionStorage.setItem(PIN_SESSION_KEY, 'true');
+    closePinModal();
+    switchRole('owner');
+  } else {
+    document.getElementById('pin-error').textContent = 'Incorrect PIN. Try again.';
+    pinBuffer = '';
+    updatePinDots();
+    // Shake animation
+    const modal = document.querySelector('#pin-modal > div');
+    modal.style.transform = 'translateX(-8px)';
+    setTimeout(() => { modal.style.transform = 'translateX(8px)'; }, 80);
+    setTimeout(() => { modal.style.transform = 'translateX(0)'; }, 160);
   }
 }
 
