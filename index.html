@@ -432,17 +432,28 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
     <a href="https://chat.whatsapp.com/your-group-link" target="_blank" style="background:rgba(255,255,255,.15);border-radius:8px;padding:8px 12px;color:white;text-decoration:none;font-size:12px;font-weight:800;white-space:nowrap;flex-shrink:0;">&#128241; WhatsApp</a>
   </div>
 
+  <!-- ONE JOB NOW BANNER -->
+  <div id="one-job-banner" style="background:linear-gradient(135deg,#1B5E20 0%,#2E7D32 100%);border-radius:14px;padding:16px;color:white;margin-bottom:12px;position:relative;">
+    <div style="font-size:10px;font-weight:800;opacity:.75;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">&#9889; ONE JOB RIGHT NOW</div>
+    <div id="one-job-text" style="font-size:17px;font-weight:900;margin-bottom:4px;">Drive to 7862 Hastings &mdash; Show Room D to Maria G.</div>
+    <div id="one-job-sub" style="font-size:12px;opacity:.9;">Showing at 2:00 PM &bull; <span id="countdown-display" style="font-weight:800;background:rgba(255,255,255,.2);padding:2px 8px;border-radius:20px;">loading...</span></div>
+    <div style="display:flex;gap:8px;margin-top:10px;">
+      <a href="https://www.google.com/maps/search/7862+Hastings+St+Jacksonville+FL" target="_blank" style="background:rgba(255,255,255,.2);border-radius:8px;padding:8px 14px;color:white;text-decoration:none;font-size:12px;font-weight:800;">&#128506; Navigate</a>
+      <button onclick="markDone(1,this)" style="background:rgba(255,255,255,.15);border:none;border-radius:8px;padding:8px 14px;color:white;font-size:12px;font-weight:800;cursor:pointer;">&#10003; Done</button>
+    </div>
+  </div>
+
   <!-- TODAY FOCUS CARDS -->
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
     <div style="background:linear-gradient(135deg,#2E7D32 0%,#388E3C 100%);border-radius:12px;padding:14px;color:white;text-align:center;">
-      <div style="font-size:11px;font-weight:800;opacity:.85;text-transform:uppercase;letter-spacing:.8px;">Showings Today</div>
+      <div style="font-size:10px;font-weight:800;opacity:.85;text-transform:uppercase;letter-spacing:.8px;">Showings Today</div>
       <div style="font-size:36px;font-weight:900;margin:2px 0;">1</div>
-      <div style="font-size:11px;opacity:.9;">Maria G. &bull; 2pm &bull; Hastings D</div>
+      <div style="font-size:11px;opacity:.9;">= $9,100/yr if Maria signs</div>
     </div>
     <div style="background:linear-gradient(135deg,#E65100 0%,#F57C00 100%);border-radius:12px;padding:14px;color:white;text-align:center;">
-      <div style="font-size:11px;font-weight:800;opacity:.85;text-transform:uppercase;letter-spacing:.8px;">Rooms to Make Ready</div>
+      <div style="font-size:10px;font-weight:800;opacity:.85;text-transform:uppercase;letter-spacing:.8px;">Rooms to Make Ready</div>
       <div style="font-size:36px;font-weight:900;margin:2px 0;">3</div>
-      <div style="font-size:11px;opacity:.9;">Linden &bull; Caxton A/B/C</div>
+      <div style="font-size:11px;opacity:.9;">= $625/wk unlocked when listed</div>
     </div>
   </div>
 
@@ -598,12 +609,24 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
 
   <!-- AI HANDLING BANNER -->
   <div style="background:linear-gradient(135deg,#1B5E20 0%,#2E7D32 100%);border-radius:14px;padding:14px 16px;color:white;margin-bottom:12px;">
-    <div style="font-size:13px;font-weight:800;margin-bottom:4px;">&#129302; AI is responding to all FB inquiries</div>
-    <div style="font-size:12px;opacity:.9;margin-bottom:10px;">Your job: confirm showings &amp; rent rooms. AI handles the first reply, qualifying questions, and follow-up. You step in only when a showing is ready to book.</div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;">
-      <a href="https://chat.whatsapp.com/your-group-link" target="_blank" style="background:rgba(255,255,255,.2);border-radius:8px;padding:8px 14px;color:white;text-decoration:none;font-size:12px;font-weight:800;">&#128241; WhatsApp Group &rarr;</a>
-      <div style="background:rgba(255,255,255,.15);border-radius:8px;padding:8px 14px;font-size:12px;font-weight:700;">3 DMs sent today &bull; 1 qualified</div>
+    <div style="font-size:13px;font-weight:800;margin-bottom:6px;">&#129302; AI handled FB &mdash; Here's what it booked for you</div>
+
+    <div style="background:rgba(255,255,255,.12);border-radius:8px;padding:10px;margin-bottom:8px;">
+      <div style="font-size:10px;font-weight:800;opacity:.8;text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px;">&#9989; Booked for you today</div>
+      <div style="font-size:12px;margin-bottom:3px;">&#128205; Maria G. &mdash; 7862 Hastings Rm D &mdash; <strong>Today 2:00 PM</strong> &bull; &#10004; Confirmed</div>
+      <div style="font-size:12px;opacity:.8;">&#128205; Carlos R. &mdash; 346 Linden Rm 3 &mdash; <strong>Thu 11 AM</strong> &bull; Pending confirm</div>
     </div>
+
+    <div style="background:rgba(255,100,100,.2);border-radius:8px;padding:10px;margin-bottom:10px;">
+      <div style="font-size:10px;font-weight:800;opacity:.8;text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px;">&#128680; Needs your input (1)</div>
+      <div style="font-size:12px;margin-bottom:6px;">Roberto L. &mdash; "wants to talk to someone" &bull; $200/wk budget</div>
+      <div style="display:flex;gap:6px;">
+        <button onclick="advanceLead('roberto','responded')" style="background:white;border:none;border-radius:6px;padding:6px 12px;font-size:11px;font-weight:800;color:#1B5E20;cursor:pointer;">&#128222; Call Now</button>
+        <a href="https://chat.whatsapp.com/your-group-link" target="_blank" style="background:#25D366;border-radius:6px;padding:6px 12px;color:white;text-decoration:none;font-size:11px;font-weight:800;">&#128241; Send WhatsApp Link</a>
+      </div>
+    </div>
+
+    <div style="font-size:11px;opacity:.8;">47 inquiries this week &bull; 12 qualified &bull; Avg AI response: &lt;2 min</div>
   </div>
 
   <!-- Speed-to-lead hero -->
@@ -875,16 +898,16 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
       <div class="kanban-col">
         <div class="kanban-col-header" style="background:var(--red);">Waiting on Supplies (3)</div>
         <div class="kanban-col-body">
-          <div class="kanban-card"><div class="kc-addr">7821 Caxton Cir</div><div class="kc-room">Room A</div><div class="kc-days">18 days vacant</div><div class="kc-cost">$450 lost</div><div class="kc-amazon">&#128666; Bedding Apr 10</div></div>
-          <div class="kanban-card"><div class="kc-addr">7821 Caxton Cir</div><div class="kc-room">Room B</div><div class="kc-days">18 days vacant</div><div class="kc-cost">$450 lost</div><div class="kc-amazon">&#128666; Bedding Apr 10</div></div>
-          <div class="kanban-card"><div class="kc-addr">7821 Caxton Cir</div><div class="kc-room">Room C</div><div class="kc-days">18 days vacant</div><div class="kc-cost">$450 lost</div><div class="kc-amazon">&#128666; Bedding Apr 10</div></div>
+          <div class="kanban-card"><div class="kc-addr">7821 Caxton Cir</div><div class="kc-room">Room A</div><div class="kc-days">18 days vacant</div><div class="kc-amazon" style="color:var(--green);font-weight:800;">&#128666; READY TOMORROW &mdash; Bedding arrives Apr 10</div></div>
+          <div class="kanban-card"><div class="kc-addr">7821 Caxton Cir</div><div class="kc-room">Room B</div><div class="kc-days">18 days vacant</div><div class="kc-amazon" style="color:var(--green);font-weight:800;">&#128666; READY TOMORROW &mdash; Bedding arrives Apr 10</div></div>
+          <div class="kanban-card"><div class="kc-addr">7821 Caxton Cir</div><div class="kc-room">Room C</div><div class="kc-days">18 days vacant</div><div class="kc-amazon" style="color:var(--green);font-weight:800;">&#128666; READY TOMORROW &mdash; Bedding arrives Apr 10</div></div>
         </div>
       </div>
       <div class="kanban-col">
         <div class="kanban-col-header" style="background:var(--orange);">Needs Cleaning (2)</div>
         <div class="kanban-col-body">
-          <div class="kanban-card"><div class="kc-addr">355 Linden Ln</div><div class="kc-room">Room —</div><div class="kc-days">17 days vacant</div><div class="kc-cost">$425 lost</div><div class="kc-blocker">Felix assigned, no after photo</div></div>
-          <div class="kanban-card"><div class="kc-addr">7821 Caxton Cir</div><div class="kc-room">Room B (wall)</div><div class="kc-days">18 days vacant</div><div class="kc-cost">$450 lost</div><div class="kc-blocker">Repair done, awaiting photo</div></div>
+          <div class="kanban-card"><div class="kc-addr">355 Linden Ln</div><div class="kc-room">Room —</div><div class="kc-days">17 days vacant</div><div class="kc-blocker" style="color:var(--orange);font-weight:800;">&#128247; 1 photo → lists TODAY → $175/wk unlocked</div></div>
+          <div class="kanban-card"><div class="kc-addr">7821 Caxton Cir</div><div class="kc-room">Room B (wall)</div><div class="kc-days">18 days vacant</div><div class="kc-blocker" style="color:var(--orange);font-weight:800;">&#128247; 1 photo → lists TODAY → $150/wk unlocked</div></div>
         </div>
       </div>
       <div class="kanban-col">
@@ -894,8 +917,8 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
       <div class="kanban-col">
         <div class="kanban-col-header" style="background:var(--blue);">Listed — 0 Leads (2)</div>
         <div class="kanban-col-body">
-          <div class="kanban-card"><div class="kc-addr">2228 W 16th St</div><div class="kc-room">Room A</div><div class="kc-days">21 days listed, 0 leads</div><div class="kc-cost">$525 lost</div><div class="kc-blocker">Price? Photos? Condition?</div></div>
-          <div class="kanban-card"><div class="kc-addr">2228 W 16th St</div><div class="kc-room">Room B</div><div class="kc-days">21 days listed, 0 leads</div><div class="kc-cost">$525 lost</div><div class="kc-blocker">Same listing — audit needed</div></div>
+          <div class="kanban-card"><div class="kc-addr">2228 W 16th St</div><div class="kc-room">Room A</div><div class="kc-days">21 days, 0 leads</div><div class="kc-blocker" style="color:var(--red);font-weight:800;">&#128273; Sandra: price/photos audit needed</div></div>
+          <div class="kanban-card"><div class="kc-addr">2228 W 16th St</div><div class="kc-room">Room B</div><div class="kc-days">21 days, 0 leads</div><div class="kc-blocker" style="color:var(--red);font-weight:800;">&#128273; Sandra: same root cause as Rm A</div></div>
         </div>
       </div>
       <div class="kanban-col">
@@ -1480,9 +1503,10 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
         <div style="font-size:10px;opacity:.85;">Avg Response</div>
       </div>
     </div>
-    <div style="font-size:11px;opacity:.85;margin-bottom:8px;">Prospects wanting more info → WhatsApp group. Qualified leads → Andrea's showing queue.</div>
+    <div style="font-size:11px;opacity:.85;margin-bottom:4px;">Flow: FB DM → AI qualifies → showing booked → 2hr reminder sent → Andrea shows → signed</div>
+    <div style="background:rgba(255,220,50,.2);border-radius:6px;padding:6px 10px;font-size:11px;font-weight:700;margin-bottom:8px;">&#9888;&#65039; 2hr confirmation text not yet wired — 40% no-show rate. Set up in GHL to send auto-confirm 2hrs before each showing.</div>
     <div style="display:flex;gap:8px;">
-      <a href="https://chat.whatsapp.com/your-group-link" target="_blank" style="background:#25D366;border-radius:8px;padding:8px 14px;color:white;text-decoration:none;font-size:12px;font-weight:800;">&#128241; WhatsApp Group</a>
+      <a href="https://chat.whatsapp.com/your-group-link" target="_blank" style="background:#25D366;border-radius:8px;padding:8px 14px;color:white;text-decoration:none;font-size:12px;font-weight:800;">&#128241; Chat &mdash; Faster Replies</a>
       <div style="background:rgba(255,255,255,.15);border-radius:8px;padding:8px 14px;font-size:11px;font-weight:700;display:flex;align-items:center;">&#9989; AI Running &bull; No manual replies needed</div>
     </div>
   </div>
@@ -1771,7 +1795,35 @@ function confirmLost() {
   closeLostModal();
 }
 
-document.addEventListener('DOMContentLoaded', () => { render(); renderInventory(); renderPhotoLog(''); loadAvatarPhotos(); });
+/* ===== SHOWING COUNTDOWN ===== */
+function updateCountdown() {
+  const el = document.getElementById('countdown-display');
+  if (!el) return;
+  const now = new Date();
+  // Next showing: today at 2pm
+  const showing = new Date();
+  showing.setHours(14, 0, 0, 0);
+  const diff = showing - now;
+  if (diff <= 0) {
+    el.textContent = '🔴 SHOWING NOW';
+    el.style.background = 'rgba(255,50,50,.4)';
+    return;
+  }
+  const hrs = Math.floor(diff / 3600000);
+  const mins = Math.floor((diff % 3600000) / 60000);
+  if (hrs > 0) {
+    el.textContent = 'in ' + hrs + 'h ' + mins + 'm';
+  } else if (mins > 0) {
+    el.textContent = 'in ' + mins + ' min';
+    if (mins <= 30) { el.style.background = 'rgba(255,150,0,.4)'; }
+  } else {
+    el.textContent = 'IN UNDER 1 MIN';
+    el.style.background = 'rgba(255,50,50,.4)';
+  }
+}
+setInterval(updateCountdown, 30000);
+
+document.addEventListener('DOMContentLoaded', () => { render(); renderInventory(); renderPhotoLog(''); loadAvatarPhotos(); updateCountdown(); });
 
 /* ===== INVENTORY ENGINE ===== */
 const INV_KEY = 'equipo_inventory';
