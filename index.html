@@ -381,26 +381,26 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
     <div class="topbar-logo">Casa Abierta <span>Equipo</span></div>
   </div>
   <div class="avatars">
-    <div class="avatar-wrap active" onclick="switchRole('andrea')" title="Andrea — 7 open tasks">
+    <div class="avatar-wrap active" onclick="switchRole('andrea')" title="Andrea — hold to update photo" onmousedown="handleAvatarTap('andrea',event)" onmouseup="handleAvatarRelease('andrea',event)" ontouchstart="handleAvatarTap('andrea',event)" ontouchend="handleAvatarRelease('andrea',event)">
       <div class="avatar avatar-andrea">
-        <img src="photos/andrea.jpg" onerror="this.style.display='none'" alt="Andrea">
-        <span class="avatar-fallback">Andrea</span>
+        <img src="" onerror="this.style.display='none'" style="display:none" alt="Andrea">
+        <span class="avatar-fallback">A</span>
         <div class="notif">7</div>
       </div>
       <div class="avatar-name">Andrea</div>
     </div>
-    <div class="avatar-wrap" onclick="switchRole('sandra')" title="Sandra — 5 open tasks">
+    <div class="avatar-wrap" onclick="switchRole('sandra')" title="Sandra — hold to update photo" onmousedown="handleAvatarTap('sandra',event)" onmouseup="handleAvatarRelease('sandra',event)" ontouchstart="handleAvatarTap('sandra',event)" ontouchend="handleAvatarRelease('sandra',event)">
       <div class="avatar avatar-sandra">
-        <img src="photos/sandra.jpg" onerror="this.style.display='none'" alt="Sandra">
-        <span class="avatar-fallback">Sandra</span>
+        <img src="" onerror="this.style.display='none'" style="display:none" alt="Sandra">
+        <span class="avatar-fallback">S</span>
         <div class="notif">5</div>
       </div>
       <div class="avatar-name">Sandra</div>
     </div>
-    <div class="avatar-wrap" onclick="switchRole('owner')" title="Jerel — 3 owner decisions">
+    <div class="avatar-wrap" onclick="switchRole('owner')" title="Jerel — hold to update photo" onmousedown="handleAvatarTap('jerel',event)" onmouseup="handleAvatarRelease('jerel',event)" ontouchstart="handleAvatarTap('jerel',event)" ontouchend="handleAvatarRelease('jerel',event)">
       <div class="avatar avatar-jerel">
-        <img src="photos/jerel.jpg" onerror="this.style.display='none'" alt="Jerel">
-        <span class="avatar-fallback">Jerel</span>
+        <img src="" onerror="this.style.display='none'" style="display:none" alt="Jerel">
+        <span class="avatar-fallback">J</span>
         <div class="notif">3</div>
       </div>
       <div class="avatar-name">Jerel</div>
@@ -423,11 +423,27 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
 <!-- ===== TODAY ===== -->
 <div class="view active" id="andrea-today">
 
-  <div class="hero-metric" id="hero-leak">
-    <div class="hero-metric-label">Weekly Revenue Leak</div>
-    <div class="hero-metric-val" id="hero-val">$7,600</div>
-    <div class="hero-metric-sub">55% captured &mdash; Target: 95% &mdash; <strong>$395K/yr lost</strong></div>
-    <div class="hero-metric-bar"><div class="hero-metric-fill" style="width:55%"></div></div>
+  <!-- AI FB BANNER -->
+  <div style="background:linear-gradient(135deg,#1565C0 0%,#0D47A1 100%);border-radius:14px;padding:14px 16px;color:white;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
+    <div>
+      <div style="font-size:13px;font-weight:800;margin-bottom:2px;">&#129302; AI is handling FB inquiries</div>
+      <div style="font-size:11px;opacity:.85;">3 DMs responded &bull; 1 qualified lead waiting &bull; You handle showings only</div>
+    </div>
+    <a href="https://chat.whatsapp.com/your-group-link" target="_blank" style="background:rgba(255,255,255,.15);border-radius:8px;padding:8px 12px;color:white;text-decoration:none;font-size:12px;font-weight:800;white-space:nowrap;flex-shrink:0;">&#128241; WhatsApp</a>
+  </div>
+
+  <!-- TODAY FOCUS CARDS -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+    <div style="background:linear-gradient(135deg,#2E7D32 0%,#388E3C 100%);border-radius:12px;padding:14px;color:white;text-align:center;">
+      <div style="font-size:11px;font-weight:800;opacity:.85;text-transform:uppercase;letter-spacing:.8px;">Showings Today</div>
+      <div style="font-size:36px;font-weight:900;margin:2px 0;">1</div>
+      <div style="font-size:11px;opacity:.9;">Maria G. &bull; 2pm &bull; Hastings D</div>
+    </div>
+    <div style="background:linear-gradient(135deg,#E65100 0%,#F57C00 100%);border-radius:12px;padding:14px;color:white;text-align:center;">
+      <div style="font-size:11px;font-weight:800;opacity:.85;text-transform:uppercase;letter-spacing:.8px;">Rooms to Make Ready</div>
+      <div style="font-size:36px;font-weight:900;margin:2px 0;">3</div>
+      <div style="font-size:11px;opacity:.9;">Linden &bull; Caxton A/B/C</div>
+    </div>
   </div>
 
   <div class="brief-card">
@@ -440,15 +456,15 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
   </div>
 
   <div class="brief-card" style="border-left: 5px solid var(--green);">
-    <div class="brief-title">&#127919; Today's Target</div>
+    <div class="brief-title">&#127919; Today's Cash Target</div>
     <div style="display:flex;justify-content:space-between;align-items:center;">
       <div>
         <div style="font-size:28px;font-weight:900;color:var(--green);" id="target-val">$3,245</div>
-        <div style="font-size:12px;color:var(--gray);">cash collections + vacancy unlocks</div>
+        <div style="font-size:12px;color:var(--gray);">collections + room unlocks this week</div>
       </div>
       <div style="text-align:right;">
         <div style="font-size:20px;font-weight:900;color:var(--blue);" id="recovered-val">$0</div>
-        <div style="font-size:12px;color:var(--gray);">recovered so far</div>
+        <div style="font-size:12px;color:var(--gray);">logged today</div>
       </div>
     </div>
     <div style="width:100%;height:10px;background:#E0E0E0;border-radius:100px;margin-top:10px;overflow:hidden;">
@@ -478,28 +494,28 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
     </div>
   </div>
 
-  <!-- TIER 2 -->
+  <!-- TIER 2 — ROOM READY (moved up from Tier 4) -->
   <div class="pri-section">
-    <div class="pri-header pri-header-orange">&#9888;&#65039; Stop the Bleeding &mdash; Policy Enforcement</div>
-    <div class="task-card t-orange" id="task-2">
+    <div class="pri-header pri-header-green">&#127968; Make Rooms Ready to Show &mdash; Every Day Empty Costs $$$</div>
+    <div class="task-card t-green" id="task-5">
       <div class="tc-top">
-        <div class="tc-title">Deliver 3-Day Notice: Dominico &mdash; 346 Linden RV2</div>
-        <div class="tc-sub">14 days late &bull; Owes: $500+ &bull; <strong style="color:var(--red)">Policy: Notice required by Day 2</strong></div>
-        <div class="tc-dollar tc-dollar-red">Losing $95/wk = $4,940/yr</div>
-        <div class="photo-required-badge">&#128247; PHOTO REQUIRED — legally defensible proof</div>
+        <div class="tc-title">Upload Cleaning Photo &mdash; 355 Linden Ln</div>
+        <div class="tc-sub">Last cleaned: Mar 22 (17 days ago) &bull; Felix assigned &bull; <strong style="color:var(--red)">Photo required before listing</strong></div>
+        <div class="tc-dollar tc-dollar-green">Unlocks $175/wk</div>
+        <div class="photo-required-badge">&#128247; PHOTO REQUIRED — room cannot list without it</div>
       </div>
       <div class="tc-btns">
-        <button class="tc-btn tc-btn-outline" style="flex:2;" onclick="logPhotoFromTask('notice','346 Linden RV2','Dominico');markDone(2,this)">&#128247; Log Notice Photo</button>
-        <button class="tc-btn tc-btn-disabled" id="task2-complete-btn">&#128274; Complete (photo first)</button>
+        <button class="tc-btn tc-btn-outline" style="flex:2;" onclick="logPhotoFromTask('cleaning','355 Linden Ln','');markDone(5,this)">&#128247; Log Cleaning Photo</button>
+        <button class="tc-btn tc-btn-disabled">&#128274; Complete (photo first)</button>
       </div>
-      <div class="tc-done-row" onclick="toggleTask(2)">
-        <div class="tc-check" id="chk-2"></div>
-        <span class="tc-check-label" id="chk-2-lbl">Mark as done</span>
+      <div class="tc-done-row" onclick="toggleTask(5)">
+        <div class="tc-check" id="chk-5"></div>
+        <span class="tc-check-label" id="chk-5-lbl">Mark as done</span>
       </div>
     </div>
   </div>
 
-  <!-- TIER 3 -->
+  <!-- TIER 3 — COLLECT -->
   <div class="pri-section">
     <div class="pri-header pri-header-blue">&#128176; Collect &mdash; Money in Hand</div>
     <div class="task-card t-blue" id="task-3">
@@ -520,7 +536,7 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
     <div class="task-card t-blue" id="task-4">
       <div class="tc-top">
         <div class="tc-title">Collect from Jhoan &mdash; 6132 Horseshoe A</div>
-        <div class="tc-sub">Owes: $180 &bull; Pays $135 &bull; CHRONIC 4 wks &bull; $15 late fee + $5/day accruing</div>
+        <div class="tc-sub">Owes: $180 &bull; Pays $135 &bull; CHRONIC 4 wks &bull; Late fees accruing</div>
         <div class="tc-dollar tc-dollar-blue">+$180 if full &bull; ~15 min</div>
       </div>
       <div class="tc-btns">
@@ -535,23 +551,23 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
     </div>
   </div>
 
-  <!-- TIER 4 -->
+  <!-- TIER 4 — NOTICES (moved down from Tier 2) -->
   <div class="pri-section">
-    <div class="pri-header pri-header-green">&#127968; Unblock Vacancy &mdash; Every Day Costs $$$</div>
-    <div class="task-card t-green" id="task-5">
+    <div class="pri-header pri-header-orange">&#9888;&#65039; Policy Enforcement &mdash; Notices</div>
+    <div class="task-card t-orange" id="task-2">
       <div class="tc-top">
-        <div class="tc-title">Upload Cleaning Photo &mdash; 355 Linden Ln</div>
-        <div class="tc-sub">Last cleaned: Mar 22 (17 days ago) &bull; Felix assigned &bull; <strong style="color:var(--red)">Photo required</strong></div>
-        <div class="tc-dollar tc-dollar-green">Unlocks $175/wk &bull; $425 lost so far</div>
-        <div class="photo-required-badge">&#128247; PHOTO REQUIRED — room cannot list without it</div>
+        <div class="tc-title">Deliver 3-Day Notice: Dominico &mdash; 346 Linden RV2</div>
+        <div class="tc-sub">14 days late &bull; Owes: $500+ &bull; <strong style="color:var(--red)">Policy: Notice required by Day 2</strong></div>
+        <div class="tc-dollar tc-dollar-red">$95/wk short</div>
+        <div class="photo-required-badge">&#128247; PHOTO REQUIRED — legally defensible proof</div>
       </div>
       <div class="tc-btns">
-        <button class="tc-btn tc-btn-outline" style="flex:2;" onclick="logPhotoFromTask('cleaning','355 Linden Ln','');markDone(5,this)">&#128247; Log Cleaning Photo</button>
-        <button class="tc-btn tc-btn-disabled">&#128274; Complete (photo first)</button>
+        <button class="tc-btn tc-btn-outline" style="flex:2;" onclick="logPhotoFromTask('notice','346 Linden RV2','Dominico');markDone(2,this)">&#128247; Log Notice Photo</button>
+        <button class="tc-btn tc-btn-disabled" id="task2-complete-btn">&#128274; Complete (photo first)</button>
       </div>
-      <div class="tc-done-row" onclick="toggleTask(5)">
-        <div class="tc-check" id="chk-5"></div>
-        <span class="tc-check-label" id="chk-5-lbl">Mark as done</span>
+      <div class="tc-done-row" onclick="toggleTask(2)">
+        <div class="tc-check" id="chk-2"></div>
+        <span class="tc-check-label" id="chk-2-lbl">Mark as done</span>
       </div>
     </div>
   </div>
@@ -579,6 +595,16 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
 
 <!-- ===== LEADS ===== -->
 <div class="view" id="andrea-leads">
+
+  <!-- AI HANDLING BANNER -->
+  <div style="background:linear-gradient(135deg,#1B5E20 0%,#2E7D32 100%);border-radius:14px;padding:14px 16px;color:white;margin-bottom:12px;">
+    <div style="font-size:13px;font-weight:800;margin-bottom:4px;">&#129302; AI is responding to all FB inquiries</div>
+    <div style="font-size:12px;opacity:.9;margin-bottom:10px;">Your job: confirm showings &amp; rent rooms. AI handles the first reply, qualifying questions, and follow-up. You step in only when a showing is ready to book.</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <a href="https://chat.whatsapp.com/your-group-link" target="_blank" style="background:rgba(255,255,255,.2);border-radius:8px;padding:8px 14px;color:white;text-decoration:none;font-size:12px;font-weight:800;">&#128241; WhatsApp Group &rarr;</a>
+      <div style="background:rgba(255,255,255,.15);border-radius:8px;padding:8px 14px;font-size:12px;font-weight:700;">3 DMs sent today &bull; 1 qualified</div>
+    </div>
+  </div>
 
   <!-- Speed-to-lead hero -->
   <div class="s2l-hero">
@@ -610,7 +636,8 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
     </div>
     <div class="lc-btns">
       <button class="tc-btn tc-btn-red" onclick="advanceLead('roberto','responded')">Send Response Now</button>
-      <button class="tc-btn tc-btn-outline" onclick="advanceLead('roberto','escalated')">Escalate to Sandra</button>
+      <a href="https://chat.whatsapp.com/your-group-link" target="_blank" style="display:inline-flex;align-items:center;justify-content:center;gap:4px;padding:10px 14px;background:#25D366;color:white;border-radius:8px;font-size:12px;font-weight:800;text-decoration:none;min-width:80px;">&#128241; WhatsApp</a>
+      <button class="tc-btn tc-btn-outline" onclick="advanceLead('roberto','escalated')">Escalate</button>
     </div>
   </div>
 
@@ -757,7 +784,7 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
     <div class="tc-top">
       <div class="tc-title">Dominico &mdash; 346 Linden RV2</div>
       <div class="tc-sub">Rent: $250 &bull; Pays: $145–170 &bull; Balance: $320+ &bull; 4 weeks &bull; 3-Day Notice required</div>
-      <div class="tc-dollar tc-dollar-red">$95/wk loss = $4,940/yr</div>
+      <div class="tc-dollar tc-dollar-red">$95/wk short</div>
     </div>
     <div class="tc-btns">
       <button class="tc-btn tc-btn-green">Paid $250</button>
@@ -770,7 +797,7 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
     <div class="tc-top">
       <div class="tc-title">Jhoan &mdash; 6132 Horseshoe A</div>
       <div class="tc-sub">Rent: $180 &bull; Always pays: $135 &bull; Balance: $180 &bull; 4 weeks &bull; Late fees accruing</div>
-      <div class="tc-dollar tc-dollar-red">$45/wk loss = $2,340/yr</div>
+      <div class="tc-dollar tc-dollar-red">$45/wk short</div>
     </div>
     <div class="tc-btns">
       <button class="tc-btn tc-btn-green">Paid $180</button>
@@ -991,7 +1018,7 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
     <div class="exc-row">
       <div><div class="exc-problem">Roberto L. — wants to speak to someone</div><div style="font-size:11px;color:var(--gray);">$200/wk budget, any area</div></div>
       <div class="exc-age">45 min</div>
-      <div class="exc-impact">$10,400/yr</div>
+      <div class="exc-impact" style="color:var(--green);">$200/wk</div>
       <div class="exc-action"><button class="tc-btn tc-btn-green" style="padding:4px 10px;font-size:11px;min-width:auto;">&#128222; Call Roberto</button></div>
     </div>
   </div>
@@ -1436,6 +1463,30 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
 <!-- ===== ADS ===== -->
 <div class="view" id="owner-ads">
 
+  <!-- AI RESPONSE ENGINE STATUS -->
+  <div style="background:linear-gradient(135deg,#1565C0 0%,#0D47A1 100%);border-radius:14px;padding:16px;color:white;margin-bottom:12px;">
+    <div style="font-size:13px;font-weight:800;margin-bottom:8px;">&#129302; AI FB Response Engine &mdash; Live</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;">
+      <div style="text-align:center;background:rgba(255,255,255,.15);border-radius:8px;padding:8px;">
+        <div style="font-size:24px;font-weight:900;">3</div>
+        <div style="font-size:10px;opacity:.85;">DMs Sent Today</div>
+      </div>
+      <div style="text-align:center;background:rgba(255,255,255,.15);border-radius:8px;padding:8px;">
+        <div style="font-size:24px;font-weight:900;">1</div>
+        <div style="font-size:10px;opacity:.85;">Qualified Lead</div>
+      </div>
+      <div style="text-align:center;background:rgba(255,255,255,.15);border-radius:8px;padding:8px;">
+        <div style="font-size:24px;font-weight:900;">&lt;2m</div>
+        <div style="font-size:10px;opacity:.85;">Avg Response</div>
+      </div>
+    </div>
+    <div style="font-size:11px;opacity:.85;margin-bottom:8px;">Prospects wanting more info → WhatsApp group. Qualified leads → Andrea's showing queue.</div>
+    <div style="display:flex;gap:8px;">
+      <a href="https://chat.whatsapp.com/your-group-link" target="_blank" style="background:#25D366;border-radius:8px;padding:8px 14px;color:white;text-decoration:none;font-size:12px;font-weight:800;">&#128241; WhatsApp Group</a>
+      <div style="background:rgba(255,255,255,.15);border-radius:8px;padding:8px 14px;font-size:11px;font-weight:700;display:flex;align-items:center;">&#9989; AI Running &bull; No manual replies needed</div>
+    </div>
+  </div>
+
   <div class="kpi-bar">
     <div class="kpi"><div class="kpi-val kpi-green">1.17</div><div class="kpi-label">Best DMs/Post</div><div class="kpi-sub">Variant C (furnished)</div></div>
     <div class="kpi"><div class="kpi-val" style="color:var(--orange);">5 days</div><div class="kpi-label">Furnished Fill</div><div class="kpi-sub">vs 14 unfurnished</div></div>
@@ -1573,6 +1624,48 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
 </div>
 
 <script>
+/* ===== AVATAR PHOTO MANAGER ===== */
+const PHOTO_KEY = 'equipo_photos';
+function getPhotos() { try { return JSON.parse(localStorage.getItem(PHOTO_KEY)) || {}; } catch(e) { return {}; } }
+function savePhotos(p) { localStorage.setItem(PHOTO_KEY, JSON.stringify(p)); }
+
+function loadAvatarPhotos() {
+  const photos = getPhotos();
+  ['andrea','sandra','jerel'].forEach(name => {
+    if (photos[name]) {
+      const imgEl = document.querySelector('.avatar-' + name + ' img');
+      if (imgEl) { imgEl.src = photos[name]; imgEl.style.display = 'block'; }
+    }
+  });
+}
+
+function handleAvatarTap(name, event) {
+  // Long-press (>400ms) to upload photo, short tap = switch role
+  clearTimeout(event.currentTarget._tapTimer);
+  event.currentTarget._tapStart = Date.now();
+}
+function handleAvatarRelease(name, event) {
+  const held = Date.now() - (event.currentTarget._tapStart || 0);
+  if (held > 600) {
+    // Long press = upload photo
+    const input = document.createElement('input');
+    input.type = 'file'; input.accept = 'image/*';
+    input.onchange = function() {
+      const file = input.files[0]; if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const photos = getPhotos();
+        photos[name] = e.target.result;
+        savePhotos(photos);
+        loadAvatarPhotos();
+      };
+      reader.readAsDataURL(file);
+    };
+    input.click();
+    event.stopPropagation();
+  }
+}
+
 /* ===== ROLE SWITCHING — role-pure views ===== */
 function switchRole(role) {
   ['andrea','sandra','owner'].forEach(r => {
@@ -1678,7 +1771,7 @@ function confirmLost() {
   closeLostModal();
 }
 
-document.addEventListener('DOMContentLoaded', () => { render(); renderInventory(); renderPhotoLog(''); });
+document.addEventListener('DOMContentLoaded', () => { render(); renderInventory(); renderPhotoLog(''); loadAvatarPhotos(); });
 
 /* ===== INVENTORY ENGINE ===== */
 const INV_KEY = 'equipo_inventory';
