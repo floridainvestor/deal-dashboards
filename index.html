@@ -423,8 +423,32 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
 <!-- ===== TODAY ===== -->
 <div class="view active" id="andrea-today">
 
+  <!-- BONUS INCENTIVE BANNER -->
+  <div id="bonus-banner" style="background:linear-gradient(135deg,#FF6F00 0%,#F9A825 100%);border-radius:14px;padding:14px 16px;color:white;margin-bottom:10px;text-align:center;position:relative;overflow:hidden;">
+    <div style="font-size:10px;font-weight:800;opacity:.85;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:2px;">&#128176; Your Bonus This Week</div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:12px;">
+      <div>
+        <div id="bonus-amount" style="font-size:32px;font-weight:900;">$10</div>
+        <div style="font-size:11px;opacity:.9;">62 of 83 rooms rented</div>
+      </div>
+      <div style="width:1px;height:40px;background:rgba(255,255,255,.3);"></div>
+      <div style="text-align:left;">
+        <div style="font-size:12px;font-weight:800;">Every room past 61 = <span style="background:rgba(255,255,255,.25);padding:1px 6px;border-radius:4px;">+$10/wk</span></div>
+        <div style="font-size:11px;opacity:.85;margin-top:2px;">Fill 3 more rooms → <strong>$40/wk bonus</strong></div>
+      </div>
+    </div>
+    <div style="margin-top:8px;background:rgba(0,0,0,.15);border-radius:100px;height:8px;overflow:hidden;">
+      <div id="bonus-fill" style="width:1.2%;height:100%;background:white;border-radius:100px;transition:width .4s;"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:9px;opacity:.7;margin-top:2px;">
+      <span>61 (base)</span>
+      <span>62 now (+$10)</span>
+      <span>83 (max = $220/wk)</span>
+    </div>
+  </div>
+
   <!-- AI FB BANNER -->
-  <div style="background:linear-gradient(135deg,#1565C0 0%,#0D47A1 100%);border-radius:14px;padding:14px 16px;color:white;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
+  <div style="background:linear-gradient(135deg,#1565C0 0%,#0D47A1 100%);border-radius:14px;padding:12px 16px;color:white;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
     <div>
       <div style="font-size:13px;font-weight:800;margin-bottom:2px;">&#129302; AI is handling FB inquiries</div>
       <div style="font-size:11px;opacity:.85;">3 DMs responded &bull; 1 qualified lead waiting &bull; You handle showings only</div>
@@ -432,8 +456,24 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
     <a href="https://wa.me/19043357767?text=Hi%2C%20I%27m%20interested%20in%20a%20room" target="_blank" style="background:rgba(255,255,255,.15);border-radius:8px;padding:8px 12px;color:white;text-decoration:none;font-size:12px;font-weight:800;white-space:nowrap;flex-shrink:0;">&#128241; WhatsApp</a>
   </div>
 
+  <!-- SPEED TO SHOWING -->
+  <div style="background:white;border-radius:14px;padding:12px;margin-bottom:10px;box-shadow:var(--shadow);display:flex;align-items:center;gap:12px;">
+    <div style="flex:1;text-align:center;border-right:1px solid #E0E0E0;padding-right:12px;">
+      <div id="s2s-timer" style="font-size:28px;font-weight:900;color:var(--green);">4 min</div>
+      <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--gray);">Avg Lead → Showing</div>
+    </div>
+    <div style="flex:1;text-align:center;border-right:1px solid #E0E0E0;padding-right:12px;">
+      <div style="font-size:28px;font-weight:900;color:var(--green);">15m</div>
+      <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--gray);">Target</div>
+    </div>
+    <div style="flex:1;text-align:center;">
+      <div id="hot-lead-count" style="font-size:28px;font-weight:900;color:var(--red);">1</div>
+      <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--red);">&#128308; HOT LEADS</div>
+    </div>
+  </div>
+
   <!-- ONE JOB NOW BANNER -->
-  <div id="one-job-banner" style="background:linear-gradient(135deg,#1B5E20 0%,#2E7D32 100%);border-radius:14px;padding:16px;color:white;margin-bottom:12px;position:relative;">
+  <div id="one-job-banner" style="background:linear-gradient(135deg,#1B5E20 0%,#2E7D32 100%);border-radius:14px;padding:16px;color:white;margin-bottom:10px;position:relative;">
     <div style="font-size:10px;font-weight:800;opacity:.75;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">&#9889; ONE JOB RIGHT NOW</div>
     <div id="one-job-text" style="font-size:17px;font-weight:900;margin-bottom:4px;">Drive to 7862 Hastings &mdash; Show Room D to Maria G.</div>
     <div id="one-job-sub" style="font-size:12px;opacity:.9;">Showing at 2:00 PM &bull; <span id="countdown-display" style="font-weight:800;background:rgba(255,255,255,.2);padding:2px 8px;border-radius:20px;">loading...</span></div>
@@ -448,7 +488,7 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
     <div style="background:linear-gradient(135deg,#2E7D32 0%,#388E3C 100%);border-radius:12px;padding:14px;color:white;text-align:center;">
       <div style="font-size:10px;font-weight:800;opacity:.85;text-transform:uppercase;letter-spacing:.8px;">Showings Today</div>
       <div style="font-size:36px;font-weight:900;margin:2px 0;">1</div>
-      <div style="font-size:11px;opacity:.9;">= $9,100/yr if Maria signs</div>
+      <div style="font-size:11px;opacity:.9;">= $175/wk if Maria signs</div>
     </div>
     <div style="background:linear-gradient(135deg,#E65100 0%,#F57C00 100%);border-radius:12px;padding:14px;color:white;text-align:center;">
       <div style="font-size:10px;font-weight:800;opacity:.85;text-transform:uppercase;letter-spacing:.8px;">Rooms to Make Ready</div>
@@ -490,7 +530,7 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
       <div class="tc-top">
         <div class="tc-title">Show Room D to Maria G. &mdash; 7862 Hastings</div>
         <div class="tc-sub">Budget: $150/wk &bull; Move-in: ASAP &bull; Spanish &bull; <a href="https://www.google.com/maps/search/7862+Hastings+St+Jacksonville+FL" target="_blank" style="color:var(--blue);font-weight:700">&#128506; Maps</a></div>
-        <div class="tc-dollar tc-dollar-green">+$9,100/yr if signed &bull; ~30 min</div>
+        <div class="tc-dollar tc-dollar-green">+$175/wk if signed &bull; ~30 min</div>
       </div>
       <div class="tc-btns">
         <button class="tc-btn tc-btn-green" onclick="markDone(1,this)">&#10003; Rented</button>
@@ -648,10 +688,14 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
   </div>
 
   <!-- UNRESPONDED — FLAG -->
-  <div class="sec-label" style="color:var(--red);">&#128680; Needs Response NOW</div>
+  <div class="sec-label" style="color:var(--red);">&#128308; HOT — Needs Room in 0-2 Days</div>
 
   <div class="lead-card lc-urgent">
     <div class="lc-top">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+        <span style="background:#C62828;color:white;font-size:10px;font-weight:900;padding:2px 8px;border-radius:4px;letter-spacing:.5px;">&#128293; HOT</span>
+        <span style="font-size:10px;color:var(--gray);">Needs room NOW</span>
+      </div>
       <div class="lc-name">Roberto — Grove Park F</div>
       <div class="lc-room">&#128205; Grove Park — $160/wk</div>
       <span class="lc-state lc-state-inquiry">INQUIRY</span>
@@ -670,6 +714,10 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
   <!-- Maria G — showing booked -->
   <div class="lead-card" style="border-left-color:var(--orange);">
     <div class="lc-top">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+        <span style="background:#C62828;color:white;font-size:10px;font-weight:900;padding:2px 8px;border-radius:4px;letter-spacing:.5px;">&#128293; HOT</span>
+        <span style="font-size:10px;color:var(--gray);">Move-in ASAP</span>
+      </div>
       <div class="lc-name">Maria G. — Hastings D</div>
       <div class="lc-room">&#128205; 7862 Hastings St — Room D — $150/wk</div>
       <span class="lc-state lc-state-booked">SHOWING BOOKED</span>
@@ -695,6 +743,10 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
   <!-- Jorge — responded, waiting -->
   <div class="lead-card lc-waiting">
     <div class="lc-top">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+        <span style="background:#F57F17;color:white;font-size:10px;font-weight:900;padding:2px 8px;border-radius:4px;letter-spacing:.5px;">&#9200; WARM</span>
+        <span style="font-size:10px;color:var(--gray);">Move-in Apr 15 (5 days)</span>
+      </div>
       <div class="lc-name">Jorge M. — Longspur B</div>
       <div class="lc-room">&#128205; Longspur — $160/wk — Move-in: Apr 15</div>
       <span class="lc-state lc-state-responded">RESPONDED</span>
@@ -715,6 +767,10 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
   <!-- Ana V — showed, waiting app -->
   <div class="lead-card" style="border-left-color:var(--purple);">
     <div class="lc-top">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+        <span style="background:#C62828;color:white;font-size:10px;font-weight:900;padding:2px 8px;border-radius:4px;letter-spacing:.5px;">&#128293; HOT</span>
+        <span style="font-size:10px;color:var(--gray);">Showed yesterday — close now</span>
+      </div>
       <div class="lc-name">Ana V. — Horseshoe D</div>
       <div class="lc-room">&#128205; 6132 Horseshoe — Room D — $180/wk</div>
       <span class="lc-state lc-state-showed">SHOWED</span>
@@ -734,6 +790,10 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
   <!-- Carlos — deposit received -->
   <div class="lead-card lc-green">
     <div class="lc-top">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+        <span style="background:#2E7D32;color:white;font-size:10px;font-weight:900;padding:2px 8px;border-radius:4px;letter-spacing:.5px;">&#10003; CLOSING</span>
+        <span style="font-size:10px;color:var(--gray);">Deposit in hand</span>
+      </div>
       <div class="lc-name">Carlos — W 16th A</div>
       <div class="lc-room">&#128205; 2228 W 16th St — Room A — $160/wk</div>
       <span class="lc-state lc-state-deposit-rec">DEPOSIT RECEIVED</span>
@@ -751,6 +811,9 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
   <!-- Pedro — lost -->
   <div class="lead-card lc-lost">
     <div class="lc-top">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+        <span style="background:#78909C;color:white;font-size:10px;font-weight:900;padding:2px 8px;border-radius:4px;letter-spacing:.5px;">LOST</span>
+      </div>
       <div class="lc-name">Pedro — Tumbleweed C</div>
       <div class="lc-room">&#128205; Tumbleweed — $150/wk</div>
       <span class="lc-state lc-state-lost">LOST &mdash; Chose Elsewhere</span>
@@ -850,7 +913,41 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
   <div class="hero-metric orange">
     <div class="hero-metric-label">Vacant Rooms Not Ready</div>
     <div class="hero-metric-val">14</div>
-    <div class="hero-metric-sub">Costing $179/day &bull; $1,253/wk &bull; Total lost: $4,825+</div>
+    <div class="hero-metric-sub">Costing $179/day &bull; $1,253/wk</div>
+  </div>
+
+  <!-- ROOM-READY TURNAROUND TIMER -->
+  <div style="background:white;border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow);">
+    <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--dark);margin-bottom:10px;">&#9201; Room Turnaround Timer &mdash; Target: 24 Hours</div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <div style="display:flex;align-items:center;gap:10px;padding:8px;border-radius:8px;background:var(--red-bg);">
+        <div style="font-size:20px;font-weight:900;color:var(--red);min-width:50px;text-align:center;">18d</div>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:700;">Caxton A/B/C</div>
+          <div style="font-size:11px;color:var(--gray);">Waiting on supplies → Bedding arrives TODAY</div>
+        </div>
+        <div style="font-size:10px;font-weight:800;background:var(--green);color:white;padding:3px 8px;border-radius:4px;">UNBLOCKS TODAY</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;padding:8px;border-radius:8px;background:var(--orange-bg);">
+        <div style="font-size:20px;font-weight:900;color:var(--orange);min-width:50px;text-align:center;">17d</div>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:700;">355 Linden</div>
+          <div style="font-size:11px;color:var(--gray);">Needs cleaning photo → Can list TODAY</div>
+        </div>
+        <div style="font-size:10px;font-weight:800;background:var(--orange);color:white;padding:3px 8px;border-radius:4px;">PHOTO NEEDED</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;padding:8px;border-radius:8px;background:var(--yellow-bg);">
+        <div style="font-size:20px;font-weight:900;color:var(--yellow);min-width:50px;text-align:center;">21d</div>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:700;">W 16th A &amp; B</div>
+          <div style="font-size:11px;color:var(--gray);">Listed 21 days, 0 leads → Listing audit needed</div>
+        </div>
+        <div style="font-size:10px;font-weight:800;background:var(--yellow);color:white;padding:3px 8px;border-radius:4px;">AUDIT</div>
+      </div>
+    </div>
+    <div style="margin-top:10px;padding:8px;background:var(--gray-bg);border-radius:8px;font-size:11px;color:var(--gray);text-align:center;">
+      &#127919; Goal: Vacated → Showable in 24 hrs. Every extra day = ~$28 lost per room.
+    </div>
   </div>
 
   <div class="brief-card" style="border-left:5px solid var(--red);">
@@ -936,7 +1033,7 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
   <div class="route-card">
     <h3>&#128205; Today's Route &mdash; 5 stops</h3>
     <div class="route-stop"><div class="rs-num">1</div><div class="rs-detail"><div class="rs-addr">346 Linden Ln, 32073</div><div class="rs-reason">&#128176; Collect 6 tenants (4 chronic) &bull; &#128220; Deliver Notice to Dominico</div><div class="rs-dollar">$1,540 collectible + notice</div></div></div>
-    <div class="route-stop"><div class="rs-num">2</div><div class="rs-detail"><div class="rs-addr">7862 Hastings St, 32220</div><div class="rs-reason">&#127968; SHOWING 2:00 PM &mdash; Maria G., Room D &bull; &#128176; Collect from Jhon ($150)</div><div class="rs-dollar">$325 + showing ($9,100/yr)</div></div></div>
+    <div class="route-stop"><div class="rs-num">2</div><div class="rs-detail"><div class="rs-addr">7862 Hastings St, 32220</div><div class="rs-reason">&#127968; SHOWING 2:00 PM &mdash; Maria G., Room D &bull; &#128176; Collect from Jhon ($150)</div><div class="rs-dollar">$325 + showing ($175/wk)</div></div></div>
     <div class="route-stop"><div class="rs-num">3</div><div class="rs-detail"><div class="rs-addr">6132 Horseshoe Dr, 32254</div><div class="rs-reason">&#128176; Collect Jhoan $180 CHRONIC &bull; Victoria $212 CASH</div><div class="rs-dollar">$392 collectible</div></div></div>
     <div class="route-stop"><div class="rs-num">4</div><div class="rs-detail"><div class="rs-addr">355 Linden Ln, 32073</div><div class="rs-reason">&#128247; Upload cleaning photo &bull; &#128176; Collect 5 tenants</div><div class="rs-dollar">$0 today, unlocks $175/wk</div></div></div>
     <div class="route-stop"><div class="rs-num">5</div><div class="rs-detail"><div class="rs-addr">7821 Caxton Cir E, 32208</div><div class="rs-reason">&#128736; Check Felix repair &bull; Confirm Amazon delivery Apr 10</div><div class="rs-dollar">$0 today, unlocks $450/wk</div></div></div>
@@ -977,8 +1074,15 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
 
 <!-- ===================== SANDRA ===================== -->
 <div id="role-sandra" style="display:none;">
+
+<!-- QC ROLE HEADER -->
+<div style="background:linear-gradient(135deg,#43A047 0%,#2E7D32 100%);padding:12px 16px;color:white;margin-bottom:0;">
+  <div style="font-size:14px;font-weight:800;">&#128065; Quality Control &amp; Support</div>
+  <div style="font-size:11px;opacity:.85;">Track room conditions, supplies, listings, and photo evidence</div>
+</div>
+
 <div class="nav-icons" id="sandra-nav">
-  <button class="nav-icon active" onclick="showTab('sandra','exceptions',this)"><span class="ico">&#128204;</span>Tracker</button>
+  <button class="nav-icon active" onclick="showTab('sandra','exceptions',this)"><span class="ico">&#128065;</span>QC Board</button>
   <button class="nav-icon" onclick="showTab('sandra','supply',this)"><span class="ico">&#128230;</span>Supply</button>
   <button class="nav-icon" onclick="showTab('sandra','inventory',this)"><span class="ico">&#128716;</span>Inventory</button>
   <button class="nav-icon" onclick="showTab('sandra','listings',this)"><span class="ico">&#128203;</span>Listings</button>
@@ -986,16 +1090,16 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
 </div>
 <main>
 
-<!-- ===== EXCEPTIONS ===== -->
+<!-- ===== QC BOARD ===== -->
 <div class="view active" id="sandra-exceptions">
 
   <div class="kpi-bar">
-    <div class="kpi"><div class="kpi-val kpi-red">5</div><div class="kpi-label">Open Exceptions</div></div>
+    <div class="kpi"><div class="kpi-val kpi-red">5</div><div class="kpi-label">Open Items</div></div>
     <div class="kpi"><div class="kpi-val kpi-red">$1,253</div><div class="kpi-label">Weekly Leak</div></div>
-    <div class="kpi"><div class="kpi-val kpi-red">1</div><div class="kpi-label">SLA Breach</div></div>
+    <div class="kpi"><div class="kpi-val kpi-green">62</div><div class="kpi-label">Rooms Rented</div></div>
   </div>
 
-  <div class="sec-label">&#128204; Open Items &mdash; Things to Track</div>
+  <div class="sec-label">&#128065; Quality Check Items</div>
 
   <div class="exc-table">
     <div class="exc-header">
@@ -1321,107 +1425,219 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
 <!-- ===== DASHBOARD ===== -->
 <div class="view active" id="owner-dashboard">
 
-  <!-- CEO KPIs with trend arrows -->
-  <div class="kpi-bar kpi-bar-4">
-    <div class="kpi">
-      <div class="kpi-val kpi-red" style="font-size:26px;">55%</div>
-      <div class="kpi-label">Capture Rate</div>
-      <div class="kpi-sub trend-down">wk prior: 52%</div>
+  <!-- #1: CASH COLLECTED vs TARGET — one number, green or red -->
+  <div style="background:white;border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:var(--shadow);text-align:center;">
+    <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--gray);margin-bottom:4px;">&#128176; Cash Collected This Week vs Target</div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:16px;">
+      <div>
+        <div style="font-size:36px;font-weight:900;color:var(--red);">$9,400</div>
+        <div style="font-size:11px;color:var(--gray);">collected</div>
+      </div>
+      <div style="font-size:20px;color:var(--gray);">of</div>
+      <div>
+        <div style="font-size:36px;font-weight:900;color:var(--dark);">$12,800</div>
+        <div style="font-size:11px;color:var(--gray);">target (62 rooms × avg $206)</div>
+      </div>
     </div>
-    <div class="kpi">
-      <div class="kpi-val kpi-red" style="font-size:26px;">14</div>
-      <div class="kpi-label">Not Ready</div>
-      <div class="kpi-sub trend-down">wk prior: 12</div>
+    <div style="margin-top:10px;background:#E0E0E0;border-radius:100px;height:12px;overflow:hidden;">
+      <div style="width:73%;height:100%;background:linear-gradient(90deg,var(--red),var(--orange));border-radius:100px;"></div>
     </div>
-    <div class="kpi">
-      <div class="kpi-val kpi-red" style="font-size:26px;">$7.6K</div>
-      <div class="kpi-label">Wkly Leak</div>
-      <div class="kpi-sub trend-down">wk prior: $7.1K</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-val kpi-red" style="font-size:26px;">66%</div>
-      <div class="kpi-label">Collection %</div>
-      <div class="kpi-sub trend-neutral">wk prior: 66%</div>
+    <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--gray);margin-top:4px;">
+      <span>73% capture</span>
+      <span style="color:var(--red);font-weight:700;">Gap: $3,400/wk ($176,800/yr)</span>
     </div>
   </div>
 
-  <!-- REVENUE WATERFALL -->
-  <div class="sec-label">&#128176; Weekly Revenue Waterfall</div>
-  <div class="waterfall">
-    <div class="wf-row"><span class="wf-label">Potential Rent (82 rooms)</span><span class="wf-val" style="color:var(--dark);">$17,000/wk</span></div>
-    <div class="wf-row"><span class="wf-label">&#128308; Vacancy (20 rooms)</span><span class="wf-val" style="color:var(--red);">−$4,375</span></div>
-    <div class="wf-row"><span class="wf-label">&#128308; Chronic Underpayment (8 tenants)</span><span class="wf-val" style="color:var(--red);">−$577</span></div>
-    <div class="wf-row"><span class="wf-label">&#128308; Short/Late Non-Chronic (11)</span><span class="wf-val" style="color:var(--red);">−$2,648</span></div>
-    <div class="wf-row collected"><span class="wf-label"><strong>Collected</strong></span><span class="wf-val" style="color:var(--green);font-size:18px;"><strong>$9,400</strong></span></div>
-    <div class="wf-row total"><span class="wf-label"><strong>Annual Cost at Today's 55% Capture</strong></span><span class="wf-val" style="color:var(--red);font-size:18px;"><strong>$395,200/yr</strong></span></div>
+  <!-- #2: VACANCY LIST — every empty room with days + showing status -->
+  <div style="background:white;border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+      <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--dark);">&#127968; Vacancy List — 20 Empty Rooms</div>
+      <div style="font-size:11px;color:var(--red);font-weight:700;">$4,375/wk lost</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:4px;font-size:12px;">
+      <div style="display:flex;justify-content:space-between;padding:6px 8px;background:var(--red-bg);border-radius:6px;">
+        <span style="font-weight:700;">Caxton A/B/C</span>
+        <span>18d vacant</span>
+        <span style="color:var(--green);font-weight:700;">&#9989; Supplies arrive TODAY</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:6px 8px;background:var(--orange-bg);border-radius:6px;">
+        <span style="font-weight:700;">355 Linden</span>
+        <span>17d vacant</span>
+        <span style="color:var(--orange);font-weight:700;">&#128247; Photo needed</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:6px 8px;background:var(--red-bg);border-radius:6px;">
+        <span style="font-weight:700;">W 16th A &amp; B</span>
+        <span>21d vacant</span>
+        <span style="color:var(--red);font-weight:700;">&#128308; 0 leads — audit</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:6px 8px;background:var(--green-bg);border-radius:6px;">
+        <span style="font-weight:700;">Hastings D</span>
+        <span>5d vacant</span>
+        <span style="color:var(--green);font-weight:700;">&#9989; Showing TODAY 2pm</span>
+      </div>
+    </div>
+    <div style="font-size:10px;color:var(--red);margin-top:8px;font-weight:700;">&#128680; Any room 7+ days with no showing scheduled = call Andrea</div>
   </div>
 
-  <!-- CONVERSION FUNNEL -->
-  <div class="sec-label">&#128270; Lead Conversion Funnel (This Week)</div>
-  <div class="funnel-wrap">
-    <div class="funnel">
-      <div class="funnel-step">
-        <div class="funnel-num">47</div>
-        <div class="funnel-label">Inquiries</div>
+  <!-- #3: EVICTION / NON-PAY QUEUE -->
+  <div style="background:white;border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+      <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--dark);">&#128680; Non-Pay Queue</div>
+      <div style="font-size:13px;font-weight:900;color:var(--red);">$1,400 owed</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px;background:var(--red-bg);border-radius:8px;border-left:4px solid var(--red);">
+        <div><strong>Dominico</strong> — 346 Linden RV2<div style="font-size:10px;color:var(--gray);">$320+ owed · 14 days late · 5-Day Notice served</div></div>
+        <div style="font-size:10px;font-weight:800;color:var(--red);background:white;padding:3px 8px;border-radius:4px;">DECIDE</div>
       </div>
-      <div style="display:flex;flex-direction:column;align-items:center;">
-        <div class="funnel-pct">25%</div>
-        <div class="funnel-arrow">&rarr;</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px;background:var(--red-bg);border-radius:8px;border-left:4px solid var(--red);">
+        <div><strong>Issabella</strong> — 1665 Natalie RV2<div style="font-size:10px;color:var(--gray);">$80/wk short · chronic</div></div>
+        <div style="font-size:10px;font-weight:800;color:var(--red);background:white;padding:3px 8px;border-radius:4px;">DECIDE</div>
       </div>
-      <div class="funnel-step">
-        <div class="funnel-num">12</div>
-        <div class="funnel-label">DMs Sent</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px;background:var(--yellow-bg);border-radius:8px;border-left:4px solid var(--yellow);">
+        <div><strong>Jhoan</strong> — 6132 Horseshoe A<div style="font-size:10px;color:var(--gray);">Always pays $135 of $180 · 4 weeks running</div></div>
+        <div style="font-size:10px;font-weight:800;color:var(--yellow);background:white;padding:3px 8px;border-radius:4px;">MONITOR</div>
       </div>
-      <div style="display:flex;flex-direction:column;align-items:center;">
-        <div class="funnel-pct">42%</div>
-        <div class="funnel-arrow">&rarr;</div>
-      </div>
-      <div class="funnel-step">
-        <div class="funnel-num">5</div>
-        <div class="funnel-label">Showings</div>
-      </div>
-      <div style="display:flex;flex-direction:column;align-items:center;">
-        <div class="funnel-pct" style="color:var(--red);">20%</div>
-        <div class="funnel-arrow">&rarr;</div>
-      </div>
-      <div class="funnel-step">
-        <div class="funnel-num" style="color:var(--green);">1</div>
-        <div class="funnel-label">Signed</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px;background:var(--yellow-bg);border-radius:8px;border-left:4px solid var(--yellow);">
+        <div><strong>Kaska</strong> — 2331 W 10th D<div style="font-size:10px;color:var(--gray);">Pays $200 of $250 · 3 weeks running</div></div>
+        <div style="font-size:10px;font-weight:800;color:var(--yellow);background:white;padding:3px 8px;border-radius:4px;">MONITOR</div>
       </div>
     </div>
-    <div style="font-size:12px;color:var(--red);text-align:center;margin-top:8px;font-weight:700;">&#128308; Bottleneck: Showing → Signed (20%). Target: 50%+. Check room condition + Andrea's close script.</div>
+    <div style="margin-top:8px;font-size:11px;color:var(--gray);">4 tenants behind · Total owed: $1,400 · 1 with notice served</div>
   </div>
 
-  <!-- LOST REASON BREAKDOWN -->
-  <div class="sec-label">&#128308; Lost Lead Reasons (Last 30 Days)</div>
-  <div class="brief-card">
-    <div class="lost-bar-row">
-      <span class="lost-label">Chose elsewhere</span>
-      <div class="lost-bar-outer"><div class="lost-bar-fill" style="width:35%;background:var(--red);"></div></div>
-      <span class="lost-count">5</span>
+  <!-- #4: AI LEAD FUNNEL -->
+  <div style="background:white;border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow);">
+    <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--dark);margin-bottom:10px;">&#129302; AI Lead Funnel This Week</div>
+    <div class="funnel-wrap">
+      <div class="funnel">
+        <div class="funnel-step">
+          <div class="funnel-num">47</div>
+          <div class="funnel-label">Inquiries</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <div class="funnel-pct">25%</div>
+          <div class="funnel-arrow">&rarr;</div>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-num">12</div>
+          <div class="funnel-label">Qualified</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <div class="funnel-pct">42%</div>
+          <div class="funnel-arrow">&rarr;</div>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-num">5</div>
+          <div class="funnel-label">Showed</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <div class="funnel-pct" style="color:var(--red);">20%</div>
+          <div class="funnel-arrow">&rarr;</div>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-num" style="color:var(--green);">1</div>
+          <div class="funnel-label">Signed</div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--red);text-align:center;margin-top:8px;font-weight:700;">&#128308; Bottleneck: Showing → Signed (20%). Target: 50%+. Fix: room condition + confirmation calls.</div>
     </div>
-    <div class="lost-bar-row">
-      <span class="lost-label">No-show</span>
-      <div class="lost-bar-outer"><div class="lost-bar-fill" style="width:28%;background:var(--orange);"></div></div>
-      <span class="lost-count">4</span>
+    <div style="display:flex;gap:8px;margin-top:10px;">
+      <div style="flex:1;text-align:center;padding:8px;background:var(--green-bg);border-radius:8px;">
+        <div style="font-size:18px;font-weight:900;color:var(--green);">4 min</div>
+        <div style="font-size:10px;color:var(--gray);">Avg AI Response</div>
+      </div>
+      <div style="flex:1;text-align:center;padding:8px;background:var(--red-bg);border-radius:8px;">
+        <div style="font-size:18px;font-weight:900;color:var(--red);">1</div>
+        <div style="font-size:10px;color:var(--gray);">SLA Miss</div>
+      </div>
+      <div style="flex:1;text-align:center;padding:8px;background:var(--blue-light);border-radius:8px;">
+        <div style="font-size:18px;font-weight:900;color:var(--blue);">4</div>
+        <div style="font-size:10px;color:var(--gray);">No-Shows (27%)</div>
+      </div>
     </div>
-    <div class="lost-bar-row">
-      <span class="lost-label">Price</span>
-      <div class="lost-bar-outer"><div class="lost-bar-fill" style="width:21%;background:var(--yellow);"></div></div>
-      <span class="lost-count">3</span>
-    </div>
-    <div class="lost-bar-row">
-      <span class="lost-label">Location</span>
-      <div class="lost-bar-outer"><div class="lost-bar-fill" style="width:14%;background:var(--blue);"></div></div>
-      <span class="lost-count">2</span>
-    </div>
-    <div class="lost-bar-row">
-      <span class="lost-label">Condition</span>
-      <div class="lost-bar-outer"><div class="lost-bar-fill" style="width:7%;background:var(--purple);"></div></div>
-      <span class="lost-count">1</span>
-    </div>
-    <div style="font-size:11px;color:var(--gray);margin-top:8px;">Total lost leads: 15 &bull; Highest leverage fix: no-show rate (confirmation call day-before)</div>
   </div>
+
+  <!-- #5: PRICING MODE + OCCUPANCY TOGGLE -->
+  <div style="background:white;border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow);">
+    <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--dark);margin-bottom:10px;">&#128176; Pricing Mode</div>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+      <div style="flex:1;text-align:center;">
+        <div style="font-size:36px;font-weight:900;color:var(--dark);">62<span style="font-size:18px;color:var(--gray);">/83</span></div>
+        <div style="font-size:10px;color:var(--gray);">rooms occupied (75%)</div>
+      </div>
+      <div style="flex:1;">
+        <div style="background:#E0E0E0;border-radius:100px;height:10px;overflow:hidden;">
+          <div style="width:75%;height:100%;background:linear-gradient(90deg,var(--orange),var(--yellow));border-radius:100px;"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--gray);margin-top:3px;">
+          <span>0%</span>
+          <span style="color:var(--orange);font-weight:700;">85% discount threshold</span>
+          <span style="color:var(--green);font-weight:700;">90% surge</span>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;gap:6px;">
+      <button id="price-discount" onclick="setPricingMode('discount',this)" style="flex:1;padding:10px;border:2px solid var(--orange);border-radius:8px;background:var(--orange-bg);font-size:12px;font-weight:800;color:var(--orange);cursor:pointer;">&#8595; DISCOUNT<div style="font-size:9px;font-weight:400;">-$25 first wk</div></button>
+      <button id="price-standard" onclick="setPricingMode('standard',this)" style="flex:1;padding:10px;border:2px solid var(--blue);border-radius:8px;background:var(--blue-light);font-size:12px;font-weight:800;color:var(--blue);cursor:pointer;box-shadow:0 0 0 2px var(--blue);">&#9679; STANDARD<div style="font-size:9px;font-weight:400;">Normal rates</div></button>
+      <button id="price-surge" onclick="setPricingMode('surge',this)" style="flex:1;padding:10px;border:2px solid var(--green);border-radius:8px;background:var(--green-bg);font-size:12px;font-weight:800;color:var(--green);cursor:pointer;">&#8593; SURGE<div style="font-size:9px;font-weight:400;">+$15-25 new</div></button>
+    </div>
+    <div id="pricing-note" style="margin-top:8px;padding:8px;background:var(--blue-light);border-radius:8px;font-size:11px;color:var(--blue);text-align:center;">
+      STANDARD mode active. At 75% occupancy, consider DISCOUNT to fill faster.
+    </div>
+  </div>
+
+  <!-- ANDREA'S BONUS TRACKER (owner sees cost) -->
+  <div style="background:white;border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow);">
+    <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--dark);margin-bottom:8px;">&#127942; Andrea's Performance Incentive</div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="text-align:center;">
+        <div style="font-size:28px;font-weight:900;color:var(--green);">62</div>
+        <div style="font-size:10px;color:var(--gray);">rooms rented</div>
+      </div>
+      <div style="flex:1;">
+        <div style="font-size:12px;margin-bottom:4px;"><strong>Base threshold:</strong> 61 rooms</div>
+        <div style="font-size:12px;margin-bottom:4px;"><strong>Current bonus:</strong> 1 room × $10 = <strong style="color:var(--green);">$10/wk</strong></div>
+        <div style="font-size:12px;"><strong>Max potential:</strong> 22 rooms × $10 = <strong>$220/wk ($11,440/yr)</strong></div>
+      </div>
+    </div>
+    <div style="font-size:11px;color:var(--gray);margin-top:6px;padding:6px 8px;background:var(--green-bg);border-radius:6px;">
+      &#128161; At $200/wk avg rent, each additional rented room earns $200 and costs you $10 in bonus. That's a 20:1 return on incentive.
+    </div>
+  </div>
+
+  <!-- LOST REASON BREAKDOWN (kept compact) -->
+  <details>
+    <summary style="font-size:12px;font-weight:800;color:var(--dark);cursor:pointer;padding:8px 0;">&#128308; Lost Lead Reasons (Last 30 Days) — 15 total</summary>
+    <div class="brief-card" style="margin-top:4px;">
+      <div class="lost-bar-row">
+        <span class="lost-label">Chose elsewhere</span>
+        <div class="lost-bar-outer"><div class="lost-bar-fill" style="width:35%;background:var(--red);"></div></div>
+        <span class="lost-count">5</span>
+      </div>
+      <div class="lost-bar-row">
+        <span class="lost-label">No-show</span>
+        <div class="lost-bar-outer"><div class="lost-bar-fill" style="width:28%;background:var(--orange);"></div></div>
+        <span class="lost-count">4</span>
+      </div>
+      <div class="lost-bar-row">
+        <span class="lost-label">Price</span>
+        <div class="lost-bar-outer"><div class="lost-bar-fill" style="width:21%;background:var(--yellow);"></div></div>
+        <span class="lost-count">3</span>
+      </div>
+      <div class="lost-bar-row">
+        <span class="lost-label">Location</span>
+        <div class="lost-bar-outer"><div class="lost-bar-fill" style="width:14%;background:var(--blue);"></div></div>
+        <span class="lost-count">2</span>
+      </div>
+      <div class="lost-bar-row">
+        <span class="lost-label">Condition</span>
+        <div class="lost-bar-outer"><div class="lost-bar-fill" style="width:7%;background:var(--purple);"></div></div>
+        <span class="lost-count">1</span>
+      </div>
+      <div style="font-size:11px;color:var(--gray);margin-top:8px;">Highest leverage fix: no-show rate (GHL 2hr confirmation text)</div>
+    </div>
+  </details>
 
 </div>
 
@@ -2096,6 +2312,54 @@ function renderPhotoLog(filter) {
     </div>
   `).join('');
 }
+
+/* ===== PRICING MODE TOGGLE ===== */
+const PRICING_KEY = 'equipo_pricing_mode';
+
+function setPricingMode(mode, btn) {
+  localStorage.setItem(PRICING_KEY, mode);
+  // Update button highlights
+  ['discount','standard','surge'].forEach(m => {
+    const b = document.getElementById('price-' + m);
+    if (b) b.style.boxShadow = (m === mode) ? '0 0 0 2px ' + getComputedStyle(b).borderColor : 'none';
+  });
+  // Update note
+  const note = document.getElementById('pricing-note');
+  if (note) {
+    const msgs = {
+      discount: '⬇ DISCOUNT mode active. New move-ins get $25 off first week. Use below 85% occupancy to fill fast.',
+      standard: '⬤ STANDARD mode active. Normal rates for all new move-ins.',
+      surge: '⬆ SURGE mode active. +$15-25 premium on new move-ins. Use above 90% occupancy — scarcity is real.'
+    };
+    const colors = { discount: 'var(--orange)', standard: 'var(--blue)', surge: 'var(--green)' };
+    note.textContent = msgs[mode];
+    note.style.background = mode === 'discount' ? 'var(--orange-bg)' : mode === 'surge' ? 'var(--green-bg)' : 'var(--blue-light)';
+    note.style.color = colors[mode];
+  }
+}
+
+/* ===== BONUS CALCULATION ===== */
+function updateBonus() {
+  const ROOMS_RENTED = 62;
+  const BASE = 61;
+  const PER_ROOM = 10;
+  const MAX_ROOMS = 83;
+  const bonus = Math.max(0, ROOMS_RENTED - BASE) * PER_ROOM;
+  const maxBonus = (MAX_ROOMS - BASE) * PER_ROOM;
+  const fillPct = Math.max(0, ((ROOMS_RENTED - BASE) / (MAX_ROOMS - BASE)) * 100);
+
+  const amt = document.getElementById('bonus-amount');
+  const fill = document.getElementById('bonus-fill');
+  if (amt) amt.textContent = '$' + bonus;
+  if (fill) fill.style.width = fillPct.toFixed(1) + '%';
+}
+
+// Initialize pricing mode from localStorage
+document.addEventListener('DOMContentLoaded', () => {
+  const mode = localStorage.getItem(PRICING_KEY) || 'standard';
+  setPricingMode(mode, null);
+  updateBonus();
+});
 </script>
 </body>
 </html>
