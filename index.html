@@ -383,7 +383,7 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
   <div class="avatars">
     <div class="avatar-wrap active" onclick="switchRole('andrea')" title="Andrea — hold to update photo" onmousedown="handleAvatarTap('andrea',event)" onmouseup="handleAvatarRelease('andrea',event)" ontouchstart="handleAvatarTap('andrea',event)" ontouchend="handleAvatarRelease('andrea',event)">
       <div class="avatar avatar-andrea">
-        <img src="" onerror="this.style.display='none'" style="display:none" alt="Andrea">
+        <img src="photos/andrea.jpg" onerror="this.style.display='none'" alt="Andrea">
         <span class="avatar-fallback">A</span>
         <div class="notif">7</div>
       </div>
@@ -391,7 +391,7 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
     </div>
     <div class="avatar-wrap" onclick="switchRole('sandra')" title="Sandra — hold to update photo" onmousedown="handleAvatarTap('sandra',event)" onmouseup="handleAvatarRelease('sandra',event)" ontouchstart="handleAvatarTap('sandra',event)" ontouchend="handleAvatarRelease('sandra',event)">
       <div class="avatar avatar-sandra">
-        <img src="" onerror="this.style.display='none'" style="display:none" alt="Sandra">
+        <img src="photos/sandra.jpg" onerror="this.style.display='none'" alt="Sandra">
         <span class="avatar-fallback">S</span>
         <div class="notif">5</div>
       </div>
@@ -399,7 +399,7 @@ details .details-body { padding: 0 16px 16px; font-size: 13px; color: var(--text
     </div>
     <div class="avatar-wrap" onclick="switchRole('owner')" title="Jerel — hold to update photo" onmousedown="handleAvatarTap('jerel',event)" onmouseup="handleAvatarRelease('jerel',event)" ontouchstart="handleAvatarTap('jerel',event)" ontouchend="handleAvatarRelease('jerel',event)">
       <div class="avatar avatar-jerel">
-        <img src="" onerror="this.style.display='none'" style="display:none" alt="Jerel">
+        <img src="photos/jerel.jpg" onerror="this.style.display='none'" alt="Jerel">
         <span class="avatar-fallback">J</span>
         <div class="notif">3</div>
       </div>
@@ -1656,10 +1656,23 @@ function savePhotos(p) { localStorage.setItem(PHOTO_KEY, JSON.stringify(p)); }
 function loadAvatarPhotos() {
   const photos = getPhotos();
   ['andrea','sandra','jerel'].forEach(name => {
+    const imgEl = document.querySelector('.avatar-' + name + ' img');
+    if (!imgEl) return;
+    // localStorage override takes priority (from long-press upload)
     if (photos[name]) {
-      const imgEl = document.querySelector('.avatar-' + name + ' img');
-      if (imgEl) { imgEl.src = photos[name]; imgEl.style.display = 'block'; }
+      imgEl.src = photos[name];
     }
+    // Show img, hide fallback initials once loaded
+    imgEl.onload = function() {
+      imgEl.style.display = 'block';
+      const fb = imgEl.parentElement.querySelector('.avatar-fallback');
+      if (fb) fb.style.display = 'none';
+    };
+    imgEl.onerror = function() {
+      imgEl.style.display = 'none';
+      const fb = imgEl.parentElement.querySelector('.avatar-fallback');
+      if (fb) fb.style.display = 'flex';
+    };
   });
 }
 
