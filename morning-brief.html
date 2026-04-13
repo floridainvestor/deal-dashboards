@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RE_OS Command Center</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #0d0d0f; color: #e8e8e8; min-height: 100vh; padding: 20px 24px;
+}
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.g3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.g4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.g5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+.lbl { font-size: 0.6rem; font-weight: 800; letter-spacing: 0.12em; color: #ffffff; text-transform: uppercase; }
+.card { background: #13131a; border: 1px solid #1f1f2e; border-radius: 8px; padding: 14px; }
+details > summary { list-style: none; cursor: pointer; }
+details > summary::-webkit-details-marker { display: none; }
+@media (max-width: 768px) {
+  .g2, .g3, .g4, .g5 { grid-template-columns: 1fr; }
+  body { padding: 12px 14px; }
+}
+@media (max-width: 480px) { body { padding: 8px; } }
+/* ── Interactive cards ── */
+.deal-card { cursor:pointer; transition:background 0.12s,border-color 0.12s; }
+.deal-card:hover { background:#15151e !important; border-color:#3a3a5a !important; }
+.heir-row { cursor:pointer; }
+.heir-row:hover td { background:#1a1a26; }
+.rev-tap:hover { opacity:0.85;transform:scale(1.02);transition:all 0.15s; }
+.rev-tap { transition:all 0.15s; }
+.urg-badge { font-size:0.55rem;font-weight:800;padding:1px 5px;border-radius:3px;letter-spacing:0.06em;flex-shrink:0; }
+/* ── Detail drawer ── */
+#dd-overlay { display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:100; }
+#dd-panel {
+  display:none;position:fixed;top:0;right:0;
+  width:min(420px,100vw);height:100%;
+  background:#13131a;border-left:1px solid #2a2a40;
+  z-index:101;overflow-y:auto;padding:20px 18px;
+}
+</style>
+</head>
+<body>
+
+<!-- DETAIL DRAWER -->
+<div id="dd-overlay" onclick="closeDrawer()"></div>
+<div id="dd-panel">
+  <div id="dd-content"></div>
+</div>
+
+<div style="background:#1c1207;border:1px solid #e2b714;border-radius:8px;padding:12px 20px;margin-bottom:20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;"><span style="background:#e2b714;color:#000;font-size:0.65rem;font-weight:900;padding:3px 8px;border-radius:4px;letter-spacing:0.1em;flex-shrink:0;">11 DAYS</span><span style="color:#e8e8e8;font-size:0.88rem;font-weight:600;">Baker County Tax Deed — 11 days to deadline</span><span style="margin-left:auto;color:#e2b714;font-size:0.78rem;flex-shrink:0;">ACTION: Call Tyson family — buy directly before April 23 auction (CL</span></div>
+
+<!-- HEADER -->
+<div style="display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid #1f1f2e;flex-wrap:wrap;gap:10px;">
+  <div>
+    <h1 style="font-size:1.25rem;font-weight:800;color:#fff;letter-spacing:-0.3px;">RE_OS Command Center</h1>
+    <div style="font-size:0.65rem;color:#555;text-transform:uppercase;letter-spacing:1px;margin-top:3px;">
+      Ainsley &middot; Dual-Brain Mode Active &middot; 0 signals
+    </div>
+  </div>
+  <div style="text-align:right;">
+    <div style="background:#1a1a2e;border:1px solid #2a2a40;border-radius:6px;padding:6px 14px;font-size:0.82rem;color:#e8e8e8;">Apr 12, 2026 · 9:01 PM ET</div>
+    <div style="font-size:0.62rem;color:#444;margin-top:3px;">4/6 agents running</div>
+  </div>
+</div>
+
+
+
+<!-- REVENUE STRIP -->
+<div class="g5" style="margin-bottom:20px;">
+  <div class="card rev-tap" style="border-top:3px solid #22c55e;cursor:pointer;" onclick="scrollToSection('deal-board')">
+    <div class="lbl" style="margin-bottom:6px;">Closing Now</div>
+    <div style="font-size:1.9rem;font-weight:800;color:#22c55e;">0</div>
+    <div style="font-size:0.7rem;color:#555;margin-top:2px;">deals at stage 9+</div>
+  </div>
+  <div class="card rev-tap" style="border-top:3px solid #e2b714;cursor:pointer;" onclick="scrollToSection('deal-board')">
+    <div class="lbl" style="margin-bottom:6px;">Decisions Due</div>
+    <div style="font-size:1.9rem;font-weight:800;color:#e2b714;">3</div>
+    <div style="font-size:0.7rem;color:#555;margin-top:2px;">need your go/no-go</div>
+  </div>
+  <div class="card rev-tap" style="border-top:3px solid #f97316;cursor:pointer;" onclick="scrollToSection('deal-board')">
+    <div class="lbl" style="margin-bottom:6px;">Blocked External</div>
+    <div style="font-size:1.9rem;font-weight:800;color:#f97316;">1</div>
+    <div style="font-size:0.7rem;color:#555;margin-top:2px;">waiting on others</div>
+  </div>
+  <div class="card rev-tap" style="border-top:3px solid #ef4444;cursor:pointer;" onclick="scrollToSection('heirs-section')">
+    <div class="lbl" style="margin-bottom:6px;">HEIRS Leads</div>
+    <div style="font-size:1.9rem;font-weight:800;color:#ef4444;">8</div>
+    <div style="font-size:0.7rem;color:#555;margin-top:2px;">verified estate leads</div>
+  </div>
+  <div class="card rev-tap" style="border-top:3px solid #525252;cursor:pointer;" onclick="scrollToSection('heirs-section')">
+    <div class="lbl" style="margin-bottom:6px;">HEIRS Worked</div>
+    <div style="font-size:1.9rem;font-weight:800;color:#525252;">0</div>
+    <div style="font-size:0.7rem;color:#555;margin-top:2px;">No session</div>
+  </div>
+</div>
+
+<!-- TOP 3 ROMA MOVES -->
+<div style="margin-bottom:20px;">
+  <div class="lbl" style="margin-bottom:10px;">Do This Now &mdash; Top 3 ROMA Moves</div>
+  <div class="deal-card" data-deal="{&quot;type&quot;: &quot;deal&quot;, &quot;title&quot;: &quot;Skycrest&quot;, &quot;address&quot;: &quot;&quot;, &quot;urgency&quot;: &quot;warm&quot;, &quot;urgency_reason&quot;: &quot;Go/No-Go pending&quot;, &quot;status&quot;: &quot;\ud83d\udfe1 Master dashboard complete + floor plan analyzed \u2014 Go/No-Go pending&quot;, &quot;stage&quot;: 4, &quot;structure&quot;: &quot;Seller Finance (Raj Mody) \u00b7 $400K \u00b7 5% I/O \u00b7 5-year balloon \u00b7 $0 down (cross-collateral)&quot;, &quot;asking&quot;: &quot;~$400K&quot;, &quot;arv&quot;: &quot;$500K conservative \u2014 largest house in neighborhood by ~2x; DM API to validate (key in keychain \&quot;dealmachine-api\&quot;)&quot;, &quot;assessed_value&quot;: &quot;&quot;, &quot;contact&quot;: &quot;&quot;, &quot;next_actions&quot;: [&quot;Jerel reviews master dashboard and makes Go/No-Go decision&quot;, &quot;Walkthrough \u2014 confirm 4th bath (en-suite Primary?), parking count&quot;, &quot;Pull ARV via DealMachine API (key in keychain \u2014 property not in DM database yet, manual app lookup or drive-by comp)&quot;], &quot;waiting_on&quot;: &quot;&quot;, &quot;deadline&quot;: &quot;&quot;, &quot;photo_url&quot;: &quot;file:///Users/jerelwilliams/RE_OS/04_Active_Deals/Skycrest_32246/floor_plan_1f.png&quot;, &quot;street_view_url&quot;: &quot;https://maps.googleapis.com/maps/api/streetview?size=600x300&amp;location=Skycrest&amp;key=AIzaSyCC0AGLz2Ss6DilBF-LMNKhu0FhmAZtKXY&quot;, &quot;zillow_url&quot;: &quot;https://www.zillow.com/homes/Skycrest_rb/&quot;, &quot;google_maps_url&quot;: &quot;https://www.google.com/maps/search/?api=1&amp;query=Skycrest&quot;, &quot;dealmachine_url&quot;: &quot;https://app.dealmachine.com/&quot;, &quot;folder_url&quot;: &quot;file:///Users/jerelwilliams/RE_OS/04_Active_Deals/Skycrest_32246&quot;, &quot;dashboard_url&quot;: &quot;https://floridainvestor.github.io/deal-dashboards/skycrest.html&quot;}" onclick="openDrawer(this)" style="background:#13131a;border:1px solid #1f1f2e;border-left:3px solid #e2b714;border-radius:8px;padding:16px 20px;margin-bottom:12px;"><div style="display:flex;align-items:flex-start;gap:12px;"><div style="background:#1f1f2e;color:#888;font-size:1rem;font-weight:900;width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">#1</div><div style="flex:1;"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px;"><span style="font-size:0.9rem;font-weight:700;color:#fff;">Skycrest</span><span style="background:#422006;color:#e2b714;font-size:0.62rem;font-weight:800;padding:2px 7px;border-radius:4px;letter-spacing:0.08em;">DECIDE</span><span style="background:#1a1a2e;color:#6b7280;font-size:0.62rem;padding:2px 6px;border-radius:4px;">ROMA: HIGH</span></div><div style="font-size:0.82rem;color:#aaa;margin-bottom:8px;">Skycrest dashboard is complete. Asking ~$400K, structure: Seller Finance (Raj Mody) · $400K · 5% I/O · 5-year balloon · $0 down (cross-collateral). Outstanding: Jerel reviews master dashboard and makes Go/No-Go . Every day without a decision is a day of opportunity cost.</div><div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;"><span style="color:#e2b714;font-size:0.78rem;font-weight:600;">&#8594; Make the go/no-go call</span><span style="color:#525252;font-size:0.72rem;">by: Today</span></div></div></div></div>
+<div class="deal-card" data-deal="{&quot;type&quot;: &quot;deal&quot;, &quot;title&quot;: &quot;Forest Hills&quot;, &quot;address&quot;: &quot;&quot;, &quot;urgency&quot;: &quot;warm&quot;, &quot;urgency_reason&quot;: &quot;Go/No-Go pending&quot;, &quot;status&quot;: &quot;\ud83d\udd34 RELATIONSHIP RISK \u2014 Go/No-Go OVERDUE \u2014 **17 days no action** \u2014 Raj relationshi&quot;, &quot;stage&quot;: 4, &quot;structure&quot;: &quot;HML + Seller Finance (Raj Mody deal)&quot;, &quot;asking&quot;: &quot;~$380K&quot;, &quot;arv&quot;: &quot;&quot;, &quot;assessed_value&quot;: &quot;&quot;, &quot;contact&quot;: &quot;&quot;, &quot;next_actions&quot;: [&quot;Jerel reviews dashboard and makes Go/No-Go decision&quot;, &quot;Pull DealMachine values&quot;, &quot;Pull PadSplit comps for 32208&quot;], &quot;waiting_on&quot;: &quot;&quot;, &quot;deadline&quot;: &quot;&quot;, &quot;photo_url&quot;: &quot;file:///Users/jerelwilliams/RE_OS/04_Active_Deals/Forest_Hills_SF/padsplit_calc_screenshot.png&quot;, &quot;street_view_url&quot;: &quot;https://maps.googleapis.com/maps/api/streetview?size=600x300&amp;location=Forest%20Hills&amp;key=AIzaSyCC0AGLz2Ss6DilBF-LMNKhu0FhmAZtKXY&quot;, &quot;zillow_url&quot;: &quot;https://www.zillow.com/homes/Forest%20Hills_rb/&quot;, &quot;google_maps_url&quot;: &quot;https://www.google.com/maps/search/?api=1&amp;query=Forest%20Hills&quot;, &quot;dealmachine_url&quot;: &quot;https://app.dealmachine.com/&quot;, &quot;folder_url&quot;: &quot;file:///Users/jerelwilliams/RE_OS/04_Active_Deals/Brook_Forest_SubTo&quot;, &quot;dashboard_url&quot;: &quot;https://floridainvestor.github.io/deal-dashboards/forest-hills.html&quot;}" onclick="openDrawer(this)" style="background:#13131a;border:1px solid #1f1f2e;border-left:3px solid #e2b714;border-radius:8px;padding:16px 20px;margin-bottom:12px;"><div style="display:flex;align-items:flex-start;gap:12px;"><div style="background:#1f1f2e;color:#888;font-size:1rem;font-weight:900;width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">#2</div><div style="flex:1;"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px;"><span style="font-size:0.9rem;font-weight:700;color:#fff;">Forest Hills</span><span style="background:#422006;color:#e2b714;font-size:0.62rem;font-weight:800;padding:2px 7px;border-radius:4px;letter-spacing:0.08em;">DECIDE</span><span style="background:#1a1a2e;color:#6b7280;font-size:0.62rem;padding:2px 6px;border-radius:4px;">ROMA: HIGH</span></div><div style="font-size:0.82rem;color:#aaa;margin-bottom:8px;">Forest Hills dashboard is complete. Asking ~$380K, structure: HML + Seller Finance (Raj Mody deal). Outstanding: Jerel reviews dashboard and makes Go/No-Go decisio. Every day without a decision is a day of opportunity cost.</div><div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;"><span style="color:#e2b714;font-size:0.78rem;font-weight:600;">&#8594; Make the go/no-go call</span><span style="color:#525252;font-size:0.72rem;">by: Today</span></div></div></div></div>
+<div  style="background:#13131a;border:1px solid #1f1f2e;border-left:3px solid #ef4444;border-radius:8px;padding:16px 20px;margin-bottom:12px;"><div style="display:flex;align-items:flex-start;gap:12px;"><div style="background:#1f1f2e;color:#888;font-size:1rem;font-weight:900;width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">#3</div><div style="flex:1;"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px;"><span style="font-size:0.9rem;font-weight:700;color:#fff;">Chase 8 HEIRS Leads</span><span style="background:#450a0a;color:#ef4444;font-size:0.62rem;font-weight:800;padding:2px 7px;border-radius:4px;letter-spacing:0.08em;">LEAD GEN</span><span style="background:#1a1a2e;color:#6b7280;font-size:0.62rem;padding:2px 6px;border-radius:4px;">ROMA: HIGH</span></div><div style="font-size:0.82rem;color:#aaa;margin-bottom:8px;">Top lead: 143 Paradise Dr, Palatka, FL 32177 — owner GEIGER WALTER A HEIRS OF. Market value: 156080. Estate/heirs leads = lowest competition, highest ROMA in the pipeline.</div><div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;"><span style="color:#ef4444;font-size:0.78rem;font-weight:600;">&#8594; Skip trace GEIGER WALTER A HEIRS OF first</span><span style="color:#525252;font-size:0.72rem;">by: Today</span></div></div></div></div>
+
+</div>
+
+<!-- DEAL BOARD — 4 BUCKETS -->
+<div id="deal-board" style="margin-bottom:20px;">
+  <div class="lbl" style="margin-bottom:10px;">Deal Board &mdash; 7 Active Deals</div>
+  <div class="g4">
+    <div style="background:#13131a;border:1px solid #1f1f2e;border-top:3px solid #22c55e;border-radius:8px;padding:14px;"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;"><span style="font-size:0.6rem;font-weight:800;letter-spacing:0.1em;color:#555;text-transform:uppercase;">CLOSING</span><span style="background:#052e16;color:#22c55e;font-size:0.68rem;font-weight:700;padding:2px 8px;border-radius:10px;">0</span></div><div style="color:#525252;font-size:0.75rem;padding:6px 0;">No deals closing</div></div>
+<div style="background:#13131a;border:1px solid #1f1f2e;border-top:3px solid #e2b714;border-radius:8px;padding:14px;"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;"><span style="font-size:0.6rem;font-weight:800;letter-spacing:0.1em;color:#555;text-transform:uppercase;">DECIDE</span><span style="background:#422006;color:#e2b714;font-size:0.68rem;font-weight:700;padding:2px 8px;border-radius:10px;">3</span></div><div class="deal-card" data-deal="{&quot;type&quot;: &quot;deal&quot;, &quot;title&quot;: &quot;6478 Dor Mil Ct&quot;, &quot;address&quot;: &quot;6478 Dor Mil Ct&quot;, &quot;urgency&quot;: &quot;watch&quot;, &quot;urgency_reason&quot;: &quot;Pipeline&quot;, &quot;status&quot;: &quot;\ud83d\udd34 CRITICAL DECAY \u2014 Day 14 Saturday Apr 11. HARD LINE. Friday call window missed.&quot;, &quot;stage&quot;: 3, &quot;structure&quot;: &quot;Seller Finance, Land Trust&quot;, &quot;asking&quot;: &quot;&quot;, &quot;arv&quot;: &quot;&quot;, &quot;assessed_value&quot;: &quot;&quot;, &quot;contact&quot;: &quot;&quot;, &quot;next_actions&quot;: [], &quot;waiting_on&quot;: &quot;Jerel to schedule signing with seller&quot;, &quot;deadline&quot;: &quot;&quot;, &quot;photo_url&quot;: &quot;&quot;, &quot;street_view_url&quot;: &quot;https://maps.googleapis.com/maps/api/streetview?size=600x300&amp;location=6478%20Dor%20Mil%20Ct&amp;key=AIzaSyCC0AGLz2Ss6DilBF-LMNKhu0FhmAZtKXY&quot;, &quot;zillow_url&quot;: &quot;https://www.zillow.com/homes/6478%20Dor%20Mil%20Ct_rb/&quot;, &quot;google_maps_url&quot;: &quot;https://www.google.com/maps/search/?api=1&amp;query=6478%20Dor%20Mil%20Ct&quot;, &quot;dealmachine_url&quot;: &quot;https://app.dealmachine.com/&quot;, &quot;folder_url&quot;: &quot;file:///Users/jerelwilliams/RE_OS/04_Active_Deals/Dor_Mil_Ct&quot;, &quot;dashboard_url&quot;: &quot;&quot;}" onclick="openDrawer(this)" style="border-bottom:1px solid #1a1a26;padding:9px 0 6px 0;"><div style="display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;margin-bottom:2px;"><span style="font-size:0.8rem;font-weight:600;color:#e8e8e8;flex:1;">6478 Dor Mil Ct</span><span class="urg-badge" style="background:#1a1a26;color:#6b7280;">Pipeline</span></div><div style="font-size:0.65rem;color:#666;margin-top:1px;">Seller Finance, Land Trust</div><div style="margin:5px 0 3px 0;"><div style="display:flex;align-items:center;gap:6px;"><div style="flex:1;background:#1a1a2e;border-radius:3px;height:5px;"><div style="background:#22c55e;width:100%;height:5px;border-radius:3px;"></div></div><span style="font-size:0.6rem;color:#555;flex-shrink:0;">7/7</span></div></div><div style="font-size:0.72rem;color:#a3e635;margin-top:3px;font-weight:600;">&#8594; Jerel to schedule signing with seller</div><div style="font-size:0.62rem;color:#444;margin-top:1px;">&#10003; Legal description inserted into Note + Mortgage</div></div><div class="deal-card" data-deal="{&quot;type&quot;: &quot;deal&quot;, &quot;title&quot;: &quot;Skycrest&quot;, &quot;address&quot;: &quot;&quot;, &quot;urgency&quot;: &quot;warm&quot;, &quot;urgency_reason&quot;: &quot;Go/No-Go pending&quot;, &quot;status&quot;: &quot;\ud83d\udfe1 Master dashboard complete + floor plan analyzed \u2014 Go/No-Go pending&quot;, &quot;stage&quot;: 4, &quot;structure&quot;: &quot;Seller Finance (Raj Mody) \u00b7 $400K \u00b7 5% I/O \u00b7 5-year balloon \u00b7 $0 down (cross-collateral)&quot;, &quot;asking&quot;: &quot;~$400K&quot;, &quot;arv&quot;: &quot;$500K conservative \u2014 largest house in neighborhood by ~2x; DM API to validate (key in keychain \&quot;dealmachine-api\&quot;)&quot;, &quot;assessed_value&quot;: &quot;&quot;, &quot;contact&quot;: &quot;&quot;, &quot;next_actions&quot;: [&quot;Jerel reviews master dashboard and makes Go/No-Go decision&quot;, &quot;Walkthrough \u2014 confirm 4th bath (en-suite Primary?), parking count&quot;, &quot;Pull ARV via DealMachine API (key in keychain \u2014 property not in DM database yet, manual app lookup or drive-by comp)&quot;], &quot;waiting_on&quot;: &quot;&quot;, &quot;deadline&quot;: &quot;&quot;, &quot;photo_url&quot;: &quot;file:///Users/jerelwilliams/RE_OS/04_Active_Deals/Skycrest_32246/floor_plan_1f.png&quot;, &quot;street_view_url&quot;: &quot;https://maps.googleapis.com/maps/api/streetview?size=600x300&amp;location=Skycrest&amp;key=AIzaSyCC0AGLz2Ss6DilBF-LMNKhu0FhmAZtKXY&quot;, &quot;zillow_url&quot;: &quot;https://www.zillow.com/homes/Skycrest_rb/&quot;, &quot;google_maps_url&quot;: &quot;https://www.google.com/maps/search/?api=1&amp;query=Skycrest&quot;, &quot;dealmachine_url&quot;: &quot;https://app.dealmachine.com/&quot;, &quot;folder_url&quot;: &quot;file:///Users/jerelwilliams/RE_OS/04_Active_Deals/Skycrest_32246&quot;, &quot;dashboard_url&quot;: &quot;https://floridainvestor.github.io/deal-dashboards/skycrest.html&quot;}" onclick="openDrawer(this)" style="border-bottom:1px solid #1a1a26;padding:9px 0 6px 0;"><div style="display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;margin-bottom:2px;"><span style="font-size:0.8rem;font-weight:600;color:#e8e8e8;flex:1;">Skycrest</span><span class="urg-badge" style="background:#422006;color:#e2b714;">Go/No-Go pending</span><span style="background:#1a1a00;color:#e2b714;font-size:0.58rem;font-weight:700;padding:1px 5px;border-radius:3px;">8d idle</span></div><div style="font-size:0.65rem;color:#666;margin-top:1px;">Seller Finance (Raj Mody) ·   &middot;  Ask: ~$400K &middot; ARV: $500K conservative — &middot; 10 room</div><div style="margin:5px 0 3px 0;"><div style="display:flex;align-items:center;gap:6px;"><div style="flex:1;background:#1a1a2e;border-radius:3px;height:5px;"><div style="background:#e2b714;width:53%;height:5px;border-radius:3px;"></div></div><span style="font-size:0.6rem;color:#555;flex-shrink:0;">7/13</span></div></div><div style="font-size:0.72rem;color:#a3e635;margin-top:3px;font-weight:600;">&#8594; Jerel reviews master dashboard and makes Go/No-Go decision</div><div style="font-size:0.62rem;color:#444;margin-top:1px;">&#10003; Deal_Eval_Expense_Standards.md updated permanently</div></div><div class="deal-card" data-deal="{&quot;type&quot;: &quot;deal&quot;, &quot;title&quot;: &quot;Forest Hills&quot;, &quot;address&quot;: &quot;&quot;, &quot;urgency&quot;: &quot;warm&quot;, &quot;urgency_reason&quot;: &quot;Go/No-Go pending&quot;, &quot;status&quot;: &quot;\ud83d\udd34 RELATIONSHIP RISK \u2014 Go/No-Go OVERDUE \u2014 **17 days no action** \u2014 Raj relationshi&quot;, &quot;stage&quot;: 4, &quot;structure&quot;: &quot;HML + Seller Finance (Raj Mody deal)&quot;, &quot;asking&quot;: &quot;~$380K&quot;, &quot;arv&quot;: &quot;&quot;, &quot;assessed_value&quot;: &quot;&quot;, &quot;contact&quot;: &quot;&quot;, &quot;next_actions&quot;: [&quot;Jerel reviews dashboard and makes Go/No-Go decision&quot;, &quot;Pull DealMachine values&quot;, &quot;Pull PadSplit comps for 32208&quot;], &quot;waiting_on&quot;: &quot;&quot;, &quot;deadline&quot;: &quot;&quot;, &quot;photo_url&quot;: &quot;file:///Users/jerelwilliams/RE_OS/04_Active_Deals/Forest_Hills_SF/padsplit_calc_screenshot.png&quot;, &quot;street_view_url&quot;: &quot;https://maps.googleapis.com/maps/api/streetview?size=600x300&amp;location=Forest%20Hills&amp;key=AIzaSyCC0AGLz2Ss6DilBF-LMNKhu0FhmAZtKXY&quot;, &quot;zillow_url&quot;: &quot;https://www.zillow.com/homes/Forest%20Hills_rb/&quot;, &quot;google_maps_url&quot;: &quot;https://www.google.com/maps/search/?api=1&amp;query=Forest%20Hills&quot;, &quot;dealmachine_url&quot;: &quot;https://app.dealmachine.com/&quot;, &quot;folder_url&quot;: &quot;file:///Users/jerelwilliams/RE_OS/04_Active_Deals/Brook_Forest_SubTo&quot;, &quot;dashboard_url&quot;: &quot;https://floridainvestor.github.io/deal-dashboards/forest-hills.html&quot;}" onclick="openDrawer(this)" style="border-bottom:1px solid #1a1a26;padding:9px 0 6px 0;"><div style="display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;margin-bottom:2px;"><span style="font-size:0.8rem;font-weight:600;color:#e8e8e8;flex:1;">Forest Hills</span><span class="urg-badge" style="background:#422006;color:#e2b714;">Go/No-Go pending</span></div><div style="font-size:0.65rem;color:#666;margin-top:1px;">HML + Seller Finance (Raj Mo  &middot;  Ask: ~$380K</div><div style="margin:5px 0 3px 0;"><div style="display:flex;align-items:center;gap:6px;"><div style="flex:1;background:#1a1a2e;border-radius:3px;height:5px;"><div style="background:#6b7280;width:25%;height:5px;border-radius:3px;"></div></div><span style="font-size:0.6rem;color:#555;flex-shrink:0;">1/4</span></div></div><div style="font-size:0.72rem;color:#a3e635;margin-top:3px;font-weight:600;">&#8594; Jerel reviews dashboard and makes Go/No-Go decision</div><div style="font-size:0.62rem;color:#444;margin-top:1px;">&#10003; HTML deal dashboard built</div></div></div>
+<div style="background:#13131a;border:1px solid #1f1f2e;border-top:3px solid #f97316;border-radius:8px;padding:14px;"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;"><span style="font-size:0.6rem;font-weight:800;letter-spacing:0.1em;color:#555;text-transform:uppercase;">BLOCKED</span><span style="background:#431407;color:#f97316;font-size:0.68rem;font-weight:700;padding:2px 8px;border-radius:10px;">1</span></div><div class="deal-card" data-deal="{&quot;type&quot;: &quot;deal&quot;, &quot;title&quot;: &quot;Steve Levy&quot;, &quot;address&quot;: &quot;&quot;, &quot;urgency&quot;: &quot;blocked&quot;, &quot;urgency_reason&quot;: &quot;Waiting: Steve Levy pricing \u2014 met &quot;, &quot;status&quot;: &quot;\ud83d\udfe2 Met April 1 \u2014 RTO confirmed, pricing inbound Mon/Tue Apr 6-7&quot;, &quot;stage&quot;: 3, &quot;structure&quot;: &quot;Rent-To-Own, 13 units, 55+ HOPA park, Seminole County&quot;, &quot;asking&quot;: &quot;TBD&quot;, &quot;arv&quot;: &quot;&quot;, &quot;assessed_value&quot;: &quot;&quot;, &quot;contact&quot;: &quot;&quot;, &quot;next_actions&quot;: [&quot;Steve Levy response \u2014 reviewing tonight (2026-03-31 evening). Close or walk.&quot;, &quot;Group C championship arena v2 \u2014 re-run all 5 writers with full condition-honest photo descriptions woven into copy body (v1 complete, photos found, TLC + phone fixed, Opus judgment pending)&quot;, &quot;Lot 9 cost basis confirmation&quot;], &quot;waiting_on&quot;: &quot;Steve Levy pricing \u2014 met April 1, RTO confirmed, walking units this weekend, sending pricing Mon/Tue Apr 6-7. No call needed until then.&quot;, &quot;deadline&quot;: &quot;&quot;, &quot;photo_url&quot;: &quot;file:///Users/jerelwilliams/RE_OS/04_Active_Deals/Steve_Levy_Park_Avenue_MHP/Archive/slide-1.jpg&quot;, &quot;street_view_url&quot;: &quot;https://maps.googleapis.com/maps/api/streetview?size=600x300&amp;location=Steve%20Levy&amp;key=AIzaSyCC0AGLz2Ss6DilBF-LMNKhu0FhmAZtKXY&quot;, &quot;zillow_url&quot;: &quot;https://www.zillow.com/homes/Steve%20Levy_rb/&quot;, &quot;google_maps_url&quot;: &quot;https://www.google.com/maps/search/?api=1&amp;query=Steve%20Levy&quot;, &quot;dealmachine_url&quot;: &quot;https://app.dealmachine.com/&quot;, &quot;folder_url&quot;: &quot;file:///Users/jerelwilliams/RE_OS/04_Active_Deals/Steve_Levy_Park_Avenue_MHP&quot;, &quot;dashboard_url&quot;: &quot;https://floridainvestor.github.io/deal-dashboards/steve-levy.html&quot;}" onclick="openDrawer(this)" style="border-bottom:1px solid #1a1a26;padding:9px 0 6px 0;"><div style="display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;margin-bottom:2px;"><span style="font-size:0.8rem;font-weight:600;color:#e8e8e8;flex:1;">Steve Levy</span><span class="urg-badge" style="background:#431407;color:#f97316;">Waiting: Steve Lev</span></div><div style="font-size:0.65rem;color:#666;margin-top:1px;">Rent-To-Own, 13 units, 55+ H  &middot;  Ask: TBD &middot; 13 unit</div><div style="margin:5px 0 3px 0;"><div style="display:flex;align-items:center;gap:6px;"><div style="flex:1;background:#1a1a2e;border-radius:3px;height:5px;"><div style="background:#e2b714;width:64%;height:5px;border-radius:3px;"></div></div><span style="font-size:0.6rem;color:#555;flex-shrink:0;">9/14</span></div></div><div style="font-size:0.72rem;color:#a3e635;margin-top:3px;font-weight:600;">&#8594; Steve Levy response — reviewing tonight (2026-03-31 evening)</div><div style="font-size:0.62rem;color:#444;margin-top:1px;">&#10003; Group B championship arena — 5 writers + Opus judgment + hyb</div></div></div>
+<div style="background:#13131a;border:1px solid #1f1f2e;border-top:3px solid #6b7280;border-radius:8px;padding:14px;"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;"><span style="font-size:0.6rem;font-weight:800;letter-spacing:0.1em;color:#555;text-transform:uppercase;">PIPELINE</span><span style="background:#1a1a26;color:#6b7280;font-size:0.68rem;font-weight:700;padding:2px 8px;border-radius:10px;">3</span></div><div class="deal-card" data-deal="{&quot;type&quot;: &quot;deal&quot;, &quot;title&quot;: &quot;Baker County Tax Deed&quot;, &quot;address&quot;: &quot;&quot;, &quot;urgency&quot;: &quot;warm&quot;, &quot;urgency_reason&quot;: &quot;10d to deadline&quot;, &quot;status&quot;: &quot;\ud83d\udfe1 Pre-auction outreach \u2014 contact Tyson family before April 23&quot;, &quot;stage&quot;: 3, &quot;structure&quot;: &quot;Tax Deed Auction \u2014 April 23, 2026&quot;, &quot;asking&quot;: &quot;&quot;, &quot;arv&quot;: &quot;$225K\u2013$300K&quot;, &quot;assessed_value&quot;: &quot;$257,052&quot;, &quot;contact&quot;: &quot;Dorothy Kathaleen Tyson&quot;, &quot;next_actions&quot;: [&quot;Call Tyson family \u2014 buy directly before April 23 auction (CLOSER script ready in Ainsley_Deal_Prep_Cards.md)&quot;, &quot;Confirm phone number for Dorothy Tyson / Pamela Akridge (PAO = site address, need skip trace)&quot;, &quot;Run comps \u2014 32040 rural; check 25-acre land comparable sales to set internal max price ceiling&quot;], &quot;waiting_on&quot;: &quot;&quot;, &quot;deadline&quot;: &quot;April 23, 2026&quot;, &quot;photo_url&quot;: &quot;&quot;, &quot;street_view_url&quot;: &quot;https://maps.googleapis.com/maps/api/streetview?size=600x300&amp;location=Baker%20County%20Tax%20Deed&amp;key=AIzaSyCC0AGLz2Ss6DilBF-LMNKhu0FhmAZtKXY&quot;, &quot;zillow_url&quot;: &quot;https://www.zillow.com/homes/Baker%20County%20Tax%20Deed_rb/&quot;, &quot;google_maps_url&quot;: &quot;https://www.google.com/maps/search/?api=1&amp;query=Baker%20County%20Tax%20Deed&quot;, &quot;dealmachine_url&quot;: &quot;https://app.dealmachine.com/&quot;, &quot;folder_url&quot;: &quot;file:///Users/jerelwilliams/RE_OS/04_Active_Deals/Baker_Tax_Deed_Crews_Rd&quot;, &quot;dashboard_url&quot;: &quot;&quot;}" onclick="openDrawer(this)" style="border-bottom:1px solid #1a1a26;padding:9px 0 6px 0;"><div style="display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;margin-bottom:2px;"><span style="font-size:0.8rem;font-weight:600;color:#e8e8e8;flex:1;">Baker County Tax Deed</span><span class="urg-badge" style="background:#422006;color:#e2b714;">10d to deadline</span><span style="background:#422006;color:#e2b714;font-size:0.58rem;font-weight:800;padding:1px 5px;border-radius:3px;letter-spacing:0.06em;flex-shrink:0;">10 DAYS</span><span style="background:#1a1a00;color:#e2b714;font-size:0.58rem;font-weight:700;padding:1px 5px;border-radius:3px;">13d idle</span></div><div style="font-size:0.65rem;color:#666;margin-top:1px;">Tax Deed Auction — April 23,  &middot;  ARV: $225K–$300K &middot; AV: $257,052 &middot; 25.17 acres</div><div style="margin:5px 0 3px 0;"><div style="display:flex;align-items:center;gap:6px;"><div style="flex:1;background:#1a1a2e;border-radius:3px;height:5px;"><div style="background:#e2b714;width:44%;height:5px;border-radius:3px;"></div></div><span style="font-size:0.6rem;color:#555;flex-shrink:0;">4/9</span></div></div><div style="font-size:0.65rem;color:#4a7ab5;margin-top:1px;">📞 Dorothy Kathaleen Tyson</div><div style="font-size:0.72rem;color:#a3e635;margin-top:3px;font-weight:600;">&#8594; Call Tyson family — buy directly before April 23 auction (CL</div><div style="font-size:0.62rem;color:#444;margin-top:1px;">&#10003; Research file updated: `04_Active_Deals/Baker_Tax_Deed_Crews</div></div><div class="deal-card" data-deal="{&quot;type&quot;: &quot;deal&quot;, &quot;title&quot;: &quot;Putnam County Tax Deed&quot;, &quot;address&quot;: &quot;&quot;, &quot;urgency&quot;: &quot;hot&quot;, &quot;urgency_reason&quot;: &quot;OVERDUE&quot;, &quot;status&quot;: &quot;\u26ab AUCTION PASSED (Apr 8) \u2014 Pre-auction window closed. Contact outcome unknown \u2014 &quot;, &quot;stage&quot;: 3, &quot;structure&quot;: &quot;Pre-auction owner contact \u2014 auction April 8 is the deadline, NOT the target. Strategy: buy directly from owner before it goes to auction.&quot;, &quot;asking&quot;: &quot;&quot;, &quot;arv&quot;: &quot;&quot;, &quot;assessed_value&quot;: &quot;&quot;, &quot;contact&quot;: &quot;&quot;, &quot;next_actions&quot;: [&quot;Contact Thompson family (Miami absentee owners) \u2014 331 Flamingo \u2014 before April 8 auction date&quot;, &quot;Street View + PAO pull on 331 Flamingo to set internal max price ceiling (not a bid \u2014 ceiling for direct purchase only)&quot;, &quot;Research owner of 1112 S 12th St Palatka and contact before April 8 \u2014 or pass&quot;], &quot;waiting_on&quot;: &quot;&quot;, &quot;deadline&quot;: &quot;April 8&quot;, &quot;photo_url&quot;: &quot;&quot;, &quot;street_view_url&quot;: &quot;https://maps.googleapis.com/maps/api/streetview?size=600x300&amp;location=Putnam%20County%20Tax%20Deed&amp;key=AIzaSyCC0AGLz2Ss6DilBF-LMNKhu0FhmAZtKXY&quot;, &quot;zillow_url&quot;: &quot;https://www.zillow.com/homes/Putnam%20County%20Tax%20Deed_rb/&quot;, &quot;google_maps_url&quot;: &quot;https://www.google.com/maps/search/?api=1&amp;query=Putnam%20County%20Tax%20Deed&quot;, &quot;dealmachine_url&quot;: &quot;https://app.dealmachine.com/&quot;, &quot;folder_url&quot;: &quot;file:///Users/jerelwilliams/RE_OS/04_Active_Deals/Baker_Tax_Deed_Crews_Rd&quot;, &quot;dashboard_url&quot;: &quot;&quot;}" onclick="openDrawer(this)" style="border-bottom:1px solid #1a1a26;padding:9px 0 6px 0;"><div style="display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;margin-bottom:2px;"><span style="font-size:0.8rem;font-weight:600;color:#e8e8e8;flex:1;">Putnam County Tax Deed</span><span class="urg-badge" style="background:#450a0a;color:#ef4444;">OVERDUE</span><span style="background:#450a0a;color:#ef4444;font-size:0.58rem;font-weight:800;padding:1px 5px;border-radius:3px;letter-spacing:0.06em;flex-shrink:0;">OVERDUE</span></div><div style="font-size:0.65rem;color:#666;margin-top:1px;">Pre-auction owner contact —   &middot;  0.12 acres</div><div style="margin:5px 0 3px 0;"><div style="display:flex;align-items:center;gap:6px;"><div style="flex:1;background:#1a1a2e;border-radius:3px;height:5px;"><div style="background:#e2b714;width:55%;height:5px;border-radius:3px;"></div></div><span style="font-size:0.6rem;color:#555;flex-shrink:0;">5/9</span></div></div><div style="font-size:0.72rem;color:#a3e635;margin-top:3px;font-weight:600;">&#8594; Contact Thompson family (Miami absentee owners) — 331 Flamin</div><div style="font-size:0.62rem;color:#444;margin-top:1px;">&#10003; 117 Providence St eliminated — confirmed vacant land (Sessio</div></div><div class="deal-card" data-deal="{&quot;type&quot;: &quot;deal&quot;, &quot;title&quot;: &quot;Catoma MHP&quot;, &quot;address&quot;: &quot;&quot;, &quot;urgency&quot;: &quot;watch&quot;, &quot;urgency_reason&quot;: &quot;Pipeline&quot;, &quot;status&quot;: &quot;\ud83d\udfe1 Deal intake complete \u2014 code enforcement call blocks offer&quot;, &quot;stage&quot;: 3, &quot;structure&quot;: &quot;Seller Finance $75K (44.7% TWR) or Note Buy $35-38K (40.3% TWR)&quot;, &quot;asking&quot;: &quot;&quot;, &quot;arv&quot;: &quot;&quot;, &quot;assessed_value&quot;: &quot;&quot;, &quot;contact&quot;: &quot;&quot;, &quot;next_actions&quot;: [&quot;Call Code Enforcement (904-630-2489) \u2014 confirm open/closed cases + daily fines \u2192 D-CATOMA-01&quot;, &quot;Skip trace Tammy Grab (Endato) \u2014 note-buy strongest play at $35-38K&quot;, &quot;Call Tammy Grab with note-buy offer&quot;], &quot;waiting_on&quot;: &quot;&quot;, &quot;deadline&quot;: &quot;&quot;, &quot;photo_url&quot;: &quot;file:///Users/jerelwilliams/RE_OS/04_Active_Deals/Steve_Levy_Park_Avenue_MHP/Archive/slide-1.jpg&quot;, &quot;street_view_url&quot;: &quot;https://maps.googleapis.com/maps/api/streetview?size=600x300&amp;location=Catoma%20MHP&amp;key=AIzaSyCC0AGLz2Ss6DilBF-LMNKhu0FhmAZtKXY&quot;, &quot;zillow_url&quot;: &quot;https://www.zillow.com/homes/Catoma%20MHP_rb/&quot;, &quot;google_maps_url&quot;: &quot;https://www.google.com/maps/search/?api=1&amp;query=Catoma%20MHP&quot;, &quot;dealmachine_url&quot;: &quot;https://app.dealmachine.com/&quot;, &quot;folder_url&quot;: &quot;file:///Users/jerelwilliams/RE_OS/04_Active_Deals/Catoma_MHP&quot;, &quot;dashboard_url&quot;: &quot;https://floridainvestor.github.io/deal-dashboards/catoma-mhp.html&quot;}" onclick="openDrawer(this)" style="border-bottom:1px solid #1a1a26;padding:9px 0 6px 0;"><div style="display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;margin-bottom:2px;"><span style="font-size:0.8rem;font-weight:600;color:#e8e8e8;flex:1;">Catoma MHP</span><span class="urg-badge" style="background:#1a1a26;color:#6b7280;">Pipeline</span><span style="background:#1a1a00;color:#e2b714;font-size:0.58rem;font-weight:700;padding:1px 5px;border-radius:3px;">7d idle</span></div><div style="font-size:0.65rem;color:#666;margin-top:1px;">Seller Finance $75K (44.7% T</div><div style="margin:5px 0 3px 0;"><div style="display:flex;align-items:center;gap:6px;"><div style="flex:1;background:#1a1a2e;border-radius:3px;height:5px;"><div style="background:#e2b714;width:50%;height:5px;border-radius:3px;"></div></div><span style="font-size:0.6rem;color:#555;flex-shrink:0;">5/10</span></div></div><div style="font-size:0.72rem;color:#a3e635;margin-top:3px;font-weight:600;">&#8594; Call Code Enforcement (904-630-2489) — confirm open/closed c</div><div style="font-size:0.62rem;color:#444;margin-top:1px;">&#10003; Tammy Grab call script prepared</div></div></div>
+
+  </div>
+</div>
+
+<!-- HEIRS ESTATES — CHASE THESE (ELEVATED) -->
+<div id="heirs-section" style="margin-bottom:20px;background:#13131a;border:1px solid #1f1f2e;border-left:4px solid #ef4444;border-radius:8px;padding:16px;">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+    <span class="lbl">HEIRS Estates &mdash; Chase These</span>
+    <span style="background:#450a0a;color:#ef4444;font-size:0.62rem;font-weight:800;padding:2px 8px;border-radius:10px;">8 verified</span>
+  </div>
+  <div style="overflow-x:auto;">
+    <table style="width:100%;border-collapse:collapse;">
+      <thead>
+        <tr style="border-bottom:1px solid #1f1f2e;">
+          <th style="text-align:left;font-size:0.58rem;color:#555;padding:4px 10px;font-weight:700;text-transform:uppercase;">Address</th>
+          <th style="text-align:left;font-size:0.58rem;color:#555;padding:4px 10px;font-weight:700;text-transform:uppercase;">Owner</th>
+          <th style="text-align:left;font-size:0.58rem;color:#555;padding:4px 10px;font-weight:700;text-transform:uppercase;">Market Value</th>
+          <th style="text-align:left;font-size:0.58rem;color:#555;padding:4px 10px;font-weight:700;text-transform:uppercase;">Violation</th>
+          <th style="text-align:left;font-size:0.58rem;color:#555;padding:4px 10px;font-weight:700;text-transform:uppercase;">Status</th>
+          <th style="text-align:left;font-size:0.58rem;color:#555;padding:4px 10px;font-weight:700;text-transform:uppercase;">Last Contact</th>
+          <th style="text-align:left;font-size:0.58rem;color:#555;padding:4px 10px;font-weight:700;text-transform:uppercase;">Prep</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="heir-row" data-heir="{&quot;type&quot;: &quot;heir&quot;, &quot;title&quot;: &quot;143 Paradise Dr, Palatka, FL 32177&quot;, &quot;address&quot;: &quot;143 Paradise Dr, Palatka, FL 32177&quot;, &quot;urgency&quot;: &quot;hot&quot;, &quot;urgency_reason&quot;: &quot;Estate \u2014 chase&quot;, &quot;owner&quot;: &quot;GEIGER WALTER A HEIRS OF&quot;, &quot;market_value&quot;: &quot;$156,080&quot;, &quot;parcel&quot;: &quot;33-11-26-8791-0000-1430&quot;, &quot;violation&quot;: &quot;4 VIOLATIONS: Stairs/Porches structural decay + Care of Premises + Skirting + Pe&quot;, &quot;contact_status&quot;: &quot;No Answer&quot;, &quot;property_type&quot;: &quot;Mobile Home&quot;, &quot;lot_acres&quot;: &quot;0.11&quot;, &quot;city&quot;: &quot;Palatka&quot;, &quot;zip&quot;: &quot;32177&quot;, &quot;mailing_address&quot;: &quot;C/O SANDRA ROSARIO OCAMPO, PORT ORANGE FL \u2014 extract full address from PAO PRC&quot;, &quot;beds&quot;: 2, &quot;baths&quot;: 1.0, &quot;sqft&quot;: 840, &quot;garage&quot;: &quot;Carport Finished (140 sqft)&quot;, &quot;year_built&quot;: 1985, &quot;building_type&quot;: &quot;Mobile Home&quot;, &quot;phones&quot;: [{&quot;formatted&quot;: &quot;(713) 820-7076&quot;, &quot;raw&quot;: &quot;7138207076&quot;, &quot;type&quot;: &quot;Wireless&quot;, &quot;label&quot;: &quot;SANDRA ROSARIO OCAMPO (Wireless)&quot;, &quot;fl_area&quot;: false}, {&quot;formatted&quot;: &quot;(651) 313-3186&quot;, &quot;raw&quot;: &quot;6513133186&quot;, &quot;type&quot;: &quot;Wireless&quot;, &quot;label&quot;: &quot;SANDRA ROSARIO OCAMPO (Wireless)&quot;, &quot;fl_area&quot;: false}], &quot;primary_phone&quot;: &quot;(713) 820-7076&quot;, &quot;phone_status&quot;: &quot;found&quot;, &quot;skip_trace_target&quot;: &quot;SANDRA ROSARIO OCAMPO&quot;, &quot;social_search&quot;: {}, &quot;relatives&quot;: [{&quot;name&quot;: &quot;Antonia Martinez&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Bernardo M Ocampo&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Lucero G Ocampo&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Patricia Martinez&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Porfirio Ocampo Martinez&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Roberto D Ocampo&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Salvador H Martinez&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Tanya Ocampo&quot;, &quot;rel&quot;: &quot;Relative&quot;}], &quot;dm_value&quot;: 171000, &quot;rent_est&quot;: 1248, &quot;padsplit_room_rate&quot;: 650, &quot;padsplit_total&quot;: 1300, &quot;deceased_relatives&quot;: [{&quot;name&quot;: &quot;Syble E Geiger&quot;, &quot;tier&quot;: &quot;Decision Maker&quot;, &quot;priority&quot;: 1}, {&quot;name&quot;: &quot;Daniel L Geiger&quot;, &quot;tier&quot;: &quot;Decision Maker&quot;, &quot;priority&quot;: 1}, {&quot;name&quot;: &quot;Daniel L Geiger&quot;, &quot;tier&quot;: &quot;Decision Maker&quot;, &quot;priority&quot;: 1}, {&quot;name&quot;: &quot;Sally D Waggoner&quot;, &quot;tier&quot;: &quot;Likely Heir&quot;, &quot;priority&quot;: 2}, {&quot;name&quot;: &quot;Christine E Thacker&quot;, &quot;tier&quot;: &quot;Likely Heir&quot;, &quot;priority&quot;: 2}, {&quot;name&quot;: &quot;Linda Perry Aycox&quot;, &quot;tier&quot;: &quot;Likely Heir&quot;, &quot;priority&quot;: 2}, {&quot;name&quot;: &quot;Aaron Aycox&quot;, &quot;tier&quot;: &quot;Likely Heir&quot;, &quot;priority&quot;: 2}, {&quot;name&quot;: &quot;Annabel R Aycox&quot;, &quot;tier&quot;: &quot;Likely Heir&quot;, &quot;priority&quot;: 2}, {&quot;name&quot;: &quot;SALLIE D LITTON SMITH&quot;, &quot;tier&quot;: &quot;Associate&quot;, &quot;priority&quot;: 3}, {&quot;name&quot;: &quot;ELVA B HAYCOCK&quot;, &quot;tier&quot;: &quot;Associate&quot;, &quot;priority&quot;: 3}, {&quot;name&quot;: &quot;THOMSON,GRAHAM,L&quot;, &quot;tier&quot;: &quot;Associate&quot;, &quot;priority&quot;: 3}, {&quot;name&quot;: &quot;JOHN W HAYCOCK&quot;, &quot;tier&quot;: &quot;Associate&quot;, &quot;priority&quot;: 3}], &quot;tax_status&quot;: &quot;Unpaid&quot;, &quot;tax_gross&quot;: &quot;2,950.28&quot;, &quot;tax_total&quot;: &quot;3,038.79&quot;, &quot;tax_prior_years&quot;: &quot;&quot;, &quot;tax_year&quot;: &quot;2025&quot;, &quot;tax_url&quot;: &quot;https://ptaxweb.putnamtax.com/ptaxweb/editPropertySearch2.action?action=detail&amp;fromLocation=PAO2&amp;accountNumber=331126879100001430&amp;taxYear=2025&amp;geoCd=94794&quot;, &quot;google_obit&quot;: &quot;https://www.google.com/search?q=%22WALTER%20GEIGER%22%20Palatka%20obituary&quot;, &quot;legacy_obit&quot;: &quot;https://www.legacy.com/obituaries/name/geiger-walter/&quot;, &quot;findagrave&quot;: &quot;https://www.findagrave.com/memorial/search?firstname=WALTER&amp;lastname=GEIGER&amp;location=Palatka%20FL&quot;, &quot;orange_data&quot;: &quot;https://order.orangedata.com/&quot;, &quot;code_enforce&quot;: &quot;https://palatka-fl.gov/163/Code-Enforcement&quot;, &quot;google_maps_url&quot;: &quot;https://www.google.com/maps/search/?api=1&amp;query=143%20Paradise%20Dr%2C%20Palatka%2C%20FL%2032177&quot;, &quot;zillow_url&quot;: &quot;https://www.zillow.com/homes/143%20Paradise%20Dr%2C%20Palatka%2C%20FL%2032177_rb/&quot;, &quot;zillow_rental_url&quot;: &quot;https://www.zillow.com/rental-manager/price-my-rental/?address=143%20Paradise%20Dr%2C%20Palatka%2C%20FL%2032177&quot;, &quot;padsplit_url&quot;: &quot;https://www.padsplit.com/hosts/market-insights?city=palatka-fl&quot;, &quot;dealmachine_url&quot;: &quot;https://app.dealmachine.com/search?q=143%20Paradise%20Dr%2C%20Palatka%2C%20FL%2032177&quot;, &quot;street_view_url&quot;: &quot;https://maps.googleapis.com/maps/api/streetview?size=600x300&amp;location=143%20Paradise%20Dr%2C%20Palatka%2C%20FL%2032177&amp;key=AIzaSyCC0AGLz2Ss6DilBF-LMNKhu0FhmAZtKXY&quot;, &quot;photo_url&quot;: &quot;&quot;, &quot;folder_url&quot;: &quot;&quot;, &quot;next_actions&quot;: [&quot;Call (713) 820-7076&quot;, &quot;Text (713) 820-7076&quot;, &quot;Send handwritten letter&quot;]}" onclick="openDrawer(this)"><td style="padding:8px 10px;font-size:0.78rem;color:#e8e8e8;">143 Paradise Dr, Palatka, FL 32177</td><td style="padding:8px 10px;font-size:0.75rem;color:#ef9090;">GEIGER WALTER A HEIRS OF</td><td style="padding:8px 10px;font-size:0.78rem;color:#22c55e;font-weight:600;">$156,080</td><td style="padding:8px 10px;font-size:0.68rem;color:#737373;">4 VIOLATIONS: Stairs/Porches structural decay + Ca</td><td style="padding:8px 10px;font-size:0.7rem;color:#6b7280;font-weight:600;">No Answer</td><td style="padding:8px 10px;font-size:0.68rem;color:#666;">2026-04-06</td><td style="padding:8px 10px;"><span style="color:#333;font-size:0.65rem;">—</span></td></tr>
+<tr class="heir-row" data-heir="{&quot;type&quot;: &quot;heir&quot;, &quot;title&quot;: &quot;3404 Park St, Palatka, FL 32177&quot;, &quot;address&quot;: &quot;3404 Park St, Palatka, FL 32177&quot;, &quot;urgency&quot;: &quot;hot&quot;, &quot;urgency_reason&quot;: &quot;Estate \u2014 chase&quot;, &quot;owner&quot;: &quot;PHILLIPS RANDY C HEIRS OF&quot;, &quot;market_value&quot;: &quot;$67,970&quot;, &quot;parcel&quot;: &quot;14-10-26-8850-0030-0030&quot;, &quot;violation&quot;: &quot;2 VIOLATIONS: Unsafe Residential + Care of Premises. OPEN since 07/08/2025 \u2014 8 m&quot;, &quot;contact_status&quot;: &quot;Snooze til 2026-04-19&quot;, &quot;property_type&quot;: &quot;Mobile Home&quot;, &quot;lot_acres&quot;: &quot;0.22&quot;, &quot;city&quot;: &quot;Palatka&quot;, &quot;zip&quot;: &quot;32177&quot;, &quot;mailing_address&quot;: &quot;UNKNOWN \u2014 extract from PAO PRC&quot;, &quot;beds&quot;: 3, &quot;baths&quot;: 1.0, &quot;sqft&quot;: 1152, &quot;garage&quot;: &quot;&quot;, &quot;year_built&quot;: 1995, &quot;building_type&quot;: &quot;Mobile Home&quot;, &quot;phones&quot;: [{&quot;formatted&quot;: &quot;(954) 536-4288&quot;, &quot;raw&quot;: &quot;9545364288&quot;, &quot;type&quot;: &quot;Wireless&quot;, &quot;label&quot;: &quot;RANDY PHILLIPS (Wireless)&quot;, &quot;fl_area&quot;: true}, {&quot;formatted&quot;: &quot;(954) 340-5401&quot;, &quot;raw&quot;: &quot;9543405401&quot;, &quot;type&quot;: &quot;LandLine/Services&quot;, &quot;label&quot;: &quot;RANDY PHILLIPS (LandLine/Services)&quot;, &quot;fl_area&quot;: true}, {&quot;formatted&quot;: &quot;(954) 688-6374&quot;, &quot;raw&quot;: &quot;9546886374&quot;, &quot;type&quot;: &quot;LandLine/Services&quot;, &quot;label&quot;: &quot;RANDY PHILLIPS (LandLine/Services)&quot;, &quot;fl_area&quot;: true}], &quot;primary_phone&quot;: &quot;(954) 536-4288&quot;, &quot;phone_status&quot;: &quot;found&quot;, &quot;skip_trace_target&quot;: &quot;RANDY PHILLIPS&quot;, &quot;social_search&quot;: {}, &quot;relatives&quot;: [{&quot;name&quot;: &quot;Jennifer Ann Phillips&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Mary D Damore&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Philip R Phillips&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Adam C C Phillips&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Anna Dame Phillips&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Arthur W Phillips JR&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Charles W Phillips&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Cole K Phillips&quot;, &quot;rel&quot;: &quot;Relative&quot;}], &quot;dm_value&quot;: 111000, &quot;rent_est&quot;: 1200, &quot;padsplit_room_rate&quot;: 625, &quot;padsplit_total&quot;: 1875, &quot;deceased_relatives&quot;: [{&quot;name&quot;: &quot;Jennifer Ann Phillips&quot;, &quot;tier&quot;: &quot;Decision Maker&quot;, &quot;priority&quot;: 1}, {&quot;name&quot;: &quot;Philip R Phillips&quot;, &quot;tier&quot;: &quot;Decision Maker&quot;, &quot;priority&quot;: 1}, {&quot;name&quot;: &quot;Adam C C Phillips&quot;, &quot;tier&quot;: &quot;Decision Maker&quot;, &quot;priority&quot;: 1}, {&quot;name&quot;: &quot;Anna Dame Phillips&quot;, &quot;tier&quot;: &quot;Decision Maker&quot;, &quot;priority&quot;: 1}, {&quot;name&quot;: &quot;Charles W Phillips&quot;, &quot;tier&quot;: &quot;Decision Maker&quot;, &quot;priority&quot;: 1}, {&quot;name&quot;: &quot;Cole K Phillips&quot;, &quot;tier&quot;: &quot;Decision Maker&quot;, &quot;priority&quot;: 1}, {&quot;name&quot;: &quot;Mary D Damore&quot;, &quot;tier&quot;: &quot;Likely Heir&quot;, &quot;priority&quot;: 2}, {&quot;name&quot;: &quot;Arthur W Phillips JR&quot;, &quot;tier&quot;: &quot;Likely Heir&quot;, &quot;priority&quot;: 2}, {&quot;name&quot;: &quot;ELIZABETH ERIN BOSSY&quot;, &quot;tier&quot;: &quot;Associate&quot;, &quot;priority&quot;: 3}, {&quot;name&quot;: &quot;BRIAN ROBERT HARTFORD&quot;, &quot;tier&quot;: &quot;Associate&quot;, &quot;priority&quot;: 3}, {&quot;name&quot;: &quot;BOSSY, PEDRO F JR&quot;, &quot;tier&quot;: &quot;Associate&quot;, &quot;priority&quot;: 3}], &quot;tax_status&quot;: &quot;Unpaid&quot;, &quot;tax_gross&quot;: &quot;1,507.86&quot;, &quot;tax_total&quot;: &quot;1,553.10&quot;, &quot;tax_prior_years&quot;: &quot;&quot;, &quot;tax_year&quot;: &quot;2025&quot;, &quot;tax_url&quot;: &quot;https://ptaxweb.putnamtax.com/ptaxweb/editPropertySearch2.action?action=detail&amp;fromLocation=PAO2&amp;accountNumber=141026885000300030&amp;taxYear=2025&amp;geoCd=98952&quot;, &quot;google_obit&quot;: &quot;https://www.google.com/search?q=%22RANDY%20PHILLIPS%22%20Palatka%20obituary&quot;, &quot;legacy_obit&quot;: &quot;https://www.legacy.com/obituaries/name/phillips-randy/&quot;, &quot;findagrave&quot;: &quot;https://www.findagrave.com/memorial/search?firstname=RANDY&amp;lastname=PHILLIPS&amp;location=Palatka%20FL&quot;, &quot;orange_data&quot;: &quot;https://order.orangedata.com/&quot;, &quot;code_enforce&quot;: &quot;https://palatka-fl.gov/163/Code-Enforcement&quot;, &quot;google_maps_url&quot;: &quot;https://www.google.com/maps/search/?api=1&amp;query=3404%20Park%20St%2C%20Palatka%2C%20FL%2032177&quot;, &quot;zillow_url&quot;: &quot;https://www.zillow.com/homes/3404%20Park%20St%2C%20Palatka%2C%20FL%2032177_rb/&quot;, &quot;zillow_rental_url&quot;: &quot;https://www.zillow.com/rental-manager/price-my-rental/?address=3404%20Park%20St%2C%20Palatka%2C%20FL%2032177&quot;, &quot;padsplit_url&quot;: &quot;https://www.padsplit.com/hosts/market-insights?city=palatka-fl&quot;, &quot;dealmachine_url&quot;: &quot;https://app.dealmachine.com/search?q=3404%20Park%20St%2C%20Palatka%2C%20FL%2032177&quot;, &quot;street_view_url&quot;: &quot;https://maps.googleapis.com/maps/api/streetview?size=600x300&amp;location=3404%20Park%20St%2C%20Palatka%2C%20FL%2032177&amp;key=AIzaSyCC0AGLz2Ss6DilBF-LMNKhu0FhmAZtKXY&quot;, &quot;photo_url&quot;: &quot;&quot;, &quot;folder_url&quot;: &quot;&quot;, &quot;next_actions&quot;: [&quot;Call (954) 536-4288&quot;, &quot;Text (954) 536-4288&quot;, &quot;Send handwritten letter&quot;]}" onclick="openDrawer(this)"><td style="padding:8px 10px;font-size:0.78rem;color:#e8e8e8;">3404 Park St, Palatka, FL 32177</td><td style="padding:8px 10px;font-size:0.75rem;color:#ef9090;">PHILLIPS RANDY C HEIRS OF</td><td style="padding:8px 10px;font-size:0.78rem;color:#22c55e;font-weight:600;">$67,970</td><td style="padding:8px 10px;font-size:0.68rem;color:#737373;">2 VIOLATIONS: Unsafe Residential + Care of Premise</td><td style="padding:8px 10px;font-size:0.7rem;color:#818cf8;font-weight:600;">Snooze til 2026-04-19</td><td style="padding:8px 10px;font-size:0.68rem;color:#666;">2026-04-04</td><td style="padding:8px 10px;"><span style="color:#333;font-size:0.65rem;">—</span></td></tr>
+<tr class="heir-row" data-heir="{&quot;type&quot;: &quot;heir&quot;, &quot;title&quot;: &quot;727 San Mateo Rd, San Mateo, FL 32187&quot;, &quot;address&quot;: &quot;727 San Mateo Rd, San Mateo, FL 32187&quot;, &quot;urgency&quot;: &quot;hot&quot;, &quot;urgency_reason&quot;: &quot;Estate \u2014 chase&quot;, &quot;owner&quot;: &quot;TRICKETT LILLIE M HEIRS OF&quot;, &quot;market_value&quot;: &quot;$66,690&quot;, &quot;parcel&quot;: &quot;43-10-27-8252-0080-0200&quot;, &quot;violation&quot;: &quot;2 VIOLATIONS: Unsafe Residential + Care of Premises. OPEN since 09/11/2025.&quot;, &quot;contact_status&quot;: &quot;VM Left&quot;, &quot;property_type&quot;: &quot;Mobile Home&quot;, &quot;lot_acres&quot;: &quot;0.7&quot;, &quot;city&quot;: &quot;San Mateo&quot;, &quot;zip&quot;: &quot;32187&quot;, &quot;mailing_address&quot;: &quot;PO BOX 53, SAN MATEO FL 32187&quot;, &quot;beds&quot;: 3, &quot;baths&quot;: 2.0, &quot;sqft&quot;: 1188, &quot;garage&quot;: &quot;&quot;, &quot;year_built&quot;: 2000, &quot;building_type&quot;: &quot;Mobile Home&quot;, &quot;phones&quot;: [{&quot;formatted&quot;: &quot;(386) 385-3921&quot;, &quot;raw&quot;: &quot;3863853921&quot;, &quot;type&quot;: &quot;Voip&quot;, &quot;label&quot;: &quot;LILLIE TRICKETT (Voip)&quot;, &quot;fl_area&quot;: true}, {&quot;formatted&quot;: &quot;(386) 328-4574&quot;, &quot;raw&quot;: &quot;3863284574&quot;, &quot;type&quot;: &quot;LandLine/Services&quot;, &quot;label&quot;: &quot;LILLIE TRICKETT (LandLine/Services)&quot;, &quot;fl_area&quot;: true}, {&quot;formatted&quot;: &quot;(386) 328-9161&quot;, &quot;raw&quot;: &quot;3863289161&quot;, &quot;type&quot;: &quot;LandLine/Services&quot;, &quot;label&quot;: &quot;LILLIE TRICKETT (LandLine/Services)&quot;, &quot;fl_area&quot;: true}], &quot;primary_phone&quot;: &quot;(386) 385-3921&quot;, &quot;phone_status&quot;: &quot;found&quot;, &quot;skip_trace_target&quot;: &quot;LILLIE TRICKETT&quot;, &quot;social_search&quot;: {}, &quot;relatives&quot;: [{&quot;name&quot;: &quot;TUYEN NGUYEN&quot;, &quot;rel&quot;: &quot;Associate&quot;}, {&quot;name&quot;: &quot;NATALEE MILLER&quot;, &quot;rel&quot;: &quot;Associate&quot;}, {&quot;name&quot;: &quot;TIMOTHY M FLATT&quot;, &quot;rel&quot;: &quot;Associate&quot;}], &quot;dm_value&quot;: 132000, &quot;rent_est&quot;: 1200, &quot;padsplit_room_rate&quot;: 625, &quot;padsplit_total&quot;: 1875, &quot;deceased_relatives&quot;: [{&quot;name&quot;: &quot;TUYEN NGUYEN&quot;, &quot;tier&quot;: &quot;Associate&quot;, &quot;priority&quot;: 3}, {&quot;name&quot;: &quot;NATALEE MILLER&quot;, &quot;tier&quot;: &quot;Associate&quot;, &quot;priority&quot;: 3}, {&quot;name&quot;: &quot;TIMOTHY M FLATT&quot;, &quot;tier&quot;: &quot;Associate&quot;, &quot;priority&quot;: 3}], &quot;tax_status&quot;: &quot;Unpaid&quot;, &quot;tax_gross&quot;: &quot;1,327.25&quot;, &quot;tax_total&quot;: &quot;1,367.07&quot;, &quot;tax_prior_years&quot;: &quot;&quot;, &quot;tax_year&quot;: &quot;2025&quot;, &quot;tax_url&quot;: &quot;https://ptaxweb.putnamtax.com/ptaxweb/editPropertySearch2.action?action=detail&amp;fromLocation=PAO2&amp;accountNumber=431027825200800200&amp;taxYear=2025&amp;geoCd=94626&quot;, &quot;google_obit&quot;: &quot;https://www.google.com/search?q=%22LILLIE%20TRICKETT%22%20San%20Mateo%20obituary&quot;, &quot;legacy_obit&quot;: &quot;https://www.legacy.com/obituaries/name/trickett-lillie/&quot;, &quot;findagrave&quot;: &quot;https://www.findagrave.com/memorial/search?firstname=LILLIE&amp;lastname=TRICKETT&amp;location=San%20Mateo%20FL&quot;, &quot;orange_data&quot;: &quot;https://order.orangedata.com/&quot;, &quot;code_enforce&quot;: &quot;https://palatka-fl.gov/163/Code-Enforcement&quot;, &quot;google_maps_url&quot;: &quot;https://www.google.com/maps/search/?api=1&amp;query=727%20San%20Mateo%20Rd%2C%20San%20Mateo%2C%20FL%2032187&quot;, &quot;zillow_url&quot;: &quot;https://www.zillow.com/homes/727%20San%20Mateo%20Rd%2C%20San%20Mateo%2C%20FL%2032187_rb/&quot;, &quot;zillow_rental_url&quot;: &quot;https://www.zillow.com/rental-manager/price-my-rental/?address=727%20San%20Mateo%20Rd%2C%20San%20Mateo%2C%20FL%2032187&quot;, &quot;padsplit_url&quot;: &quot;https://www.padsplit.com/hosts/market-insights?city=san-mateo-fl&quot;, &quot;dealmachine_url&quot;: &quot;https://app.dealmachine.com/search?q=727%20San%20Mateo%20Rd%2C%20San%20Mateo%2C%20FL%2032187&quot;, &quot;street_view_url&quot;: &quot;https://maps.googleapis.com/maps/api/streetview?size=600x300&amp;location=727%20San%20Mateo%20Rd%2C%20San%20Mateo%2C%20FL%2032187&amp;key=AIzaSyCC0AGLz2Ss6DilBF-LMNKhu0FhmAZtKXY&quot;, &quot;photo_url&quot;: &quot;&quot;, &quot;folder_url&quot;: &quot;&quot;, &quot;next_actions&quot;: [&quot;Call (386) 385-3921&quot;, &quot;Text (386) 385-3921&quot;, &quot;Send handwritten letter&quot;]}" onclick="openDrawer(this)"><td style="padding:8px 10px;font-size:0.78rem;color:#e8e8e8;">727 San Mateo Rd, San Mateo, FL 32187</td><td style="padding:8px 10px;font-size:0.75rem;color:#ef9090;">TRICKETT LILLIE M HEIRS OF</td><td style="padding:8px 10px;font-size:0.78rem;color:#22c55e;font-weight:600;">$66,690</td><td style="padding:8px 10px;font-size:0.68rem;color:#737373;">2 VIOLATIONS: Unsafe Residential + Care of Premise</td><td style="padding:8px 10px;font-size:0.7rem;color:#e2b714;font-weight:600;">VM Left</td><td style="padding:8px 10px;font-size:0.68rem;color:#666;">2026-04-04</td><td style="padding:8px 10px;"><span style="color:#333;font-size:0.65rem;">—</span></td></tr>
+<tr class="heir-row" data-heir="{&quot;type&quot;: &quot;heir&quot;, &quot;title&quot;: &quot;188 Mango Dr, Palatka, FL 32177&quot;, &quot;address&quot;: &quot;188 Mango Dr, Palatka, FL 32177&quot;, &quot;urgency&quot;: &quot;hot&quot;, &quot;urgency_reason&quot;: &quot;Estate \u2014 chase&quot;, &quot;owner&quot;: &quot;MOBLEY MOSES JR HEIRS OF&quot;, &quot;market_value&quot;: &quot;$54,180&quot;, &quot;parcel&quot;: &quot;13-10-26-8012-0030-0050&quot;, &quot;violation&quot;: &quot;Unsafe Residential Buildings (unfit for human habitation) + Care of Premises. OP&quot;, &quot;contact_status&quot;: &quot;VM Left&quot;, &quot;property_type&quot;: &quot;Single Family&quot;, &quot;lot_acres&quot;: &quot;0.31&quot;, &quot;city&quot;: &quot;Palatka&quot;, &quot;zip&quot;: &quot;32177&quot;, &quot;mailing_address&quot;: &quot;C/O MARCIA MOBLEY PERSONAL REP, 810 MADISON ST, PALATKA FL 32177&quot;, &quot;beds&quot;: null, &quot;baths&quot;: null, &quot;sqft&quot;: 1722, &quot;garage&quot;: &quot;Garage Finished (60% over 600ft) (638 sqft)&quot;, &quot;year_built&quot;: 1973, &quot;building_type&quot;: &quot;Single Family&quot;, &quot;phones&quot;: [{&quot;formatted&quot;: &quot;(407) 773-3434&quot;, &quot;raw&quot;: &quot;4077733434&quot;, &quot;type&quot;: &quot;Wireless&quot;, &quot;label&quot;: &quot;MARCIA MOBLEY (Wireless)&quot;, &quot;fl_area&quot;: true}, {&quot;formatted&quot;: &quot;(407) 523-8216&quot;, &quot;raw&quot;: &quot;4075238216&quot;, &quot;type&quot;: &quot;LandLine/Services&quot;, &quot;label&quot;: &quot;MARCIA MOBLEY (LandLine/Services)&quot;, &quot;fl_area&quot;: true}, {&quot;formatted&quot;: &quot;(407) 299-8399&quot;, &quot;raw&quot;: &quot;4072998399&quot;, &quot;type&quot;: &quot;LandLine/Services&quot;, &quot;label&quot;: &quot;MARCIA MOBLEY (LandLine/Services)&quot;, &quot;fl_area&quot;: true}], &quot;primary_phone&quot;: &quot;(407) 773-3434&quot;, &quot;phone_status&quot;: &quot;found&quot;, &quot;skip_trace_target&quot;: &quot;MARCIA MOBLEY&quot;, &quot;social_search&quot;: {}, &quot;relatives&quot;: [{&quot;name&quot;: &quot;Anthony L Mobley&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Carlton E Mobley&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Joseline Mobley&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Annette R Mobley&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Bruce A Mobley&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Celestia W Mobley&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Celestia Williams Mobley&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Eugene Mobley JR&quot;, &quot;rel&quot;: &quot;Relative&quot;}], &quot;dm_value&quot;: 304000, &quot;rent_est&quot;: 1463, &quot;padsplit_room_rate&quot;: 625, &quot;padsplit_total&quot;: 1875, &quot;deceased_relatives&quot;: [{&quot;name&quot;: &quot;Betty A Mobley&quot;, &quot;tier&quot;: &quot;Decision Maker&quot;, &quot;priority&quot;: 1}, {&quot;name&quot;: &quot;George Levette Mobley&quot;, &quot;tier&quot;: &quot;Decision Maker&quot;, &quot;priority&quot;: 1}, {&quot;name&quot;: &quot;Michael Andrew Mobley&quot;, &quot;tier&quot;: &quot;Decision Maker&quot;, &quot;priority&quot;: 1}, {&quot;name&quot;: &quot;Sarah L Mobley&quot;, &quot;tier&quot;: &quot;Decision Maker&quot;, &quot;priority&quot;: 1}, {&quot;name&quot;: &quot;Aaron S Mobley&quot;, &quot;tier&quot;: &quot;Decision Maker&quot;, &quot;priority&quot;: 1}, {&quot;name&quot;: &quot;Byron H Mobley&quot;, &quot;tier&quot;: &quot;Decision Maker&quot;, &quot;priority&quot;: 1}, {&quot;name&quot;: &quot;Cynthia Newby Mobley&quot;, &quot;tier&quot;: &quot;Decision Maker&quot;, &quot;priority&quot;: 1}, {&quot;name&quot;: &quot;Devondre Xavier Mobley&quot;, &quot;tier&quot;: &quot;Decision Maker&quot;, &quot;priority&quot;: 1}], &quot;tax_status&quot;: &quot;Paid&quot;, &quot;tax_gross&quot;: &quot;1,227.56&quot;, &quot;tax_total&quot;: &quot;1,227.56&quot;, &quot;tax_prior_years&quot;: &quot;&quot;, &quot;tax_year&quot;: &quot;2025&quot;, &quot;tax_url&quot;: &quot;https://ptaxweb.putnamtax.com/ptaxweb/editPropertySearch2.action?action=detail&amp;fromLocation=PAO2&amp;accountNumber=131026801200300050&amp;taxYear=2025&amp;geoCd=94836&quot;, &quot;google_obit&quot;: &quot;https://www.google.com/search?q=%22MOSES%20MOBLEY%22%20Palatka%20obituary&quot;, &quot;legacy_obit&quot;: &quot;https://www.legacy.com/obituaries/name/mobley-moses/&quot;, &quot;findagrave&quot;: &quot;https://www.findagrave.com/memorial/search?firstname=MOSES&amp;lastname=MOBLEY&amp;location=Palatka%20FL&quot;, &quot;orange_data&quot;: &quot;https://order.orangedata.com/&quot;, &quot;code_enforce&quot;: &quot;https://palatka-fl.gov/163/Code-Enforcement&quot;, &quot;google_maps_url&quot;: &quot;https://www.google.com/maps/search/?api=1&amp;query=188%20Mango%20Dr%2C%20Palatka%2C%20FL%2032177&quot;, &quot;zillow_url&quot;: &quot;https://www.zillow.com/homes/188%20Mango%20Dr%2C%20Palatka%2C%20FL%2032177_rb/&quot;, &quot;zillow_rental_url&quot;: &quot;https://www.zillow.com/rental-manager/price-my-rental/?address=188%20Mango%20Dr%2C%20Palatka%2C%20FL%2032177&quot;, &quot;padsplit_url&quot;: &quot;https://www.padsplit.com/hosts/market-insights?city=palatka-fl&quot;, &quot;dealmachine_url&quot;: &quot;https://app.dealmachine.com/search?q=188%20Mango%20Dr%2C%20Palatka%2C%20FL%2032177&quot;, &quot;street_view_url&quot;: &quot;https://maps.googleapis.com/maps/api/streetview?size=600x300&amp;location=188%20Mango%20Dr%2C%20Palatka%2C%20FL%2032177&amp;key=AIzaSyCC0AGLz2Ss6DilBF-LMNKhu0FhmAZtKXY&quot;, &quot;photo_url&quot;: &quot;&quot;, &quot;folder_url&quot;: &quot;&quot;, &quot;next_actions&quot;: [&quot;Call (407) 773-3434&quot;, &quot;Text (407) 773-3434&quot;, &quot;Send handwritten letter&quot;]}" onclick="openDrawer(this)"><td style="padding:8px 10px;font-size:0.78rem;color:#e8e8e8;">188 Mango Dr, Palatka, FL 32177</td><td style="padding:8px 10px;font-size:0.75rem;color:#ef9090;">MOBLEY MOSES JR HEIRS OF</td><td style="padding:8px 10px;font-size:0.78rem;color:#22c55e;font-weight:600;">$54,180</td><td style="padding:8px 10px;font-size:0.68rem;color:#737373;">Unsafe Residential Buildings (unfit for human habi</td><td style="padding:8px 10px;font-size:0.7rem;color:#e2b714;font-weight:600;">VM Left</td><td style="padding:8px 10px;font-size:0.68rem;color:#666;">2026-04-06</td><td style="padding:8px 10px;"><span style="color:#333;font-size:0.65rem;">—</span></td></tr>
+<tr class="heir-row" data-heir="{&quot;type&quot;: &quot;heir&quot;, &quot;title&quot;: &quot;301 E Harris St, Palatka, FL 32177&quot;, &quot;address&quot;: &quot;301 E Harris St, Palatka, FL 32177&quot;, &quot;urgency&quot;: &quot;hot&quot;, &quot;urgency_reason&quot;: &quot;Estate \u2014 chase&quot;, &quot;owner&quot;: &quot;MELTON CHARLIE HEIRS OF&quot;, &quot;market_value&quot;: &quot;$52,650&quot;, &quot;parcel&quot;: &quot;01-10-26-3150-0110-0060&quot;, &quot;violation&quot;: &quot;Unsafe Residential Buildings (unfit for human habitation) + Care of Premises. OP&quot;, &quot;contact_status&quot;: &quot;No Answer&quot;, &quot;property_type&quot;: &quot;Single Family&quot;, &quot;lot_acres&quot;: &quot;0.17&quot;, &quot;city&quot;: &quot;Palatka&quot;, &quot;zip&quot;: &quot;32177&quot;, &quot;mailing_address&quot;: &quot;301 E HARRIS ST, PALATKA FL 32177&quot;, &quot;beds&quot;: null, &quot;baths&quot;: null, &quot;sqft&quot;: 808, &quot;garage&quot;: &quot;&quot;, &quot;year_built&quot;: 1960, &quot;building_type&quot;: &quot;Single Family&quot;, &quot;phones&quot;: [{&quot;formatted&quot;: &quot;(386) 538-0683&quot;, &quot;raw&quot;: &quot;3865380683&quot;, &quot;type&quot;: &quot;Wireless&quot;, &quot;label&quot;: &quot;CHARLIE MELTON (Wireless)&quot;, &quot;fl_area&quot;: true}, {&quot;formatted&quot;: &quot;(386) 312-9674&quot;, &quot;raw&quot;: &quot;3863129674&quot;, &quot;type&quot;: &quot;LandLine/Services&quot;, &quot;label&quot;: &quot;CHARLIE MELTON (LandLine/Services)&quot;, &quot;fl_area&quot;: true}, {&quot;formatted&quot;: &quot;(386) 538-6865&quot;, &quot;raw&quot;: &quot;3865386865&quot;, &quot;type&quot;: &quot;Wireless&quot;, &quot;label&quot;: &quot;CHARLIE MELTON (Wireless)&quot;, &quot;fl_area&quot;: true}], &quot;primary_phone&quot;: &quot;(386) 538-0683&quot;, &quot;phone_status&quot;: &quot;found&quot;, &quot;skip_trace_target&quot;: &quot;CHARLIE MELTON&quot;, &quot;social_search&quot;: {}, &quot;relatives&quot;: [{&quot;name&quot;: &quot;Grace M Brockington JR&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Aquarius Quantill Moore&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Charlie Melton&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Clara C Melton&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Clarica A Lee&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Debra Brockington&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Earl S Brockington&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Earl S Brockington JR&quot;, &quot;rel&quot;: &quot;Relative&quot;}], &quot;dm_value&quot;: 123000, &quot;rent_est&quot;: 850, &quot;padsplit_room_rate&quot;: 650, &quot;padsplit_total&quot;: 1300, &quot;deceased_relatives&quot;: [{&quot;name&quot;: &quot;Charlie Melton&quot;, &quot;tier&quot;: &quot;Decision Maker&quot;, &quot;priority&quot;: 1}, {&quot;name&quot;: &quot;Clara C Melton&quot;, &quot;tier&quot;: &quot;Decision Maker&quot;, &quot;priority&quot;: 1}, {&quot;name&quot;: &quot;Grace M Brockington JR&quot;, &quot;tier&quot;: &quot;Likely Heir&quot;, &quot;priority&quot;: 2}, {&quot;name&quot;: &quot;Aquarius Quantill Moore&quot;, &quot;tier&quot;: &quot;Likely Heir&quot;, &quot;priority&quot;: 2}, {&quot;name&quot;: &quot;Clarica A Lee&quot;, &quot;tier&quot;: &quot;Likely Heir&quot;, &quot;priority&quot;: 2}, {&quot;name&quot;: &quot;Debra Brockington&quot;, &quot;tier&quot;: &quot;Likely Heir&quot;, &quot;priority&quot;: 2}, {&quot;name&quot;: &quot;Earl S Brockington&quot;, &quot;tier&quot;: &quot;Likely Heir&quot;, &quot;priority&quot;: 2}, {&quot;name&quot;: &quot;Earl S Brockington JR&quot;, &quot;tier&quot;: &quot;Likely Heir&quot;, &quot;priority&quot;: 2}], &quot;tax_status&quot;: &quot;Unpaid&quot;, &quot;tax_gross&quot;: &quot;1,201.22&quot;, &quot;tax_total&quot;: &quot;1,237.26&quot;, &quot;tax_prior_years&quot;: &quot;&quot;, &quot;tax_year&quot;: &quot;2025&quot;, &quot;tax_url&quot;: &quot;https://ptaxweb.putnamtax.com/ptaxweb/editPropertySearch2.action?action=detail&amp;fromLocation=PAO2&amp;accountNumber=011026315001100060&amp;taxYear=2025&amp;geoCd=86478&quot;, &quot;google_obit&quot;: &quot;https://www.google.com/search?q=%22CHARLIE%20MELTON%22%20Palatka%20obituary&quot;, &quot;legacy_obit&quot;: &quot;https://www.legacy.com/obituaries/name/melton-charlie/&quot;, &quot;findagrave&quot;: &quot;https://www.findagrave.com/memorial/search?firstname=CHARLIE&amp;lastname=MELTON&amp;location=Palatka%20FL&quot;, &quot;orange_data&quot;: &quot;https://order.orangedata.com/&quot;, &quot;code_enforce&quot;: &quot;https://palatka-fl.gov/163/Code-Enforcement&quot;, &quot;google_maps_url&quot;: &quot;https://www.google.com/maps/search/?api=1&amp;query=301%20E%20Harris%20St%2C%20Palatka%2C%20FL%2032177&quot;, &quot;zillow_url&quot;: &quot;https://www.zillow.com/homes/301%20E%20Harris%20St%2C%20Palatka%2C%20FL%2032177_rb/&quot;, &quot;zillow_rental_url&quot;: &quot;https://www.zillow.com/rental-manager/price-my-rental/?address=301%20E%20Harris%20St%2C%20Palatka%2C%20FL%2032177&quot;, &quot;padsplit_url&quot;: &quot;https://www.padsplit.com/hosts/market-insights?city=palatka-fl&quot;, &quot;dealmachine_url&quot;: &quot;https://app.dealmachine.com/search?q=301%20E%20Harris%20St%2C%20Palatka%2C%20FL%2032177&quot;, &quot;street_view_url&quot;: &quot;https://maps.googleapis.com/maps/api/streetview?size=600x300&amp;location=301%20E%20Harris%20St%2C%20Palatka%2C%20FL%2032177&amp;key=AIzaSyCC0AGLz2Ss6DilBF-LMNKhu0FhmAZtKXY&quot;, &quot;photo_url&quot;: &quot;&quot;, &quot;folder_url&quot;: &quot;&quot;, &quot;next_actions&quot;: [&quot;Call (386) 538-0683&quot;, &quot;Text (386) 538-0683&quot;, &quot;Send handwritten letter&quot;]}" onclick="openDrawer(this)"><td style="padding:8px 10px;font-size:0.78rem;color:#e8e8e8;">301 E Harris St, Palatka, FL 32177</td><td style="padding:8px 10px;font-size:0.75rem;color:#ef9090;">MELTON CHARLIE HEIRS OF</td><td style="padding:8px 10px;font-size:0.78rem;color:#22c55e;font-weight:600;">$52,650</td><td style="padding:8px 10px;font-size:0.68rem;color:#737373;">Unsafe Residential Buildings (unfit for human habi</td><td style="padding:8px 10px;font-size:0.7rem;color:#6b7280;font-weight:600;">No Answer</td><td style="padding:8px 10px;font-size:0.68rem;color:#666;">2026-04-04</td><td style="padding:8px 10px;"><span style="color:#333;font-size:0.65rem;">—</span></td></tr>
+<tr class="heir-row" data-heir="{&quot;type&quot;: &quot;heir&quot;, &quot;title&quot;: &quot;109 Loudin Ln, Hawthorne, FL 32640&quot;, &quot;address&quot;: &quot;109 Loudin Ln, Hawthorne, FL 32640&quot;, &quot;urgency&quot;: &quot;hot&quot;, &quot;urgency_reason&quot;: &quot;Estate \u2014 chase&quot;, &quot;owner&quot;: &quot;MACGILLAVRY WILLIAM A HEIRS OF&quot;, &quot;market_value&quot;: &quot;$50,680&quot;, &quot;parcel&quot;: &quot;06-11-23-0000-0070-4130&quot;, &quot;violation&quot;: &quot;Unsafe Residential Buildings (unfit for human habitation) + Care of Premises. OP&quot;, &quot;contact_status&quot;: &quot;No Answer&quot;, &quot;property_type&quot;: &quot;Mobile Home&quot;, &quot;lot_acres&quot;: &quot;0.78&quot;, &quot;city&quot;: &quot;Hawthorne&quot;, &quot;zip&quot;: &quot;32640&quot;, &quot;mailing_address&quot;: &quot;109 LOUDIN LN, HAWTHORNE FL 32640&quot;, &quot;beds&quot;: 2, &quot;baths&quot;: 1.0, &quot;sqft&quot;: 1152, &quot;garage&quot;: &quot;&quot;, &quot;year_built&quot;: 1972, &quot;building_type&quot;: &quot;Mobile Home&quot;, &quot;phones&quot;: [{&quot;formatted&quot;: &quot;(352) 384-4131&quot;, &quot;raw&quot;: &quot;3523844131&quot;, &quot;type&quot;: &quot;LandLine/Services&quot;, &quot;label&quot;: &quot;WILLIAM MACGILLAVRY (LandLine/Services)&quot;, &quot;fl_area&quot;: true}, {&quot;formatted&quot;: &quot;(352) 481-5291&quot;, &quot;raw&quot;: &quot;3524815291&quot;, &quot;type&quot;: &quot;LandLine/Services&quot;, &quot;label&quot;: &quot;WILLIAM MACGILLAVRY (LandLine/Services)&quot;, &quot;fl_area&quot;: true}, {&quot;formatted&quot;: &quot;(352) 481-4842&quot;, &quot;raw&quot;: &quot;3524814842&quot;, &quot;type&quot;: &quot;LandLine/Services&quot;, &quot;label&quot;: &quot;WILLIAM MACGILLAVRY (LandLine/Services)&quot;, &quot;fl_area&quot;: true}], &quot;primary_phone&quot;: &quot;(352) 384-4131&quot;, &quot;phone_status&quot;: &quot;found&quot;, &quot;skip_trace_target&quot;: &quot;WILLIAM MACGILLAVRY&quot;, &quot;social_search&quot;: {}, &quot;relatives&quot;: [], &quot;dm_value&quot;: 121000, &quot;rent_est&quot;: 979, &quot;padsplit_room_rate&quot;: 650, &quot;padsplit_total&quot;: 1300, &quot;deceased_relatives&quot;: [], &quot;tax_status&quot;: &quot;Unpaid&quot;, &quot;tax_gross&quot;: &quot;312.00&quot;, &quot;tax_total&quot;: &quot;321.36&quot;, &quot;tax_prior_years&quot;: &quot;&quot;, &quot;tax_year&quot;: &quot;2025&quot;, &quot;tax_url&quot;: &quot;https://ptaxweb.putnamtax.com/ptaxweb/editPropertySearch2.action?action=detail&amp;fromLocation=PAO2&amp;accountNumber=061123000000704130&amp;taxYear=2025&amp;geoCd=10739&quot;, &quot;google_obit&quot;: &quot;https://www.google.com/search?q=%22WILLIAM%20MACGILLAVRY%22%20Hawthorne%20obituary&quot;, &quot;legacy_obit&quot;: &quot;https://www.legacy.com/obituaries/name/macgillavry-william/&quot;, &quot;findagrave&quot;: &quot;https://www.findagrave.com/memorial/search?firstname=WILLIAM&amp;lastname=MACGILLAVRY&amp;location=Hawthorne%20FL&quot;, &quot;orange_data&quot;: &quot;https://order.orangedata.com/&quot;, &quot;code_enforce&quot;: &quot;https://palatka-fl.gov/163/Code-Enforcement&quot;, &quot;google_maps_url&quot;: &quot;https://www.google.com/maps/search/?api=1&amp;query=109%20Loudin%20Ln%2C%20Hawthorne%2C%20FL%2032640&quot;, &quot;zillow_url&quot;: &quot;https://www.zillow.com/homes/109%20Loudin%20Ln%2C%20Hawthorne%2C%20FL%2032640_rb/&quot;, &quot;zillow_rental_url&quot;: &quot;https://www.zillow.com/rental-manager/price-my-rental/?address=109%20Loudin%20Ln%2C%20Hawthorne%2C%20FL%2032640&quot;, &quot;padsplit_url&quot;: &quot;https://www.padsplit.com/hosts/market-insights?city=hawthorne-fl&quot;, &quot;dealmachine_url&quot;: &quot;https://app.dealmachine.com/search?q=109%20Loudin%20Ln%2C%20Hawthorne%2C%20FL%2032640&quot;, &quot;street_view_url&quot;: &quot;https://maps.googleapis.com/maps/api/streetview?size=600x300&amp;location=109%20Loudin%20Ln%2C%20Hawthorne%2C%20FL%2032640&amp;key=AIzaSyCC0AGLz2Ss6DilBF-LMNKhu0FhmAZtKXY&quot;, &quot;photo_url&quot;: &quot;&quot;, &quot;folder_url&quot;: &quot;&quot;, &quot;next_actions&quot;: [&quot;Call (352) 384-4131&quot;, &quot;Text (352) 384-4131&quot;, &quot;Send handwritten letter&quot;]}" onclick="openDrawer(this)"><td style="padding:8px 10px;font-size:0.78rem;color:#e8e8e8;">109 Loudin Ln, Hawthorne, FL 32640</td><td style="padding:8px 10px;font-size:0.75rem;color:#ef9090;">MACGILLAVRY WILLIAM A HEIRS OF</td><td style="padding:8px 10px;font-size:0.78rem;color:#22c55e;font-weight:600;">$50,680</td><td style="padding:8px 10px;font-size:0.68rem;color:#737373;">Unsafe Residential Buildings (unfit for human habi</td><td style="padding:8px 10px;font-size:0.7rem;color:#6b7280;font-weight:600;">No Answer</td><td style="padding:8px 10px;font-size:0.68rem;color:#666;">2026-04-04</td><td style="padding:8px 10px;"><span style="color:#333;font-size:0.65rem;">—</span></td></tr>
+<tr class="heir-row" data-heir="{&quot;type&quot;: &quot;heir&quot;, &quot;title&quot;: &quot;109 Asia Rd, San Mateo, FL 32187&quot;, &quot;address&quot;: &quot;109 Asia Rd, San Mateo, FL 32187&quot;, &quot;urgency&quot;: &quot;hot&quot;, &quot;urgency_reason&quot;: &quot;Estate \u2014 chase&quot;, &quot;owner&quot;: &quot;WOODS MELVIN ALLEN HEIRS OF&quot;, &quot;market_value&quot;: &quot;$31,150&quot;, &quot;parcel&quot;: &quot;21-10-27-0000-0580-0000&quot;, &quot;violation&quot;: &quot;Unsafe Residential Buildings (unfit for human habitation) + Care of Premises. OP&quot;, &quot;contact_status&quot;: &quot;No Answer&quot;, &quot;property_type&quot;: &quot;Single Family&quot;, &quot;lot_acres&quot;: &quot;0.44&quot;, &quot;city&quot;: &quot;San Mateo&quot;, &quot;zip&quot;: &quot;32187&quot;, &quot;mailing_address&quot;: &quot;UNKNOWN (Pensacola FL \u2014 absentee, opposite coast) \u2014 extract full address from PAO PRC&quot;, &quot;beds&quot;: null, &quot;baths&quot;: null, &quot;sqft&quot;: 1183, &quot;garage&quot;: &quot;&quot;, &quot;year_built&quot;: 1940, &quot;building_type&quot;: &quot;Single Family&quot;, &quot;phones&quot;: [{&quot;formatted&quot;: &quot;(989) 860-3706&quot;, &quot;raw&quot;: &quot;9898603706&quot;, &quot;type&quot;: &quot;Wireless&quot;, &quot;label&quot;: &quot;MELVIN WOODS (Wireless)&quot;, &quot;fl_area&quot;: false}, {&quot;formatted&quot;: &quot;(989) 642-2171&quot;, &quot;raw&quot;: &quot;9896422171&quot;, &quot;type&quot;: &quot;LandLine/Services&quot;, &quot;label&quot;: &quot;MELVIN WOODS (LandLine/Services)&quot;, &quot;fl_area&quot;: false}, {&quot;formatted&quot;: &quot;(989) 220-4491&quot;, &quot;raw&quot;: &quot;9892204491&quot;, &quot;type&quot;: &quot;LandLine/Services&quot;, &quot;label&quot;: &quot;MELVIN WOODS (LandLine/Services)&quot;, &quot;fl_area&quot;: false}], &quot;primary_phone&quot;: &quot;(989) 860-3706&quot;, &quot;phone_status&quot;: &quot;found&quot;, &quot;skip_trace_target&quot;: &quot;MELVIN WOODS&quot;, &quot;social_search&quot;: {}, &quot;relatives&quot;: [{&quot;name&quot;: &quot;Laura A Woods&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Anthony C Woods&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Dawn L Beasecker&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Dawn L Woods&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Jordin Jo Woods&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Laura A Woods&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Makenzie Carol Woods&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Michael Paul Woods&quot;, &quot;rel&quot;: &quot;Relative&quot;}], &quot;dm_value&quot;: 187000, &quot;rent_est&quot;: 1200, &quot;padsplit_room_rate&quot;: 625, &quot;padsplit_total&quot;: 1875, &quot;deceased_relatives&quot;: [{&quot;name&quot;: &quot;Laura A Woods&quot;, &quot;tier&quot;: &quot;Decision Maker&quot;, &quot;priority&quot;: 1}, {&quot;name&quot;: &quot;Anthony C Woods&quot;, &quot;tier&quot;: &quot;Decision Maker&quot;, &quot;priority&quot;: 1}, {&quot;name&quot;: &quot;Dawn L Woods&quot;, &quot;tier&quot;: &quot;Decision Maker&quot;, &quot;priority&quot;: 1}, {&quot;name&quot;: &quot;Jordin Jo Woods&quot;, &quot;tier&quot;: &quot;Decision Maker&quot;, &quot;priority&quot;: 1}, {&quot;name&quot;: &quot;Laura A Woods&quot;, &quot;tier&quot;: &quot;Decision Maker&quot;, &quot;priority&quot;: 1}, {&quot;name&quot;: &quot;Makenzie Carol Woods&quot;, &quot;tier&quot;: &quot;Decision Maker&quot;, &quot;priority&quot;: 1}, {&quot;name&quot;: &quot;Michael Paul Woods&quot;, &quot;tier&quot;: &quot;Decision Maker&quot;, &quot;priority&quot;: 1}, {&quot;name&quot;: &quot;Dawn L Beasecker&quot;, &quot;tier&quot;: &quot;Likely Heir&quot;, &quot;priority&quot;: 2}, {&quot;name&quot;: &quot;KATHLEEN M QUINN&quot;, &quot;tier&quot;: &quot;Associate&quot;, &quot;priority&quot;: 3}, {&quot;name&quot;: &quot;SCOTT LOUIS BLATTNER&quot;, &quot;tier&quot;: &quot;Associate&quot;, &quot;priority&quot;: 3}, {&quot;name&quot;: &quot;ADAM WADE WHEATON&quot;, &quot;tier&quot;: &quot;Associate&quot;, &quot;priority&quot;: 3}, {&quot;name&quot;: &quot;DONALD L BARCKHOLTZ&quot;, &quot;tier&quot;: &quot;Associate&quot;, &quot;priority&quot;: 3}], &quot;tax_status&quot;: &quot;Paid&quot;, &quot;tax_gross&quot;: &quot;838.02&quot;, &quot;tax_total&quot;: &quot;863.16&quot;, &quot;tax_prior_years&quot;: &quot;&quot;, &quot;tax_year&quot;: &quot;2025&quot;, &quot;tax_url&quot;: &quot;https://ptaxweb.putnamtax.com/ptaxweb/editPropertySearch2.action?action=detail&amp;fromLocation=PAO2&amp;accountNumber=211027000005800000&amp;taxYear=2025&amp;geoCd=86226&quot;, &quot;google_obit&quot;: &quot;https://www.google.com/search?q=%22MELVIN%20WOODS%22%20San%20Mateo%20obituary&quot;, &quot;legacy_obit&quot;: &quot;https://www.legacy.com/obituaries/name/woods-melvin/&quot;, &quot;findagrave&quot;: &quot;https://www.findagrave.com/memorial/search?firstname=MELVIN&amp;lastname=WOODS&amp;location=San%20Mateo%20FL&quot;, &quot;orange_data&quot;: &quot;https://order.orangedata.com/&quot;, &quot;code_enforce&quot;: &quot;https://palatka-fl.gov/163/Code-Enforcement&quot;, &quot;google_maps_url&quot;: &quot;https://www.google.com/maps/search/?api=1&amp;query=109%20Asia%20Rd%2C%20San%20Mateo%2C%20FL%2032187&quot;, &quot;zillow_url&quot;: &quot;https://www.zillow.com/homes/109%20Asia%20Rd%2C%20San%20Mateo%2C%20FL%2032187_rb/&quot;, &quot;zillow_rental_url&quot;: &quot;https://www.zillow.com/rental-manager/price-my-rental/?address=109%20Asia%20Rd%2C%20San%20Mateo%2C%20FL%2032187&quot;, &quot;padsplit_url&quot;: &quot;https://www.padsplit.com/hosts/market-insights?city=san-mateo-fl&quot;, &quot;dealmachine_url&quot;: &quot;https://app.dealmachine.com/search?q=109%20Asia%20Rd%2C%20San%20Mateo%2C%20FL%2032187&quot;, &quot;street_view_url&quot;: &quot;https://maps.googleapis.com/maps/api/streetview?size=600x300&amp;location=109%20Asia%20Rd%2C%20San%20Mateo%2C%20FL%2032187&amp;key=AIzaSyCC0AGLz2Ss6DilBF-LMNKhu0FhmAZtKXY&quot;, &quot;photo_url&quot;: &quot;&quot;, &quot;folder_url&quot;: &quot;&quot;, &quot;next_actions&quot;: [&quot;Call (989) 860-3706&quot;, &quot;Text (989) 860-3706&quot;, &quot;Send handwritten letter&quot;]}" onclick="openDrawer(this)"><td style="padding:8px 10px;font-size:0.78rem;color:#e8e8e8;">109 Asia Rd, San Mateo, FL 32187</td><td style="padding:8px 10px;font-size:0.75rem;color:#ef9090;">WOODS MELVIN ALLEN HEIRS OF</td><td style="padding:8px 10px;font-size:0.78rem;color:#22c55e;font-weight:600;">$31,150</td><td style="padding:8px 10px;font-size:0.68rem;color:#737373;">Unsafe Residential Buildings (unfit for human habi</td><td style="padding:8px 10px;font-size:0.7rem;color:#6b7280;font-weight:600;">No Answer</td><td style="padding:8px 10px;font-size:0.68rem;color:#666;">2026-04-04</td><td style="padding:8px 10px;"><span style="color:#333;font-size:0.65rem;">—</span></td></tr>
+<tr class="heir-row" data-heir="{&quot;type&quot;: &quot;heir&quot;, &quot;title&quot;: &quot;509 W Palmetto St, Palatka, FL 32177&quot;, &quot;address&quot;: &quot;509 W Palmetto St, Palatka, FL 32177&quot;, &quot;urgency&quot;: &quot;hot&quot;, &quot;urgency_reason&quot;: &quot;Estate \u2014 chase&quot;, &quot;owner&quot;: &quot;CALLOWAY CYNTHIA ANN ET AL&quot;, &quot;market_value&quot;: &quot;$25,360&quot;, &quot;parcel&quot;: &quot;01-10-26-0250-0120-0050&quot;, &quot;violation&quot;: &quot;Unsafe Residential Buildings (unfit for human habitation) + Care of Premises. OP&quot;, &quot;contact_status&quot;: &quot;Dead&quot;, &quot;property_type&quot;: &quot;Single Family&quot;, &quot;lot_acres&quot;: &quot;0.16&quot;, &quot;city&quot;: &quot;Palatka&quot;, &quot;zip&quot;: &quot;32177&quot;, &quot;mailing_address&quot;: &quot;C/O CYNTHIA ANN CALLOWAY, 509 W PALMETTO ST, PALATKA FL 32177&quot;, &quot;beds&quot;: null, &quot;baths&quot;: null, &quot;sqft&quot;: 1023, &quot;garage&quot;: &quot;&quot;, &quot;year_built&quot;: 1940, &quot;building_type&quot;: &quot;Single Family&quot;, &quot;phones&quot;: [{&quot;formatted&quot;: &quot;(239) 692-6600&quot;, &quot;raw&quot;: &quot;2396926600&quot;, &quot;type&quot;: &quot;Wireless&quot;, &quot;label&quot;: &quot;CYNTHIA ANN CALLOWAY (Wireless)&quot;, &quot;fl_area&quot;: true}, {&quot;formatted&quot;: &quot;(239) 244-4856&quot;, &quot;raw&quot;: &quot;2392444856&quot;, &quot;type&quot;: &quot;Wireless&quot;, &quot;label&quot;: &quot;CYNTHIA ANN CALLOWAY (Wireless)&quot;, &quot;fl_area&quot;: true}, {&quot;formatted&quot;: &quot;(239) 728-2065&quot;, &quot;raw&quot;: &quot;2397282065&quot;, &quot;type&quot;: &quot;LandLine/Services&quot;, &quot;label&quot;: &quot;CYNTHIA ANN CALLOWAY (LandLine/Services)&quot;, &quot;fl_area&quot;: true}], &quot;primary_phone&quot;: &quot;(239) 692-6600&quot;, &quot;phone_status&quot;: &quot;found&quot;, &quot;skip_trace_target&quot;: &quot;CYNTHIA ANN CALLOWAY&quot;, &quot;social_search&quot;: {}, &quot;relatives&quot;: [{&quot;name&quot;: &quot;Cindy A Calloway&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Jeremy Ray Calloway&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Jayce K Sykes&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Phillip J Pekala&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Weldon Ray Calloway&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Amanda L Sykes&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Brenda S Pekala&quot;, &quot;rel&quot;: &quot;Relative&quot;}, {&quot;name&quot;: &quot;Cory R Pekala&quot;, &quot;rel&quot;: &quot;Relative&quot;}], &quot;dm_value&quot;: 111000, &quot;rent_est&quot;: 869, &quot;padsplit_room_rate&quot;: 650, &quot;padsplit_total&quot;: 1300, &quot;deceased_relatives&quot;: [{&quot;name&quot;: &quot;Cindy A Calloway&quot;, &quot;tier&quot;: &quot;Decision Maker&quot;, &quot;priority&quot;: 1}, {&quot;name&quot;: &quot;Jeremy Ray Calloway&quot;, &quot;tier&quot;: &quot;Decision Maker&quot;, &quot;priority&quot;: 1}, {&quot;name&quot;: &quot;Weldon Ray Calloway&quot;, &quot;tier&quot;: &quot;Decision Maker&quot;, &quot;priority&quot;: 1}, {&quot;name&quot;: &quot;Jayce K Sykes&quot;, &quot;tier&quot;: &quot;Likely Heir&quot;, &quot;priority&quot;: 2}, {&quot;name&quot;: &quot;Phillip J Pekala&quot;, &quot;tier&quot;: &quot;Likely Heir&quot;, &quot;priority&quot;: 2}, {&quot;name&quot;: &quot;Amanda L Sykes&quot;, &quot;tier&quot;: &quot;Likely Heir&quot;, &quot;priority&quot;: 2}, {&quot;name&quot;: &quot;Brenda S Pekala&quot;, &quot;tier&quot;: &quot;Likely Heir&quot;, &quot;priority&quot;: 2}, {&quot;name&quot;: &quot;Cory R Pekala&quot;, &quot;tier&quot;: &quot;Likely Heir&quot;, &quot;priority&quot;: 2}, {&quot;name&quot;: &quot;KENNETH A TONG&quot;, &quot;tier&quot;: &quot;Associate&quot;, &quot;priority&quot;: 3}, {&quot;name&quot;: &quot;CRYSTAL LASHAE CAMPBELL&quot;, &quot;tier&quot;: &quot;Associate&quot;, &quot;priority&quot;: 3}, {&quot;name&quot;: &quot;STEVEN GARFIELD TONG&quot;, &quot;tier&quot;: &quot;Associate&quot;, &quot;priority&quot;: 3}, {&quot;name&quot;: &quot;ANNIE M TONG&quot;, &quot;tier&quot;: &quot;Associate&quot;, &quot;priority&quot;: 3}], &quot;tax_status&quot;: &quot;Paid&quot;, &quot;tax_gross&quot;: &quot;981.37&quot;, &quot;tax_total&quot;: &quot;981.37&quot;, &quot;tax_prior_years&quot;: &quot;&quot;, &quot;tax_year&quot;: &quot;2025&quot;, &quot;tax_url&quot;: &quot;https://ptaxweb.putnamtax.com/ptaxweb/editPropertySearch2.action?action=detail&amp;fromLocation=PAO2&amp;accountNumber=011026025001200050&amp;taxYear=2025&amp;geoCd=86436&quot;, &quot;google_obit&quot;: &quot;https://www.google.com/search?q=%22CYNTHIA%20CALLOWAY%22%20Palatka%20obituary&quot;, &quot;legacy_obit&quot;: &quot;https://www.legacy.com/obituaries/name/calloway-cynthia/&quot;, &quot;findagrave&quot;: &quot;https://www.findagrave.com/memorial/search?firstname=CYNTHIA&amp;lastname=CALLOWAY&amp;location=Palatka%20FL&quot;, &quot;orange_data&quot;: &quot;https://order.orangedata.com/&quot;, &quot;code_enforce&quot;: &quot;https://palatka-fl.gov/163/Code-Enforcement&quot;, &quot;google_maps_url&quot;: &quot;https://www.google.com/maps/search/?api=1&amp;query=509%20W%20Palmetto%20St%2C%20Palatka%2C%20FL%2032177&quot;, &quot;zillow_url&quot;: &quot;https://www.zillow.com/homes/509%20W%20Palmetto%20St%2C%20Palatka%2C%20FL%2032177_rb/&quot;, &quot;zillow_rental_url&quot;: &quot;https://www.zillow.com/rental-manager/price-my-rental/?address=509%20W%20Palmetto%20St%2C%20Palatka%2C%20FL%2032177&quot;, &quot;padsplit_url&quot;: &quot;https://www.padsplit.com/hosts/market-insights?city=palatka-fl&quot;, &quot;dealmachine_url&quot;: &quot;https://app.dealmachine.com/search?q=509%20W%20Palmetto%20St%2C%20Palatka%2C%20FL%2032177&quot;, &quot;street_view_url&quot;: &quot;https://maps.googleapis.com/maps/api/streetview?size=600x300&amp;location=509%20W%20Palmetto%20St%2C%20Palatka%2C%20FL%2032177&amp;key=AIzaSyCC0AGLz2Ss6DilBF-LMNKhu0FhmAZtKXY&quot;, &quot;photo_url&quot;: &quot;&quot;, &quot;folder_url&quot;: &quot;&quot;, &quot;next_actions&quot;: [&quot;Call (239) 692-6600&quot;, &quot;Text (239) 692-6600&quot;, &quot;Send handwritten letter&quot;]}" onclick="openDrawer(this)"><td style="padding:8px 10px;font-size:0.78rem;color:#e8e8e8;">509 W Palmetto St, Palatka, FL 32177</td><td style="padding:8px 10px;font-size:0.75rem;color:#ef9090;">CALLOWAY CYNTHIA ANN ET AL</td><td style="padding:8px 10px;font-size:0.78rem;color:#22c55e;font-weight:600;">$25,360</td><td style="padding:8px 10px;font-size:0.68rem;color:#737373;">Unsafe Residential Buildings (unfit for human habi</td><td style="padding:8px 10px;font-size:0.7rem;color:#525252;font-weight:600;">Dead</td><td style="padding:8px 10px;font-size:0.68rem;color:#666;">2026-04-04</td><td style="padding:8px 10px;"><span style="color:#333;font-size:0.65rem;">—</span></td></tr>
+
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- LANE A + LANE B -->
+<div class="g2" style="margin-bottom:20px;">
+  <div style="background:#13131a;border:1px solid #1f1f2e;border-left:4px solid #22c55e;border-radius:8px;padding:14px;">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+      <span class="lbl">Lane A &mdash; Revenue Moves</span>
+      <span style="background:#052e16;color:#22c55e;font-size:0.58rem;font-weight:700;padding:1px 6px;border-radius:8px;">Jerel Only</span>
+    </div>
+    <div style="padding:7px 0;border-bottom:1px solid #1a1a26;"><div style="display:flex;align-items:center;flex-wrap:wrap;gap:2px;"><span style="font-size:0.78rem;color:#d0d0d0;">[S88] Drive by 20 properties for eval set</span></div><div style="font-size:0.68rem;color:#555;margin-top:1px;">Needed before Phase 5 (vision scoring). Mix of distress levels. *(Jerel&#x27;s action</div></div>
+  </div>
+  <div style="background:#13131a;border:1px solid #1f1f2e;border-left:4px solid #3b82f6;border-radius:8px;padding:14px;opacity:0.88;">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+      <span class="lbl">Lane B &mdash; Ainsley Handles</span>
+      <span style="background:#1e1b4b;color:#3b82f6;font-size:0.58rem;font-weight:700;padding:1px 6px;border-radius:8px;">No Jerel Needed</span>
+    </div>
+    <div style="padding:7px 0;border-bottom:1px solid #1a1a26;"><div style="display:flex;align-items:center;flex-wrap:wrap;gap:2px;"><span style="font-size:0.78rem;color:#d0d0d0;">SJHP call agent GHL config</span><span style="background:#1e1b4b;color:#3b82f6;font-size:0.52rem;font-weight:800;padding:1px 5px;border-radius:3px;letter-spacing:0.06em;margin-left:6px;">⚙ AUTO</span></div><div style="font-size:0.68rem;color:#555;margin-top:1px;">Duplicate GHL setup for Maya agent. Reference: `01_Internal_Manual/Dev_Specs/SJH</div></div>
+  </div>
+</div>
+
+<!-- DEVELOPER STATUS -->
+<div style="margin-bottom:20px;">
+  <div class="lbl" style="margin-bottom:10px;">Developer Status</div>
+  <div class="g2">
+    <div style="background:#13131a;border:1px solid #1f1f2e;border-radius:8px;padding:14px;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><span style="font-size:1rem;">🔴</span><span style="font-size:0.88rem;font-weight:700;color:#e8e8e8;">Rahat</span><span style="margin-left:auto;color:#ef4444;font-size:0.68rem;font-weight:700;">BLOCKED</span></div><div style="font-size:0.75rem;color:#888;">**Check Upwork for Rahat reply** — MCP auth broken (AWS Secrets Manage</div><div style="font-size:0.62rem;color:#444;margin-top:4px;">10 open items</div></div><div style="background:#13131a;border:1px solid #1f1f2e;border-radius:8px;padding:14px;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><span style="font-size:1rem;">🤖</span><span style="font-size:0.88rem;font-weight:700;color:#e8e8e8;">In-House (Claude Code)</span><span style="margin-left:auto;color:#22c55e;font-size:0.68rem;font-weight:700;">ACTIVE</span></div><div style="font-size:0.75rem;color:#888;">Playwright scrapers · dashboard heartbeat · cron automation</div><div style="font-size:0.62rem;color:#444;margin-top:4px;">3 open items</div></div>
+  </div>
+</div>
+
+<!-- STAGED IDEAS (COLLAPSIBLE) -->
+<details style="margin-bottom:20px;">
+  <summary style="background:#13131a;border:1px solid #1f1f2e;border-radius:8px;padding:10px 14px;font-size:0.7rem;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:0.08em;">
+    Staged Ideas &amp; Backlog <span style="color:#333;font-weight:400;margin-left:4px;">(3)</span>
+  </summary>
+  <div style="background:#111118;border:1px solid #1f1f2e;border-top:0;border-radius:0 0 8px 8px;padding:12px 14px;">
+    <div style="padding:5px 0;border-bottom:1px solid #1a1a26;font-size:0.75rem;color:#777;">Nassau JustFOIA portal — Retry submission (site was down 3/25).</div><div style="padding:5px 0;border-bottom:1px solid #1a1a26;font-size:0.75rem;color:#777;">Web portal audit implementation — Build Apify actors for category (c) portals.</div><div style="padding:5px 0;border-bottom:1px solid #1a1a26;font-size:0.75rem;color:#777;">QBO structure setup — Create accounts, tags, and bank rules that don&#x27;t require J</div>
+  </div>
+</details>
+
+<!-- AGENT OPS CENTER -->
+<div>
+  <div class="lbl" style="margin-bottom:10px;">Agent Ops Center</div>
+  <div class="g3">
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+        <span class="lbl">Signal Inbox</span> <span style="background:#e2b714;color:#000;font-size:0.58rem;font-weight:900;padding:1px 6px;border-radius:8px;">129 NEW</span>
+      </div>
+      <div style="font-size:0.58rem;color:#444;margin-bottom:8px;">FB/Nextdoor motivated-seller signals — scored by Intelligence Extractor</div>
+      <div style="display:flex;align-items:flex-start;gap:5px;padding:6px 0;border-bottom:1px solid #1a1a26;cursor:pointer;" data-signal='{&quot;type&quot;: &quot;signal&quot;, &quot;title&quot;: &quot;Casa Abierta — Missing Product Specs (Not on Amazon)&quot;, &quot;full_text&quot;: &quot;Casa Abierta — Missing Product Specs (Not on Amazon)&quot;, &quot;detail&quot;: &quot;Amazon order history was scraped and all bedding products identified. But bathroom/utility items (trash cans, bath mats,&quot;, &quot;recommendation&quot;: &quot;If generic/cheapest works, Ainsley will pick cost-effective Amazon options and p&quot;, &quot;source&quot;: &quot;decision_queue&quot;, &quot;source_label&quot;: &quot;Decision Queue&quot;, &quot;category&quot;: &quot;Ops&quot;, &quot;priority&quot;: 2, &quot;first_seen&quot;: &quot;2026-04-12 21:00&quot;, &quot;urgency&quot;: &quot;warm&quot;}' onclick="openDrawer(this)"><span style="width:6px;height:6px;background:#ef4444;border-radius:50%;display:inline-block;margin-right:5px;flex-shrink:0;margin-top:4px;"></span><div style="flex:1;"><div style="font-size:0.75rem;color:#e8e8e8;">Casa Abierta — Missing Product Specs (Not on Amazon)</div><div style="margin-top:2px;"><span style="background:#2d2000;color:#e2b714;font-size:0.58rem;font-weight:700;padding:1px 4px;border-radius:3px;">P2</span> <span style="color:#444;font-size:0.58rem;">Decision Queue</span></div></div></div>
+<div style="display:flex;align-items:flex-start;gap:5px;padding:6px 0;border-bottom:1px solid #1a1a26;cursor:pointer;" data-signal='{&quot;type&quot;: &quot;signal&quot;, &quot;title&quot;: &quot;Casa Abierta — Darker Trim Color Decision&quot;, &quot;full_text&quot;: &quot;Casa Abierta — Darker Trim Color Decision&quot;, &quot;detail&quot;: &quot;Jerel mentioned wanting to transition from semi-gloss white trim to a darker color for doors and trim (maintenance reaso&quot;, &quot;recommendation&quot;: &quot;Iron Ore (SW 7069) — hides scuffs, pairs with Drift of Mist, professional look, &quot;, &quot;source&quot;: &quot;decision_queue&quot;, &quot;source_label&quot;: &quot;Decision Queue&quot;, &quot;category&quot;: &quot;Ops&quot;, &quot;priority&quot;: 2, &quot;first_seen&quot;: &quot;2026-04-12 21:00&quot;, &quot;urgency&quot;: &quot;warm&quot;}' onclick="openDrawer(this)"><span style="width:6px;height:6px;background:#ef4444;border-radius:50%;display:inline-block;margin-right:5px;flex-shrink:0;margin-top:4px;"></span><div style="flex:1;"><div style="font-size:0.75rem;color:#e8e8e8;">Casa Abierta — Darker Trim Color Decision</div><div style="margin-top:2px;"><span style="background:#2d2000;color:#e2b714;font-size:0.58rem;font-weight:700;padding:1px 4px;border-radius:3px;">P2</span> <span style="color:#444;font-size:0.58rem;">Decision Queue</span></div></div></div>
+<div style="display:flex;align-items:flex-start;gap:5px;padding:6px 0;border-bottom:1px solid #1a1a26;cursor:pointer;" data-signal='{&quot;type&quot;: &quot;signal&quot;, &quot;title&quot;: &quot;JEA Utility Payment — Property Code Unknown&quot;, &quot;full_text&quot;: &quot;JEA Utility Payment — Property Code Unknown&quot;, &quot;detail&quot;: &quot;Receipt Processor Run #16 found a JEA (Jacksonville Electric Authority) payment&quot;, &quot;recommendation&quot;: &quot;Reply \&quot;JEA 9119178191 = [property code]\&quot; — Ainsley enters in QBO next run.&quot;, &quot;source&quot;: &quot;decision_queue&quot;, &quot;source_label&quot;: &quot;Decision Queue&quot;, &quot;category&quot;: &quot;Ops&quot;, &quot;priority&quot;: 2, &quot;first_seen&quot;: &quot;2026-04-12 21:00&quot;, &quot;urgency&quot;: &quot;warm&quot;}' onclick="openDrawer(this)"><span style="width:6px;height:6px;background:#ef4444;border-radius:50%;display:inline-block;margin-right:5px;flex-shrink:0;margin-top:4px;"></span><div style="flex:1;"><div style="font-size:0.75rem;color:#e8e8e8;">JEA Utility Payment — Property Code Unknown</div><div style="margin-top:2px;"><span style="background:#2d2000;color:#e2b714;font-size:0.58rem;font-weight:700;padding:1px 4px;border-radius:3px;">P2</span> <span style="color:#444;font-size:0.58rem;">Decision Queue</span></div></div></div>
+<div style="display:flex;align-items:flex-start;gap:5px;padding:6px 0;border-bottom:1px solid #1a1a26;cursor:pointer;" data-signal='{&quot;type&quot;: &quot;signal&quot;, &quot;title&quot;: &quot;Set Up QBO API OAuth — PERMANENT FIX&quot;, &quot;full_text&quot;: &quot;Set Up QBO API OAuth — PERMANENT FIX&quot;, &quot;detail&quot;: &quot;QBO API OAuth has been attempted 8+ times across sessions. Each time it breaks on redirect URL, token expiry, or lost cr&quot;, &quot;recommendation&quot;: &quot;Do this at the START of next session. 5 minutes of Jerel&#x27;s time unlocks hours of&quot;, &quot;source&quot;: &quot;decision_queue&quot;, &quot;source_label&quot;: &quot;Decision Queue&quot;, &quot;category&quot;: &quot;Ops&quot;, &quot;priority&quot;: 2, &quot;first_seen&quot;: &quot;2026-04-12 21:00&quot;, &quot;urgency&quot;: &quot;warm&quot;}' onclick="openDrawer(this)"><span style="width:6px;height:6px;background:#ef4444;border-radius:50%;display:inline-block;margin-right:5px;flex-shrink:0;margin-top:4px;"></span><div style="flex:1;"><div style="font-size:0.75rem;color:#e8e8e8;">Set Up QBO API OAuth — PERMANENT FIX</div><div style="margin-top:2px;"><span style="background:#2d2000;color:#e2b714;font-size:0.58rem;font-weight:700;padding:1px 4px;border-radius:3px;">P2</span> <span style="color:#444;font-size:0.58rem;">Decision Queue</span></div></div></div>
+<div style="display:flex;align-items:flex-start;gap:5px;padding:6px 0;border-bottom:1px solid #1a1a26;cursor:pointer;" data-signal='{&quot;type&quot;: &quot;signal&quot;, &quot;title&quot;: &quot;Room Setup Standards — Amazon Product Confirmation&quot;, &quot;full_text&quot;: &quot;Room Setup Standards — Amazon Product Confirmation&quot;, &quot;detail&quot;: &quot;Casa Abierta Operating System V1 is built (1,212 lines, 15 SOPs, 10 standards). 50+ fields marked [JEREL TO CONFIRM] in &quot;, &quot;recommendation&quot;: &quot;Start next session by logging into Amazon in Playwright, then answer questions i&quot;, &quot;source&quot;: &quot;decision_queue&quot;, &quot;source_label&quot;: &quot;Decision Queue&quot;, &quot;category&quot;: &quot;Ops&quot;, &quot;priority&quot;: 2, &quot;first_seen&quot;: &quot;2026-04-12 21:00&quot;, &quot;urgency&quot;: &quot;warm&quot;}' onclick="openDrawer(this)"><span style="width:6px;height:6px;background:#ef4444;border-radius:50%;display:inline-block;margin-right:5px;flex-shrink:0;margin-top:4px;"></span><div style="flex:1;"><div style="font-size:0.75rem;color:#e8e8e8;">Room Setup Standards — Amazon Product Confirmation</div><div style="margin-top:2px;"><span style="background:#2d2000;color:#e2b714;font-size:0.58rem;font-weight:700;padding:1px 4px;border-radius:3px;">P2</span> <span style="color:#444;font-size:0.58rem;">Decision Queue</span></div></div></div>
+<div style="display:flex;align-items:flex-start;gap:5px;padding:6px 0;border-bottom:1px solid #1a1a26;cursor:pointer;" data-signal='{&quot;type&quot;: &quot;signal&quot;, &quot;title&quot;: &quot;AI Speakly Login Needed&quot;, &quot;full_text&quot;: &quot;AI Speakly Login Needed&quot;, &quot;detail&quot;: &quot;AI Speakly AI Call Agent page is crashing (`undefined is not an object`). Rahat has been notified but if he can&#x27;t fix it&quot;, &quot;recommendation&quot;: &quot;Wait for Rahat&#x27;s response first (24-48hrs). If no reply, provide creds so Ainsle&quot;, &quot;source&quot;: &quot;decision_queue&quot;, &quot;source_label&quot;: &quot;Decision Queue&quot;, &quot;category&quot;: &quot;Ops&quot;, &quot;priority&quot;: 2, &quot;first_seen&quot;: &quot;2026-04-12 21:00&quot;, &quot;urgency&quot;: &quot;warm&quot;}' onclick="openDrawer(this)"><span style="width:6px;height:6px;background:#ef4444;border-radius:50%;display:inline-block;margin-right:5px;flex-shrink:0;margin-top:4px;"></span><div style="flex:1;"><div style="font-size:0.75rem;color:#e8e8e8;">AI Speakly Login Needed</div><div style="margin-top:2px;"><span style="background:#2d2000;color:#e2b714;font-size:0.58rem;font-weight:700;padding:1px 4px;border-radius:3px;">P2</span> <span style="color:#444;font-size:0.58rem;">Decision Queue</span></div></div></div>
+<div style="display:flex;align-items:flex-start;gap:5px;padding:6px 0;border-bottom:1px solid #1a1a26;cursor:pointer;" data-signal='{&quot;type&quot;: &quot;signal&quot;, &quot;title&quot;: &quot;Drive by Sky — 126 HOT Leads Need Jerel on the Phone&quot;, &quot;full_text&quot;: &quot;Drive by Sky — 126 HOT Leads Need Jerel on the Phone&quot;, &quot;detail&quot;: &quot;Drive by Sky pipeline completed 2026-04-11. 126 contacts pushed to GHL Acquisitions → HOT!!! stage. These are elderly ow&quot;, &quot;recommendation&quot;: &quot;Block 2 hours this week, 9am–noon, and work the top 30. At avg F=90, even a 5% c&quot;, &quot;source&quot;: &quot;decision_queue&quot;, &quot;source_label&quot;: &quot;Decision Queue&quot;, &quot;category&quot;: &quot;Ops&quot;, &quot;priority&quot;: 2, &quot;first_seen&quot;: &quot;2026-04-12 21:00&quot;, &quot;urgency&quot;: &quot;warm&quot;}' onclick="openDrawer(this)"><span style="width:6px;height:6px;background:#ef4444;border-radius:50%;display:inline-block;margin-right:5px;flex-shrink:0;margin-top:4px;"></span><div style="flex:1;"><div style="font-size:0.75rem;color:#e8e8e8;">Drive by Sky — 126 HOT Leads Need Jerel on the Phone</div><div style="margin-top:2px;"><span style="background:#2d2000;color:#e2b714;font-size:0.58rem;font-weight:700;padding:1px 4px;border-radius:3px;">P2</span> <span style="color:#444;font-size:0.58rem;">Decision Queue</span></div></div></div>
+<div style="display:flex;align-items:flex-start;gap:5px;padding:6px 0;border-bottom:1px solid #1a1a26;cursor:pointer;" data-signal='{&quot;type&quot;: &quot;signal&quot;, &quot;title&quot;: &quot;1430 Ron Rd — Interest Rate Verification Required&quot;, &quot;full_text&quot;: &quot;1430 Ron Rd — Interest Rate Verification Required&quot;, &quot;detail&quot;: &quot;Ron Rd SubTo deal restructured for 25.7% CoC at $153K counter. All numbers assume current PITI of $1,900/mo. BUT the int&quot;, &quot;recommendation&quot;: &quot;Send a quick text: \&quot;Hey Kina, interested in the Ron Rd property. Can you send me&quot;, &quot;source&quot;: &quot;decision_queue&quot;, &quot;source_label&quot;: &quot;Decision Queue&quot;, &quot;category&quot;: &quot;Ops&quot;, &quot;priority&quot;: 2, &quot;first_seen&quot;: &quot;2026-04-12 21:00&quot;, &quot;urgency&quot;: &quot;warm&quot;}' onclick="openDrawer(this)"><span style="width:6px;height:6px;background:#ef4444;border-radius:50%;display:inline-block;margin-right:5px;flex-shrink:0;margin-top:4px;"></span><div style="flex:1;"><div style="font-size:0.75rem;color:#e8e8e8;">1430 Ron Rd — Interest Rate Verification Required</div><div style="margin-top:2px;"><span style="background:#2d2000;color:#e2b714;font-size:0.58rem;font-weight:700;padding:1px 4px;border-radius:3px;">P2</span> <span style="color:#444;font-size:0.58rem;">Decision Queue</span></div></div></div>
+
+    </div>
+    <div class="card">
+      <div class="lbl" style="margin-bottom:10px;">Agent Fleet</div>
+      <table style="width:100%;border-collapse:collapse;">
+        <tbody><tr><td style="padding:5px 6px;font-size:0.7rem;">Intelligence Extractor</td><td style="padding:5px 6px;"><span style="color:#e2b714;font-size:0.62rem;font-weight:700;">UNKNOWN</span></td><td style="padding:5px 6px;font-size:0.7rem;color:#e2b714;text-align:right;">&mdash;</td></tr>
+<tr><td style="padding:5px 6px;font-size:0.7rem;">Daily Briefing</td><td style="padding:5px 6px;"><span style="color:#22c55e;font-size:0.62rem;font-weight:700;">SUCCESS</span></td><td style="padding:5px 6px;font-size:0.7rem;color:#e2b714;text-align:right;">&mdash;</td></tr>
+<tr><td style="padding:5px 6px;font-size:0.7rem;">Inbox Builder</td><td style="padding:5px 6px;"><span style="color:#22c55e;font-size:0.62rem;font-weight:700;">SUCCESS</span></td><td style="padding:5px 6px;font-size:0.7rem;color:#e2b714;text-align:right;">$0.0075</td></tr>
+<tr><td style="padding:5px 6px;font-size:0.7rem;">Deal Watcher</td><td style="padding:5px 6px;"><span style="color:#22c55e;font-size:0.62rem;font-weight:700;">SUCCESS</span></td><td style="padding:5px 6px;font-size:0.7rem;color:#e2b714;text-align:right;">&mdash;</td></tr>
+<tr><td style="padding:5px 6px;font-size:0.7rem;">Lead Engine Monitor</td><td style="padding:5px 6px;"><span style="color:#22c55e;font-size:0.62rem;font-weight:700;">SUCCESS</span></td><td style="padding:5px 6px;font-size:0.7rem;color:#e2b714;text-align:right;">&mdash;</td></tr>
+<tr><td style="padding:5px 6px;font-size:0.7rem;">Room Rental Monitor</td><td style="padding:5px 6px;"><span style="color:#22c55e;font-size:0.62rem;font-weight:700;">SUCCESS</span></td><td style="padding:5px 6px;font-size:0.7rem;color:#e2b714;text-align:right;">&mdash;</td></tr>
+</tbody>
+        <tfoot>
+          <tr style="border-top:1px solid #1f1f2e;">
+            <td colspan="2" style="padding:5px 6px;font-size:0.62rem;color:#444;">Total today</td>
+            <td style="padding:5px 6px;font-size:0.7rem;color:#e2b714;font-weight:700;text-align:right;">$0.0075</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <div class="card">
+      <div class="lbl" style="margin-bottom:10px;">Work In Flight</div>
+      <div style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;"><span style="font-size:0.7rem;color:#ccc;">Copywriter Arena — Marketing Asset Produ</span><span style="font-size:0.62rem;color:#555;">100%</span></div><div style="background:#1c1c28;border-radius:2px;height:4px;"><div style="background:#22c55e;width:100%;height:4px;border-radius:2px;"></div></div></div>
+<div style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;"><span style="font-size:0.7rem;color:#ccc;">Autonomous Operations System</span><span style="font-size:0.62rem;color:#555;">81%</span></div><div style="background:#1c1c28;border-radius:2px;height:4px;"><div style="background:#e2b714;width:81%;height:4px;border-radius:2px;"></div></div></div>
+<div style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;"><span style="font-size:0.7rem;color:#ccc;">Public Record Requests (PRR) — Lead Pipe</span><span style="font-size:0.62rem;color:#555;">64%</span></div><div style="background:#1c1c28;border-radius:2px;height:4px;"><div style="background:#e2b714;width:64%;height:4px;border-radius:2px;"></div></div></div>
+<div style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;"><span style="font-size:0.7rem;color:#ccc;">Airtable Infrastructure</span><span style="font-size:0.62rem;color:#555;">57%</span></div><div style="background:#1c1c28;border-radius:2px;height:4px;"><div style="background:#e2b714;width:57%;height:4px;border-radius:2px;"></div></div></div>
+<div style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;"><span style="font-size:0.7rem;color:#ccc;">AI Cold Calling System</span><span style="font-size:0.62rem;color:#555;">54%</span></div><div style="background:#1c1c28;border-radius:2px;height:4px;"><div style="background:#e2b714;width:54%;height:4px;border-radius:2px;"></div></div></div>
+<div style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;"><span style="font-size:0.7rem;color:#ccc;">HGRT Property Operations — Turn Policy, </span><span style="font-size:0.62rem;color:#555;">52%</span></div><div style="background:#1c1c28;border-radius:2px;height:4px;"><div style="background:#e2b714;width:52%;height:4px;border-radius:2px;"></div></div></div>
+<div style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;"><span style="font-size:0.7rem;color:#ccc;">Cost Segregation — Unified Workbook Buil</span><span style="font-size:0.62rem;color:#555;">50%</span></div><div style="background:#1c1c28;border-radius:2px;height:4px;"><div style="background:#e2b714;width:50%;height:4px;border-radius:2px;"></div></div></div>
+<div style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;"><span style="font-size:0.7rem;color:#ccc;">Ainsley Morning Brief — Full Automation</span><span style="font-size:0.62rem;color:#555;">45%</span></div><div style="background:#1c1c28;border-radius:2px;height:4px;"><div style="background:#f97316;width:45%;height:4px;border-radius:2px;"></div></div></div>
+<div style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;"><span style="font-size:0.7rem;color:#ccc;">GHL AI Cold Calling — Voice Merge Field </span><span style="font-size:0.62rem;color:#555;">42%</span></div><div style="background:#1c1c28;border-radius:2px;height:4px;"><div style="background:#f97316;width:42%;height:4px;border-radius:2px;"></div></div></div>
+<div style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;"><span style="font-size:0.7rem;color:#ccc;">Clay County Pre-Foreclosure Leads</span><span style="font-size:0.62rem;color:#555;">40%</span></div><div style="background:#1c1c28;border-radius:2px;height:4px;"><div style="background:#f97316;width:40%;height:4px;border-radius:2px;"></div></div></div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════
+// RE_OS DETAIL DRAWER — click any deal card or heir row
+// ═══════════════════════════════════════════════════
+
+var URGENCY_PALETTE = {
+  hot:     { bg:'#450a0a', color:'#ef4444' },
+  warm:    { bg:'#422006', color:'#e2b714' },
+  blocked: { bg:'#431407', color:'#f97316' },
+  watch:   { bg:'#1a1a26', color:'#6b7280' }
+};
+
+function scrollToSection(id) {
+  var el = document.getElementById(id);
+  if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function openDrawer(el) {
+  try {
+    var raw = el.getAttribute('data-deal') || el.getAttribute('data-heir') || el.getAttribute('data-signal') || '{}';
+    var d = JSON.parse(raw);
+    renderDrawer(d);
+  } catch(e) { console.error('Drawer error', e); }
+}
+
+function closeDrawer() {
+  document.getElementById('dd-overlay').style.display = 'none';
+  document.getElementById('dd-panel').style.display   = 'none';
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeDrawer();
+});
+
+function escHtml(s) {
+  return String(s || '')
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+function renderDrawer(d) {
+  var isHeir = d.type === 'heir';
+  var isSignal = d.type === 'signal';
+  var title  = d.title || d.address || 'Details';
+  var urg    = d.urgency || 'watch';
+  var uc     = URGENCY_PALETTE[urg] || URGENCY_PALETTE.watch;
+
+  // ── SIGNAL DRAWER ──
+  if (isSignal) {
+    var pLabels = {1:'P1 — ACTION REQUIRED',2:'P2 — REVIEW',3:'P3 — INFO'};
+    var pColors = {1:'#ef4444',2:'#e2b714',3:'#6b7280'};
+    var pBgs    = {1:'#2d0000',2:'#2d2000',3:'#1a1a1a'};
+    var sp = d.priority || 2;
+    var signalHtml =
+      '<div style="padding:18px;">' +
+      '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;">' +
+      '<div style="flex:1;">' +
+      '<div style="font-size:0.55rem;font-weight:800;color:' + (pColors[sp]||'#e2b714') + ';text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">' +
+      (pLabels[sp]||'P2') + '</div>' +
+      '<div style="font-size:1rem;font-weight:800;color:#f0f0f0;line-height:1.3;">' + escHtml(d.full_text || d.title) + '</div>' +
+      '</div>' +
+      '<button onclick="closeDrawer()" style="background:none;border:none;color:#555;font-size:1.2rem;cursor:pointer;padding:0 4px;">✕</button>' +
+      '</div>';
+
+    // Source + timestamp
+    signalHtml +=
+      '<div style="display:flex;gap:12px;margin-bottom:14px;">' +
+      '<div style="background:#111;border-radius:4px;padding:5px 8px;">' +
+      '<div style="font-size:0.5rem;color:#555;text-transform:uppercase;margin-bottom:1px;">Source</div>' +
+      '<div style="font-size:0.72rem;color:#ccc;">' + escHtml(d.source_label || d.source) + '</div></div>' +
+      '<div style="background:#111;border-radius:4px;padding:5px 8px;">' +
+      '<div style="font-size:0.5rem;color:#555;text-transform:uppercase;margin-bottom:1px;">Category</div>' +
+      '<div style="font-size:0.72rem;color:#ccc;">' + escHtml(d.category || '—') + '</div></div>' +
+      '<div style="background:#111;border-radius:4px;padding:5px 8px;">' +
+      '<div style="font-size:0.5rem;color:#555;text-transform:uppercase;margin-bottom:1px;">First Seen</div>' +
+      '<div style="font-size:0.72rem;color:#ccc;">' + escHtml(d.first_seen || '—') + '</div></div>' +
+      '</div>';
+
+    // Detail section
+    if (d.detail) {
+      signalHtml +=
+        '<div style="background:#0e0e1c;border:1px solid #2a2a45;border-radius:6px;padding:12px 14px;margin-bottom:12px;">' +
+        '<div style="font-size:0.58rem;font-weight:800;color:#555;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">Full Context</div>' +
+        '<div style="font-size:0.78rem;color:#d0d0d0;line-height:1.5;white-space:pre-wrap;">' + escHtml(d.detail) + '</div>' +
+        '</div>';
+    } else {
+      signalHtml +=
+        '<div style="background:#1a0a0a;border:1px solid #3a1a1a;border-radius:6px;padding:12px 14px;margin-bottom:12px;">' +
+        '<div style="font-size:0.78rem;color:#ef4444;">⚠ No detail captured for this signal.</div>' +
+        '<div style="font-size:0.65rem;color:#666;margin-top:4px;">Check the source (' + escHtml(d.source_label || d.source) + ') for full context.</div>' +
+        '</div>';
+    }
+
+    // Recommendation
+    if (d.recommendation) {
+      signalHtml +=
+        '<div style="background:#0a1f0a;border:1px solid #166534;border-radius:6px;padding:12px 14px;margin-bottom:12px;">' +
+        '<div style="font-size:0.58rem;font-weight:800;color:#22c55e;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">Ainsley Recommends</div>' +
+        '<div style="font-size:0.78rem;color:#d0d0d0;line-height:1.5;">' + escHtml(d.recommendation) + '</div>' +
+        '</div>';
+    }
+
+    signalHtml += '</div>';
+
+    document.getElementById('dd-panel').innerHTML = signalHtml;
+    document.getElementById('dd-overlay').style.display = 'block';
+    document.getElementById('dd-panel').style.display   = 'block';
+    return;
+  }
+
+  // ── PHOTO ──
+  var photoHtml = '';
+  var firstSrc = d.photo_url || d.street_view_url || '';
+  if (firstSrc) {
+    photoHtml =
+      '<div style="margin-bottom:14px;">' +
+      '<img id="dd-photo" src="' + escHtml(firstSrc) + '"' +
+      ' style="width:100%;height:180px;object-fit:cover;border-radius:6px;background:#1a1a2e;"' +
+      ' data-fallback="' + escHtml(d.street_view_url || '') + '"' +
+      ' data-maps="' + escHtml(d.google_maps_url || '') + '"' +
+      ' onerror="handlePhotoError(this)">' +
+      '</div>';
+  } else if (d.address) {
+    var mapsHref = d.google_maps_url || ('https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(d.address));
+    photoHtml =
+      '<div style="margin-bottom:14px;background:#1a1a2e;border-radius:6px;height:72px;' +
+      'display:flex;align-items:center;justify-content:center;">' +
+      '<a href="' + escHtml(mapsHref) + '" target="_blank" onclick="event.stopPropagation()" ' +
+      'style="color:#4a7ab5;font-size:0.78rem;text-decoration:none;">📍 View on Google Maps</a>' +
+      '</div>';
+  }
+
+  // ── STATUS / STAGE ──
+  var statusHtml = '';
+  if (d.status) {
+    statusHtml = '<div style="font-size:0.7rem;color:#888;margin-bottom:10px;line-height:1.4;">' +
+      escHtml(d.status.substring(0,100)) + '</div>';
+  }
+
+  // ── PHONE LINK ──
+  var phoneHtml = '';
+  if (isHeir && d.phones && d.phones.length) {
+    // Caller name header — prominently displayed ABOVE phone numbers
+    phoneHtml = '';
+    if (d.skip_trace_target) {
+      phoneHtml +=
+        '<div style="background:#0c0c1a;border:1px solid #2a2a50;border-radius:6px;' +
+        'padding:8px 12px;margin-bottom:8px;display:flex;align-items:center;gap:8px;">' +
+        '<span style="font-size:0.9rem;">👤</span>' +
+        '<div>' +
+        '<div style="font-size:0.52rem;text-transform:uppercase;letter-spacing:0.1em;color:#555;margin-bottom:2px;">Calling</div>' +
+        '<div style="font-size:0.88rem;font-weight:800;color:#e2b714;letter-spacing:0.02em;">' +
+        escHtml(d.skip_trace_target) + '</div>' +
+        '</div></div>';
+    }
+    // Phone rows
+    phoneHtml += '<div style="margin-bottom:12px;">';
+    d.phones.forEach(function(ph, i) {
+      var raw = (ph.raw || '').replace(/[^\d]/g, '');
+      var bg = i === 0 ? '#0a1f0a' : '#111118';
+      var border = i === 0 ? '#166534' : '#1f1f2e';
+      var sz = i === 0 ? '1.05rem' : '0.85rem';
+      var wt = i === 0 ? '800' : '600';
+      var flBadge = ph.fl_area ? '<span style="background:#1e3a5f;color:#60a5fa;font-size:0.5rem;font-weight:700;padding:1px 4px;border-radius:3px;margin-left:6px;">FL</span>' : '';
+      var typeLabel = ph.type ? '<span style="font-size:0.55rem;color:#555;margin-left:4px;">' + escHtml(ph.type) + '</span>' : '';
+      phoneHtml +=
+        '<div style="background:' + bg + ';border:1px solid ' + border + ';border-radius:6px;' +
+        'padding:' + (i===0 ? '10px 14px' : '6px 14px') + ';margin-bottom:4px;display:flex;align-items:center;gap:10px;">' +
+        '<span style="font-size:' + (i===0?'1.1rem':'0.9rem') + ';">📞</span>' +
+        '<a href="tel:' + raw + '" onclick="event.stopPropagation()" ' +
+          'style="font-size:' + sz + ';font-weight:' + wt + ';color:#22c55e;text-decoration:none;letter-spacing:0.04em;">' +
+          escHtml(ph.formatted || ph.raw) + '</a>' + flBadge + typeLabel +
+        '</div>';
+    });
+    phoneHtml += '</div>';
+  } else if (isHeir && d.social_search && d.social_search.facebook) {
+    // Social search fallback for HEIRS with no phone — still show name
+    if (d.skip_trace_target) {
+      phoneHtml +=
+        '<div style="background:#0c0c1a;border:1px solid #2a2a50;border-radius:6px;' +
+        'padding:8px 12px;margin-bottom:8px;display:flex;align-items:center;gap:8px;">' +
+        '<span style="font-size:0.9rem;">👤</span>' +
+        '<div>' +
+        '<div style="font-size:0.52rem;text-transform:uppercase;letter-spacing:0.1em;color:#555;margin-bottom:2px;">Calling</div>' +
+        '<div style="font-size:0.88rem;font-weight:800;color:#e2b714;">' +
+        escHtml(d.skip_trace_target) + '</div>' +
+        '</div></div>';
+    }
+    phoneHtml +=
+      '<div style="background:#1a0a0a;border:1px solid #7f1d1d;border-radius:6px;' +
+      'padding:10px 14px;margin-bottom:12px;">' +
+      '<div style="font-size:0.72rem;color:#ef4444;font-weight:700;margin-bottom:6px;">⚠ No Phone Found</div>' +
+      '<div style="display:flex;gap:6px;">' +
+      '<a href="' + escHtml(d.social_search.facebook) + '" target="_blank" onclick="event.stopPropagation()" ' +
+        'style="flex:1;background:#1e3a5f;border:1px solid #3b82f6;border-radius:4px;padding:6px;' +
+        'font-size:0.65rem;color:#3b82f6;text-align:center;text-decoration:none;">Facebook</a>' +
+      '<a href="' + escHtml(d.social_search.google || '') + '" target="_blank" onclick="event.stopPropagation()" ' +
+        'style="flex:1;background:#1a1a2e;border:1px solid #2a2a40;border-radius:4px;padding:6px;' +
+        'font-size:0.65rem;color:#aaa;text-align:center;text-decoration:none;">Google</a>' +
+      '</div></div>';
+  } else {
+    // Deal cards: original phone parsing
+    var _ct = d.contact || '';
+    var _phM = _ct.match(/([\+\(]?\d[\d\s\-\(\)\.]{7,}\d)/);
+    var _phRaw = _phM ? _phM[1].trim() : '';
+    var _phDig = _phRaw.replace(/[^\d\+]/g, '');
+    if (_phDig) {
+      phoneHtml =
+        '<div style="background:#0a1f0a;border:1px solid #166534;border-radius:6px;' +
+        'padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px;">' +
+        '<span style="font-size:1.1rem;">📞</span>' +
+        '<a href="tel:' + _phDig + '" onclick="event.stopPropagation()" ' +
+          'style="font-size:1.05rem;font-weight:800;color:#22c55e;text-decoration:none;letter-spacing:0.04em;">' +
+          escHtml(_phRaw) + '</a>' +
+        (_ct && _ct.trim() !== _phRaw.trim()
+          ? '<span style="font-size:0.68rem;color:#555;margin-left:4px;">' + escHtml(_ct.substring(0,35)) + '</span>'
+          : '') +
+        '</div>';
+    }
+  }
+
+  // ── HEIRS: INLINE PROPERTY SPECS CARD ──
+  var specsHtml = '';
+  if (isHeir) {
+    // Financial strip + property specs — all inline, no click needed
+    var _mv  = d.market_value || '';
+    var _dmv = d.dm_value ? '$' + Number(d.dm_value).toLocaleString() : '';
+    var _re  = d.rent_est ? '$' + Number(d.rent_est).toLocaleString() + '/mo' : '';
+    var _ps  = d.padsplit_total ? '$' + Number(d.padsplit_total).toLocaleString() + '/mo' : '';
+    var _psr = d.padsplit_room_rate ? '$' + Number(d.padsplit_room_rate).toLocaleString() + '/rm' : '';
+
+    specsHtml = '<div style="background:#0e0e1c;border:1px solid #2a2a45;border-radius:6px;padding:10px 12px;margin-bottom:10px;">';
+
+    // Property specs row
+    var specParts = [];
+    if (d.beds != null) specParts.push(d.beds + ' bd');
+    if (d.baths != null) specParts.push(d.baths + ' ba');
+    if (d.sqft) specParts.push(d.sqft.toLocaleString() + ' sqft');
+    if (d.year_built) specParts.push('built ' + d.year_built);
+    if (specParts.length) {
+      specsHtml += '<div style="font-size:0.8rem;font-weight:700;color:#e2e2e2;margin-bottom:8px;">' + specParts.join(' · ') + '</div>';
+    }
+
+    // Financial 4-up grid
+    var finItems = [
+      ['Mkt Value', _mv],
+      ['DM Value', _dmv],
+      ['LT Rent Est', _re],
+      ['PadSplit Total', _ps ? _ps + ' (' + _psr + ')' : ''],
+    ].filter(function(x) { return x[1]; });
+
+    if (finItems.length) {
+      specsHtml += '<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:5px;">';
+      finItems.forEach(function(item) {
+        specsHtml +=
+          '<div style="background:#111;border-radius:4px;padding:5px 7px;">' +
+          '<div style="font-size:0.52rem;color:#555;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:2px;">' + item[0] + '</div>' +
+          '<div style="font-size:0.78rem;font-weight:700;color:#e2b714;">' + escHtml(item[1]) + '</div>' +
+          '</div>';
+      });
+      specsHtml += '</div>';
+    }
+
+    // Garage if present
+    if (d.garage) {
+      specsHtml += '<div style="font-size:0.62rem;color:#555;margin-top:6px;">🚗 ' + escHtml(d.garage.substring(0,50)) + '</div>';
+    }
+
+    specsHtml += '</div>';
+  }
+
+  // ── KEY FACTS TABLE ──
+  var facts = [];
+  if (!isHeir) {
+    if (d.structure)          facts.push(['Structure', d.structure]);
+    if (d.asking)             facts.push(['Ask',       d.asking]);
+    if (d.arv)                facts.push(['ARV',       d.arv]);
+    if (d.assessed_value)     facts.push(['AV',        d.assessed_value]);
+    if (d.contact && !_phDig) facts.push(['Contact',   d.contact]);
+    if (d.deadline)           facts.push(['Deadline',  d.deadline]);
+    if (d.waiting_on)         facts.push(['Waiting',   d.waiting_on.substring(0,45)]);
+  } else {
+    if (d.owner)              facts.push(['Owner',      d.owner]);
+    if (d.market_value)       facts.push(['Mkt Value',  d.market_value]);
+    if (d.property_type)      facts.push(['Type',       d.property_type]);
+    if (d.lot_acres)      facts.push(['Lot',        d.lot_acres + ' acres']);
+    if (d.city)           facts.push(['City',       d.city + (d.zip ? ' ' + d.zip : '')]);
+    if (d.parcel)         facts.push(['Parcel',     d.parcel]);
+    if (d.mailing_address) facts.push(['Mailing',   d.mailing_address.substring(0,50)]);
+    if (d.violation)      facts.push(['Violation',  d.violation.substring(0,60)]);
+    if (d.contact_status) facts.push(['Status',     d.contact_status]);
+    // Tax delinquency row
+    if (d.tax_status) {
+      var _taxLabel = d.tax_year ? 'Taxes ' + d.tax_year : 'Taxes';
+      var _taxVal = d.tax_status;
+      if (d.tax_total) _taxVal += ' — $' + d.tax_total;
+      if (d.tax_prior_years) _taxVal += ' (+$' + d.tax_prior_years + ' prior)';
+      facts.push([_taxLabel, _taxVal]);
+    }
+  }
+  var factsHtml = '';
+  if (facts.length) {
+    factsHtml = '<div style="background:#1a1a2e;border-radius:6px;padding:10px 12px;margin-bottom:12px;">';
+    facts.forEach(function(f) {
+      // Color-code the tax row: red=Unpaid, green=Paid
+      var valColor = '#d0d0d0';
+      var rowBg = '';
+      if (String(f[0]).startsWith('Taxes')) {
+        if (String(f[1]).indexOf('Unpaid') >= 0) { valColor = '#ef4444'; rowBg = 'background:rgba(239,68,68,0.06);border-radius:3px;'; }
+        else if (String(f[1]).indexOf('Paid') >= 0) { valColor = '#22c55e'; rowBg = ''; }
+      }
+      factsHtml +=
+        '<div style="display:flex;gap:8px;padding:3px 0;' + rowBg + '">' +
+        '<span style="font-size:0.6rem;color:#555;min-width:58px;flex-shrink:0;padding-top:1px;">' + escHtml(f[0]) + '</span>' +
+        '<span style="font-size:0.72rem;color:' + valColor + ';">' + escHtml(String(f[1])) + '</span>' +
+        '</div>';
+    });
+    factsHtml += '</div>';
+  }
+
+  // ── HEIRS: RANKED FAMILY DECISION TREE ──
+  var familyTreeHtml = '';
+  if (isHeir) {
+    // Use deceased_relatives (ranked) if available, fallback to relatives
+    var treeData = (d.deceased_relatives && d.deceased_relatives.length) ? d.deceased_relatives :
+                   (d.relatives || []).map(function(r) { return {name: r.name, tier: r.rel || 'Relative', priority: 3}; });
+
+    if (treeData.length) {
+      familyTreeHtml =
+        '<div style="background:#0e0e1c;border:1px solid #2a2a45;border-radius:6px;padding:10px 12px;margin-bottom:12px;">' +
+        '<div style="font-size:0.58rem;font-weight:800;color:#555;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;">👨‍👩‍👧‍👦 Family Decision Tree</div>';
+
+      var dm1 = treeData.filter(function(r) { return r.priority === 1; });
+      var dm2 = treeData.filter(function(r) { return r.priority === 2; });
+      var dm3 = treeData.filter(function(r) { return r.priority >= 3; });
+
+      function _tierSection(label, items, color) {
+        if (!items.length) return '';
+        var s = '<div style="font-size:0.52rem;color:' + color + ';font-weight:800;text-transform:uppercase;' +
+                'letter-spacing:0.08em;margin-bottom:4px;margin-top:6px;">' + label + '</div>';
+        items.forEach(function(r) {
+          s += '<div style="display:flex;justify-content:space-between;align-items:center;padding:2px 0;' +
+               'border-bottom:1px solid #1a1a2e;">' +
+               '<span style="font-size:0.72rem;color:#c8c8c8;">' + escHtml(String(r.name)) + '</span>' +
+               '<span style="font-size:0.52rem;color:' + color + ';padding:1px 5px;background:#111;border-radius:3px;white-space:nowrap;">' + escHtml(r.tier) + '</span>' +
+               '</div>';
+        });
+        return s;
+      }
+
+      familyTreeHtml += _tierSection('— Decision Makers —', dm1, '#22c55e');
+      familyTreeHtml += _tierSection('— Likely Heirs —', dm2, '#e2b714');
+      familyTreeHtml += _tierSection('— Extended Family —', dm3.slice(0, 4), '#6b7280');
+
+      familyTreeHtml += '</div>';
+    }
+  }
+
+  // ── RESEARCH LINKS (HEIRS only) — Obituary + Code Violations ──
+  var researchHtml = '';
+  if (isHeir && (d.google_obit || d.legacy_obit || d.findagrave || d.tax_url || d.orange_data)) {
+    researchHtml =
+      '<div style="background:#0e0e1c;border:1px solid #2a2a45;border-radius:6px;padding:10px 12px;margin-bottom:12px;">' +
+      '<div style="font-size:0.58rem;font-weight:800;color:#555;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;">' +
+      '🔍 Research Links</div>' +
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;">';
+
+    function resBtn(label, href) {
+      if (!href) return '';
+      return '<a href="' + escHtml(href) + '" target="_blank" onclick="event.stopPropagation()" ' +
+        'style="background:#111;border:1px solid #2a2a40;border-radius:4px;padding:5px 8px;' +
+        'font-size:0.62rem;color:#aaa;text-decoration:none;text-align:center;display:block;' +
+        'white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + label + '</a>';
+    }
+
+    // Obituary row label
+    researchHtml +=
+      '<div style="grid-column:1/-1;font-size:0.55rem;color:#444;margin-bottom:2px;margin-top:2px;">📰 Obituary Search</div>';
+    researchHtml += resBtn('Google Dork', d.google_obit);
+    researchHtml += resBtn('Legacy.com', d.legacy_obit);
+    researchHtml += '<div style="grid-column:1/-1;">' + resBtn('🪦 FindAGrave', d.findagrave) + '</div>';
+
+    // Tax bill link
+    if (d.tax_url) {
+      researchHtml +=
+        '<div style="grid-column:1/-1;font-size:0.55rem;color:#444;margin-bottom:2px;margin-top:6px;">💵 Tax Record</div>' +
+        '<div style="grid-column:1/-1;">' + resBtn('View Tax Bill (ptaxweb)', d.tax_url) + '</div>';
+    }
+
+    // Code violation
+    researchHtml +=
+      '<div style="grid-column:1/-1;font-size:0.55rem;color:#444;margin-bottom:2px;margin-top:6px;">🏛️ Code Violations</div>';
+    researchHtml += resBtn('OrangeData ($65)', d.orange_data);
+    researchHtml += resBtn('Palatka Code Enf.', d.code_enforce);
+
+    researchHtml += '</div></div>';
+  }
+
+  // ── NEXT ACTIONS ──
+  var actionsHtml = '';
+  var acts = d.next_actions || [];
+  if (acts.length) {
+    actionsHtml =
+      '<div style="margin-bottom:12px;">' +
+      '<div style="font-size:0.58rem;font-weight:800;color:#555;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:5px;">Next Actions</div>';
+    acts.forEach(function(a) {
+      actionsHtml +=
+        '<div style="display:flex;gap:6px;padding:3px 0;align-items:flex-start;">' +
+        '<span style="color:#a3e635;font-size:0.7rem;flex-shrink:0;">→</span>' +
+        '<span style="font-size:0.75rem;color:#ccc;">' + escHtml(a) + '</span>' +
+        '</div>';
+    });
+    actionsHtml += '</div>';
+  }
+
+  // ── ACTION BUTTONS ──
+  var btnStyle = 'background:#1a1a2e;border:1px solid #2a2a40;border-radius:6px;padding:8px 10px;' +
+    'font-size:0.68rem;color:#aaa;cursor:pointer;text-align:center;text-decoration:none;display:block;' +
+    'font-family:inherit;width:100%;box-sizing:border-box;';
+  function linkBtn(lbl, href) {
+    if (!href) return '';
+    return '<a href="' + escHtml(href) + '" target="_blank" onclick="event.stopPropagation()" style="' + btnStyle + '">' + lbl + '</a>';
+  }
+  function copyBtn(lbl, text) {
+    var safe = escHtml(text).replace(/&#39;/g, "\\'");
+    return '<button onclick="event.stopPropagation();copyCmd(\'' + safe + '\')" style="' + btnStyle + '">' + lbl + '</button>';
+  }
+
+  // Always build Maps/Zillow from full address for accurate search
+  var _addr = d.address || '';
+  var _mapsUrl   = _addr ? 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(_addr) : (d.google_maps_url || '');
+  var _zillowUrl = _addr ? 'https://www.zillow.com/homes/' + encodeURIComponent(_addr).replace(/%20/g, '-') + '_rb/' : (d.zillow_url || '');
+
+  // ── PRIMARY: Deal Dashboard ──
+  var _dashHtml = '';
+  if (d.dashboard_url) {
+    _dashHtml = '<a href="' + d.dashboard_url + '" target="_blank" style="' +
+      'display:block;text-decoration:none;text-align:center;' +
+      'background:#0a1f0a;border:2px solid #22c55e;border-radius:10px;' +
+      'padding:14px 16px;margin-bottom:16px;' +
+      'color:#22c55e;font-size:1rem;font-weight:900;letter-spacing:0.02em;' +
+      '">📊 Open Full Deal Dashboard →</a>';
+  }
+
+  var btns = [];
+  if (_mapsUrl)           btns.push(linkBtn('📍 Maps',        _mapsUrl));
+  if (_zillowUrl)         btns.push(linkBtn('🏠 Zillow',      _zillowUrl));
+  if (d.dealmachine_url)  btns.push(linkBtn('📱 DealMachine', d.dealmachine_url));
+  if (d.folder_url)       btns.push(linkBtn('📂 Folder',      d.folder_url));
+  if (!isHeir) {
+    btns.push(copyBtn('✅ Mark Done',  'Ainsley, mark "' + (d.title||'') + '" as done'));
+    btns.push(copyBtn('⌛ Snooze 3d',  'Ainsley, snooze "' + (d.title||'') + '" for 3 days'));
+    btns.push(copyBtn('↺ Go / No-Go', '/challenge ' + (d.title||'')));
+    btns.push(copyBtn('🔍 Need Info', 'Ainsley, I need more info on "' + (d.title||'') + '" before deciding'));
+  } else {
+    if (d.dealmachine_url) btns.push(linkBtn('📱 DealMachine', d.dealmachine_url));
+    if (d.zillow_rental_url) btns.push(linkBtn('💰 Rent Estimate', d.zillow_rental_url));
+    if (d.padsplit_url) btns.push(linkBtn('🏠 PadSplit Mkt', d.padsplit_url));
+    btns.push(copyBtn('📞 Contact Log', 'Ainsley, log contact attempt on ' + (d.address||'')));
+    btns.push(copyBtn('⌛ Snooze 7d', 'Ainsley, snooze heir "' + (d.address||'') + '" for 7 days'));
+    btns.push(copyBtn('❌ Dead Lead', 'Ainsley, mark heir "' + (d.address||'') + '" as dead'));
+  }
+
+  var btnsHtml = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:16px;">';
+  btns.forEach(function(b) { if (b) btnsHtml += b; });
+  btnsHtml += '</div>';
+
+  // ── CALL LOG FORM ──
+  var callLogHtml =
+    '<div style="margin-top:16px;border-top:1px solid #1f1f2e;padding-top:14px;">' +
+    '<div style="font-size:0.58rem;font-weight:800;color:#3b82f6;text-transform:uppercase;' +
+      'letter-spacing:0.1em;margin-bottom:10px;">📋 Call Log</div>' +
+    '<div style="display:grid;gap:7px;">' +
+    '<div>' +
+      '<div style="font-size:0.6rem;color:#555;margin-bottom:3px;">Who you spoke to</div>' +
+      '<input id="cl-who" type="text" placeholder="Name, relationship..." ' +
+        'onclick="event.stopPropagation()" ' +
+        'style="width:100%;background:#1a1a2e;border:1px solid #2a2a40;border-radius:4px;' +
+        'padding:6px 8px;font-size:0.72rem;color:#e8e8e8;font-family:inherit;box-sizing:border-box;">' +
+    '</div>' +
+    '<div>' +
+      '<div style="font-size:0.6rem;color:#555;margin-bottom:3px;">What they said</div>' +
+      '<textarea id="cl-said" rows="2" placeholder="Key points from the call..." ' +
+        'onclick="event.stopPropagation()" ' +
+        'style="width:100%;background:#1a1a2e;border:1px solid #2a2a40;border-radius:4px;' +
+        'padding:6px 8px;font-size:0.72rem;color:#e8e8e8;font-family:inherit;' +
+        'resize:vertical;box-sizing:border-box;"></textarea>' +
+    '</div>' +
+    '<div>' +
+      '<div style="font-size:0.6rem;color:#555;margin-bottom:3px;">Insights + follow-up tasks</div>' +
+      '<textarea id="cl-tasks" rows="2" placeholder="Next steps, what to follow up on..." ' +
+        'onclick="event.stopPropagation()" ' +
+        'style="width:100%;background:#1a1a2e;border:1px solid #2a2a40;border-radius:4px;' +
+        'padding:6px 8px;font-size:0.72rem;color:#e8e8e8;font-family:inherit;' +
+        'resize:vertical;box-sizing:border-box;"></textarea>' +
+    '</div>' +
+    '<button onclick="event.stopPropagation();copyCallLog()" ' +
+      'style="background:#1e3a5f;border:1px solid #3b82f6;border-radius:4px;padding:7px 10px;' +
+      'font-size:0.7rem;color:#3b82f6;cursor:pointer;font-family:inherit;' +
+      'width:100%;font-weight:700;">📋 Copy Call Log to Clipboard</button>' +
+    '</div></div>';
+
+  // ── ASSEMBLE ──
+  var html =
+    '<div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:14px;">' +
+      '<span style="font-size:0.95rem;font-weight:800;color:#fff;flex:1;line-height:1.3;">' + escHtml(title) + '</span>' +
+      '<span style="background:' + uc.bg + ';color:' + uc.color + ';font-size:0.6rem;font-weight:800;' +
+        'padding:2px 8px;border-radius:4px;flex-shrink:0;">' + escHtml((d.urgency_reason || urg).toUpperCase().substring(0,20)) + '</span>' +
+      '<button onclick="closeDrawer()" style="background:none;border:none;color:#555;cursor:pointer;' +
+        'font-size:1.3rem;padding:0 2px;flex-shrink:0;line-height:1;">&times;</button>' +
+    '</div>' +
+    _dashHtml +
+    photoHtml +
+    phoneHtml +
+    specsHtml +
+    statusHtml +
+    factsHtml +
+    familyTreeHtml +
+    researchHtml +
+    actionsHtml +
+    btnsHtml +
+    callLogHtml;
+
+  document.getElementById('dd-content').innerHTML = html;
+  document.getElementById('dd-overlay').style.display = 'block';
+  document.getElementById('dd-panel').style.display   = 'block';
+}
+
+function handlePhotoError(img) {
+  var fallback = img.getAttribute('data-fallback');
+  var mapsUrl  = img.getAttribute('data-maps');
+  if (fallback && img.src !== fallback) {
+    img.src = fallback;
+    return;
+  }
+  // Both failed — show maps link placeholder
+  img.style.display = 'none';
+  if (mapsUrl) {
+    var ph = document.createElement('div');
+    ph.style.cssText = 'height:72px;background:#1a1a2e;border-radius:6px;display:flex;' +
+      'align-items:center;justify-content:center;margin-bottom:14px;';
+    ph.innerHTML = '<a href="' + escHtml(mapsUrl) + '" target="_blank" ' +
+      'style="color:#4a7ab5;font-size:0.75rem;text-decoration:none;">📍 View on Google Maps</a>';
+    img.parentNode.insertBefore(ph, img.nextSibling);
+  }
+}
+
+function copyCmd(text) {
+  navigator.clipboard.writeText(text).then(function() {
+    showToast('Copied to clipboard');
+  }).catch(function() {
+    prompt('Copy this command:', text);
+  });
+}
+
+function copyCallLog() {
+  var who   = (document.getElementById('cl-who')   || {}).value  || '';
+  var said  = (document.getElementById('cl-said')  || {}).value  || '';
+  var tasks = (document.getElementById('cl-tasks') || {}).value  || '';
+  var panel = document.getElementById('dd-panel');
+  var titleEl = panel ? panel.querySelector('span[style*="font-weight:800"]') : null;
+  var dealTitle = titleEl ? titleEl.textContent : '';
+  var ts = new Date().toLocaleString();
+  var text =
+    'CALL LOG\n' +
+    '=========\n' +
+    'Date:      ' + ts + '\n' +
+    'Deal:      ' + dealTitle + '\n' +
+    'Spoke to:  ' + (who  || '—') + '\n\n' +
+    'What they said:\n' + (said  || '—') + '\n\n' +
+    'Insights + follow-up:\n' + (tasks || '—');
+  navigator.clipboard.writeText(text).then(function() {
+    showToast('Call log copied — paste into Claude Code');
+  }).catch(function() {
+    prompt('Copy this call log:', text);
+  });
+}
+
+function showToast(msg) {
+  var t = document.getElementById('dd-toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'dd-toast';
+    t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);' +
+      'background:#22c55e;color:#000;font-size:0.78rem;font-weight:700;' +
+      'padding:8px 16px;border-radius:6px;z-index:200;pointer-events:none;';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.opacity = '1';
+  t.style.display = 'block';
+  clearTimeout(t._hide);
+  t._hide = setTimeout(function() { t.style.display = 'none'; }, 2200);
+}
+</script>
+
+</body>
+</html>
