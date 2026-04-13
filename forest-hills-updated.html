@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1645 Forest Hills Rd — Updated: 9 Shared Rooms · 91% Occ · $100K Rehab</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #f0f2f5; color: #1a1a1a; font-size: 13px; max-width: 1100px; margin: 0 auto; }
+
+  .hero {
+    background: #1a2b3c; border-radius: 0 0 8px 8px; padding: 36px 40px; margin-bottom: 24px;
+    display: grid; grid-template-columns: auto 1fr; gap: 36px; align-items: center;
+  }
+  .hero-left { border-right: 1px solid rgba(255,255,255,.12); padding-right: 36px; }
+  .hero-eyebrow { font-size: 10px; font-weight: 700; color: #7fb3d3; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
+  .hero h1 { font-size: 36px; font-weight: 900; color: white; line-height: 1.1; margin-bottom: 4px; }
+  .hero h2 { font-size: 14px; font-weight: 400; color: #7fb3d3; margin-bottom: 14px; }
+  .hero-rule { width: 44px; height: 4px; background: #e8a020; margin-bottom: 14px; }
+  .hero-meta { font-size: 12px; color: #aac4d8; line-height: 2.2; }
+  .hero-meta strong { color: white; }
+  .hero-right { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; }
+  .stat-cell { text-align: center; padding: 14px 10px; border-right: 1px solid rgba(255,255,255,.12); }
+  .stat-cell:last-child { border-right: none; }
+  .stat-num { font-size: 22px; font-weight: 900; color: #e8a020; line-height: 1; }
+  .stat-lbl { font-size: 8px; text-transform: uppercase; letter-spacing: 1px; color: #aac4d8; margin-top: 4px; }
+
+  .change-badge {
+    display: inline-block; background: #fff3cd; color: #856404; border: 1px solid #e8a020;
+    font-size: 10px; font-weight: 700; padding: 5px 14px; border-radius: 20px; margin: 2px 4px;
+  }
+  .change-bar { background: #fffbf0; border: 1px solid #e8a020; border-radius: 6px; padding: 14px 20px; margin-bottom: 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+  .change-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #b07700; margin-right: 6px; }
+
+  .section { background: white; padding: 32px 36px; margin-bottom: 24px; border-radius: 8px; }
+  .page-hdr {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    border-bottom: 3px solid #1a2b3c; padding-bottom: 10px; margin-bottom: 24px;
+    flex-wrap: wrap; gap: 6px;
+  }
+  .page-hdr h2 { font-size: 18px; font-weight: 900; text-transform: uppercase; letter-spacing: .8px; color: #1a2b3c; }
+  .page-hdr span { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #999; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+  .info-card { border: 1px solid #e0e0e0; border-radius: 6px; padding: 18px 20px; border-top: 4px solid #1a2b3c; }
+  .info-card h4 { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: #888; margin-bottom: 12px; }
+  .info-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f0f0f0; font-size: 13px; gap: 8px; }
+  .info-row:last-child { border-bottom: none; }
+  .info-row .lbl { color: #555; flex-shrink: 0; }
+  .info-row .val { font-weight: 700; color: #1a2b3c; text-align: right; }
+  .info-row .val.green { color: #1e7e34; }
+  .info-row .val.orange { color: #b07700; }
+
+  .dark-box { background: #1a2b3c; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px; }
+  .dark-box h4 { color: #7fb3d3; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 14px; }
+  .dark-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,.08); font-size: 13px; color: white; gap: 8px; }
+  .dark-row:last-child { border-bottom: none; }
+  .dark-row .dlbl { color: #aac4d8; }
+  .dark-row .dval { font-weight: 700; color: white; text-align: right; }
+  .dark-row .dval.gold { color: #e8a020; }
+  .dark-row .dval.green { color: #4caf50; }
+  .dark-row .dval.red { color: #ef9a9a; }
+
+  .coc-hero {
+    background: #1a2b3c; border-radius: 8px; padding: 24px 32px;
+    margin-bottom: 24px;
+    display: grid; grid-template-columns: auto 1fr 1fr 1fr; gap: 0; align-items: center;
+  }
+  .coc-main { padding-right: 32px; border-right: 1px solid rgba(255,255,255,.12); }
+  .coc-eyebrow { font-size: 10px; font-weight: 700; color: #7fb3d3; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .coc-pct { font-size: 64px; font-weight: 900; color: #e8a020; line-height: 1; letter-spacing: -2px; }
+  .coc-sub { font-size: 11px; color: #aac4d8; margin-top: 6px; }
+  .coc-item { text-align: center; padding: 0 18px; border-right: 1px solid rgba(255,255,255,.12); }
+  .coc-item:last-child { border-right: none; }
+  .coc-item-lbl { font-size: 10px; color: #7fb3d3; text-transform: uppercase; letter-spacing: .8px; margin-bottom: 6px; }
+  .coc-item-val { font-size: 32px; font-weight: 900; line-height: 1; }
+  .coc-item-note { font-size: 11px; color: #aac4d8; margin-top: 4px; }
+
+  .cf-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0;
+    border: 1px solid #e0e0e0; border-radius: 6px; overflow: hidden; margin-bottom: 20px;
+  }
+  .cf-col { padding: 22px 20px; border-right: 1px solid #e8e8e8; }
+  .cf-col:last-child { border-right: none; }
+  .cf-col.mkt-col { background: #fffbf0; border-top: 4px solid #e8a020; }
+  .cf-col.con-col { border-top: 4px solid #1a2b3c; }
+  .cf-col.opt-col { border-top: 4px solid #1e7e34; }
+  .cf-col h3 { font-size: 13px; font-weight: 900; color: #1a2b3c; margin-bottom: 2px; }
+  .cf-sub { font-size: 10px; color: #999; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 14px; }
+  .li { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #f5f5f5; font-size: 12px; gap: 6px; }
+  .li.divider { border-top: 1px solid #ddd; border-bottom: none; margin-top: 4px; padding-top: 7px; }
+  .li.total { border-top: 2px solid #1a2b3c; border-bottom: none; padding-top: 9px; margin-top: 4px; font-weight: 900; font-size: 15px; }
+  .ll { color: #555; }
+  .lv { font-weight: 600; color: #1a2b3c; }
+  .lv.neg { color: #8b0000; }
+  .lv.pos { color: #1e7e34; }
+  .lv.gold { color: #b07700; }
+
+  table.exp-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 12px; }
+  .exp-table th { background: #1a2b3c; color: white; padding: 9px 12px; text-align: left; font-size: 9px; text-transform: uppercase; letter-spacing: 1px; }
+  .exp-table th.right { text-align: right; }
+  .exp-table td { padding: 9px 12px; border-bottom: 1px solid #eee; }
+  .exp-table td.right { text-align: right; font-weight: 600; }
+  .exp-table tr.section-hdr td { background: #f0f2f5; color: #555; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; padding: 6px 12px; }
+  .exp-table tr.subtotal td { background: #fffbf0; font-weight: 700; }
+  .exp-table tr.total-row td { background: #1a2b3c; color: white; font-weight: 700; font-size: 13px; }
+  .exp-table tr.total-row td.right { color: #ef9a9a; }
+  .note-cell { font-size: 11px; color: #888; }
+
+  table.year-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 20px; }
+  .year-table th { background: #1a2b3c; color: white; padding: 10px 14px; text-align: right; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
+  .year-table th:first-child { text-align: left; }
+  .year-table td { padding: 10px 14px; border-bottom: 1px solid #eee; text-align: right; }
+  .year-table td:first-child { text-align: left; color: #555; }
+  .year-table tr.hl td { background: #fffbf0; font-weight: 700; }
+  .year-table tr.hl td:first-child { color: #1a2b3c; }
+  .year-table tr.cumrow td { background: #e8f4ea; font-weight: 700; }
+  .year-table tr.cumrow td:first-child { color: #1e7e34; }
+
+  .room-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 24px; }
+  .room-table th { background: #1a2b3c; color: white; padding: 9px 12px; text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
+  .room-table th.right { text-align: right; }
+  .room-table td { padding: 9px 12px; border-bottom: 1px solid #eee; vertical-align: middle; }
+  .room-table td.right { text-align: right; }
+  .room-table tr:hover td { background: #fafafa; }
+  .room-table tr.floor-hdr td { background: #f0f2f5; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: #555; padding: 6px 12px; }
+  .room-num-badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; background: #1a2b3c; color: #e8a020;
+    border-radius: 50%; font-weight: 900; font-size: 11px;
+  }
+  .badge-shared { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; background: #e8f4ea; color: #1e7e34; border: 1px solid #1e7e34; }
+
+  .sensitivity-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  .sens-card { border: 1px solid #e0e0e0; border-radius: 6px; padding: 16px 18px; }
+  .sens-card.best { border-top: 4px solid #1e7e34; }
+  .sens-card.base { border-top: 4px solid #e8a020; }
+  .sens-card.worst { border-top: 4px solid #8b0000; }
+  .sens-card h4 { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+  .sens-card.best h4 { color: #1e7e34; }
+  .sens-card.base h4 { color: #b07700; }
+  .sens-card.worst h4 { color: #8b0000; }
+
+  .verdict { background: #1a2b3c; border-radius: 8px; padding: 28px 32px; margin-top: 24px; }
+  .verdict h3 { color: #e8a020; font-size: 16px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
+  .verdict p { color: #aac4d8; font-size: 13px; line-height: 1.8; }
+  .verdict strong { color: white; }
+  .verdict .num { color: #e8a020; font-weight: 900; }
+
+  .page-foot { font-size: 10px; color: #999; text-align: center; padding: 10px 0; border-top: 1px solid #eee; margin-top: 20px; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════════ -->
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Updated Deal Review</div>
+    <h1>1645 Forest Hills Rd</h1>
+    <h2>Jacksonville FL 32208 · 9-Room Shared · 5BR/3BA · 5,775 sqft · Indoor Pool</h2>
+    <div class="hero-rule"></div>
+    <div class="hero-meta">
+      <strong>Seller:</strong> Raj Mody &nbsp;·&nbsp; <strong>Structure:</strong> 5% I/O · 10-Year Balloon · $0 Down<br>
+      <strong>All-In Cash:</strong> $111,400 (rehab $100K + closing $11.4K · 3%) &nbsp;·&nbsp; <strong>Build:</strong> 1950 · Dual-Level<br>
+      <strong>Updated:</strong> 2026-04-12 &nbsp;·&nbsp; <strong>Change:</strong> All 9 shared @ $165/wk · 91% occ · $100K rehab · 5% IO · 10-yr balloon
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="stat-cell"><div class="stat-num">9</div><div class="stat-lbl">Shared Rooms</div></div>
+    <div class="stat-cell"><div class="stat-num">$111K</div><div class="stat-lbl">All-In Cash</div></div>
+    <div class="stat-cell"><div class="stat-num">12.9%</div><div class="stat-lbl">CoC Return</div></div>
+    <div class="stat-cell"><div class="stat-num">8.8%</div><div class="stat-lbl">Cap Rate</div></div>
+    <div class="stat-cell"><div class="stat-num">61%</div><div class="stat-lbl">Break-Even</div></div>
+    <div class="stat-cell"><div class="stat-num">~$90K</div><div class="stat-lbl">5-Yr Cash</div></div>
+  </div>
+</div>
+
+<!-- CHANGE BAR -->
+<div class="change-bar">
+  <span class="change-label">Current Structure</span>
+  <span class="change-badge">All 9 shared @ $165/wk (no private premium)</span>
+  <span class="change-badge">91% occupancy</span>
+  <span class="change-badge">$100K rehab (1950 build + pool)</span>
+  <span class="change-badge">10-year balloon (updated from 5)</span>
+  <span class="change-badge">$0 down · seller finance</span>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     COC HERO
+═══════════════════════════════════════════════ -->
+<div class="coc-hero">
+  <div class="coc-main">
+    <div class="coc-eyebrow">Cash-on-Cash Return</div>
+    <div class="coc-pct">12.9%</div>
+    <div class="coc-sub">$14,328 annual cash ÷ $111,400 total invested</div>
+  </div>
+  <div class="coc-item">
+    <div class="coc-item-lbl">Debt Coverage</div>
+    <div class="coc-item-val" style="color:#e8a020;">1.75×</div>
+    <div class="coc-item-note">DSCR (NOI ÷ Debt)</div>
+  </div>
+  <div class="coc-item">
+    <div class="coc-item-lbl">Payback</div>
+    <div class="coc-item-val" style="color:#4caf50;">93 mo</div>
+    <div class="coc-item-note">$111,400 ÷ $1,194/mo</div>
+  </div>
+  <div class="coc-item">
+    <div class="coc-item-lbl">Down Payment</div>
+    <div class="coc-item-val" style="color:#4caf50;">$0</div>
+    <div class="coc-item-note">Seller finance I/O</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PAGE 1 — DEAL TERMS
+═══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="page-hdr">
+    <h2>Deal Terms &amp; Cash Required</h2>
+    <span>Seller Finance · 5% Interest-Only · 10-Year Balloon</span>
+  </div>
+
+  <div class="two-col">
+    <div class="info-card">
+      <h4>Financing Structure</h4>
+      <div class="info-row"><span class="lbl">Purchase Price</span><span class="val">$380,000</span></div>
+      <div class="info-row"><span class="lbl">Down Payment</span><span class="val green">$0</span></div>
+      <div class="info-row"><span class="lbl">Interest Rate</span><span class="val">5% Interest-Only</span></div>
+      <div class="info-row"><span class="lbl">Monthly Payment</span><span class="val">$1,583/mo</span></div>
+      <div class="info-row"><span class="lbl">Annual Debt Service</span><span class="val">$19,000</span></div>
+      <div class="info-row"><span class="lbl">Balloon</span><span class="val orange">10 years</span></div>
+      <div class="info-row"><span class="lbl">Seller</span><span class="val">Raj Mody</span></div>
+    </div>
+    <div class="info-card">
+      <h4>Cash Required — All-In</h4>
+      <div class="info-row"><span class="lbl">Down Payment</span><span class="val green">$0</span></div>
+      <div class="info-row"><span class="lbl">Closing Costs (3%)</span><span class="val">$11,400</span></div>
+      <div class="info-row"><span class="lbl">Rehab Budget (midpoint)</span><span class="val">$100,000</span></div>
+      <div class="info-row"><span class="lbl">Total All-In Cash</span><span class="val" style="font-size:16px; color:#8b0000;">$111,400</span></div>
+      <div class="info-row"><span class="lbl" style="color:#888; font-size:11px;">Rehab note</span><span class="val" style="color:#888; font-weight:400; font-size:11px;">1950 build + indoor pool</span></div>
+    </div>
+  </div>
+
+  <!-- Rehab Sensitivity -->
+  <div class="page-hdr" style="margin-top:4px;">
+    <h2>Rehab Sensitivity — CoC by Budget</h2>
+    <span>Rate &amp; Revenue Hold · Only Rehab Changes</span>
+  </div>
+
+  <div class="sensitivity-grid">
+    <div class="sens-card best">
+      <h4>Best Case — $80K Rehab</h4>
+      <div class="info-row"><span class="lbl">All-In Cash</span><span class="val green">$91,400</span></div>
+      <div class="info-row"><span class="lbl">Annual CF</span><span class="val">$14,328</span></div>
+      <div class="info-row"><span class="lbl">CoC Return</span><span class="val green">15.7%</span></div>
+      <div class="info-row"><span class="lbl">Payback</span><span class="val">76 mo</span></div>
+    </div>
+    <div class="sens-card base">
+      <h4>Base Case — $100K Rehab</h4>
+      <div class="info-row"><span class="lbl">All-In Cash</span><span class="val orange">$111,400</span></div>
+      <div class="info-row"><span class="lbl">Annual CF</span><span class="val">$14,328</span></div>
+      <div class="info-row"><span class="lbl">CoC Return</span><span class="val orange">12.9%</span></div>
+      <div class="info-row"><span class="lbl">Payback</span><span class="val">93 mo</span></div>
+    </div>
+    <div class="sens-card worst">
+      <h4>Worst Case — $150K Rehab</h4>
+      <div class="info-row"><span class="lbl">All-In Cash</span><span class="val" style="color:#8b0000;">$161,400</span></div>
+      <div class="info-row"><span class="lbl">Annual CF</span><span class="val">$14,328</span></div>
+      <div class="info-row"><span class="lbl">CoC Return</span><span class="val" style="color:#8b0000;">8.9%</span></div>
+      <div class="info-row"><span class="lbl">Payback</span><span class="val" style="color:#8b0000;">135 mo</span></div>
+    </div>
+  </div>
+
+  <div style="font-size:12px; color:#555; line-height:1.7; background:#f8f8f8; padding:14px 18px; border-radius:6px;">
+    <strong>Key Insight:</strong> The rehab budget is the dominant variable in this deal — not the rate, not the rents. Every $10K in rehab overrun costs approximately 0.8% CoC. Getting a firm GC bid before committing is essential. The indoor pool adds material cost uncertainty (mechanicals, tile, safety compliance). Scope it separately.
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PAGE 2 — ROOM MAP + CASH FLOW
+═══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="page-hdr">
+    <h2>Room Revenue — All 9 Shared @ $165/wk</h2>
+    <span>91% Occupancy · In-House Management · No Platform Fee</span>
+  </div>
+
+  <table class="room-table">
+    <thead>
+      <tr><th>Room</th><th>Floor</th><th>Type / Notes</th><th class="right">Sqft</th><th class="right">Rate</th><th>Bath</th></tr>
+    </thead>
+    <tbody>
+      <tr class="floor-hdr"><td colspan="6">First Floor — 5 Rooms</td></tr>
+      <tr>
+        <td><span class="room-num-badge">1</span></td>
+        <td>1st</td>
+        <td>Primary Bedroom</td>
+        <td class="right">242</td>
+        <td class="right">$165/wk</td>
+        <td><span class="badge-shared">Shared</span></td>
+      </tr>
+      <tr>
+        <td><span class="room-num-badge">2</span></td>
+        <td>1st</td>
+        <td>NE Bedroom</td>
+        <td class="right">213</td>
+        <td class="right">$165/wk</td>
+        <td><span class="badge-shared">Shared</span></td>
+      </tr>
+      <tr>
+        <td><span class="room-num-badge">3</span></td>
+        <td>1st</td>
+        <td>N Bedroom</td>
+        <td class="right">154</td>
+        <td class="right">$165/wk</td>
+        <td><span class="badge-shared">Shared</span></td>
+      </tr>
+      <tr>
+        <td><span class="room-num-badge">4</span></td>
+        <td>1st</td>
+        <td>Living Room → Bedroom conversion</td>
+        <td class="right">388</td>
+        <td class="right">$165/wk</td>
+        <td><span class="badge-shared">Shared</span></td>
+      </tr>
+      <tr>
+        <td><span class="room-num-badge">5</span></td>
+        <td>1st</td>
+        <td>Dining Room → Bedroom conversion</td>
+        <td class="right">194</td>
+        <td class="right">$165/wk</td>
+        <td><span class="badge-shared">Shared</span></td>
+      </tr>
+      <tr class="floor-hdr"><td colspan="6">Second Floor — 4 Rooms (converted from large upstairs space)</td></tr>
+      <tr>
+        <td><span class="room-num-badge">6</span></td>
+        <td>2nd</td>
+        <td>Converted room — NW</td>
+        <td class="right">~280</td>
+        <td class="right">$165/wk</td>
+        <td><span class="badge-shared">Shared</span></td>
+      </tr>
+      <tr>
+        <td><span class="room-num-badge">7</span></td>
+        <td>2nd</td>
+        <td>Converted room — NE</td>
+        <td class="right">~280</td>
+        <td class="right">$165/wk</td>
+        <td><span class="badge-shared">Shared</span></td>
+      </tr>
+      <tr>
+        <td><span class="room-num-badge">8</span></td>
+        <td>2nd</td>
+        <td>Converted room — SE</td>
+        <td class="right">~280</td>
+        <td class="right">$165/wk</td>
+        <td><span class="badge-shared">Shared</span></td>
+      </tr>
+      <tr>
+        <td><span class="room-num-badge">9</span></td>
+        <td>2nd</td>
+        <td>Converted room — SW</td>
+        <td class="right">~280</td>
+        <td class="right">$165/wk</td>
+        <td><span class="badge-shared">Shared</span></td>
+      </tr>
+      <tr style="background:#f8f8f8;">
+        <td colspan="4" style="font-weight:900;">TOTAL — 9 rooms × $165/wk × 4.333 wks/mo</td>
+        <td class="right" style="font-weight:900; color:#1e7e34; font-size:14px;">$6,435/mo</td>
+        <td class="note-cell">$77,220/yr gross potential</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- CASH FLOW — BASE CASE -->
+  <div class="page-hdr" style="margin-top:12px;">
+    <h2>Cash Flow — Base Case</h2>
+    <span>9 Shared · $165/wk · 91% Occ · Fixed $2,317/mo · 13% Variable · 5% I/O</span>
+  </div>
+
+  <div class="cf-grid" style="grid-template-columns: 1fr;">
+    <div class="cf-col mkt-col">
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+        <!-- Revenue side -->
+        <div>
+          <h3 style="margin-bottom:14px;">Revenue</h3>
+          <div class="li"><span class="ll">9 shared rooms @ $165/wk</span><span class="lv">$6,435/mo</span></div>
+          <div class="li"><span class="ll">Vacancy (9%)</span><span class="lv neg">−$579/mo</span></div>
+          <div class="li" style="border-top:2px solid #1a2b3c; padding-top:8px; margin-top:4px;"><span class="ll" style="font-weight:900;">Gross Effective Revenue</span><span class="lv" style="font-weight:900; font-size:15px;">$5,856/mo</span></div>
+        </div>
+        <!-- Expense side -->
+        <div>
+          <h3 style="margin-bottom:14px;">Expenses</h3>
+          <div class="li"><span class="ll">Cleaning</span><span class="lv neg">−$300</span></div>
+          <div class="li"><span class="ll">Electric (5,775 sqft · 1950 build)</span><span class="lv neg">−$800</span></div>
+          <div class="li"><span class="ll">Water/Sewer</span><span class="lv neg">−$225</span></div>
+          <div class="li"><span class="ll">Insurance (+ pool rider)</span><span class="lv neg">−$425</span></div>
+          <div class="li"><span class="ll">Property Taxes (1.79% × $380K)</span><span class="lv neg">−$567</span></div>
+          <div class="li"><span class="ll">Maintenance (10% GER)</span><span class="lv neg">−$586</span></div>
+          <div class="li"><span class="ll">CapEx reserve (3% GER)</span><span class="lv neg">−$176</span></div>
+          <div class="li" style="border-top:2px solid #1a2b3c; padding-top:8px; margin-top:4px;"><span class="ll" style="font-weight:900;">Total Expenses</span><span class="lv neg" style="font-weight:900; font-size:15px;">−$3,079/mo</span></div>
+        </div>
+      </div>
+      <div style="margin-top:20px; padding-top:16px; border-top: 2px solid #e8a020;">
+        <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:16px; text-align:center;">
+          <div>
+            <div style="font-size:10px; text-transform:uppercase; letter-spacing:1px; color:#888; margin-bottom:6px;">NOI (Before Debt)</div>
+            <div style="font-size:28px; font-weight:900; color:#1a2b3c;">$2,777/mo</div>
+            <div style="font-size:11px; color:#888;">$33,324/yr</div>
+          </div>
+          <div>
+            <div style="font-size:10px; text-transform:uppercase; letter-spacing:1px; color:#888; margin-bottom:6px;">Debt Service (5% I/O)</div>
+            <div style="font-size:28px; font-weight:900; color:#8b0000;">−$1,583/mo</div>
+            <div style="font-size:11px; color:#888;">$19,000/yr</div>
+          </div>
+          <div>
+            <div style="font-size:10px; text-transform:uppercase; letter-spacing:1px; color:#888; margin-bottom:6px;">Net Cash Flow</div>
+            <div style="font-size:28px; font-weight:900; color:#1e7e34;">$1,194/mo</div>
+            <div style="font-size:11px; color:#888;">$14,328/yr</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PAGE 3 — EXPENSE BREAKDOWN
+═══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="page-hdr">
+    <h2>Operating Expense Breakdown</h2>
+    <span>Per Month · GER $5,856/mo · 1950 Build · Indoor Pool · All-Electric</span>
+  </div>
+
+  <div style="margin-bottom:28px;">
+    <div style="font-size:11px; font-weight:700; color:#555; text-transform:uppercase; letter-spacing:.8px; margin-bottom:12px;">Fixed Expenses — Same Every Month</div>
+    <table class="exp-table">
+      <thead>
+        <tr>
+          <th style="width:26%;">Expense</th>
+          <th class="right" style="width:13%;">Per Month</th>
+          <th class="right" style="width:13%;">Per Year</th>
+          <th>How It's Calculated</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="section-hdr"><td colspan="4">Cleaning</td></tr>
+        <tr><td>Common Area + Kitchen/Bath</td><td class="right" style="color:#8b0000;">−$300</td><td class="right" style="color:#888;">−$3,600</td><td class="note-cell">Weekly common area + kitchen/bath crew · 5,775 sqft property</td></tr>
+        <tr class="subtotal"><td style="padding-left:20px;">&#8627; Cleaning Total</td><td class="right">−$300</td><td class="right" style="color:#888;">−$3,600</td><td></td></tr>
+        <tr class="section-hdr"><td colspan="4">Utilities — 1950 Build · 5,775 sqft · Indoor Pool</td></tr>
+        <tr><td>Electric</td><td class="right" style="color:#8b0000;">−$800</td><td class="right" style="color:#888;">−$9,600</td><td class="note-cell">5,775 sqft · 1950 construction (poor insulation) · 9 occupants · pool pump</td></tr>
+        <tr><td>Water/Sewer</td><td class="right" style="color:#8b0000;">−$225</td><td class="right" style="color:#888;">−$2,700</td><td class="note-cell">City water + sewer · pool evaporation adds usage</td></tr>
+        <tr class="subtotal"><td style="padding-left:20px;">&#8627; Utilities Total</td><td class="right">−$1,025</td><td class="right" style="color:#888;">−$12,300</td><td></td></tr>
+        <tr class="section-hdr"><td colspan="4">Insurance &amp; Taxes</td></tr>
+        <tr><td>Insurance (+ pool rider)</td><td class="right" style="color:#8b0000;">−$425</td><td class="right" style="color:#888;">−$5,100</td><td class="note-cell">Landlord policy + pool liability rider · large 1950 house</td></tr>
+        <tr><td>Property Taxes</td><td class="right" style="color:#8b0000;">−$567</td><td class="right" style="color:#888;">−$6,804</td><td class="note-cell">$380K × 1.79% Duval actual millage</td></tr>
+        <tr class="total-row"><td>TOTAL FIXED</td><td class="right">−$2,317</td><td class="right">−$27,804</td><td class="note-cell" style="color:#aac4d8;">Same every month regardless of occupancy</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="margin-bottom:28px;">
+    <div style="font-size:11px; font-weight:700; color:#555; text-transform:uppercase; letter-spacing:.8px; margin-bottom:12px;">Variable Expenses — Scale With Revenue</div>
+    <table class="exp-table">
+      <thead>
+        <tr>
+          <th style="width:26%;">Expense</th>
+          <th class="right" style="width:13%;">Per Month</th>
+          <th class="right" style="width:13%;">Per Year</th>
+          <th>How It's Calculated</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td style="color:#888; font-size:11px;">GER base</td><td class="right" style="color:#b07700;">$5,856/mo</td><td class="right" style="color:#888;">$70,272/yr</td><td class="note-cell">Gross potential × 91% occ</td></tr>
+        <tr><td>Maintenance</td><td class="right" style="color:#8b0000;">−$586</td><td class="right" style="color:#888;">−$7,027</td><td class="note-cell">10% of GER · 1950 build = higher repair frequency</td></tr>
+        <tr><td>CapEx Reserve</td><td class="right" style="color:#8b0000;">−$176</td><td class="right" style="color:#888;">−$2,108</td><td class="note-cell">3% of GER · roof, HVAC, pool mechanicals, water heater</td></tr>
+        <tr class="total-row"><td>TOTAL VARIABLE</td><td class="right">−$762</td><td class="right">−$9,135</td><td class="note-cell" style="color:#aac4d8;">13% of GER</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- EXPENSE SUMMARY -->
+  <div class="dark-box">
+    <h4>Expense Summary — Base Model</h4>
+    <div class="dark-row"><span class="dlbl">Fixed expenses</span><span class="dval red">−$2,317/mo</span></div>
+    <div class="dark-row"><span class="dlbl">Variable (13% GER)</span><span class="dval red">−$762/mo</span></div>
+    <div class="dark-row" style="border-top:1px solid rgba(255,255,255,.15); padding-top:10px; margin-top:4px;">
+      <span class="dlbl" style="color:white; font-weight:700;">Total Operating Expenses</span>
+      <span class="dval red" style="font-size:16px;">−$3,079/mo</span>
+    </div>
+    <div class="dark-row"><span class="dlbl">GER (91% occ)</span><span class="dval">$5,856/mo</span></div>
+    <div class="dark-row" style="border-top:1px solid rgba(255,255,255,.15); padding-top:10px; margin-top:4px;">
+      <span class="dlbl" style="color:white; font-weight:700;">NOI (before debt)</span>
+      <span class="dval green" style="font-size:16px;">$2,777/mo</span>
+    </div>
+    <div class="dark-row"><span class="dlbl">Cap Rate (NOI ÷ $380K)</span><span class="dval gold">8.8%</span></div>
+    <div class="dark-row"><span class="dlbl">Expense ratio</span><span class="dval">52.6% of GER</span></div>
+    <div class="dark-row"><span class="dlbl">Utilities % of GER</span><span class="dval gold">17.5%</span></div>
+  </div>
+
+  <div style="font-size:11px; color:#888; line-height:1.6; padding:12px 16px; background:#f8f8f8; border-radius:6px; margin-top:12px;">
+    <strong>Note on expense ratio:</strong> At 52.6% of GER, Forest Hills runs materially higher than Skycrest (40.7%). The gap is driven by three factors: (1) electric is $800 vs $600 — 5,775 sqft with 1950 insulation and pool pump; (2) insurance is $425 vs $292 — pool liability rider required; (3) lower rents at $165/wk vs $200/wk mean fixed costs hit the GER ratio harder. This is a higher-cost profile for the same room count.
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PAGE 4 — 5-YEAR PROJECTION
+═══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="page-hdr">
+    <h2>5-Year Projection</h2>
+    <span>3% Annual Rent Growth · Variable Expenses Scale · Fixed Stay Flat · $380K Balloon Due Year 10</span>
+  </div>
+
+  <table class="year-table">
+    <thead>
+      <tr>
+        <th>Metric</th>
+        <th>Year 1</th>
+        <th>Year 2</th>
+        <th>Year 3</th>
+        <th>Year 4</th>
+        <th>Year 5</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Weekly Rate (shared)</td>
+        <td>$165</td>
+        <td>$170</td>
+        <td>$175</td>
+        <td>$180</td>
+        <td>$186</td>
+      </tr>
+      <tr>
+        <td>Gross Potential (annual)</td>
+        <td>$77,220</td>
+        <td>$79,524</td>
+        <td>$81,900</td>
+        <td>$84,276</td>
+        <td>$87,048</td>
+      </tr>
+      <tr>
+        <td>GER (91% occ)</td>
+        <td>$70,272</td>
+        <td>$72,348</td>
+        <td>$74,520</td>
+        <td>$76,656</td>
+        <td>$79,164</td>
+      </tr>
+      <tr>
+        <td>Fixed Expenses</td>
+        <td style="color:#8b0000;">−$27,804</td>
+        <td style="color:#8b0000;">−$27,804</td>
+        <td style="color:#8b0000;">−$27,804</td>
+        <td style="color:#8b0000;">−$27,804</td>
+        <td style="color:#8b0000;">−$27,804</td>
+      </tr>
+      <tr>
+        <td>Variable Expenses (13% GER)</td>
+        <td style="color:#8b0000;">−$9,135</td>
+        <td style="color:#8b0000;">−$9,405</td>
+        <td style="color:#8b0000;">−$9,688</td>
+        <td style="color:#8b0000;">−$9,965</td>
+        <td style="color:#8b0000;">−$10,291</td>
+      </tr>
+      <tr>
+        <td>Total Expenses</td>
+        <td style="color:#8b0000;">−$36,939</td>
+        <td style="color:#8b0000;">−$37,209</td>
+        <td style="color:#8b0000;">−$37,492</td>
+        <td style="color:#8b0000;">−$37,769</td>
+        <td style="color:#8b0000;">−$38,095</td>
+      </tr>
+      <tr class="hl">
+        <td>NOI</td>
+        <td>$33,333</td>
+        <td>$35,139</td>
+        <td>$37,028</td>
+        <td>$38,887</td>
+        <td>$41,069</td>
+      </tr>
+      <tr>
+        <td>Debt Service (5% I/O)</td>
+        <td style="color:#8b0000;">−$19,000</td>
+        <td style="color:#8b0000;">−$19,000</td>
+        <td style="color:#8b0000;">−$19,000</td>
+        <td style="color:#8b0000;">−$19,000</td>
+        <td style="color:#8b0000;">−$19,000</td>
+      </tr>
+      <tr class="hl">
+        <td>Annual Cash Flow</td>
+        <td style="color:#1e7e34; font-weight:700;">$14,333</td>
+        <td style="color:#1e7e34; font-weight:700;">$16,139</td>
+        <td style="color:#1e7e34; font-weight:700;">$18,028</td>
+        <td style="color:#1e7e34; font-weight:700;">$19,887</td>
+        <td style="color:#1e7e34; font-weight:700;">$22,069</td>
+      </tr>
+      <tr class="cumrow">
+        <td>Cumulative Cash</td>
+        <td>$14,333</td>
+        <td>$30,472</td>
+        <td>$48,500</td>
+        <td>$68,387</td>
+        <td>$90,456</td>
+      </tr>
+      <tr>
+        <td>CoC Return (on $111,400)</td>
+        <td style="color:#e8a020; font-weight:700;">12.9%</td>
+        <td style="color:#e8a020; font-weight:700;">14.5%</td>
+        <td style="color:#e8a020; font-weight:700;">16.2%</td>
+        <td style="color:#e8a020; font-weight:700;">17.8%</td>
+        <td style="color:#e8a020; font-weight:700;">19.8%</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; margin-bottom:20px;">
+    <div class="dark-box" style="margin-bottom:0;">
+      <h4>5-Year Totals</h4>
+      <div class="dark-row"><span class="dlbl">Total Cash Collected</span><span class="dval green">$90,456</span></div>
+      <div class="dark-row"><span class="dlbl">All-In Invested</span><span class="dval red">$111,400</span></div>
+      <div class="dark-row"><span class="dlbl">Net at End of Year 5</span><span class="dval red">−$20,944</span></div>
+      <div class="dark-row"><span class="dlbl">Full payback (est.)</span><span class="dval gold">Year 8+</span></div>
+    </div>
+    <div class="dark-box" style="margin-bottom:0;">
+      <h4>Balloon Exit — Year 10</h4>
+      <div class="dark-row"><span class="dlbl">Balloon Due</span><span class="dval red">$380,000</span></div>
+      <div class="dark-row"><span class="dlbl">Yr 5 NOI (run rate)</span><span class="dval">$41,069</span></div>
+      <div class="dark-row"><span class="dlbl">Cap Rate (NOI ÷ $380K)</span><span class="dval gold">10.8%</span></div>
+      <div class="dark-row"><span class="dlbl">10-yr runway</span><span class="dval green">Low refi pressure</span></div>
+    </div>
+    <div class="dark-box" style="margin-bottom:0;">
+      <h4>Break-Even Analysis</h4>
+      <div class="dark-row"><span class="dlbl">Break-even occupancy</span><span class="dval gold">61%</span></div>
+      <div class="dark-row"><span class="dlbl">Rooms to cover all costs</span><span class="dval gold">5.5 of 9</span></div>
+      <div class="dark-row"><span class="dlbl">Fixed + Debt monthly nut</span><span class="dval">$3,900</span></div>
+      <div class="dark-row"><span class="dlbl">Payback (months)</span><span class="dval" style="color:#e8a020;">93</span></div>
+    </div>
+  </div>
+
+  <div style="font-size:11px; color:#888; line-height:1.6; padding:12px 16px; background:#f8f8f8; border-radius:6px;">
+    <strong>Break-even math:</strong> Total monthly nut (fixed expenses + debt service) = $2,317 + $1,583 = $3,900/mo. Each room at $165/wk = $715/mo. $3,900 ÷ $715 = 5.5 rooms. So 6 of 9 rooms occupied covers every fixed cost + debt. That leaves 3 rooms of cash flow margin. At 91% occupancy (8.19 rooms paying), the cushion is 2.69 rooms above break-even. Note: this deal does NOT pay back the $111,400 all-in until approximately Year 8 under base-case assumptions.
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     VERDICT
+═══════════════════════════════════════════════ -->
+<div class="section" style="padding-bottom:20px;">
+  <div class="page-hdr">
+    <h2>Decision Summary</h2>
+    <span>Updated 2026-04-12</span>
+  </div>
+
+  <div class="verdict">
+    <h3>Forest Hills vs. Skycrest — The Honest Read</h3>
+    <p>
+      With all 9 rooms shared at <span class="num">$165/wk</span>, <span class="num">91%</span> occupancy, and a <span class="num">$100K</span> midpoint rehab budget, the numbers work — but this deal is fundamentally tighter than Skycrest.
+    </p>
+    <p style="margin-top:12px;">
+      <strong>Monthly cash flow:</strong> <span class="num">$1,194/mo</span> &nbsp;·&nbsp;
+      <strong>Annual:</strong> <span class="num">$14,328</span> &nbsp;·&nbsp;
+      <strong>CoC:</strong> <span class="num">12.9%</span> &nbsp;·&nbsp;
+      <strong>DSCR:</strong> <span class="num">1.75×</span> &nbsp;·&nbsp;
+      <strong>Cap Rate:</strong> <span class="num">8.8%</span>
+    </p>
+    <p style="margin-top:12px;">
+      Skycrest generates <strong>59% CoC on $52K</strong>. Forest Hills generates <strong>12.9% CoC on $111K</strong>. The gap is almost entirely explained by the rehab budget: $100K for a 1950 build with an indoor pool vs. $40K for a newer structure. If the rehab comes in at <span class="num">$80K</span>, CoC improves to <span class="num">~15.7%</span>. At the worst-case <span class="num">$150K</span>, CoC drops to <span class="num">~8.9%</span> — acceptable but thin.
+    </p>
+    <p style="margin-top:12px;">
+      <strong>The critical variables in order of impact:</strong>
+    </p>
+    <p style="margin-top:8px;">
+      <span class="num">1.</span> <strong>Rehab budget</strong> — get a firm GC bid with pool scoped separately before committing. <span class="num">2.</span> <strong>Electric bill</strong> — verify actual JEA history; 1950 construction + 5,775 sqft could run $900-1,000+/mo in summer. <span class="num">3.</span> <strong>Rate structure</strong> — this deal was designed with a potential step-up rate structure (built separately). At 5% flat IO for 10 years, the <span class="num">10-year balloon</span> removes near-term refi pressure, but rates must stay serviceable. <span class="num">4.</span> <strong>Room rates</strong> — $165/wk is below Skycrest ($200/wk) and below the PadSplit market for this zip. JAX 32208 may support $175-185/wk; each $5/wk increase adds ~$195/mo to NOI.
+    </p>
+    <p style="margin-top:12px;">
+      <strong>Verdict:</strong> This deal <strong>clears all basic hurdles</strong> — positive cash flow, DSCR above 1.5×, 61% break-even, $0 down. But the <span class="num">93-month payback</span> means you don't get your $111K back until Year 8. The indoor pool is both the most compelling amenity (marketing) and the highest risk item (maintenance, insurance, liability). <strong>This deal is a YES at $80K rehab and a careful YES at $100K. At $120K+, renegotiate the price down to $350K or pass.</strong>
+    </p>
+  </div>
+
+  <div class="page-foot">1645 Forest Hills Rd · Jacksonville FL 32208 · Updated Deal Review · 9 Shared Rooms · 91% Occ · $100K Rehab · $111,400 All-In · 5% IO · 10-Yr Balloon · 2026-04-12</div>
+</div>
+
+</body>
+</html>
