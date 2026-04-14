@@ -323,6 +323,10 @@
     .hoja-table .col-balance { min-width: 62px; font-weight: 800; }
     .hoja-table .col-cond { min-width: 90px; }
     .hoja-table .col-notes { min-width: 110px; text-align: left; }
+    .hoja-table .col-action { min-width: 80px; }
+    .hoja-action-btn { border: none; border-radius: 8px; padding: 5px 8px; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap; -webkit-tap-highlight-color: transparent; }
+    .hoja-action-btn.move-out { background: var(--red-lt); color: var(--red); }
+    .hoja-action-btn.move-in  { background: var(--green-lt); color: var(--green); }
     .hoja-subtotal td { background: #EFF6FF; font-size: 12px; border-top: 2px solid #BFDBFE; font-weight: 700; }
     .hoja-summary { background: white; border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px 16px; margin-top: 4px; margin-bottom: 20px; }
     .hoja-summary-title { font-size: 15px; font-weight: 800; color: #1F2937; margin-bottom: 14px; }
@@ -1123,7 +1127,7 @@ function updateLateFeeDisplay() {
   if (fee > 0) {
     const rent = parseFloat(amtEl.value) || 0;
     feeEl.style.display = 'block';
-    feeEl.innerHTML = `⏰ Cargo tardío: <strong>$${fee}</strong> &nbsp;|&nbsp; Balance total: <strong>$${rent + fee}</strong><br><span style="font-size:11px;font-weight:400;opacity:.8;">Late fee: $${fee} · Balance due: $${rent + fee}</span>`;
+    feeEl.innerHTML = `⏰ Recargo tardío: <strong>$${fee}</strong> &nbsp;|&nbsp; Balance total: <strong>$${rent + fee}</strong><br><span style="font-size:11px;font-weight:400;opacity:.8;">Late fee: $${fee} · Balance due: $${rent + fee}</span>`;
   } else {
     feeEl.style.display = 'none';
   }
@@ -1415,7 +1419,7 @@ function savePayment() {
   };
   save(SK.payments, payments);
   closeModal('payment-modal');
-  const msg = lateFee > 0 ? `✅ Pago guardado — Cargo tardío $${lateFee}` : '✅ Pago guardado / Payment saved';
+  const msg = lateFee > 0 ? `✅ Pago guardado — Recargo tardío $${lateFee}` : '✅ Pago guardado / Payment saved';
   showToast(msg);
   renderCobros(); renderAndreaTablero();
 }
@@ -2588,11 +2592,12 @@ function saveHojaField(roomId, field, value) {
 function renderHoja() {
   const container = document.getElementById('hoja-container');
   if (!container) return;
-  const wk      = currentWeekKey();
-  const wkLbl   = weekLabel(wk);
+  const wk       = currentWeekKey();
+  const wkLbl    = weekLabel(wk);
   const payments = load(SK.payments) || {};
-  const wkPay   = payments[wk] || {};
-  const conds   = load(SK.conditions) || {};
+  const wkPay    = payments[wk] || {};
+  const conds    = load(SK.conditions) || {};
+  const tenantList = load(SK.tenants) || [];
 
   let html = `<div style="font-size:13px;font-weight:700;color:var(--gray);margin-bottom:12px;text-align:center;">
     📅 ${wkLbl}
@@ -2666,6 +2671,7 @@ function renderHoja() {
           <td id="hoja-bal-${room.id}" class="col-balance" style="color:var(--gray);">—</td>
           <td class="col-cond"></td>
           <td class="col-notes"><input class="hoja-input notes-input" value="${(rec.notes||'').replace(/"/g,'&quot;')}" placeholder="Notes..." onchange="saveHojaField('${room.id}','notes',this.value)"></td>
+          <td class="col-action"><button class="hoja-action-btn move-in" onclick="openMoveInModal('${room.id}')">🔑 Entrar</button></td>
         </tr>`;
         return;
       }
@@ -2684,6 +2690,14 @@ function renderHoja() {
         {v:'fix',    l:'🔧 Reparar'},
         {v:'urgent', l:'🚨 Urgente'},
       ];
+
+      // Look up moveIn date for this tenant
+      const tenantRec = tenantList.find(t => t.roomId === room.id);
+      const moveInDate = tenantRec ? (tenantRec.moveIn || null) : null;
+      const safeTenant = (tenant || '').replace(/'/g,"\\'");
+      const moveOutCall = moveInDate
+        ? `openMoveOutModal('${room.id}','${safeTenant}','${moveInDate}')`
+        : `openMoveOutModal('${room.id}','${safeTenant}',null)`;
 
       rowsHtml += `<tr class="${isPaid?'hoja-paid':'hoja-unpaid'}">
         <td class="col-unit">${room.unit}</td>
@@ -2711,6 +2725,7 @@ function renderHoja() {
         <td class="col-notes">
           <input class="hoja-input notes-input" value="${(rec.notes||'').replace(/"/g,'&quot;')}" placeholder="Notas..." onchange="saveHojaField('${room.id}','notes',this.value)">
         </td>
+        <td class="col-action"><button class="hoja-action-btn move-out" onclick="${moveOutCall}">🚪 Se Fue</button></td>
       </tr>`;
     });
 
@@ -2733,10 +2748,11 @@ function renderHoja() {
             <th class="col-paid">✓</th>
             <th class="col-method">Método</th>
             <th class="col-date">Fecha Pago</th>
-            <th class="col-fee">Cargo</th>
+            <th class="col-fee">Recargo</th>
             <th class="col-balance">Balance</th>
             <th class="col-cond">Condición</th>
             <th class="col-notes">Notas</th>
+            <th class="col-action">Acción</th>
           </tr></thead>
           <tbody>${rowsHtml}</tbody>
           <tfoot><tr class="hoja-subtotal">
