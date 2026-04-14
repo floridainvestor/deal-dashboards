@@ -357,7 +357,7 @@
     <div class="topbar-week" id="week-display">—</div>
   </div>
   <div class="topbar-right">
-    <button class="en-toggle-btn" onclick="toggleEnView()" id="en-toggle-btn">EN</button>
+    <button class="en-toggle-btn" onclick="toggleEnView()" id="en-toggle-btn">ES→EN</button>
     <div class="avatars">
       <div class="avatar-wrap active" onclick="switchRole('andrea')" id="av-andrea">
         <div class="avatar avatar-andrea">
@@ -1342,7 +1342,7 @@ function toggleEnView() {
   showEnTranslation = !showEnTranslation;
   document.body.classList.toggle('show-en', showEnTranslation);
   const btn = document.getElementById('en-toggle-btn');
-  if (btn) btn.textContent = showEnTranslation ? '👁 ES' : 'EN';
+  if (btn) btn.textContent = showEnTranslation ? 'EN→ES' : 'ES→EN';
 }
 
 /* ----------------------------------------------------------------
