@@ -2655,23 +2655,18 @@ function renderHoja() {
         weeklyVacant++;
         rowsHtml += `<tr class="hoja-vacant">
           <td class="col-unit">${room.unit}</td>
-          <td class="col-tenant" style="color:var(--gray);font-style:italic;">Vacant</td>
-          <td class="col-rent" style="color:var(--gray);">—</td>
-          <td class="col-paid"></td>
-          <td class="col-method">
-            <select class="hoja-vac-status" onchange="saveHojaField('${room.id}','vacStatus',this.value)">
-              <option value="">Status...</option>
-              <option value="cleaning" ${rec.vacStatus==='cleaning'?'selected':''}>🧹 Cleaning</option>
-              <option value="ready" ${rec.vacStatus==='ready'?'selected':''}>✅ Ready</option>
-              <option value="leasing" ${rec.vacStatus==='leasing'?'selected':''}>🔑 Leasing</option>
-            </select>
+          <td colspan="10" style="text-align:left;padding:8px 10px;">
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+              <button class="hoja-action-btn move-in" style="font-size:13px;padding:7px 14px;" onclick="openMoveInModal('${room.id}')">🔑 Nuevo Inquilino</button>
+              <select class="hoja-vac-status" style="max-width:130px;" onchange="saveHojaField('${room.id}','vacStatus',this.value)">
+                <option value="">Estado vacante...</option>
+                <option value="cleaning" ${rec.vacStatus==='cleaning'?'selected':''}>🧹 Limpiando</option>
+                <option value="ready"    ${rec.vacStatus==='ready'   ?'selected':''}>✅ Listo</option>
+                <option value="leasing"  ${rec.vacStatus==='leasing' ?'selected':''}>📋 En renta</option>
+              </select>
+              <input class="hoja-input" style="max-width:130px;" value="${(rec.notes||'').replace(/"/g,'&quot;')}" placeholder="Notas vacante..." onchange="saveHojaField('${room.id}','notes',this.value)">
+            </div>
           </td>
-          <td class="col-date"></td>
-          <td class="col-fee">—</td>
-          <td id="hoja-bal-${room.id}" class="col-balance" style="color:var(--gray);">—</td>
-          <td class="col-cond"></td>
-          <td class="col-notes"><input class="hoja-input notes-input" value="${(rec.notes||'').replace(/"/g,'&quot;')}" placeholder="Notes..." onchange="saveHojaField('${room.id}','notes',this.value)"></td>
-          <td class="col-action"><button class="hoja-action-btn move-in" onclick="openMoveInModal('${room.id}')">🔑 Entrar</button></td>
         </tr>`;
         return;
       }
