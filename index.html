@@ -188,6 +188,18 @@
     .sub-amount-val.green { color: var(--green); }
     .sub-amount-label { font-size: 11px; color: var(--gray); }
 
+    /* CONDITION PILLS */
+    .cond-pills { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 7px; }
+    .cond-pill { padding: 3px 9px; border-radius: 99px; font-size: 11px; font-weight: 700; border: 1.5px solid #E5E7EB; background: white; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: border-color .12s, background .12s; color: var(--gray); }
+    .cond-pill.ok.active { border-color: var(--green); background: var(--green-lt); color: var(--green); }
+    .cond-pill.clean.active { border-color: var(--amber); background: var(--amber-lt); color: #92400E; }
+    .cond-pill.fix.active { border-color: var(--blue); background: var(--blue-lt); color: var(--blue); }
+    .cond-pill.urgent.active { border-color: var(--red); background: var(--red-lt); color: var(--red); }
+    .late-fee-badge { display:inline-block; background:var(--amber-lt); color:#92400E; border:1.5px solid var(--amber); border-radius:99px; padding:2px 9px; font-size:11px; font-weight:700; margin-left:6px; }
+    .balance-line { font-size:12px; font-weight:700; color:#1F2937; margin-top:3px; }
+    .cond-alert-card { border-radius: var(--radius-sm); padding: 14px 16px; margin-bottom: 14px; }
+    .turnover-row { background: var(--card-bg); border-radius: var(--radius-sm); box-shadow: 0 1px 6px rgba(0,0,0,.06); padding: 14px 16px; margin-bottom: 8px; border-left: 4px solid var(--purple); }
+
     /* SECTION DIVIDER */
     .section-divider { font-size: 12px; font-weight: 700; color: var(--gray); text-transform: uppercase; letter-spacing: .5px; margin: 20px 0 10px; display: flex; align-items: center; gap: 8px; }
     .section-divider::after { content: ''; flex: 1; height: 1px; background: #E5E7EB; }
@@ -614,8 +626,31 @@
         <button class="method-pill" onclick="selectMethod(this,'other')">Other</button>
       </div>
     </div>
-    <div class="form-group"><label class="form-label"><input type="checkbox" id="payment-late" style="margin-right:6px;">Pago tardío / <span class="en-label">Late payment</span></label></div>
+    <div class="form-group"><label class="form-label">Fecha de pago / <span class="en-label">Date paid</span></label><input type="date" class="form-input" id="payment-date" onchange="updateLateFeeDisplay()"></div>
+    <div id="late-fee-display" style="display:none;background:var(--amber-lt);border:2px solid var(--amber);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:12px;font-size:14px;font-weight:700;color:#92400E;"></div>
     <div class="btn-row"><button class="btn btn-ghost" onclick="closeModal('payment-modal')">Cancelar</button><button class="btn btn-green" onclick="savePayment()">✓ Guardar</button></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="move-out-modal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">¿Se fue? 🏠<br><span style="font-size:14px;font-weight:400;color:var(--gray);">Move-Out</span></div>
+    <div id="moveout-tenant-info" style="font-size:15px;font-weight:700;color:#1F2937;padding:4px 0 14px;text-align:center;border-bottom:1px solid #E5E7EB;margin-bottom:16px;"></div>
+    <div class="form-group"><label class="form-label">Razón de salida / <span class="en-label">Reason</span></label>
+      <select class="form-select" id="moveout-reason">
+        <option value="">Selecciona razón...</option>
+        <option value="precio">Precio muy alto / Price too high</option>
+        <option value="condicion">Problema de condición / Condition issue</option>
+        <option value="no_responde">No respondió / No response</option>
+        <option value="eligio_otro">Eligió otro lugar / Chose elsewhere</option>
+        <option value="desalojado">Desalojado / Evicted</option>
+        <option value="otro">Otro / Other</option>
+      </select>
+    </div>
+    <div class="form-group"><label class="form-label">Semanas aquí / <span class="en-label">Weeks stayed</span></label><input type="number" class="form-input" id="moveout-weeks" min="0" placeholder="0" inputmode="numeric"></div>
+    <div class="form-group"><label class="form-label">Notas / <span class="en-label">Notes</span></label><input type="text" class="form-input" id="moveout-notes" placeholder="Notas opcionales..."></div>
+    <div class="btn-row"><button class="btn btn-ghost" onclick="closeModal('move-out-modal')">Cancelar</button><button class="btn btn-red" onclick="saveMoveOut()">✓ Confirmar salida</button></div>
   </div>
 </div>
 
@@ -696,7 +731,7 @@
 'use strict';
 
 /* ----------------------------------------------------------------
-   PROPS — 83 rooms across 16 properties
+   PROPS — 80 rooms across 16 properties
 ---------------------------------------------------------------- */
 const PROPS = [
   {id:'myra', name:'2204 Myra / 864 Copeland', addr:'2204 Myra St', zip:'32204', rooms:[
@@ -824,6 +859,8 @@ const SK = {
   tenants:     'ca_v6_tenants',
   maintenance: 'ca_v6_maint',
   cleaning:    'ca_v6_clean',
+  conditions:  'ca_v6_cond',
+  turnover:    'ca_v6_turnover',
 };
 
 /* ----------------------------------------------------------------
@@ -882,6 +919,38 @@ function firstTuesdayOfMonth(year, month) {
   const d = new Date(year, month, 1);
   while (d.getDay() !== 2) d.setDate(d.getDate() + 1);
   return d.toISOString().slice(0,10);
+}
+
+/* ----------------------------------------------------------------
+   LATE FEE LOGIC
+   Due: Saturday by 11:59 PM
+   Day 1 (Sunday) = $15 flat
+   Day 2+ (Mon, Tue…) = $15 + (daysPast-1) * $5
+---------------------------------------------------------------- */
+function calcLateFee(datePaid, wk) {
+  if (!datePaid || !wk) return 0;
+  // wk is Sunday (week start); Saturday = wk + 6 days
+  const sat = new Date(wk + 'T12:00:00');
+  sat.setDate(sat.getDate() + 6);
+  const paid = new Date(datePaid + 'T12:00:00');
+  if (paid <= sat) return 0;
+  const daysPast = Math.round((paid - sat) / 86400000);
+  return 15 + Math.max(0, daysPast - 1) * 5;
+}
+
+function updateLateFeeDisplay() {
+  const dateEl  = document.getElementById('payment-date');
+  const feeEl   = document.getElementById('late-fee-display');
+  const amtEl   = document.getElementById('payment-amount');
+  if (!dateEl || !feeEl) return;
+  const fee = calcLateFee(dateEl.value, currentWeekKey());
+  if (fee > 0) {
+    const rent = parseFloat(amtEl.value) || 0;
+    feeEl.style.display = 'block';
+    feeEl.innerHTML = `⏰ Cargo tardío: <strong>$${fee}</strong> &nbsp;|&nbsp; Balance total: <strong>$${rent + fee}</strong><br><span style="font-size:11px;font-weight:400;opacity:.8;">Late fee: $${fee} · Balance due: $${rent + fee}</span>`;
+  } else {
+    feeEl.style.display = 'none';
+  }
 }
 
 /* ----------------------------------------------------------------
@@ -946,6 +1015,22 @@ function calcWeekStats(wk) {
     }
   });
   return { occupied, vacant, paid, unpaid, collected, potential, outstanding, total: rooms.length };
+}
+
+/* ----------------------------------------------------------------
+   ROOM CONDITIONS
+   States: ok | clean | fix | urgent
+---------------------------------------------------------------- */
+function getCondition(roomId) {
+  const c = load(SK.conditions) || {};
+  return c[roomId] || 'ok';
+}
+function setCondition(roomId, cond) {
+  const c = load(SK.conditions) || {};
+  c[roomId] = cond;
+  save(SK.conditions, c);
+  renderCobros();
+  renderAndreaTablero();
 }
 
 /* ----------------------------------------------------------------
@@ -1104,12 +1189,15 @@ function openPaymentModal(roomId) {
   document.getElementById('payment-tenant-info').innerHTML =
     `<span style="font-size:20px;">👤</span> ${tenant} — <span style="color:var(--gray);">${room.propName || ''} Unit ${room.unit}</span>`;
   document.getElementById('payment-amount').value = rent;
-  document.getElementById('payment-late').checked = false;
+  const dateEl = document.getElementById('payment-date');
+  if (dateEl) dateEl.value = today();
+  const feeEl = document.getElementById('late-fee-display');
+  if (feeEl) feeEl.style.display = 'none';
   document.querySelectorAll('#payment-methods .method-pill').forEach(p => p.classList.remove('selected'));
   const existing = getPayment(roomId);
   if (existing) {
     document.getElementById('payment-amount').value = existing.amt || rent;
-    document.getElementById('payment-late').checked = !!existing.late;
+    if (dateEl) dateEl.value = existing.datePaid || today();
     selectedPaymentMethod = existing.method || null;
     if (existing.method) {
       document.querySelectorAll('#payment-methods .method-pill').forEach(p => {
@@ -1117,6 +1205,7 @@ function openPaymentModal(roomId) {
       });
     }
   }
+  updateLateFeeDisplay();
   openModal('payment-modal');
 }
 
@@ -1135,16 +1224,22 @@ function savePayment() {
   if (!amt || amt <= 0) { showToast('⚠️ Ingresa un monto válido'); return; }
   if (!selectedPaymentMethod) { showToast('⚠️ Selecciona el método de pago'); return; }
   const wk = currentWeekKey();
+  const dateEl = document.getElementById('payment-date');
+  const datePaid = dateEl ? (dateEl.value || today()) : today();
+  const lateFee = calcLateFee(datePaid, wk);
   const payments = load(SK.payments) || {};
   if (!payments[wk]) payments[wk] = {};
   payments[wk][paymentRoomId] = {
     paid: true, amt, method: selectedPaymentMethod,
     ts: new Date().toISOString(),
-    late: document.getElementById('payment-late').checked,
+    datePaid,
+    lateFee,
+    late: lateFee > 0,
   };
   save(SK.payments, payments);
   closeModal('payment-modal');
-  showToast('✅ Pago guardado / Payment saved');
+  const msg = lateFee > 0 ? `✅ Pago guardado — Cargo tardío $${lateFee}` : '✅ Pago guardado / Payment saved';
+  showToast(msg);
   renderCobros(); renderAndreaTablero();
 }
 
@@ -1394,6 +1489,36 @@ function renderAndreaTablero() {
     }
     arrearsEl.innerHTML = `⚠️ ${arrearsCount} persona${arrearsCount>1?'s':''} deben 2+ semanas<br><span style="font-weight:400;font-size:12px;color:#991B1B;">${arrearsCount} tenant${arrearsCount>1?'s':''} 2+ weeks behind</span>`;
   } else if (arrearsEl) { arrearsEl.remove(); }
+
+  // Condition Alerts
+  let condAlertEl = document.getElementById('condition-alert-card');
+  const condData = load(SK.conditions) || {};
+  const condIssues = { clean:[], fix:[], urgent:[] };
+  rooms.forEach(r => {
+    if (isVacant(r.id)) return;
+    const c = condData[r.id];
+    if (c && c !== 'ok') condIssues[c] = condIssues[c] || [];
+    if (c === 'clean') condIssues.clean.push(`${r.propName} U${r.unit}`);
+    else if (c === 'fix') condIssues.fix.push(`${r.propName} U${r.unit}`);
+    else if (c === 'urgent') condIssues.urgent.push(`${r.propName} U${r.unit}`);
+  });
+  const totalIssues = condIssues.clean.length + condIssues.fix.length + condIssues.urgent.length;
+  if (totalIssues > 0 && tableroPanel) {
+    if (!condAlertEl) {
+      condAlertEl = document.createElement('div');
+      condAlertEl.id = 'condition-alert-card';
+      condAlertEl.className = 'cond-alert-card';
+      const submitBtn = tableroPanel.querySelector('.btn-blue');
+      if (submitBtn) submitBtn.insertAdjacentElement('beforebegin', condAlertEl);
+      else tableroPanel.appendChild(condAlertEl);
+    }
+    let condHtml = `<div style="font-weight:800;font-size:14px;margin-bottom:8px;color:#1F2937;">🏚️ Alertas de Condición <span style="font-size:11px;font-weight:400;color:var(--gray);">Condition Alerts</span></div>`;
+    if (condIssues.urgent.length) condHtml += `<div style="color:var(--red);font-weight:700;font-size:13px;margin-bottom:4px;">🚨 Urgente (${condIssues.urgent.length}): ${condIssues.urgent.join(', ')}</div>`;
+    if (condIssues.fix.length) condHtml += `<div style="color:var(--blue);font-weight:700;font-size:13px;margin-bottom:4px;">🔧 Reparar (${condIssues.fix.length}): ${condIssues.fix.join(', ')}</div>`;
+    if (condIssues.clean.length) condHtml += `<div style="color:#92400E;font-weight:700;font-size:13px;">🧹 Limpiar (${condIssues.clean.length}): ${condIssues.clean.join(', ')}</div>`;
+    condAlertEl.style.cssText = `background:${condIssues.urgent.length?'var(--red-lt)':'var(--amber-lt)'};border:2px solid ${condIssues.urgent.length?'var(--red)':'var(--amber)'};border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:14px;`;
+    condAlertEl.innerHTML = condHtml;
+  } else if (condAlertEl) { condAlertEl.remove(); }
 }
 
 function renderCobros() {
@@ -1412,16 +1537,28 @@ function renderCobros() {
       const paid = pmt && pmt.paid;
       const tenant = effectiveTenant(r.id);
       const rent = effectiveRent(r.id);
+      const lateFee = pmt ? (pmt.lateFee || 0) : 0;
+      const balance = rent + lateFee;
       const statusLabel = paid ? `✅ ${fmt$(pmt.amt||rent)}` : `❌ Debe ${fmt$(rent)}`;
-      const lateNote = pmt && pmt.late ? ' <span style="font-size:11px;color:var(--amber);">(tarde)</span>' : '';
+      const lateBadge = lateFee > 0 ? `<span class="late-fee-badge">+$${lateFee} tarde</span>` : '';
+      const balanceLine = paid
+        ? (lateFee > 0 ? `<div class="balance-line">Balance: ${fmt$(balance)}</div>` : '')
+        : `<div class="balance-line" style="color:var(--red);">Balance: ${fmt$(balance)}</div>`;
+      const cond = getCondition(r.id);
+      const condLabels = {ok:'✓ OK', clean:'🧹 Limpiar', fix:'🔧 Reparar', urgent:'🚨 Urgente'};
+      const condPills = ['ok','clean','fix','urgent'].map(c =>
+        `<button class="cond-pill ${c} ${cond===c?'active':''}" onclick="event.stopPropagation();setCondition('${r.id}','${c}')">${condLabels[c]}</button>`
+      ).join('');
       html += `<div class="room-card ${paid?'paid':'unpaid'}" onclick="openPaymentModal('${r.id}')">
         <div class="room-card-left">
           <div class="room-unit">Unit ${r.unit}</div>
           <div class="room-tenant">${tenant||'—'}</div>
-          <div class="room-rent">${fmt$(rent)}/sem</div>
+          <div class="room-rent">${fmt$(rent)}/sem${lateBadge}</div>
+          ${balanceLine}
+          <div class="cond-pills">${condPills}</div>
         </div>
         <div class="room-card-right">
-          <span class="status-chip ${paid?'paid':'unpaid'}">${statusLabel}${lateNote}</span>
+          <span class="status-chip ${paid?'paid':'unpaid'}">${statusLabel}</span>
           <span style="color:var(--gray);font-size:18px;">›</span>
         </div>
       </div>`;
@@ -1528,7 +1665,7 @@ function renderTenants() {
         </div>
         <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end;">
           ${phone ? `<a href="tel:${phone}" class="tenant-phone-btn">📞</a>` : ''}
-          <button class="btn btn-ghost btn-sm" style="font-size:11px;padding:6px 10px;" onclick="confirmMoveOut('${r.id}','${tenant.replace(/'/g,"\\'")}')">Se Fue</button>
+          <button class="btn btn-ghost btn-sm" style="font-size:11px;padding:6px 10px;" onclick="openMoveOutModal('${r.id}','${tenant.replace(/'/g,"\\'")}',${moveIn?`'${moveIn}'`:'null'})">Se Fue</button>
         </div>
       </div>`;
     });
@@ -1538,14 +1675,62 @@ function renderTenants() {
   container.innerHTML = html;
 }
 
-function confirmMoveOut(roomId, tenantName) {
-  if (!confirm(`¿${tenantName} se fue? / Did ${tenantName} move out?`)) return;
+let moveOutRoomId = null;
+let moveOutTenantName = null;
+
+function openMoveOutModal(roomId, tenantName, moveInDate) {
+  moveOutRoomId = roomId;
+  moveOutTenantName = tenantName;
+  const room = getRoomById(roomId);
+  document.getElementById('moveout-tenant-info').innerHTML =
+    `👤 ${tenantName} &nbsp;·&nbsp; ${room ? room.propName + ' Unit ' + room.unit : ''}`;
+  document.getElementById('moveout-reason').value = '';
+  document.getElementById('moveout-notes').value = '';
+  // Auto-calculate weeks stayed from move-in date
+  let weeksStayed = '';
+  if (moveInDate) {
+    const mi = new Date(moveInDate + 'T12:00:00');
+    const now = new Date();
+    weeksStayed = Math.max(0, Math.floor((now - mi) / (7 * 86400000)));
+  }
+  document.getElementById('moveout-weeks').value = weeksStayed;
+  openModal('move-out-modal');
+}
+
+function saveMoveOut() {
+  if (!moveOutRoomId) return;
+  const reason  = document.getElementById('moveout-reason').value;
+  const weeks   = parseInt(document.getElementById('moveout-weeks').value) || 0;
+  const notes   = document.getElementById('moveout-notes').value.trim();
+  const room    = getRoomById(moveOutRoomId);
+
+  // Record to turnover log
+  const log = load(SK.turnover) || [];
+  log.unshift({
+    id: `to-${Date.now()}`,
+    roomId: moveOutRoomId,
+    tenantName: moveOutTenantName,
+    propName: room ? room.propName : '',
+    unit: room ? room.unit : '',
+    reason,
+    weeksStayed: weeks,
+    notes,
+    dateLeft: today(),
+    ts: new Date().toISOString(),
+  });
+  save(SK.turnover, log);
+
+  // Mark vacant
   const vac = load(SK.vacancies) || {};
-  vac[roomId] = { since: today() };
+  vac[moveOutRoomId] = { since: today() };
   save(SK.vacancies, vac);
-  const tenants = (load(SK.tenants) || []).filter(t => t.roomId !== roomId);
+
+  // Remove from tenants
+  const tenants = (load(SK.tenants) || []).filter(t => t.roomId !== moveOutRoomId);
   save(SK.tenants, tenants);
-  showToast(`🏠 ${tenantName} salió / moved out`);
+
+  closeModal('move-out-modal');
+  showToast(`🏠 ${moveOutTenantName} salió / moved out`);
   renderTenants(); renderVacancyBoard(); renderAndreaTablero();
 }
 
@@ -1839,36 +2024,70 @@ function applyPriceChanges() {
   renderJerelPortfolio();
 }
 
+const MOVEOUT_REASONS = {
+  precio:'Precio muy alto / Price too high',
+  condicion:'Condición / Condition issue',
+  no_responde:'No respondió / No response',
+  eligio_otro:'Eligió otro / Chose elsewhere',
+  desalojado:'Desalojado / Evicted',
+  otro:'Otro / Other',
+};
+
 function renderHistorial() {
   const container = document.getElementById('historial-list');
   if (!container) return;
   const subs = load(SK.submissions) || [];
-  if (subs.length === 0) {
-    container.innerHTML = `<div class="empty-state"><span class="empty-icon">📜</span><div class="empty-text">No submissions yet</div></div>`;
+  const turnover = load(SK.turnover) || [];
+  let html = '';
+
+  // ── Turnover Log ──
+  if (turnover.length > 0) {
+    html += `<div class="section-divider">🚪 Salidas / Move-Outs</div>`;
+    turnover.forEach(t => {
+      const reasonLabel = MOVEOUT_REASONS[t.reason] || t.reason || '—';
+      html += `<div class="turnover-row">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+          <div style="font-weight:700;font-size:14px;">👤 ${t.tenantName}</div>
+          <span style="font-size:11px;color:var(--gray);">${t.dateLeft || ''}</span>
+        </div>
+        <div style="font-size:12px;color:var(--gray);margin-top:3px;">🏠 ${t.propName} Unit ${t.unit}</div>
+        <div style="font-size:12px;color:#374151;margin-top:5px;">📋 ${reasonLabel}</div>
+        <div style="font-size:12px;color:var(--gray);margin-top:3px;">⏱ ${t.weeksStayed} semana${t.weeksStayed!==1?'s':''} aquí</div>
+        ${t.notes ? `<div style="font-size:12px;color:#374151;margin-top:4px;font-style:italic;">"${t.notes}"</div>` : ''}
+      </div>`;
+    });
+  }
+
+  // ── Weekly Submissions ──
+  if (subs.length === 0 && turnover.length === 0) {
+    container.innerHTML = `<div class="empty-state"><span class="empty-icon">📜</span><div class="empty-text">No hay historial aún</div></div>`;
     return;
   }
-  let html = `<button class="btn btn-ghost btn-block btn-sm" onclick="exportCsv()" style="margin-bottom:14px;">📥 Export CSV</button>`;
-  subs.forEach(sub => {
-    const wkLbl = weekLabel(sub.weekKey);
-    const subDate = displayDate(sub.ts);
-    const subDt = new Date(sub.ts);
-    const wkSun = new Date(sub.weekKey+'T12:00:00');
-    const daysDiff = Math.floor((subDt - wkSun) / 86400000);
-    const onTime = daysDiff <= 1;
-    html += `<div class="submission-row">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-        <div style="font-weight:700;font-size:14px;">${wkLbl}</div>
-        <span style="background:${onTime?'var(--green-lt)':'var(--red-lt)'};color:${onTime?'var(--green)':'var(--red)'};padding:2px 10px;border-radius:99px;font-size:11px;font-weight:700;">${onTime?'✅ A tiempo':'⚠️ Tarde'}</span>
-      </div>
-      <div style="display:flex;gap:16px;margin-top:8px;">
-        <div style="text-align:center;"><div style="font-size:18px;font-weight:800;color:var(--green);">${fmt$(sub.collected)}</div><div style="font-size:11px;color:var(--gray);">Cobrado</div></div>
-        <div style="text-align:center;"><div style="font-size:18px;font-weight:800;color:var(--red);">${fmt$(sub.owed)}</div><div style="font-size:11px;color:var(--gray);">Pendiente</div></div>
-        <div style="text-align:center;"><div style="font-size:18px;font-weight:800;color:var(--amber);">${sub.vacant}</div><div style="font-size:11px;color:var(--gray);">Vacíos</div></div>
-      </div>
-      <div style="font-size:11px;color:var(--gray);margin-top:6px;">Enviado: ${subDate}</div>
-      ${sub.notes ? `<div style="font-size:12px;color:#374151;margin-top:6px;font-style:italic;">"${sub.notes}"</div>` : ''}
-    </div>`;
-  });
+  if (subs.length > 0) {
+    html += `<div class="section-divider">📤 Reportes Semanales</div>`;
+    html += `<button class="btn btn-ghost btn-block btn-sm" onclick="exportCsv()" style="margin-bottom:14px;">📥 Export CSV</button>`;
+    subs.forEach(sub => {
+      const wkLbl = weekLabel(sub.weekKey);
+      const subDate = displayDate(sub.ts);
+      const subDt = new Date(sub.ts);
+      const wkSun = new Date(sub.weekKey+'T12:00:00');
+      const daysDiff = Math.floor((subDt - wkSun) / 86400000);
+      const onTime = daysDiff <= 1;
+      html += `<div class="submission-row">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+          <div style="font-weight:700;font-size:14px;">${wkLbl}</div>
+          <span style="background:${onTime?'var(--green-lt)':'var(--red-lt)'};color:${onTime?'var(--green)':'var(--red)'};padding:2px 10px;border-radius:99px;font-size:11px;font-weight:700;">${onTime?'✅ A tiempo':'⚠️ Tarde'}</span>
+        </div>
+        <div style="display:flex;gap:16px;margin-top:8px;">
+          <div style="text-align:center;"><div style="font-size:18px;font-weight:800;color:var(--green);">${fmt$(sub.collected)}</div><div style="font-size:11px;color:var(--gray);">Cobrado</div></div>
+          <div style="text-align:center;"><div style="font-size:18px;font-weight:800;color:var(--red);">${fmt$(sub.owed)}</div><div style="font-size:11px;color:var(--gray);">Pendiente</div></div>
+          <div style="text-align:center;"><div style="font-size:18px;font-weight:800;color:var(--amber);">${sub.vacant}</div><div style="font-size:11px;color:var(--gray);">Vacíos</div></div>
+        </div>
+        <div style="font-size:11px;color:var(--gray);margin-top:6px;">Enviado: ${subDate}</div>
+        ${sub.notes ? `<div style="font-size:12px;color:#374151;margin-top:6px;font-style:italic;">"${sub.notes}"</div>` : ''}
+      </div>`;
+    });
+  }
   container.innerHTML = html;
 }
 
