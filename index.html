@@ -295,9 +295,28 @@
   </div>
   <div class="topbar-right">
     <button class="en-toggle-btn" onclick="toggleEnView()" id="en-toggle-btn">EN</button>
-    <div class="avatar avatar-andrea" style="width:42px;height:42px;border-radius:50%;border:2px solid #FFD54F;overflow:hidden;position:relative;flex-shrink:0;">
-      <img src="photos/andrea.jpg" onerror="this.style.display='none'" alt="Andrea" style="width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;">
-      <span style="position:relative;z-index:1;font-size:11px;font-weight:800;color:white;">A</span>
+    <div class="avatars">
+      <div class="avatar-wrap active" onclick="switchRole('andrea')" id="av-andrea">
+        <div class="avatar avatar-andrea">
+          <img src="photos/andrea.jpg" onerror="this.style.display='none'" alt="Andrea">
+          <span class="avatar-fallback">A</span>
+        </div>
+        <div class="avatar-name">Andrea</div>
+      </div>
+      <div class="avatar-wrap" onclick="switchRole('sandra')" id="av-sandra">
+        <div class="avatar avatar-sandra">
+          <img src="photos/sandra.jpg" onerror="this.style.display='none'" alt="Sandra">
+          <span class="avatar-fallback">S</span>
+        </div>
+        <div class="avatar-name">Sandra</div>
+      </div>
+      <div class="avatar-wrap" onclick="switchRole('jerel')" id="av-jerel">
+        <div class="avatar avatar-jerel">
+          <img src="photos/jerel.jpg" onerror="this.style.display='none'" alt="Jerel">
+          <span class="avatar-fallback">J</span>
+        </div>
+        <div class="avatar-name">Jerel</div>
+      </div>
     </div>
   </div>
 </div>
@@ -383,6 +402,199 @@
   </nav>
 </div><!-- /andrea-shell -->
 
+<!-- ================================================================
+     SANDRA SHELL
+================================================================ -->
+<div id="sandra-shell" class="role-shell">
+  <div style="flex:1;overflow-y:auto;">
+
+    <div id="sandra-exceptions" class="tab-panel active">
+      <div class="kpi-bar">
+        <div class="kpi"><div class="kpi-val kpi-red" id="s-open-exc">—</div><div class="kpi-label">Open Exceptions</div></div>
+        <div class="kpi"><div class="kpi-val kpi-red" id="s-wk-leak">—</div><div class="kpi-label">Weekly Leak</div></div>
+        <div class="kpi"><div class="kpi-val kpi-red" id="s-vacant-ct">—</div><div class="kpi-label">Vacant Rooms</div></div>
+      </div>
+      <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--gray);margin-bottom:8px;">⚠️ Exceptions — Action Required</div>
+      <div id="sandra-exc-list">
+        <!-- Rendered by JS -->
+      </div>
+      <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--gray);margin:16px 0 8px;">🏘 Vacancy Cost at Decision Point</div>
+      <div id="sandra-vac-list">
+        <!-- Rendered by JS -->
+      </div>
+    </div><!-- /sandra-exceptions -->
+
+    <div id="sandra-supply" class="tab-panel">
+      <div class="kpi-bar">
+        <div class="kpi"><div class="kpi-val kpi-red" id="s-kits">0</div><div class="kpi-label">Kits Ready</div></div>
+        <div class="kpi"><div class="kpi-val kpi-yellow">3</div><div class="kpi-label">Kit Target</div></div>
+        <div class="kpi"><div class="kpi-val kpi-red" id="s-rooms-blocked">0</div><div class="kpi-label">Rooms Blocked</div></div>
+      </div>
+      <div style="background:var(--red-lt);border-left:5px solid var(--red);border-radius:10px;padding:12px;margin-bottom:12px;" id="supply-alert-banner">
+        <div style="font-weight:800;color:var(--red);margin-bottom:4px;">🚨 RESTOCK ALERT</div>
+        <div style="font-size:13px;">Reserve at 0. Order 3 reserve kits (~$270) immediately. Prevents next supply gap.</div>
+      </div>
+      <div class="brief-card" style="border-left-color:var(--green);">
+        <div class="brief-title">📦 Standard Kit (~$111)</div>
+        <div class="brief-row"><span class="brief-label">2× JOLLYVOGUE Pillows 2-pk</span><span class="brief-val">~$20</span></div>
+        <div class="brief-row"><span class="brief-label">2× Pillow Protectors</span><span class="brief-val">~$21</span></div>
+        <div class="brief-row"><span class="brief-label">1× Comforter Set 7pc Full</span><span class="brief-val">~$38</span></div>
+        <div class="brief-row"><span class="brief-label">1× Mattress Protector</span><span class="brief-val">~$32</span></div>
+        <div class="brief-row" style="border-top:2px solid #E0E0E0;padding-top:8px;"><span class="brief-label"><strong>Total</strong></span><span class="brief-val green"><strong>~$111</strong></span></div>
+      </div>
+      <details>
+        <summary>📦 Kit Contents &amp; Restock Rules</summary>
+        <div class="details-body">
+          <strong>Restock trigger:</strong> Reserve drops to 1 → order same day<br>
+          <strong>Rule:</strong> Never reuse pillows or mattress protectors after move-out (bed bug prevention)<br>
+          <strong>Comforters:</strong> Wash and reuse if condition 7/10+
+        </div>
+      </details>
+    </div><!-- /sandra-supply -->
+
+    <div id="sandra-inventory" class="tab-panel">
+      <div class="inv-hero critical" id="inv-hero-block">
+        <div class="inv-hero-label">Complete Kits in Storage</div>
+        <div class="inv-hero-val" id="inv-kit-count">0</div>
+        <div class="inv-hero-sub" id="inv-hero-sub">🔴 CRITICAL — rooms cannot turn in 2 days</div>
+      </div>
+      <div class="turn-readiness tr-critical" id="inv-turn-readiness">
+        <div class="tr-title" id="inv-tr-title">🔴 2-Day Turn: NOT POSSIBLE</div>
+        <div class="tr-sub" id="inv-tr-sub">Need at least 1 complete kit on shelf to turn a room same day. With 0 kits, every vacancy waits on Amazon (3–7 days). Restock now.</div>
+      </div>
+      <div class="kit-counter">
+        <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--gray);margin-bottom:12px;">📦 Kit Count Tracker</div>
+        <div class="kit-counter-row">
+          <div>
+            <div class="kit-counter-label">Complete Kits on Shelf</div>
+            <div style="font-size:11px;color:var(--gray);">1 kit = 2 pillows + 2 protectors + comforter + mattress protector</div>
+          </div>
+          <div class="kit-counter-controls">
+            <button class="kit-btn kit-btn-minus" onclick="adjustKits(-1)">−</button>
+            <div class="kit-count-display" id="kit-count-display">0</div>
+            <button class="kit-btn kit-btn-plus" onclick="adjustKits(1)">+</button>
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--gray);background:var(--amber-lt);border-radius:8px;padding:8px;margin-top:4px;">⚠️ Target: 3 kits on shelf at all times. Reorder trigger: drops to 1 or below.</div>
+      </div>
+      <div class="card" style="padding:16px;">
+        <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--gray);margin-bottom:10px;">🛒 Per-Item Inventory</div>
+        <div class="inv-item-row"><span class="inv-item-name">JOLLYVOGUE Pillows (2-pk)</span><div class="inv-item-qty"><button class="inv-qty-btn inv-qty-btn-minus" onclick="adjustItem('pillows',-1)">−</button><span class="inv-qty-num" id="item-pillows">0</span><button class="inv-qty-btn inv-qty-btn-plus" onclick="adjustItem('pillows',1)">+</button></div></div>
+        <div class="inv-item-row"><span class="inv-item-name">Pillow Protectors (pairs)</span><div class="inv-item-qty"><button class="inv-qty-btn inv-qty-btn-minus" onclick="adjustItem('pillow_prot',-1)">−</button><span class="inv-qty-num" id="item-pillow_prot">0</span><button class="inv-qty-btn inv-qty-btn-plus" onclick="adjustItem('pillow_prot',1)">+</button></div></div>
+        <div class="inv-item-row"><span class="inv-item-name">Comforter Sets (7pc Full)</span><div class="inv-item-qty"><button class="inv-qty-btn inv-qty-btn-minus" onclick="adjustItem('comforter',-1)">−</button><span class="inv-qty-num" id="item-comforter">0</span><button class="inv-qty-btn inv-qty-btn-plus" onclick="adjustItem('comforter',1)">+</button></div></div>
+        <div class="inv-item-row"><span class="inv-item-name">Mattress Protectors</span><div class="inv-item-qty"><button class="inv-qty-btn inv-qty-btn-minus" onclick="adjustItem('mattress_prot',-1)">−</button><span class="inv-qty-num" id="item-mattress_prot">0</span><button class="inv-qty-btn inv-qty-btn-plus" onclick="adjustItem('mattress_prot',1)">+</button></div></div>
+      </div>
+      <button class="reorder-btn" id="reorder-btn" onclick="triggerReorder()">🛒 Reorder 3 Reserve Kits — ~$270</button>
+      <details>
+        <summary>📦 What's in a Complete Kit (~$111)</summary>
+        <div class="details-body">2× JOLLYVOGUE Pillows 2-pk (~$20) · 2× Utopia Pillow Protectors pairs (~$21) · 1× Sweet Home Comforter Full 7pc (~$38) · 1× Utopia Mattress Protector (~$32)<br><br><strong>Reorder rule:</strong> When kits on shelf ≤ 1, order 3 kits same day.<br><strong>Strip rule:</strong> Pillows and mattress protectors are single-use. Comforters: reuse if 7/10+ condition.</div>
+      </details>
+    </div><!-- /sandra-inventory -->
+
+    <div id="sandra-listings" class="tab-panel">
+      <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--gray);margin-bottom:8px;">⚠️ Listings Needing Audit</div>
+      <div id="sandra-listings-list">
+        <!-- Rendered by JS: vacant rooms with days tracking -->
+      </div>
+      <details>
+        <summary>📋 Listing Audit Checklist</summary>
+        <div class="details-body">
+          <strong>For any room with 0 leads after 7 days:</strong><br><br>
+          1. Is price within $10 of comps on Marketplace + SwipSwap?<br>
+          2. Do photos show natural light? Are they recent?<br>
+          3. Is room actually clean + move-in ready?<br>
+          4. Is the listing posted on all 3 platforms (Marketplace, SwipSwap, Jax Housing)?<br>
+          5. Are you responding to comments within 60 min?<br><br>
+          <strong>Most common fix:</strong> $10 price drop + 2 new daytime photos = leads same day.
+        </div>
+      </details>
+    </div><!-- /sandra-listings -->
+
+    <div id="sandra-photos" class="tab-panel">
+      <div style="background:var(--blue-lt);border-left:5px solid var(--blue);border-radius:10px;padding:12px;margin-bottom:12px;">
+        <div style="font-size:13px;font-weight:800;color:var(--blue);">Every notice delivery and cleaning sign-off requires a photo entry. No photo = not done.</div>
+      </div>
+      <input class="photo-search" id="photo-search-input" type="text" placeholder="Search by address (e.g. Caxton, Linden)..." oninput="renderPhotoLog(this.value)">
+      <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--gray);margin-bottom:8px;">📷 Evidence Log</div>
+      <div id="photo-log-list"></div>
+      <div class="card" style="margin-top:16px;">
+        <div class="card-title" style="font-size:14px;">Log New Entry</div>
+        <div class="form-group">
+          <label class="form-label">Type</label>
+          <select class="form-select" id="pl-type">
+            <option value="">Select type...</option>
+            <option value="notice">3-Day Notice Delivered</option>
+            <option value="cleaning">Cleaning Sign-Off</option>
+            <option value="condition">Move-In Condition</option>
+            <option value="damage">Damage Documentation</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Address</label>
+          <input type="text" class="form-input" id="pl-addr" placeholder="e.g. 7821 Caxton Cir A">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tenant (optional)</label>
+          <input type="text" class="form-input" id="pl-tenant" placeholder="Tenant name">
+        </div>
+        <button class="btn btn-blue btn-block" onclick="addPhotoLogEntry()">📷 Log Evidence</button>
+      </div>
+    </div><!-- /sandra-photos -->
+
+  </div><!-- /scroll area -->
+
+  <nav class="bottom-nav">
+    <button class="tab-btn active" onclick="showTab('sandra','exceptions')" id="tab-sandra-exceptions"><span class="tab-icon">🚨</span><span class="tab-label">EXCEPT.</span></button>
+    <button class="tab-btn" onclick="showTab('sandra','supply')" id="tab-sandra-supply"><span class="tab-icon">📦</span><span class="tab-label">SUPPLY</span></button>
+    <button class="tab-btn" onclick="showTab('sandra','inventory')" id="tab-sandra-inventory"><span class="tab-icon">🛒</span><span class="tab-label">INVENTORY</span></button>
+    <button class="tab-btn" onclick="showTab('sandra','listings')" id="tab-sandra-listings"><span class="tab-icon">📋</span><span class="tab-label">LISTINGS</span></button>
+    <button class="tab-btn" onclick="showTab('sandra','photos')" id="tab-sandra-photos"><span class="tab-icon">📷</span><span class="tab-label">PHOTOS</span></button>
+  </nav>
+</div><!-- /sandra-shell -->
+
+<!-- ================================================================
+     JEREL SHELL
+================================================================ -->
+<div id="jerel-shell" class="role-shell">
+  <div style="flex:1;overflow-y:auto;">
+    <div id="jerel-portfolio" class="tab-panel active">
+      <div class="card-title" style="font-size:18px;margin-bottom:16px;">📋 Portfolio Reconciliation</div>
+      <div class="stat-row">
+        <div class="stat-bubble"><span class="stat-num green" id="j-collected">$0</span><span class="stat-label">Collected</span></div>
+        <div class="stat-bubble"><span class="stat-num blue" id="j-potential">$0</span><span class="stat-label">Potential</span></div>
+        <div class="stat-bubble"><span class="stat-num red" id="j-outstanding">$0</span><span class="stat-label">Outstanding</span></div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-bubble"><span class="stat-num green" id="j-occupied">0</span><span class="stat-label">Occupied</span></div>
+        <div class="stat-bubble"><span class="stat-num amber" id="j-vacant-count">0</span><span class="stat-label">Vacant</span></div>
+        <div class="stat-bubble"><span class="stat-num purple" id="j-occ-rate">0%</span><span class="stat-label">Occ. Rate</span></div>
+      </div>
+      <div style="overflow-x:auto;margin-bottom:14px;border-radius:var(--radius-sm);">
+        <table class="portfolio-table" id="portfolio-table">
+          <thead><tr><th>Property</th><th>Rooms</th><th>Occ.</th><th>Collected</th><th>Owed</th></tr></thead>
+          <tbody id="portfolio-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+    <div id="jerel-precios" class="tab-panel">
+      <div class="card-title" style="font-size:18px;margin-bottom:16px;">💰 Pricing Manager</div>
+      <div class="card" style="padding:12px 16px;margin-bottom:14px;">
+        <div style="font-size:13px;color:var(--gray);margin-bottom:8px;">Adjust weekly rents per room. Changes saved instantly.</div>
+        <div id="pricing-list"></div>
+      </div>
+      <button class="btn btn-purple btn-block" onclick="applyPriceChanges()">✅ Confirm Price Changes</button>
+    </div>
+    <div id="jerel-historial" class="tab-panel">
+      <div class="card-title" style="font-size:18px;margin-bottom:16px;">📜 Historial de Reportes</div>
+      <div id="historial-list"></div>
+    </div>
+  </div>
+  <nav class="bottom-nav">
+    <button class="tab-btn active jerel-tab" onclick="showTab('jerel','portfolio')" id="tab-jerel-portfolio"><span class="tab-icon">📋</span><span class="tab-label">PORTFOLIO</span></button>
+    <button class="tab-btn jerel-tab" onclick="showTab('jerel','precios')" id="tab-jerel-precios"><span class="tab-icon">💰</span><span class="tab-label">PRECIOS</span></button>
+    <button class="tab-btn jerel-tab" onclick="showTab('jerel','historial')" id="tab-jerel-historial"><span class="tab-icon">📜</span><span class="tab-label">HISTORIAL</span></button>
+  </nav>
+</div><!-- /jerel-shell -->
 
 <!-- ================================================================
      MODALS
@@ -805,12 +1017,23 @@ function showToast(msg, duration) {
    ROLE SWITCHING — three photos, no PIN
 ---------------------------------------------------------------- */
 function switchRole(role) {
-  // Andrea-only page — role is always andrea
-  currentRole = 'andrea';
+  ['andrea','sandra','jerel'].forEach(r => {
+    document.getElementById(r + '-shell').classList.toggle('active', r === role);
+    document.getElementById('av-' + r).classList.toggle('active', r === role);
+  });
+  currentRole = role;
   const wk = currentWeekKey();
   document.getElementById('week-display').textContent = weekLabel(wk);
-  renderAndreaTablero(); renderCobros(); renderVacancyBoard();
-  renderTenants(); renderCleaning(); renderMaintenance();
+
+  if (role === 'andrea') {
+    renderAndreaTablero(); renderCobros(); renderVacancyBoard();
+    renderTenants(); renderCleaning(); renderMaintenance();
+  } else if (role === 'jerel') {
+    renderJerelPortfolio(); renderPricing(); renderHistorial();
+  } else if (role === 'sandra') {
+    renderSandraExceptions(); renderInventory(); renderSandraListings();
+    renderPhotoLog('');
+  }
 }
 
 /* ----------------------------------------------------------------
