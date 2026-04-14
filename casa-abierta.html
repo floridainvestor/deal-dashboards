@@ -295,7 +295,54 @@
     .text-sm { font-size: 13px; } .fw-700 { font-weight: 700; }
     .d-flex { display: flex; } .align-center { align-items: center; } .justify-between { justify-content: space-between; } .gap-8 { gap: 8px; } .w-100 { width: 100%; }
     @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .7; } }
+    /* HOJA SEMANAL — weekly collection sheet */
+    .hoja-prop-section { margin-bottom: 20px; }
+    .hoja-prop-header { font-size: 13px; font-weight: 800; color: #1F2937; background: #0D47A1; color: white; padding: 10px 14px; border-radius: var(--radius-sm) var(--radius-sm) 0 0; display: flex; align-items: center; gap: 6px; }
+    .hoja-table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 0 0 var(--radius-sm) var(--radius-sm); box-shadow: var(--shadow); }
+    .hoja-table { border-collapse: collapse; width: 100%; min-width: 720px; background: white; font-size: 13px; }
+    .hoja-table th { background: #F9FAFB; padding: 8px 6px; text-align: center; font-size: 10px; font-weight: 800; color: var(--gray); text-transform: uppercase; letter-spacing: .3px; border-bottom: 2px solid #E5E7EB; white-space: nowrap; position: sticky; top: 0; z-index: 3; }
+    .hoja-table th.col-unit, .hoja-table td.col-unit { position: sticky; left: 0; z-index: 4; background: #F9FAFB; min-width: 42px; }
+    .hoja-table td.col-unit { background: white; z-index: 2; }
+    .hoja-table tr.hoja-paid td.col-unit { background: var(--green-lt); }
+    .hoja-table tr.hoja-unpaid td.col-unit { background: var(--red-lt); }
+    .hoja-table tr.hoja-vacant td { background: #F9FAFB; color: var(--gray); }
+    .hoja-table td { padding: 8px 6px; border-bottom: 1px solid #F3F4F6; vertical-align: middle; text-align: center; }
+    .hoja-table tr:last-child td { border-bottom: none; }
+    .hoja-check { width: 20px; height: 20px; cursor: pointer; accent-color: var(--green); }
+    .hoja-select { border: 1px solid #E5E7EB; border-radius: 8px; padding: 5px 4px; font-size: 12px; background: white; width: 100%; min-width: 70px; max-width: 100px; }
+    .hoja-input { border: 1px solid #E5E7EB; border-radius: 8px; padding: 5px 6px; font-size: 12px; background: white; width: 100%; min-width: 80px; }
+    .hoja-input:focus, .hoja-select:focus { outline: none; border-color: var(--green); }
+    .hoja-input.notes-input { min-width: 110px; }
+    .hoja-table .col-unit { text-align: center; font-weight: 800; font-size: 12px; min-width: 42px; }
+    .hoja-table .col-tenant { text-align: left; font-weight: 600; min-width: 90px; }
+    .hoja-table .col-rent { font-weight: 700; min-width: 52px; }
+    .hoja-table .col-paid { min-width: 32px; }
+    .hoja-table .col-method { min-width: 90px; }
+    .hoja-table .col-date { min-width: 110px; }
+    .hoja-table .col-fee { min-width: 52px; font-size: 12px; }
+    .hoja-table .col-balance { min-width: 62px; font-weight: 800; }
+    .hoja-table .col-cond { min-width: 90px; }
+    .hoja-table .col-notes { min-width: 110px; text-align: left; }
+    .hoja-subtotal td { background: #EFF6FF; font-size: 12px; border-top: 2px solid #BFDBFE; font-weight: 700; }
+    .hoja-summary { background: white; border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px 16px; margin-top: 4px; margin-bottom: 20px; }
+    .hoja-summary-title { font-size: 15px; font-weight: 800; color: #1F2937; margin-bottom: 14px; }
+    .hoja-summary-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin-bottom: 14px; }
+    .hoja-sum-box { border-radius: var(--radius-sm); padding: 12px 10px; text-align: center; }
+    .hoja-sum-box.green { background: var(--green-lt); } .hoja-sum-box.red { background: var(--red-lt); } .hoja-sum-box.amber { background: var(--amber-lt); } .hoja-sum-box.blue { background: var(--blue-lt); }
+    .hoja-sum-val { font-size: 22px; font-weight: 900; }
+    .hoja-sum-box.green .hoja-sum-val { color: var(--green); } .hoja-sum-box.red .hoja-sum-val { color: var(--red); } .hoja-sum-box.amber .hoja-sum-val { color: #92400E; } .hoja-sum-box.blue .hoja-sum-val { color: var(--blue); }
+    .hoja-sum-lbl { font-size: 11px; font-weight: 700; color: var(--gray); margin-top: 3px; }
+    .hoja-method-breakdown { margin-top: 14px; border-top: 1px solid #E5E7EB; padding-top: 12px; }
+    .hoja-method-title { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .4px; color: var(--gray); margin-bottom: 8px; }
+    .hoja-method-row { display: flex; justify-content: space-between; font-size: 13px; padding: 4px 0; border-bottom: 1px solid #F3F4F6; }
+    .hoja-vac-status { border: 1.5px solid #E5E7EB; border-radius: 8px; padding: 4px 6px; font-size: 11px; background: white; width: 100%; }
+    .hoja-monthly-card { background: var(--purple-lt); border: 2px solid var(--purple); border-radius: var(--radius-sm); padding: 14px 16px; margin-bottom: 16px; }
+    .hoja-monthly-badge { background: var(--purple); color: white; border-radius: 99px; font-size: 10px; font-weight: 800; padding: 2px 8px; margin-left: 8px; text-transform: uppercase; }
+    .hoja-sync-bar { background: var(--green-lt); border: 1.5px solid var(--green); border-radius: var(--radius-sm); padding: 8px 14px; margin-bottom: 12px; font-size: 12px; font-weight: 700; color: var(--green); text-align: center; display: none; }
+    .hoja-sync-bar.show { display: block; }
   </style>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database-compat.js"></script>
 </head>
 <body>
 
@@ -376,6 +423,11 @@
       </button>
     </div><!-- /andrea-tablero -->
 
+    <div id="andrea-hoja" class="tab-panel">
+      <div id="hoja-sync-bar" class="hoja-sync-bar">☁️ Sincronizado / Synced</div>
+      <div id="hoja-container"></div>
+    </div>
+
     <div id="andrea-cobros" class="tab-panel">
       <div class="card-title" style="font-size:18px;margin-bottom:16px;">💳 Registrar Pagos<div class="en-sub">Log Payments</div></div>
       <div id="cobros-list"></div>
@@ -407,7 +459,7 @@
 
   <nav class="bottom-nav" id="andrea-nav">
     <button class="tab-btn active" onclick="showTab('andrea','tablero')" id="tab-andrea-tablero"><span class="tab-icon">🏠</span><span class="tab-label">TABLERO</span></button>
-    <button class="tab-btn" onclick="showTab('andrea','cobros')" id="tab-andrea-cobros"><span class="tab-icon">💳</span><span class="tab-label">COBROS</span></button>
+    <button class="tab-btn" onclick="showTab('andrea','hoja')" id="tab-andrea-hoja"><span class="tab-icon">📋</span><span class="tab-label">HOJA</span></button>
     <button class="tab-btn" onclick="showTab('andrea','cuartos')" id="tab-andrea-cuartos"><span class="tab-icon">🔑</span><span class="tab-label">CUARTOS</span></button>
     <button class="tab-btn" onclick="showTab('andrea','inquilinos')" id="tab-andrea-inquilinos"><span class="tab-icon">👥</span><span class="tab-label">INQUILINOS</span></button>
     <button class="tab-btn" onclick="showTab('andrea','mantenimiento')" id="tab-andrea-mantenimiento"><span class="tab-icon">🔧</span><span class="tab-label">MANT.</span></button>
@@ -730,6 +782,134 @@
 <script>
 'use strict';
 
+/* ================================================================
+   FIREBASE — real-time sync across all devices
+================================================================ */
+const firebaseConfig = {
+  apiKey: "AIzaSyAXOAse_nUUHe6r9g5BjsHDkKzUpVN0now",
+  authDomain: "casa-abierta-2c892.firebaseapp.com",
+  databaseURL: "https://casa-abierta-2c892-default-rtdb.firebaseio.com",
+  projectId: "casa-abierta-2c892",
+  storageBucket: "casa-abierta-2c892.firebasestorage.app",
+  messagingSenderId: "319577668217",
+  appId: "1:319577668217:web:daa88c9dca28cee2ba72a8",
+  measurementId: "G-B8ZLS5TV9H"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+// In-memory cache — mirrors Firebase, updated by real-time listener
+const FB = {
+  pay: {}, vac: {}, price: {}, sub: [], tenants: [],
+  maint: [], clean: {}, cond: {}, turnover: [], inv: {},
+};
+
+// Optimistic save: update cache immediately, write to Firebase in background
+function save(key, val) {
+  let fbPath = null;
+  switch(key) {
+    case 'ca_v6_pay':     fbPath='ca/pay';     FB.pay=val; break;
+    case 'ca_v6_vac':     fbPath='ca/vac';     FB.vac=val; break;
+    case 'ca_v6_price':   fbPath='ca/price';   FB.price=val; break;
+    case 'ca_v6_sub':     fbPath='ca/sub';     FB.sub=val; break;
+    case 'ca_v6_tenants': fbPath='ca/tenants'; FB.tenants=val; break;
+    case 'ca_v6_maint':   fbPath='ca/maint';   FB.maint=val; break;
+    case 'ca_v6_clean':   fbPath='ca/clean';   FB.clean=val; break;
+    case 'ca_v6_cond':    fbPath='ca/cond';    FB.cond=val; break;
+    case 'ca_v6_turnover':fbPath='ca/turnover';FB.turnover=val; break;
+    case 'ca_v6_inv':     fbPath='ca/inv';     FB.inv=val; break;
+    default: return;
+  }
+  db.ref(fbPath).set(val).catch(e => console.error('Firebase write:', e));
+  flashSyncBar();
+}
+
+// Read from in-memory cache
+function load(key) {
+  switch(key) {
+    case 'ca_v6_pay':     return JSON.parse(JSON.stringify(FB.pay));
+    case 'ca_v6_vac':     return JSON.parse(JSON.stringify(FB.vac));
+    case 'ca_v6_price':   return JSON.parse(JSON.stringify(FB.price));
+    case 'ca_v6_sub':     return Array.isArray(FB.sub) ? [...FB.sub] : Object.values(FB.sub||{});
+    case 'ca_v6_tenants': return Array.isArray(FB.tenants) ? [...FB.tenants] : Object.values(FB.tenants||{});
+    case 'ca_v6_maint':   return Array.isArray(FB.maint) ? [...FB.maint] : Object.values(FB.maint||{});
+    case 'ca_v6_clean':   return JSON.parse(JSON.stringify(FB.clean));
+    case 'ca_v6_cond':    return JSON.parse(JSON.stringify(FB.cond));
+    case 'ca_v6_turnover':return Array.isArray(FB.turnover) ? [...FB.turnover] : Object.values(FB.turnover||{});
+    case 'ca_v6_inv':     return JSON.parse(JSON.stringify(FB.inv));
+    default: return null;
+  }
+}
+
+let _syncFlashTimer = null;
+function flashSyncBar() {
+  const bar = document.getElementById('hoja-sync-bar');
+  if (!bar) return;
+  bar.classList.add('show');
+  clearTimeout(_syncFlashTimer);
+  _syncFlashTimer = setTimeout(() => bar.classList.remove('show'), 2000);
+}
+
+// Real-time listener — fires on any change from any device
+function startFirebaseSync() {
+  db.ref('ca').on('value', snap => {
+    const d = snap.val() || {};
+    FB.pay      = d.pay      || {};
+    FB.vac      = d.vac      || {};
+    FB.price    = d.price    || {};
+    FB.sub      = d.sub      ? (Array.isArray(d.sub) ? d.sub : Object.values(d.sub)).sort((a,b)=>(b.ts||'').localeCompare(a.ts||'')) : [];
+    FB.tenants  = d.tenants  ? (Array.isArray(d.tenants)  ? d.tenants  : Object.values(d.tenants))  : [];
+    FB.maint    = d.maint    ? (Array.isArray(d.maint)    ? d.maint    : Object.values(d.maint)).sort((a,b)=>(b.ts||'').localeCompare(a.ts||''))    : [];
+    FB.clean    = d.clean    || {};
+    FB.cond     = d.cond     || {};
+    FB.turnover = d.turnover ? (Array.isArray(d.turnover) ? d.turnover : Object.values(d.turnover)).sort((a,b)=>(b.ts||'').localeCompare(a.ts||'')) : [];
+    FB.inv      = d.inv      || {};
+    renderCurrentView();
+  });
+}
+
+// Migrate any existing localStorage data into Firebase (one-time, on first load)
+function migrateLocalStorage() {
+  db.ref('ca/pay').once('value', snap => {
+    if (snap.val()) return; // Firebase already has data
+    const lsMap = {
+      pay:'ca_v6_pay', vac:'ca_v6_vac', price:'ca_v6_price',
+      sub:'ca_v6_sub', tenants:'ca_v6_tenants', maint:'ca_v6_maint',
+      clean:'ca_v6_clean', cond:'ca_v6_cond', turnover:'ca_v6_turnover',
+    };
+    const migration = {};
+    let hasData = false;
+    Object.entries(lsMap).forEach(([fbKey, lsKey]) => {
+      try {
+        const raw = localStorage.getItem(lsKey);
+        if (raw) { migration[fbKey] = JSON.parse(raw); hasData = true; }
+      } catch(e) {}
+    });
+    if (hasData) {
+      db.ref('ca').set(migration).then(() => showToast('✅ Datos migrados a la nube'));
+    }
+  });
+}
+
+function renderCurrentView() {
+  if (!currentRole) return;
+  const activeTab = document.querySelector(`#${currentRole}-shell .tab-panel.active`);
+  const tabId = activeTab ? activeTab.id.replace(currentRole+'-','') : '';
+  if (currentRole === 'andrea') {
+    renderAndreaTablero();
+    if (tabId === 'hoja')          renderHoja();
+    if (tabId === 'cobros')        renderCobros();
+    if (tabId === 'cuartos')       renderVacancyBoard();
+    if (tabId === 'inquilinos')    renderTenants();
+    if (tabId === 'mantenimiento') { renderCleaning(); renderMaintenance(); }
+  } else if (currentRole === 'sandra') {
+    renderSandraExceptions(); renderSandraListings(); renderInventory();
+    renderPhotoLog(document.getElementById('photo-search-input')?.value||'');
+  } else if (currentRole === 'jerel') {
+    renderJerelPortfolio(); renderPricing(); renderHistorial();
+  }
+}
+
 /* ----------------------------------------------------------------
    PROPS — 80 rooms across 16 properties
 ---------------------------------------------------------------- */
@@ -846,6 +1026,9 @@ const PROPS = [
     {id:'tumble-e', unit:'E', tenant:'Moreno',   rent:160, phone:''},
     {id:'tumble-f', unit:'F', tenant:'',         rent:160, phone:'', vacant:true},
   ]},
+  {id:'fairfield', name:'141 Fairfield Dr GA', addr:'141 Fairfield Dr', zip:'30214', monthly:true, rooms:[
+    {id:'fairfield-main', unit:'Main', tenant:'', rent:1500, phone:''},
+  ]},
 ];
 
 /* ----------------------------------------------------------------
@@ -880,16 +1063,9 @@ let selectedNewTenantMethod  = null;
 let showEnTranslation = false;
 
 /* ----------------------------------------------------------------
-   STORAGE HELPERS
+   STORAGE HELPERS — Firebase-backed (defined at top of script)
+   save() and load() are already defined above using Firebase + FB cache.
 ---------------------------------------------------------------- */
-function load(key) {
-  try { const raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : null; }
-  catch(e) { return null; }
-}
-function save(key, val) {
-  try { localStorage.setItem(key, JSON.stringify(val)); }
-  catch(e) { console.error('Storage error', e); }
-}
 
 /* ----------------------------------------------------------------
    DATE HELPERS
@@ -1138,6 +1314,7 @@ function showTab(role, tab) {
 
   if (role === 'andrea') {
     if (tab === 'tablero')       renderAndreaTablero();
+    if (tab === 'hoja')          renderHoja();
     if (tab === 'cobros')        renderCobros();
     if (tab === 'cuartos')       renderVacancyBoard();
     if (tab === 'inquilinos')    renderTenants();
@@ -2374,9 +2551,247 @@ function renderPhotoLog(filter) {
 }
 
 /* ================================================================
+   HOJA SEMANAL — Weekly Collection Form
+================================================================ */
+function saveHojaField(roomId, field, value) {
+  const wk  = currentWeekKey();
+  const pay = load(SK.payments) || {};
+  if (!pay[wk]) pay[wk] = {};
+  if (!pay[wk][roomId]) pay[wk][roomId] = { paid:false, amt:0, method:'', datePaid:'', lateFee:0 };
+  pay[wk][roomId][field] = value;
+  // Recompute paid flag when amount or paid-bool changes
+  if (field === 'paid') pay[wk][roomId].paid = value;
+  if (field === 'amt')  pay[wk][roomId].amt  = parseFloat(value)||0;
+  // Recompute late fee when datePaid changes
+  if (field === 'datePaid') {
+    pay[wk][roomId].lateFee = calcLateFee(value, wk);
+    pay[wk][roomId].late    = pay[wk][roomId].lateFee > 0;
+  }
+  save(SK.payments, pay);
+  // Re-render the balance cell inline without full re-render
+  const balEl = document.getElementById('hoja-bal-' + roomId);
+  const feeEl = document.getElementById('hoja-fee-' + roomId);
+  if (balEl || feeEl) {
+    const rec    = pay[wk][roomId];
+    const rent   = effectiveRent(roomId);
+    const fee    = rec.lateFee || 0;
+    const isPaid = rec.paid;
+    if (feeEl) feeEl.textContent = fee > 0 ? `$${fee}` : '—';
+    if (balEl) {
+      const bal = isPaid ? 0 : rent + fee;
+      balEl.textContent = isPaid ? '✓ $0' : `$${bal}`;
+      balEl.style.color = isPaid ? 'var(--green)' : 'var(--red)';
+    }
+  }
+}
+
+function renderHoja() {
+  const container = document.getElementById('hoja-container');
+  if (!container) return;
+  const wk      = currentWeekKey();
+  const wkLbl   = weekLabel(wk);
+  const payments = load(SK.payments) || {};
+  const wkPay   = payments[wk] || {};
+  const conds   = load(SK.conditions) || {};
+
+  let html = `<div style="font-size:13px;font-weight:700;color:var(--gray);margin-bottom:12px;text-align:center;">
+    📅 ${wkLbl}
+  </div>`;
+
+  // ── Monthly card for Fairfield ───────────────────────────────
+  const ff = PROPS.find(p => p.id === 'fairfield');
+  if (ff) {
+    const ffRoom = ff.rooms[0];
+    const ffRec  = wkPay[ffRoom.id] || {};
+    const ffPaid = ffRec.paid || false;
+    const ffMeth = ffRec.method || '';
+    html += `<div class="hoja-monthly-card">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;">
+        <span style="font-size:13px;font-weight:800;">${ff.name}</span>
+        <span class="hoja-monthly-badge">Monthly</span>
+        <span style="margin-left:auto;font-size:13px;font-weight:800;color:var(--purple);">$1,500/mo</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+        <label style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;">
+          <input type="checkbox" class="hoja-check" ${ffPaid?'checked':''} onchange="saveHojaField('${ffRoom.id}','paid',this.checked);this.closest('.hoja-monthly-card').querySelector('.ff-bal').textContent=this.checked?'✓ Pagado':'⏳ Pendiente';this.closest('.hoja-monthly-card').querySelector('.ff-bal').style.color=this.checked?'var(--green)':'var(--red)';">
+          Pagado / Paid
+        </label>
+        <select class="hoja-select" style="min-width:100px;" onchange="saveHojaField('${ffRoom.id}','method',this.value)">
+          <option value="">Método...</option>
+          ${['Cash','Zelle','Cash App','Money Order'].map(m=>`<option value="${m}" ${ffMeth===m?'selected':''}>${m}</option>`).join('')}
+        </select>
+        <span class="ff-bal" style="font-size:13px;font-weight:800;color:${ffPaid?'var(--green)':'var(--red)'};">
+          ${ffPaid ? '✓ Pagado' : '⏳ Pendiente'}
+        </span>
+      </div>
+    </div>`;
+  }
+
+  // ── Per-property tables ─────────────────────────────────────
+  let weeklyCollected = 0, weeklyOwed = 0, weeklyVacant = 0;
+  const methodTotals  = { Cash:0, Zelle:0, 'Cash App':0, 'Money Order':0 };
+
+  PROPS.filter(p => !p.monthly).forEach(prop => {
+    let propCollected = 0, propOwed = 0;
+    let rowsHtml = '';
+
+    prop.rooms.forEach(room => {
+      const rec      = wkPay[room.id] || {};
+      const rent     = effectiveRent(room.id);
+      const tenant   = effectiveTenant(room.id);
+      const vacant   = isVacant(room.id);
+      const isPaid   = rec.paid || false;
+      const method   = rec.method || '';
+      const datePaid = rec.datePaid || '';
+      const fee      = rec.lateFee || 0;
+      const cond     = conds[room.id] || 'ok';
+
+      if (vacant) {
+        weeklyVacant++;
+        rowsHtml += `<tr class="hoja-vacant">
+          <td class="col-unit">${room.unit}</td>
+          <td class="col-tenant" style="color:var(--gray);font-style:italic;">Vacant</td>
+          <td class="col-rent" style="color:var(--gray);">—</td>
+          <td class="col-paid"></td>
+          <td class="col-method">
+            <select class="hoja-vac-status" onchange="saveHojaField('${room.id}','vacStatus',this.value)">
+              <option value="">Status...</option>
+              <option value="cleaning" ${rec.vacStatus==='cleaning'?'selected':''}>🧹 Cleaning</option>
+              <option value="ready" ${rec.vacStatus==='ready'?'selected':''}>✅ Ready</option>
+              <option value="leasing" ${rec.vacStatus==='leasing'?'selected':''}>🔑 Leasing</option>
+            </select>
+          </td>
+          <td class="col-date"></td>
+          <td class="col-fee">—</td>
+          <td id="hoja-bal-${room.id}" class="col-balance" style="color:var(--gray);">—</td>
+          <td class="col-cond"></td>
+          <td class="col-notes"><input class="hoja-input notes-input" value="${(rec.notes||'').replace(/"/g,'&quot;')}" placeholder="Notes..." onchange="saveHojaField('${room.id}','notes',this.value)"></td>
+        </tr>`;
+        return;
+      }
+
+      const bal = isPaid ? 0 : rent + fee;
+      if (isPaid) {
+        propCollected += (rec.amt || rent);
+        if (method && methodTotals[method] !== undefined) methodTotals[method] += (rec.amt || rent);
+      } else {
+        propOwed += rent + fee;
+      }
+
+      const condOpts = [
+        {v:'ok',     l:'✅ OK'},
+        {v:'clean',  l:'🧹 Limpiar'},
+        {v:'fix',    l:'🔧 Reparar'},
+        {v:'urgent', l:'🚨 Urgente'},
+      ];
+
+      rowsHtml += `<tr class="${isPaid?'hoja-paid':'hoja-unpaid'}">
+        <td class="col-unit">${room.unit}</td>
+        <td class="col-tenant" style="text-align:left;">${tenant || '—'}</td>
+        <td class="col-rent">$${rent}</td>
+        <td class="col-paid">
+          <input type="checkbox" class="hoja-check" ${isPaid?'checked':''} onchange="saveHojaField('${room.id}','paid',this.checked);renderHoja()">
+        </td>
+        <td class="col-method">
+          <select class="hoja-select" onchange="saveHojaField('${room.id}','method',this.value);renderHoja()">
+            <option value="">Método...</option>
+            ${['Cash','Zelle','Cash App','Money Order'].map(m=>`<option value="${m}" ${method===m?'selected':''}>${m}</option>`).join('')}
+          </select>
+        </td>
+        <td class="col-date">
+          <input type="date" class="hoja-input" value="${datePaid}" onchange="saveHojaField('${room.id}','datePaid',this.value);renderHoja()">
+        </td>
+        <td id="hoja-fee-${room.id}" class="col-fee" style="color:${fee>0?'var(--red)':'var(--gray)'};">${fee>0?'$'+fee:'—'}</td>
+        <td id="hoja-bal-${room.id}" class="col-balance" style="color:${isPaid?'var(--green)':'var(--red)'};">${isPaid?'✓ $0':'$'+bal}</td>
+        <td class="col-cond">
+          <select class="hoja-select" onchange="setCondition('${room.id}',this.value)">
+            ${condOpts.map(o=>`<option value="${o.v}" ${cond===o.v?'selected':''}>${o.l}</option>`).join('')}
+          </select>
+        </td>
+        <td class="col-notes">
+          <input class="hoja-input notes-input" value="${(rec.notes||'').replace(/"/g,'&quot;')}" placeholder="Notas..." onchange="saveHojaField('${room.id}','notes',this.value)">
+        </td>
+      </tr>`;
+    });
+
+    weeklyCollected += propCollected;
+    weeklyOwed      += propOwed;
+
+    html += `<div class="hoja-prop-section">
+      <div class="hoja-prop-header">
+        🏠 ${prop.name}
+        <span style="margin-left:auto;font-size:11px;font-weight:600;opacity:.8;">
+          ✅ $${propCollected} · ⏳ $${propOwed}
+        </span>
+      </div>
+      <div class="hoja-table-scroll">
+        <table class="hoja-table">
+          <thead><tr>
+            <th class="col-unit">Unit</th>
+            <th class="col-tenant">Inquilino</th>
+            <th class="col-rent">Renta</th>
+            <th class="col-paid">✓</th>
+            <th class="col-method">Método</th>
+            <th class="col-date">Fecha Pago</th>
+            <th class="col-fee">Cargo</th>
+            <th class="col-balance">Balance</th>
+            <th class="col-cond">Condición</th>
+            <th class="col-notes">Notas</th>
+          </tr></thead>
+          <tbody>${rowsHtml}</tbody>
+          <tfoot><tr class="hoja-subtotal">
+            <td colspan="2" style="text-align:left;padding-left:8px;">Subtotal</td>
+            <td></td><td></td><td></td><td></td><td></td>
+            <td style="color:var(--green);">$${propCollected}</td>
+            <td></td><td></td>
+          </tr></tfoot>
+        </table>
+      </div>
+    </div>`;
+  });
+
+  // ── Weekly Summary ────────────────────────────────────────────
+  const totalRooms   = allRooms().filter(r => !getPropById(r.propId)?.monthly && !isVacant(r.id)).length;
+  const paidRooms    = totalRooms - (allRooms().filter(r => !getPropById(r.propId)?.monthly && !isVacant(r.id) && !(wkPay[r.id]?.paid)).length);
+  const bonusEarned  = totalRooms > 0 && paidRooms >= BONUS_THRESHOLD ? (totalRooms - weeklyVacant) * BONUS_PER_ROOM : 0;
+
+  html += `<div class="hoja-summary">
+    <div class="hoja-summary-title">📊 Resumen Semana / Weekly Summary</div>
+    <div class="hoja-summary-grid">
+      <div class="hoja-sum-box green">
+        <div class="hoja-sum-val">$${weeklyCollected.toLocaleString()}</div>
+        <div class="hoja-sum-lbl">Cobrado / Collected</div>
+      </div>
+      <div class="hoja-sum-box red">
+        <div class="hoja-sum-val">$${weeklyOwed.toLocaleString()}</div>
+        <div class="hoja-sum-lbl">Pendiente / Owed</div>
+      </div>
+      <div class="hoja-sum-box amber">
+        <div class="hoja-sum-val">${weeklyVacant}</div>
+        <div class="hoja-sum-lbl">Vacantes / Vacant</div>
+      </div>
+      <div class="hoja-sum-box ${bonusEarned>0?'green':'blue'}">
+        <div class="hoja-sum-val">${bonusEarned>0?'$'+bonusEarned:'—'}</div>
+        <div class="hoja-sum-lbl">Bono Andrea</div>
+      </div>
+    </div>
+    <div class="hoja-method-breakdown">
+      <div class="hoja-method-title">Desglose por Método / Payment Breakdown</div>
+      ${Object.entries(methodTotals).filter(([,v])=>v>0).map(([m,v])=>`
+        <div class="hoja-method-row"><span>${m}</span><strong>$${v.toLocaleString()}</strong></div>
+      `).join('') || '<div style="color:var(--gray);font-size:12px;text-align:center;padding:8px 0;">Sin pagos registrados</div>'}
+    </div>
+  </div>`;
+
+  container.innerHTML = html;
+}
+
+/* ================================================================
    INIT
 ================================================================ */
 function init() {
+  migrateLocalStorage();
+  startFirebaseSync();
   switchRole('andrea');
 }
 
