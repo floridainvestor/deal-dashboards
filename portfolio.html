@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Active Deal Portfolio — Jerel Williams | RE_OS</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #f0f2f5; color: #1a1a1a; font-size: 13px; }
+
+  /* ── HEADER ────────────────────────── */
+  .hub-header {
+    background: #1a2b3c; color: white;
+    padding: 36px 40px 30px;
+    max-width: 1200px; margin: 0 auto;
+  }
+  .hub-eyebrow { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #7fb3d3; margin-bottom: 10px; }
+  .hub-header h1 { font-size: 30px; font-weight: 900; line-height: 1.1; margin-bottom: 6px; }
+  .hub-header p { font-size: 12px; color: #aac4d8; margin-bottom: 20px; }
+  .hub-rule { width: 44px; height: 4px; background: #e8a020; margin-bottom: 20px; }
+
+  /* ── PORTFOLIO SUMMARY STRIP ───────── */
+  .summary-strip {
+    display: flex; gap: 0;
+    border: 1px solid rgba(255,255,255,.15); border-radius: 6px;
+    overflow: hidden; max-width: 720px;
+  }
+  .sum-cell {
+    flex: 1; padding: 14px 18px; text-align: center;
+    border-right: 1px solid rgba(255,255,255,.12);
+  }
+  .sum-cell:last-child { border-right: none; }
+  .sum-num { font-size: 22px; font-weight: 900; color: #e8a020; }
+  .sum-lbl { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: #aac4d8; margin-top: 3px; }
+
+  /* ── HORMOZI KEY ─────────────────── */
+  .key-bar {
+    background: #fff8e6; border: 1px solid #e8a020; border-left: 4px solid #e8a020;
+    padding: 10px 18px; max-width: 1200px; margin: 0 auto;
+    font-size: 11px; color: #1a1a1a; display: flex; gap: 24px; flex-wrap: wrap;
+    align-items: center;
+  }
+  .key-bar strong { color: #b07700; }
+  .key-item { display: flex; align-items: center; gap: 5px; }
+  .key-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ── SECTION ─────────────────────── */
+  .section { max-width: 1200px; margin: 0 auto; padding: 28px 40px; }
+  .section-hdr {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    border-bottom: 3px solid #1a2b3c; padding-bottom: 10px; margin-bottom: 22px;
+  }
+  .section-hdr h2 { font-size: 16px; font-weight: 900; text-transform: uppercase; letter-spacing: .8px; color: #1a2b3c; }
+  .section-hdr span { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: #999; }
+
+  /* ── DEAL CARDS ──────────────────── */
+  .deal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
+  @media (max-width: 900px) { .deal-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 600px) { .deal-grid { grid-template-columns: 1fr; } }
+
+  .deal-card {
+    background: white; border-radius: 8px; overflow: hidden;
+    border: 1px solid #e0e0e0; border-top: 4px solid #1a2b3c;
+    display: flex; flex-direction: column;
+  }
+  .deal-card.rank-1 { border-top-color: #e8a020; }
+  .deal-card.rank-2 { border-top-color: #5a8fa6; }
+  .deal-card.rank-3 { border-top-color: #4a8c5c; }
+  .deal-card.negotiating { border-top-color: #b07700; border-top-style: dashed; }
+  .deal-card.conditional { border-top-color: #c0392b; border-top-style: dashed; }
+
+  .card-head {
+    background: #1a2b3c; color: white; padding: 14px 18px;
+  }
+  .card-rank { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #7fb3d3; margin-bottom: 4px; }
+  .card-address { font-size: 15px; font-weight: 900; line-height: 1.2; }
+  .card-sub { font-size: 10px; color: #aac4d8; margin-top: 3px; }
+
+  .card-metrics { padding: 14px 18px; flex: 1; }
+  .metric-row {
+    display: flex; justify-content: space-between;
+    padding: 6px 0; border-bottom: 1px solid #f0f0f0; font-size: 12px; gap: 8px;
+  }
+  .metric-row:last-child { border-bottom: none; }
+  .metric-lbl { color: #666; }
+  .metric-val { font-weight: 700; color: #1a2b3c; text-align: right; }
+  .metric-val.gold  { color: #b07700; }
+  .metric-val.green { color: #1e7e34; }
+  .metric-val.red   { color: #c0392b; }
+  .metric-val.blue  { color: #2471a3; }
+
+  .card-footer {
+    padding: 12px 18px; border-top: 1px solid #f0f0f0;
+    display: flex; justify-content: space-between; align-items: center; gap: 8px;
+  }
+  .status-badge {
+    font-size: 9px; font-weight: 900; letter-spacing: .8px; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 20px;
+  }
+  .status-active    { background: #d4edda; color: #1e7e34; }
+  .status-negotiating { background: #fff3cd; color: #856404; }
+  .status-conditional { background: #f8d7da; color: #721c24; }
+  .status-closed    { background: #cce5ff; color: #004085; }
+
+  .view-btn {
+    font-size: 10px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase;
+    color: #1a2b3c; text-decoration: none; border: 1px solid #1a2b3c;
+    padding: 4px 12px; border-radius: 4px;
+    transition: background .15s;
+  }
+  .view-btn:hover { background: #1a2b3c; color: white; }
+  .view-btn.no-page { border-color: #ccc; color: #999; pointer-events: none; }
+
+  /* ── PAYBACK INDICATOR ─────────────── */
+  .payback-bar-wrap { margin-top: 2px; }
+  .payback-bar { height: 4px; background: #e0e0e0; border-radius: 2px; overflow: hidden; margin-top: 4px; }
+  .payback-fill { height: 100%; border-radius: 2px; }
+  .fill-green  { background: #1e7e34; }
+  .fill-yellow { background: #e8a020; }
+  .fill-orange { background: #d35400; }
+  .fill-red    { background: #c0392b; }
+
+  /* ── COMPARISON TABLE ──────────────── */
+  .comp-table { width: 100%; border-collapse: collapse; font-size: 12px; background: white; border-radius: 8px; overflow: hidden; border: 1px solid #e0e0e0; }
+  .comp-table thead { background: #1a2b3c; color: white; }
+  .comp-table th { padding: 12px 14px; text-align: left; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700; }
+  .comp-table td { padding: 11px 14px; border-bottom: 1px solid #f0f0f0; vertical-align: top; }
+  .comp-table tr:last-child td { border-bottom: none; }
+  .comp-table tr:hover td { background: #fafafa; }
+  .td-num { font-weight: 700; color: #1a2b3c; }
+  .td-gold  { font-weight: 700; color: #b07700; }
+  .td-green { font-weight: 700; color: #1e7e34; }
+  .td-red   { font-weight: 700; color: #c0392b; }
+  .td-dim   { color: #999; font-size: 11px; }
+  .rank-badge {
+    display: inline-block; width: 22px; height: 22px; border-radius: 50%;
+    text-align: center; line-height: 22px; font-size: 11px; font-weight: 900;
+    color: white; margin-right: 4px;
+  }
+  .r1 { background: #e8a020; }
+  .r2 { background: #5a8fa6; }
+  .r3 { background: #4a8c5c; }
+  .r4 { background: #1a2b3c; }
+  .r5 { background: #888; }
+
+  /* ── HORMOZI INSIGHT BOX ───────────── */
+  .insight-box {
+    background: #1a2b3c; color: white; border-radius: 8px;
+    padding: 20px 24px; margin-top: 24px;
+  }
+  .insight-box h4 { color: #e8a020; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
+  .insight-row { display: flex; align-items: flex-start; gap: 10px; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,.08); font-size: 12px; }
+  .insight-row:last-child { border-bottom: none; }
+  .insight-num { font-size: 18px; font-weight: 900; color: #e8a020; width: 28px; flex-shrink: 0; text-align: center; }
+  .insight-txt { color: #ccc; line-height: 1.5; }
+  .insight-txt strong { color: white; }
+
+  /* ── FOOTER ──────────────────────── */
+  .hub-footer {
+    max-width: 1200px; margin: 0 auto;
+    padding: 16px 40px 40px;
+    font-size: 10px; color: #999;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════ HEADER -->
+<div class="hub-header">
+  <div class="hub-eyebrow">RE_OS · Active Deal Portfolio</div>
+  <h1>Deal Prioritization Hub</h1>
+  <p>All active deals ranked by capital efficiency. Hormozi framework: Cash In → Monthly Return → Payback Period → 5-Year Cash.</p>
+  <div class="hub-rule"></div>
+  <div class="summary-strip">
+    <div class="sum-cell">
+      <div class="sum-num">6</div>
+      <div class="sum-lbl">Active Deals</div>
+    </div>
+    <div class="sum-cell">
+      <div class="sum-num">$197K</div>
+      <div class="sum-lbl">Total Capital Deployed</div>
+    </div>
+    <div class="sum-cell">
+      <div class="sum-num">$5,638</div>
+      <div class="sum-lbl">Monthly CF (Base Cases)</div>
+    </div>
+    <div class="sum-cell">
+      <div class="sum-num">$185K+</div>
+      <div class="sum-lbl">Largest 5-Yr Cash Event</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ KEY BAR -->
+<div class="key-bar">
+  <strong>Hormozi Lens:</strong>
+  <div class="key-item"><div class="key-dot" style="background:#e8a020"></div> #1 — Least cash in, fastest payback</div>
+  <div class="key-item"><div class="key-dot" style="background:#5a8fa6"></div> #2 — Strong CoC, low risk entry</div>
+  <div class="key-item"><div class="key-dot" style="background:#4a8c5c"></div> #3 — Highest TWR, best spread</div>
+  <div class="key-item"><div class="key-dot" style="background:#b07700"></div> Negotiating — close pending</div>
+  <div class="key-item"><div class="key-dot" style="background:#c0392b"></div> Conditional — gating item outstanding</div>
+  &nbsp;|&nbsp; <strong>Payback bar:</strong> green &lt;24mo · yellow 24-48mo · orange 48-72mo · red 72mo+
+</div>
+
+<!-- ══════════════════════════════════════════════════════ DEAL CARDS -->
+<div class="section">
+  <div class="section-hdr">
+    <h2>Active Deals — Ranked by Payback Period</h2>
+    <span>Market-rate scenario · Base case CF shown</span>
+  </div>
+
+  <div class="deal-grid">
+
+    <!-- ── CARD 1: SKYCREST ── -->
+    <div class="deal-card rank-1">
+      <div class="card-head">
+        <div class="card-rank">#1 Rank · Fastest Payback</div>
+        <div class="card-address">10469 Skycrest Dr N</div>
+        <div class="card-sub">Jacksonville FL 32246 · 9-Room Co-Living</div>
+      </div>
+      <div class="card-metrics">
+        <div class="metric-row">
+          <span class="metric-lbl">Cash In (All-In)</span>
+          <span class="metric-val green">$27,000</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Monthly CF (Base/Market)</span>
+          <span class="metric-val">$576 / <span class="gold">$2,898</span></span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Payback Period</span>
+          <span class="metric-val green">9 months (market) · 47 mo (base)</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Cash-on-Cash Return</span>
+          <span class="metric-val gold">121% market · 25.6% base</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">5-Year Cash Out</span>
+          <span class="metric-val green">~$185,000</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Structure</span>
+          <span class="metric-val">SF IO @ 5% · $0 Down · Raj Mody</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Purchase Price</span>
+          <span class="metric-val">$400,000</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Break-Even</span>
+          <span class="metric-val green">5 of 9 rooms (51%)</span>
+        </div>
+        <div class="payback-bar-wrap">
+          <div class="payback-bar">
+            <div class="payback-fill fill-green" style="width:12%"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <span class="status-badge status-active">Active</span>
+        <a class="view-btn" href="https://floridainvestor.github.io/skycrest-deal-review/" target="_blank">Full Review →</a>
+      </div>
+    </div>
+
+    <!-- ── CARD 2: BROOK FOREST ── -->
+    <div class="deal-card rank-2">
+      <div class="card-head">
+        <div class="card-rank">#2 Rank · Restructured · $10K Entry + Seller 2nd</div>
+        <div class="card-address">1588 Brook Forest Dr — SubTo</div>
+        <div class="card-sub">Jacksonville FL 32208 · Sub-To @ 5.87% · 5-Room PadSplit</div>
+      </div>
+      <div class="card-metrics">
+        <div class="metric-row">
+          <span class="metric-lbl">Cash In (All-In w/ 5th Room)</span>
+          <span class="metric-val green">$21,000</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Cash Entry to Seller</span>
+          <span class="metric-val green">$10,000 + $13K seller 2nd</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Monthly CF (Yr1 / Yr2+)</span>
+          <span class="metric-val"><span class="gold">$925</span> Yr1 · $708 Yr2+</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">CoC Return (5-Room)</span>
+          <span class="metric-val green">52.9% Yr1 · 40.5% Yr2+</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Built-In Equity</span>
+          <span class="metric-val green">$32,064 (ARV $200K – Loan $143K)</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Structure</span>
+          <span class="metric-val">Sub-To · PITI $1,348/mo · 5.87%</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Key Condition</span>
+          <span class="metric-val red">Renegotiate entry from $23K → $10K + note</span>
+        </div>
+        <div class="payback-bar-wrap">
+          <div class="payback-bar">
+            <div class="payback-fill fill-green" style="width:18%"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <span class="status-badge status-negotiating">Renegotiating</span>
+        <a class="view-btn" href="https://floridainvestor.github.io/deal-dashboards/brook-forest.html" target="_blank">Full Review →</a>
+      </div>
+    </div>
+
+    <!-- ── CARD 3: CATOMA MHP ── -->
+    <div class="deal-card rank-3 negotiating">
+      <div class="card-head">
+        <div class="card-rank">#3 Rank · Highest TWR · Best Upside</div>
+        <div class="card-address">5849 &amp; 5859 Catoma St</div>
+        <div class="card-sub">Jacksonville FL 32244 · 6-Unit MHP (5 + 1)</div>
+      </div>
+      <div class="card-metrics">
+        <div class="metric-row">
+          <span class="metric-lbl">Cash In (SF Path)</span>
+          <span class="metric-val gold">$47,500</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Cash In (Note Buy Path)</span>
+          <span class="metric-val">$81,000</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Monthly CF (Stabilized)</span>
+          <span class="metric-val green">$1,371/mo (SF · 5 units)</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Annual CF (Year 3 stabilized)</span>
+          <span class="metric-val green">$16,452/yr (SF) · $33,600/yr (Note Buy)</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Payback Period</span>
+          <span class="metric-val gold">35 months (SF path)</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">TWR (SF Path)</span>
+          <span class="metric-val gold">44.7% ✅</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">TWR (Note Buy Path)</span>
+          <span class="metric-val gold">41.5% ✅</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Paper/Cap Event (Yr 3)</span>
+          <span class="metric-val blue">$264,600 @ 9% cap stabilized</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Current Income</span>
+          <span class="metric-val red">$1,250/mo (2 of 6 occupied)</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Balloon / Urgency</span>
+          <span class="metric-val red">$45K balloon due 11/8/2027</span>
+        </div>
+        <div class="payback-bar-wrap">
+          <div class="payback-bar">
+            <div class="payback-fill fill-yellow" style="width:44%"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <span class="status-badge status-negotiating">Negotiating</span>
+        <a class="view-btn" href="https://floridainvestor.github.io/deal-dashboards/catoma-mhp.html" target="_blank">Full Review →</a>
+      </div>
+    </div>
+
+    <!-- ── CARD 4: HARTS RD ── -->
+    <div class="deal-card rank-2">
+      <div class="card-head">
+        <div class="card-rank">#4 Rank · Restructured · $10K Entry + $19K Seller 2nd</div>
+        <div class="card-address">11714 Harts Rd</div>
+        <div class="card-sub">Jacksonville FL 32218 · 7-Room PadSplit Sub-To @ 5.25%</div>
+      </div>
+      <div class="card-metrics">
+        <div class="metric-row">
+          <span class="metric-lbl">Cash Entry to Seller</span>
+          <span class="metric-val green">$10,000 + $19K seller 2nd</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Cash In (All-In w/ Conv.)</span>
+          <span class="metric-val">$42,800</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Monthly CF (Yr1 / Yr2+)</span>
+          <span class="metric-val"><span class="gold">$1,540</span> Yr1 · $1,223 Yr2+</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Cash-on-Cash Return</span>
+          <span class="metric-val green">43.2% Yr1 · 34.3% Yr2+</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Payback Period</span>
+          <span class="metric-val green">28 mo (all-in)</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Structure</span>
+          <span class="metric-val">Sub-To @ 5.25% · $266K loan · PITI $1,967</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Break-Even</span>
+          <span class="metric-val green">63% (4.4 of 7 rooms)</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Key Condition</span>
+          <span class="metric-val red">Counter Kina: $10K + $19K note. Walk required.</span>
+        </div>
+        <div class="payback-bar-wrap">
+          <div class="payback-bar">
+            <div class="payback-fill fill-yellow" style="width:35%"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <span class="status-badge status-negotiating">Renegotiating</span>
+        <a class="view-btn" href="https://floridainvestor.github.io/deal-dashboards/harts-rd.html" target="_blank">Full Review →</a>
+      </div>
+    </div>
+
+    <!-- ── CARD 5: RON RD ── -->
+    <div class="deal-card">
+      <div class="card-head">
+        <div class="card-rank">#5 Rank · Already Under $10K Entry · Rate Unknown</div>
+        <div class="card-address">1430 Ron Rd</div>
+        <div class="card-sub">Jacksonville FL 32210 · 7-Room PadSplit Sub-To · Westside</div>
+      </div>
+      <div class="card-metrics">
+        <div class="metric-row">
+          <span class="metric-lbl">Cash Entry to Seller</span>
+          <span class="metric-val green">$6,000 (under $10K cap ✓)</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Cash In (All-In)</span>
+          <span class="metric-val">$32,590 (at $153K counter)</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Monthly CF (Stabilized)</span>
+          <span class="metric-val green">$697/mo</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Cash-on-Cash Return</span>
+          <span class="metric-val green">25.7% (at $153K counter)</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Payback Period</span>
+          <span class="metric-val gold">47 mo (all-in)</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Structure</span>
+          <span class="metric-val">Sub-To · $150K mortgage · PITI $1,900</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Break-Even</span>
+          <span class="metric-val">5 of 7 rooms (71%)</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">CRITICAL FLAG</span>
+          <span class="metric-val red">Interest rate UNKNOWN — must verify</span>
+        </div>
+        <div class="payback-bar-wrap">
+          <div class="payback-bar">
+            <div class="payback-fill fill-yellow" style="width:58%"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <span class="status-badge status-conditional">Rate Unknown</span>
+        <a class="view-btn" href="https://floridainvestor.github.io/deal-dashboards/ron-rd-master.html" target="_blank">Full Review →</a>
+      </div>
+    </div>
+
+    <!-- ── CARD 6: FOREST HILLS ── -->
+    <div class="deal-card conditional">
+      <div class="card-head">
+        <div class="card-rank">#6 Rank · Highest Capital Required</div>
+        <div class="card-address">1645 Forest Hills Rd</div>
+        <div class="card-sub">Jacksonville FL 32208 · 9-Room Co-Living · SF IO</div>
+      </div>
+      <div class="card-metrics">
+        <div class="metric-row">
+          <span class="metric-lbl">Cash In (All-In Base)</span>
+          <span class="metric-val red">$86,000 ($80K rehab + $6K close)</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Monthly CF @ 4% IO (Market)</span>
+          <span class="metric-val green">$1,499/mo</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Monthly CF @ 4% IO (Conservative)</span>
+          <span class="metric-val">$598/mo</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Cash-on-Cash Return</span>
+          <span class="metric-val gold">25.3% @ 3% IO · 20.9% @ 4% IO</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Payback Period</span>
+          <span class="metric-val">57 months (market, 4% IO)</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Structure</span>
+          <span class="metric-val">Seller Finance IO · Raj Mody · Target 3–4%</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Gating Risk</span>
+          <span class="metric-val red">Rate lock — 5% kills deal. ARV unknown.</span>
+        </div>
+        <div class="payback-bar-wrap">
+          <div class="payback-bar">
+            <div class="payback-fill fill-red" style="width:71%"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <span class="status-badge status-conditional">Conditional</span>
+        <a class="view-btn" href="https://floridainvestor.github.io/deal-dashboards/forest-hills.html" target="_blank">Full Review →</a>
+      </div>
+    </div>
+
+    <!-- ── CARD 7: ALICANTE RD ── -->
+    <div class="deal-card conditional">
+      <div class="card-head">
+        <div class="card-rank">#7 Rank · SubTo Assignment · St. Augustine</div>
+        <div class="card-address">102 Alicante Rd</div>
+        <div class="card-sub">St. Augustine FL 32086 · 3/2 1,722 sqft · SubTo 4.625%</div>
+      </div>
+      <div class="card-metrics">
+        <div class="metric-row">
+          <span class="metric-lbl">Cash In (at 24% Target)</span>
+          <span class="metric-val green">$11,399</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Cash In (at Asking $31K)</span>
+          <span class="metric-val red">$34,867</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Monthly CF (24% Target)</span>
+          <span class="metric-val green">+$190/mo (self-managed)</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Monthly CF (Asking)</span>
+          <span class="metric-val red">-$810/mo (NEGATIVE)</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Cash-on-Cash Return</span>
+          <span class="metric-val gold">24% target · 7.2% asking</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Payback Period</span>
+          <span class="metric-val gold">60 mo (24% target terms)</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Structure</span>
+          <span class="metric-val">SubTo 4.625% via NexKey · $204K balance</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">Break-Even</span>
+          <span class="metric-val">$1,941/mo PITI covers at ~$1,300 rent + paydown</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-lbl">CRITICAL FLAG</span>
+          <span class="metric-val red">$31K assignment kills deal. Counter to $5K.</span>
+        </div>
+        <div class="payback-bar-wrap">
+          <div class="payback-bar">
+            <div class="payback-fill fill-red" style="width:75%"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <span class="status-badge status-conditional">Counter Required</span>
+        <a class="view-btn" href="https://floridainvestor.github.io/deal-dashboards/alicante-rd.html" target="_blank">Full Review →</a>
+      </div>
+    </div>
+
+  </div><!-- /deal-grid -->
+
+  <!-- ══════════════════════════════════════════════════════ COMPARISON TABLE -->
+  <div class="section-hdr" style="margin-top: 8px;">
+    <h2>Full Comparison — All Deals</h2>
+    <span>Ranked by payback period (market scenario)</span>
+  </div>
+
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>Property</th>
+        <th>Structure</th>
+        <th>Cash In</th>
+        <th>CF / Mo (Base)</th>
+        <th>CF / Mo (Market)</th>
+        <th>CoC / TWR</th>
+        <th>Payback</th>
+        <th>5-Yr / Exit Event</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="rank-badge r1">1</span></td>
+        <td>
+          <strong>10469 Skycrest Dr N</strong><br>
+          <span class="td-dim">32246 · 9-Room · 3,025 sqft</span>
+        </td>
+        <td><span class="td-dim">SF IO 5% · Raj Mody<br>$0 Down · Cross-collateral</span></td>
+        <td class="td-green">$27,000</td>
+        <td class="td-num">$576/mo</td>
+        <td class="td-gold">$2,898/mo</td>
+        <td class="td-gold">121% CoC<br><span class="td-dim">13.7% cap rate</span></td>
+        <td class="td-green">9 mo (mkt)<br><span class="td-dim">47 mo (base)</span></td>
+        <td class="td-green">~$185K 5-yr<br><span class="td-dim">+ balloon refi/exit</span></td>
+        <td><span class="status-badge status-active">Active</span></td>
+      </tr>
+      <tr>
+        <td><span class="rank-badge r2">2</span></td>
+        <td>
+          <strong>1588 Brook Forest Dr</strong><br>
+          <span class="td-dim">32208 · 5-Room PadSplit</span>
+        </td>
+        <td><span class="td-dim">Sub-To @ 5.87%<br>$10K + $13K seller 2nd</span></td>
+        <td class="td-green">$21,000</td>
+        <td class="td-gold">$925 Yr1<br><span class="td-dim">$708 Yr2+</span></td>
+        <td class="td-gold">$925/mo</td>
+        <td class="td-green">52.9% Yr1<br><span class="td-dim">40.5% Yr2+</span></td>
+        <td class="td-green">23 mo<br><span class="td-dim">(all-in)</span></td>
+        <td class="td-blue">$32K equity spread<br><span class="td-dim">$56K exit on $200K ARV</span></td>
+        <td><span class="status-badge status-negotiating">Renegotiating</span></td>
+      </tr>
+      <tr>
+        <td><span class="rank-badge r3">3</span></td>
+        <td>
+          <strong>5849 &amp; 5859 Catoma St</strong><br>
+          <span class="td-dim">32244 · 6-Unit MHP · 1.02 Acres</span>
+        </td>
+        <td><span class="td-dim">SF $75K target · $10K down<br>OR Note Buy $35-38K</span></td>
+        <td class="td-gold">$47,500 SF<br><span class="td-dim">$81K Note Buy</span></td>
+        <td class="td-num">$1,250 now<br><span class="td-dim">(2 of 6 occ)</span></td>
+        <td class="td-gold">$1,371/mo<br><span class="td-dim">(stabilized 5 units)</span></td>
+        <td class="td-gold">44.7% TWR (SF)<br><span class="td-dim">41.5% (Note Buy)</span></td>
+        <td class="td-gold">35 mo (SF)<br><span class="td-dim">29 mo (Note Buy)</span></td>
+        <td class="td-blue">$264K cap value<br><span class="td-dim">Yr 3 @ 9% cap, stabilized</span></td>
+        <td><span class="status-badge status-negotiating">Negotiating</span></td>
+      </tr>
+      <tr>
+        <td><span class="rank-badge r4">4</span></td>
+        <td>
+          <strong>11714 Harts Rd</strong><br>
+          <span class="td-dim">32218 · 7-Room PadSplit</span>
+        </td>
+        <td><span class="td-dim">Sub-To @ 5.25%<br>$10K + $19K seller 2nd</span></td>
+        <td class="td-num">$42,800<br><span class="td-dim">($10K entry)</span></td>
+        <td class="td-gold">$1,540 Yr1<br><span class="td-dim">$1,223 Yr2+</span></td>
+        <td class="td-gold">$1,540/mo</td>
+        <td class="td-green">43.2% Yr1<br><span class="td-dim">34.3% Yr2+</span></td>
+        <td class="td-gold">28 mo<br><span class="td-dim">(all-in)</span></td>
+        <td class="td-dim">Ongoing hold CF<br>Walk required for conversion</td>
+        <td><span class="status-badge status-negotiating">Renegotiating</span></td>
+      </tr>
+      <tr>
+        <td><span class="rank-badge r4">5</span></td>
+        <td>
+          <strong>1430 Ron Rd</strong><br>
+          <span class="td-dim">32210 · 7-Room PadSplit</span>
+        </td>
+        <td><span class="td-dim">Sub-To · Rate Unknown<br>$6K cash to seller</span></td>
+        <td class="td-num">$32,590<br><span class="td-dim">($6K entry)</span></td>
+        <td class="td-num">$697/mo</td>
+        <td class="td-num">$697/mo</td>
+        <td class="td-gold">25.7% CoC<br><span class="td-dim">at $153K counter</span></td>
+        <td class="td-gold">47 mo<br><span class="td-dim">(all-in)</span></td>
+        <td class="td-dim">Ongoing hold CF<br><span class="td-red">⚠ Rate unknown</span></td>
+        <td><span class="status-badge status-conditional">Rate Unknown</span></td>
+      </tr>
+      <tr>
+        <td><span class="rank-badge r5">6</span></td>
+        <td>
+          <strong>1645 Forest Hills Rd</strong><br>
+          <span class="td-dim">32208 · 9-Room · 5,775 sqft</span>
+        </td>
+        <td><span class="td-dim">SF IO 3–4% · Raj Mody<br>$0 Down · ARV Unknown</span></td>
+        <td class="td-red">$86,000</td>
+        <td class="td-num">$598/mo</td>
+        <td class="td-gold">$1,499/mo</td>
+        <td class="td-gold">25.3% CoC (3% IO)<br><span class="td-dim">20.9% @ 4% IO</span></td>
+        <td>57 mo (mkt 4% IO)<br><span class="td-dim">144 mo (conservative)</span></td>
+        <td class="td-dim">Year 5 balloon refi<br>ARV pull needed before modeling</td>
+        <td><span class="status-badge status-conditional">Conditional</span></td>
+      </tr>
+      <tr>
+        <td><span class="rank-badge r5">7</span></td>
+        <td>
+          <strong>102 Alicante Rd</strong><br>
+          <span class="td-dim">32086 · St. Augustine · 3/2 1,722 sqft</span>
+        </td>
+        <td><span class="td-dim">Sub-To 4.625% via NexKey<br>$5.25K assignment (counter)</span></td>
+        <td class="td-green">$11,399<br><span class="td-dim">(at counter)</span></td>
+        <td class="td-num">+$190/mo<br><span class="td-dim">(self-managed)</span></td>
+        <td class="td-red">-$810/mo<br><span class="td-dim">(at asking)</span></td>
+        <td class="td-gold">24% CoC<br><span class="td-dim">at $5.25K assign</span></td>
+        <td class="td-gold">60 mo<br><span class="td-dim">(target terms)</span></td>
+        <td class="td-dim">4.625% rate lock<br><span class="td-red">⚠ PASS at $31K asking</span></td>
+        <td><span class="status-badge status-conditional">Counter Required</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ══════════════════════════════════════════════════════ HORMOZI INSIGHT -->
+  <div class="insight-box">
+    <h4>Hormozi Diagnosis — Where to Focus Attention (Updated Apr 11, 2026)</h4>
+    <div class="insight-row">
+      <div class="insight-num">1</div>
+      <div class="insight-txt"><strong>Counter Kina on Harts Rd: $10K + $19K note.</strong> At 43.2% Yr1 CoC on $42.8K all-in, this is the best risk-adjusted SubTo in the pipeline. 7 rooms, 5.25% locked rate, 2,252 SF. Only blocker: walk to confirm conversion feasibility + Kina accepting the seller second.</div>
+    </div>
+    <div class="insight-row">
+      <div class="insight-num">2</div>
+      <div class="insight-txt"><strong>Renegotiate Brook Forest entry to $10K + $13K note, then add the 5th room.</strong> 4 rooms = 10.9% CoC (dead money). 5 rooms = 52.9% Yr1. The 5th room conversion is ~$3K and adds $650/mo. That's a 260% annualized return on the incremental $3K spend. This is the #1 capital efficiency move in the portfolio.</div>
+    </div>
+    <div class="insight-row">
+      <div class="insight-num">3</div>
+      <div class="insight-txt"><strong>Close Catoma.</strong> Highest TWR (44.7%), strong operator advantage (note-buy angle on Tammy Grab), and $264K cap value upside. Balloon pressure on seller = leverage. Action: make the call to Tammy Grab.</div>
+    </div>
+    <div class="insight-row">
+      <div class="insight-num">4</div>
+      <div class="insight-txt"><strong>Ron Rd: get the interest rate BEFORE anything else.</strong> The deal looks clean at 25.7% CoC, but the rate is UNKNOWN. If it's 7%+, PITI jumps to $2,200+ and the deal is dead. One phone call to Kina to request the mortgage statement. Don't schedule a walk until the rate is confirmed ≤6%.</div>
+    </div>
+    <div class="insight-row">
+      <div class="insight-num">5</div>
+      <div class="insight-txt"><strong>All 3 SubTo deals now restructured for $10K max entry.</strong> Total portfolio cash deployed drops from $220K to $197K while monthly CF increases from $4,660 to $5,638. The seller-second structure preserves seller's total payout while dramatically improving your CoC. This is Pete Fortunato paper engineering — everyone wins.</div>
+    </div>
+  </div>
+
+</div><!-- /section -->
+
+<!-- ══════════════════════════════════════════════════════ FOOTER -->
+<div class="hub-footer">
+  <span>RE_OS Active Deal Portfolio · Jerel Williams · Updated April 14, 2026 · All SubTo deals restructured for 25% CoC / $10K max entry</span>
+  <span>Hormozi Framework: LTGP:CAC · Payback Period · Cash-on-Cash · 5-Year Exit</span>
+</div>
+
+</body>
+</html>
