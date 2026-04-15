@@ -323,10 +323,16 @@
     .hoja-table .col-balance { min-width: 62px; font-weight: 800; }
     .hoja-table .col-cond { min-width: 90px; }
     .hoja-table .col-notes { min-width: 110px; text-align: left; }
+    .hoja-table .col-monto  { min-width: 75px; }
     .hoja-table .col-action { min-width: 80px; }
     .hoja-action-btn { border: none; border-radius: 8px; padding: 5px 8px; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap; -webkit-tap-highlight-color: transparent; }
     .hoja-action-btn.move-out { background: var(--red-lt); color: var(--red); }
     .hoja-action-btn.move-in  { background: var(--green-lt); color: var(--green); }
+    .hoja-atraso-badge { display:inline-block; background:var(--amber-lt); color:#92400E; border-radius:6px; font-size:10px; font-weight:800; padding:2px 5px; margin-top:2px; white-space:nowrap; }
+    .hoja-week-nav { display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:14px; }
+    .hoja-week-nav button { background:white; border:1.5px solid #E5E7EB; border-radius:8px; padding:6px 12px; font-size:13px; font-weight:700; cursor:pointer; color:#1F2937; -webkit-tap-highlight-color:transparent; }
+    .hoja-week-nav button:disabled { opacity:.35; cursor:default; }
+    .hoja-week-nav .wk-label { font-size:13px; font-weight:700; color:#1F2937; text-align:center; min-width:160px; }
     .hoja-subtotal td { background: #EFF6FF; font-size: 12px; border-top: 2px solid #BFDBFE; font-weight: 700; }
     .hoja-summary { background: white; border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px 16px; margin-top: 4px; margin-bottom: 20px; }
     .hoja-summary-title { font-size: 15px; font-weight: 800; color: #1F2937; margin-bottom: 14px; }
@@ -1062,6 +1068,7 @@ const BONUS_PER_ROOM  = 10;
 let currentRole   = null;
 let paymentRoomId = null;
 let moveInRoomId  = null;
+let hojaWeekOffset = 0; // 0 = current week, -1 = last week, etc.
 let selectedPaymentMethod    = null;
 let selectedNewTenantMethod  = null;
 let showEnTranslation = false;
@@ -2557,50 +2564,93 @@ function renderPhotoLog(filter) {
 /* ================================================================
    HOJA SEMANAL — Weekly Collection Form
 ================================================================ */
+
+// Week the Hoja is currently displaying (offset from current week)
+function hojaWeekKey() {
+  if (hojaWeekOffset === 0) return currentWeekKey();
+  const d = new Date();
+  d.setDate(d.getDate() + hojaWeekOffset * 7);
+  return weekKey(d.toISOString().slice(0,10));
+}
+
+function shiftHojaWeek(delta) {
+  hojaWeekOffset = Math.min(0, hojaWeekOffset + delta); // no future weeks
+  renderHoja();
+}
+
+// Sum unpaid balances from up to 4 prior weeks for this room
+function getCarryoverBalance(roomId, currentWk) {
+  const payments = load(SK.payments) || {};
+  let carryover = 0;
+  let wk = currentWk;
+  for (let i = 0; i < 4; i++) {
+    const d = new Date(wk + 'T12:00:00');
+    d.setDate(d.getDate() - 7);
+    const prevWk = d.toISOString().slice(0,10);
+    const rec = (payments[prevWk] || {})[roomId];
+    if (!rec) break;                      // No record that week = not yet a tenant
+    if (rec.paid) break;                  // Paid in full that week, stop looking back
+    const weekRent    = effectiveRent(roomId);
+    const weekFee     = rec.lateFee || 0;
+    const weekAmt     = rec.amt     || 0;
+    const weekBalance = (weekRent + weekFee) - weekAmt;
+    if (weekBalance > 0) carryover += weekBalance;
+    wk = prevWk;
+  }
+  return Math.max(0, carryover);
+}
+
 function saveHojaField(roomId, field, value) {
-  const wk  = currentWeekKey();
+  const wk  = hojaWeekKey();
   const pay = load(SK.payments) || {};
   if (!pay[wk]) pay[wk] = {};
   if (!pay[wk][roomId]) pay[wk][roomId] = { paid:false, amt:0, method:'', datePaid:'', lateFee:0 };
-  pay[wk][roomId][field] = value;
-  // Recompute paid flag when amount or paid-bool changes
-  if (field === 'paid') pay[wk][roomId].paid = value;
-  if (field === 'amt')  pay[wk][roomId].amt  = parseFloat(value)||0;
+  const rec = pay[wk][roomId];
+  rec[field] = value;
+  if (field === 'amt') rec.amt = parseFloat(value) || 0;
   // Recompute late fee when datePaid changes
   if (field === 'datePaid') {
-    pay[wk][roomId].lateFee = calcLateFee(value, wk);
-    pay[wk][roomId].late    = pay[wk][roomId].lateFee > 0;
+    rec.lateFee = calcLateFee(value, wk);
+    rec.late    = rec.lateFee > 0;
   }
+  // Auto-mark paid when monto covers full balance
+  const rent     = effectiveRent(roomId);
+  const fee      = rec.lateFee || 0;
+  const carryover = getCarryoverBalance(roomId, wk);
+  const totalOwed = rent + fee + carryover;
+  if (field === 'amt' && rec.amt >= totalOwed) rec.paid = true;
+  if (field === 'paid' && value === false) { /* keep amt as-is */ }
   save(SK.payments, pay);
-  // Re-render the balance cell inline without full re-render
-  const balEl = document.getElementById('hoja-bal-' + roomId);
-  const feeEl = document.getElementById('hoja-fee-' + roomId);
-  if (balEl || feeEl) {
-    const rec    = pay[wk][roomId];
-    const rent   = effectiveRent(roomId);
-    const fee    = rec.lateFee || 0;
-    const isPaid = rec.paid;
-    if (feeEl) feeEl.textContent = fee > 0 ? `$${fee}` : '—';
-    if (balEl) {
-      const bal = isPaid ? 0 : rent + fee;
-      balEl.textContent = isPaid ? '✓ $0' : `$${bal}`;
-      balEl.style.color = isPaid ? 'var(--green)' : 'var(--red)';
-    }
+  // Inline DOM update — no full re-render
+  const balEl  = document.getElementById('hoja-bal-'  + roomId);
+  const feeEl  = document.getElementById('hoja-fee-'  + roomId);
+  const paidCb = document.getElementById('hoja-cb-'   + roomId);
+  if (feeEl) feeEl.textContent = fee > 0 ? `$${fee}` : '—';
+  if (paidCb && field === 'amt' && rec.paid) paidCb.checked = true;
+  if (balEl) {
+    const collected = rec.paid ? totalOwed : (rec.amt || 0);
+    const bal = Math.max(0, totalOwed - collected);
+    balEl.textContent = bal === 0 ? '✓ $0' : `$${bal}`;
+    balEl.style.color = bal === 0 ? 'var(--green)' : 'var(--red)';
   }
 }
 
 function renderHoja() {
   const container = document.getElementById('hoja-container');
   if (!container) return;
-  const wk       = currentWeekKey();
-  const wkLbl    = weekLabel(wk);
-  const payments = load(SK.payments) || {};
-  const wkPay    = payments[wk] || {};
-  const conds    = load(SK.conditions) || {};
+  const wk         = hojaWeekKey();
+  const wkLbl      = weekLabel(wk);
+  const isCurrentWk = hojaWeekOffset === 0;
+  const payments   = load(SK.payments) || {};
+  const wkPay      = payments[wk] || {};
+  const conds      = load(SK.conditions) || {};
   const tenantList = load(SK.tenants) || [];
 
-  let html = `<div style="font-size:13px;font-weight:700;color:var(--gray);margin-bottom:12px;text-align:center;">
-    📅 ${wkLbl}
+  // ── Week navigation ─────────────────────────────────────────
+  let html = `<div class="hoja-week-nav">
+    <button onclick="shiftHojaWeek(-1)">◀ Anterior</button>
+    <div class="wk-label">📅 ${wkLbl}${!isCurrentWk?'':' <span style="font-size:10px;color:var(--green);font-weight:700;">● HOY</span>'}</div>
+    <button onclick="shiftHojaWeek(1)" ${isCurrentWk?'disabled':''}>Siguiente ▶</button>
   </div>`;
 
   // ── Monthly card for Fairfield ───────────────────────────────
@@ -2671,12 +2721,17 @@ function renderHoja() {
         return;
       }
 
-      const bal = isPaid ? 0 : rent + fee;
-      if (isPaid) {
-        propCollected += (rec.amt || rent);
-        if (method && methodTotals[method] !== undefined) methodTotals[method] += (rec.amt || rent);
+      // Carryover from prior unpaid weeks
+      const carryover  = getCarryoverBalance(room.id, wk);
+      const totalOwed  = rent + fee + carryover;
+      const collected  = isPaid ? totalOwed : (rec.amt || 0);
+      const bal        = Math.max(0, totalOwed - collected);
+
+      if (isPaid || bal === 0) {
+        propCollected += collected;
+        if (method && methodTotals[method] !== undefined) methodTotals[method] += collected;
       } else {
-        propOwed += rent + fee;
+        propOwed += bal;
       }
 
       const condOpts = [
@@ -2687,22 +2742,33 @@ function renderHoja() {
       ];
 
       // Look up moveIn date for this tenant
-      const tenantRec = tenantList.find(t => t.roomId === room.id);
+      const tenantRec  = tenantList.find(t => t.roomId === room.id);
       const moveInDate = tenantRec ? (tenantRec.moveIn || null) : null;
       const safeTenant = (tenant || '').replace(/'/g,"\\'");
       const moveOutCall = moveInDate
         ? `openMoveOutModal('${room.id}','${safeTenant}','${moveInDate}')`
         : `openMoveOutModal('${room.id}','${safeTenant}',null)`;
 
-      rowsHtml += `<tr class="${isPaid?'hoja-paid':'hoja-unpaid'}">
+      // Atraso badge shown in tenant name cell
+      const atrasoBadge = carryover > 0
+        ? `<br><span class="hoja-atraso-badge">⚠️ Atraso $${carryover}</span>`
+        : '';
+
+      // Default monto = rent (first time), or whatever was previously saved
+      const montoVal = rec.amt > 0 ? rec.amt : '';
+
+      rowsHtml += `<tr class="${bal===0?'hoja-paid':'hoja-unpaid'}" data-room="${room.id}" data-carryover="${carryover}">
         <td class="col-unit">${room.unit}</td>
-        <td class="col-tenant" style="text-align:left;">${tenant || '—'}</td>
-        <td class="col-rent">$${rent}</td>
+        <td class="col-tenant" style="text-align:left;">${tenant || '—'}${atrasoBadge}</td>
+        <td class="col-rent">$${rent}${carryover>0?`<br><span style="font-size:10px;color:var(--amber);font-weight:700;">+$${carryover} atraso</span>`:''}</td>
         <td class="col-paid">
-          <input type="checkbox" class="hoja-check" ${isPaid?'checked':''} onchange="saveHojaField('${room.id}','paid',this.checked);renderHoja()">
+          <input type="checkbox" id="hoja-cb-${room.id}" class="hoja-check" ${bal===0?'checked':''} onchange="saveHojaField('${room.id}','paid',this.checked);renderHoja()">
+        </td>
+        <td class="col-monto">
+          <input type="number" class="hoja-input" style="min-width:65px;" value="${montoVal}" placeholder="$${rent}" min="0" onchange="saveHojaField('${room.id}','amt',this.value)">
         </td>
         <td class="col-method">
-          <select class="hoja-select" onchange="saveHojaField('${room.id}','method',this.value);renderHoja()">
+          <select class="hoja-select" onchange="saveHojaField('${room.id}','method',this.value)">
             <option value="">Método...</option>
             ${['Cash','Zelle','Cash App','Money Order'].map(m=>`<option value="${m}" ${method===m?'selected':''}>${m}</option>`).join('')}
           </select>
@@ -2711,7 +2777,7 @@ function renderHoja() {
           <input type="date" class="hoja-input" value="${datePaid}" onchange="saveHojaField('${room.id}','datePaid',this.value);renderHoja()">
         </td>
         <td id="hoja-fee-${room.id}" class="col-fee" style="color:${fee>0?'var(--red)':'var(--gray)'};">${fee>0?'$'+fee:'—'}</td>
-        <td id="hoja-bal-${room.id}" class="col-balance" style="color:${isPaid?'var(--green)':'var(--red)'};">${isPaid?'✓ $0':'$'+bal}</td>
+        <td id="hoja-bal-${room.id}" class="col-balance" style="color:${bal===0?'var(--green)':'var(--red)'};">${bal===0?'✓ $0':'$'+bal}</td>
         <td class="col-cond">
           <select class="hoja-select" onchange="setCondition('${room.id}',this.value)">
             ${condOpts.map(o=>`<option value="${o.v}" ${cond===o.v?'selected':''}>${o.l}</option>`).join('')}
@@ -2741,6 +2807,7 @@ function renderHoja() {
             <th class="col-tenant">Inquilino</th>
             <th class="col-rent">Renta</th>
             <th class="col-paid">✓</th>
+            <th class="col-monto">Monto</th>
             <th class="col-method">Método</th>
             <th class="col-date">Fecha Pago</th>
             <th class="col-fee">Recargo</th>
