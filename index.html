@@ -468,11 +468,11 @@
   </div><!-- /scroll area -->
 
   <nav class="bottom-nav" id="andrea-nav">
-    <button class="tab-btn active" onclick="showTab('andrea','tablero')" id="tab-andrea-tablero"><span class="tab-icon">🏠</span><span class="tab-label">TABLERO</span></button>
-    <button class="tab-btn" onclick="showTab('andrea','hoja')" id="tab-andrea-hoja"><span class="tab-icon">📋</span><span class="tab-label">HOJA</span></button>
-    <button class="tab-btn" onclick="showTab('andrea','cuartos')" id="tab-andrea-cuartos"><span class="tab-icon">🔑</span><span class="tab-label">CUARTOS</span></button>
-    <button class="tab-btn" onclick="showTab('andrea','inquilinos')" id="tab-andrea-inquilinos"><span class="tab-icon">👥</span><span class="tab-label">INQUILINOS</span></button>
-    <button class="tab-btn" onclick="showTab('andrea','mantenimiento')" id="tab-andrea-mantenimiento"><span class="tab-icon">🔧</span><span class="tab-label">MANT.</span></button>
+    <button class="tab-btn active" onclick="showTab('andrea','tablero')" id="tab-andrea-tablero"><span class="tab-icon">🏠</span><span class="tab-label">TABLERO</span><span class="tab-label en-sub" style="font-size:9px;">DASHBOARD</span></button>
+    <button class="tab-btn" onclick="showTab('andrea','hoja')" id="tab-andrea-hoja"><span class="tab-icon">📋</span><span class="tab-label">HOJA</span><span class="tab-label en-sub" style="font-size:9px;">RENT SHEET</span></button>
+    <button class="tab-btn" onclick="showTab('andrea','cuartos')" id="tab-andrea-cuartos"><span class="tab-icon">🔑</span><span class="tab-label">CUARTOS</span><span class="tab-label en-sub" style="font-size:9px;">ROOMS</span></button>
+    <button class="tab-btn" onclick="showTab('andrea','inquilinos')" id="tab-andrea-inquilinos"><span class="tab-icon">👥</span><span class="tab-label">INQUILINOS</span><span class="tab-label en-sub" style="font-size:9px;">TENANTS</span></button>
+    <button class="tab-btn" onclick="showTab('andrea','mantenimiento')" id="tab-andrea-mantenimiento"><span class="tab-icon">🔧</span><span class="tab-label">MANT.</span><span class="tab-label en-sub" style="font-size:9px;">MAINT.</span></button>
   </nav>
 </div><!-- /andrea-shell -->
 
@@ -1331,7 +1331,15 @@ function showTab(role, tab) {
 
   if (role === 'andrea') {
     if (tab === 'tablero')       renderAndreaTablero();
-    if (tab === 'hoja')          renderHoja();
+    if (tab === 'hoja') {
+      // Show the hoja's currently viewed week in topbar
+      document.getElementById('week-display').textContent = weekLabel(hojaWeekKey());
+      renderHoja();
+    } else {
+      // All other tabs: snap topbar back to current week and reset hoja offset
+      hojaWeekOffset = 0;
+      document.getElementById('week-display').textContent = weekLabel(currentWeekKey());
+    }
     if (tab === 'cobros')        renderCobros();
     if (tab === 'cuartos')       renderVacancyBoard();
     if (tab === 'inquilinos')    renderTenants();
@@ -1356,6 +1364,9 @@ function toggleEnView() {
   document.body.classList.toggle('show-en', showEnTranslation);
   const btn = document.getElementById('en-toggle-btn');
   if (btn) btn.textContent = showEnTranslation ? 'EN→ES' : 'ES→EN';
+  // Re-render Hoja if active so JS-generated headers update
+  const hojaPanel = document.getElementById('andrea-hoja');
+  if (hojaPanel && hojaPanel.classList.contains('active')) renderHoja();
 }
 
 /* ----------------------------------------------------------------
@@ -2581,6 +2592,8 @@ function hojaWeekKey() {
 
 function shiftHojaWeek(delta) {
   hojaWeekOffset = Math.min(0, hojaWeekOffset + delta); // no future weeks
+  // Keep topbar in sync with the week being viewed
+  document.getElementById('week-display').textContent = weekLabel(hojaWeekKey());
   renderHoja();
 }
 
@@ -2816,17 +2829,17 @@ function renderHoja() {
         <table class="hoja-table">
           <thead><tr>
             <th class="col-unit">Unit</th>
-            <th class="col-tenant">Inquilino</th>
-            <th class="col-rent">Renta</th>
+            <th class="col-tenant">${showEnTranslation ? 'Tenant' : 'Inquilino'}</th>
+            <th class="col-rent">${showEnTranslation ? 'Rent' : 'Renta'}</th>
             <th class="col-paid">✓</th>
-            <th class="col-monto">Monto</th>
-            <th class="col-method">Método</th>
-            <th class="col-date">Fecha Pago</th>
-            <th class="col-fee">Recargo</th>
+            <th class="col-monto">${showEnTranslation ? 'Amount' : 'Monto'}</th>
+            <th class="col-method">${showEnTranslation ? 'Method' : 'Método'}</th>
+            <th class="col-date">${showEnTranslation ? 'Date Paid' : 'Fecha Pago'}</th>
+            <th class="col-fee">${showEnTranslation ? 'Late Fee' : 'Recargo'}</th>
             <th class="col-balance">Balance</th>
-            <th class="col-cond">Condición</th>
-            <th class="col-notes">Notas</th>
-            <th class="col-action">Acción</th>
+            <th class="col-cond">${showEnTranslation ? 'Condition' : 'Condición'}</th>
+            <th class="col-notes">${showEnTranslation ? 'Notes' : 'Notas'}</th>
+            <th class="col-action">${showEnTranslation ? 'Action' : 'Acción'}</th>
           </tr></thead>
           <tbody>${rowsHtml}</tbody>
           <tfoot><tr class="hoja-subtotal">
