@@ -216,7 +216,7 @@
 
     /* BILINGUAL */
     .en-sub { display: none; font-size: 11px; color: var(--gray); font-style: italic; margin-top: 2px; }
-    body.show-en .en-sub { display: block; }
+    body.show-en .en-sub { display: block !important; }
 
     /* TOAST */
     #toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(20px); background: #1F2937; color: white; padding: 12px 24px; border-radius: 99px; font-size: 14px; font-weight: 600; opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s; z-index: 999; white-space: nowrap; max-width: calc(100vw - 32px); }
@@ -2578,26 +2578,24 @@ function shiftHojaWeek(delta) {
   renderHoja();
 }
 
-// Sum unpaid balances from up to 4 prior weeks for this room
+// Net balance from up to 8 prior weeks.
+// Positive = owes (atraso). Negative = has credit (adelanto / pagó adelantado).
 function getCarryoverBalance(roomId, currentWk) {
   const payments = load(SK.payments) || {};
-  let carryover = 0;
+  let net = 0;
   let wk = currentWk;
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < 8; i++) {
     const d = new Date(wk + 'T12:00:00');
     d.setDate(d.getDate() - 7);
-    const prevWk = d.toISOString().slice(0,10);
+    const prevWk = d.toISOString().slice(0, 10);
     const rec = (payments[prevWk] || {})[roomId];
-    if (!rec) break;                      // No record that week = not yet a tenant
-    if (rec.paid) break;                  // Paid in full that week, stop looking back
-    const weekRent    = effectiveRent(roomId);
-    const weekFee     = rec.lateFee || 0;
-    const weekAmt     = rec.amt     || 0;
-    const weekBalance = (weekRent + weekFee) - weekAmt;
-    if (weekBalance > 0) carryover += weekBalance;
+    if (!rec) break; // no record = wasn't a tenant yet
+    const weekOwed = effectiveRent(roomId) + (rec.lateFee || 0);
+    const weekAmt  = rec.amt || 0;
+    net += weekOwed - weekAmt; // positive = underpaid, negative = overpaid
     wk = prevWk;
   }
-  return Math.max(0, carryover);
+  return net; // positive = atraso, negative = adelanto
 }
 
 function saveHojaField(roomId, field, value) {
@@ -2614,10 +2612,10 @@ function saveHojaField(roomId, field, value) {
     rec.late    = rec.lateFee > 0;
   }
   // Auto-mark paid when monto covers full balance
-  const rent     = effectiveRent(roomId);
-  const fee      = rec.lateFee || 0;
+  const rent      = effectiveRent(roomId);
+  const fee       = rec.lateFee || 0;
   const carryover = getCarryoverBalance(roomId, wk);
-  const totalOwed = rent + fee + carryover;
+  const totalOwed = Math.max(0, rent + fee + carryover);
   if (field === 'amt' && rec.amt >= totalOwed) rec.paid = true;
   if (field === 'paid' && value === false) { /* keep amt as-is */ }
   save(SK.payments, pay);
@@ -2721,9 +2719,9 @@ function renderHoja() {
         return;
       }
 
-      // Carryover from prior unpaid weeks
+      // Signed carryover: positive = atraso (owes), negative = adelanto (credit)
       const carryover  = getCarryoverBalance(room.id, wk);
-      const totalOwed  = rent + fee + carryover;
+      const totalOwed  = Math.max(0, rent + fee + carryover);
       const collected  = isPaid ? totalOwed : (rec.amt || 0);
       const bal        = Math.max(0, totalOwed - collected);
 
@@ -2749,18 +2747,26 @@ function renderHoja() {
         ? `openMoveOutModal('${room.id}','${safeTenant}','${moveInDate}')`
         : `openMoveOutModal('${room.id}','${safeTenant}',null)`;
 
-      // Atraso badge shown in tenant name cell
-      const atrasoBadge = carryover > 0
-        ? `<br><span class="hoja-atraso-badge">⚠️ Atraso $${carryover}</span>`
-        : '';
+      // Badge: atraso (debt) or adelanto (credit)
+      const carryAbs   = Math.abs(carryover);
+      const carryBadge = carryover > 0
+        ? `<br><span class="hoja-atraso-badge">⚠️ Atraso $${carryAbs}</span>`
+        : carryover < 0
+          ? `<br><span class="hoja-atraso-badge" style="background:var(--green-lt);color:var(--green);">✅ Adelanto $${carryAbs}</span>`
+          : '';
+      const rentNote = carryover > 0
+        ? `<br><span style="font-size:10px;color:var(--amber);font-weight:700;">+$${carryAbs} atraso</span>`
+        : carryover < 0
+          ? `<br><span style="font-size:10px;color:var(--green);font-weight:700;">−$${carryAbs} adelanto</span>`
+          : '';
 
       // Default monto = rent (first time), or whatever was previously saved
       const montoVal = rec.amt > 0 ? rec.amt : '';
 
       rowsHtml += `<tr class="${bal===0?'hoja-paid':'hoja-unpaid'}" data-room="${room.id}" data-carryover="${carryover}">
         <td class="col-unit">${room.unit}</td>
-        <td class="col-tenant" style="text-align:left;">${tenant || '—'}${atrasoBadge}</td>
-        <td class="col-rent">$${rent}${carryover>0?`<br><span style="font-size:10px;color:var(--amber);font-weight:700;">+$${carryover} atraso</span>`:''}</td>
+        <td class="col-tenant" style="text-align:left;">${tenant || '—'}${carryBadge}</td>
+        <td class="col-rent">$${rent}${rentNote}</td>
         <td class="col-paid">
           <input type="checkbox" id="hoja-cb-${room.id}" class="hoja-check" ${bal===0?'checked':''} onchange="saveHojaField('${room.id}','paid',this.checked);renderHoja()">
         </td>
