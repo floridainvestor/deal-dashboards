@@ -1083,23 +1083,29 @@ let showEnTranslation = false;
 ---------------------------------------------------------------- */
 function today() { return new Date().toISOString().slice(0,10); }
 
+function toLocalISO(d) {
+  // Returns YYYY-MM-DD using LOCAL date, not UTC — avoids timezone shift
+  const y  = d.getFullYear();
+  const m  = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${dd}`;
+}
+
 function weekKey(dateStr) {
+  // Always anchor to Sunday (day 0) using LOCAL date
   const d = dateStr ? new Date(dateStr + 'T12:00:00') : new Date();
-  const day = d.getDay();
-  d.setDate(d.getDate() - day);
-  return d.toISOString().slice(0,10);
+  d.setDate(d.getDate() - d.getDay()); // back to Sunday
+  return toLocalISO(d);
 }
 function currentWeekKey() { return weekKey(null); }
 
 function weekLabel(wk) {
+  // wk = YYYY-MM-DD (Sunday). Display as "Sun Apr 13 – Sat Apr 19, 2026"
   const sun = new Date(wk + 'T12:00:00');
   const sat = new Date(sun); sat.setDate(sat.getDate() + 6);
-  const opts = { month:'short', day:'numeric' };
-  const yearOpts = { month:'short', day:'numeric', year:'numeric' };
-  if (sun.getFullYear() === sat.getFullYear()) {
-    return sun.toLocaleDateString('en-US', opts) + ' – ' + sat.toLocaleDateString('en-US', yearOpts);
-  }
-  return sun.toLocaleDateString('en-US', yearOpts) + ' – ' + sat.toLocaleDateString('en-US', yearOpts);
+  const sunStr = sun.toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric' });
+  const satStr = sat.toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric', year:'numeric' });
+  return `${sunStr} – ${satStr}`;
 }
 
 function firstTuesdayOfMonth(year, month) {
