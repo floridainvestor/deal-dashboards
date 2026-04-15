@@ -1364,9 +1364,6 @@ function toggleEnView() {
   document.body.classList.toggle('show-en', showEnTranslation);
   const btn = document.getElementById('en-toggle-btn');
   if (btn) btn.textContent = showEnTranslation ? 'EN→ES' : 'ES→EN';
-  // Re-render Hoja if active so JS-generated headers update
-  const hojaPanel = document.getElementById('andrea-hoja');
-  if (hojaPanel && hojaPanel.classList.contains('active')) renderHoja();
 }
 
 /* ----------------------------------------------------------------
@@ -2829,17 +2826,17 @@ function renderHoja() {
         <table class="hoja-table">
           <thead><tr>
             <th class="col-unit">Unit</th>
-            <th class="col-tenant">${showEnTranslation ? 'Tenant' : 'Inquilino'}</th>
-            <th class="col-rent">${showEnTranslation ? 'Rent' : 'Renta'}</th>
+            <th class="col-tenant">Inquilino<br><span style="font-weight:400;opacity:.6;font-size:9px;">Tenant</span></th>
+            <th class="col-rent">Renta<br><span style="font-weight:400;opacity:.6;font-size:9px;">Rent</span></th>
             <th class="col-paid">✓</th>
-            <th class="col-monto">${showEnTranslation ? 'Amount' : 'Monto'}</th>
-            <th class="col-method">${showEnTranslation ? 'Method' : 'Método'}</th>
-            <th class="col-date">${showEnTranslation ? 'Date Paid' : 'Fecha Pago'}</th>
-            <th class="col-fee">${showEnTranslation ? 'Late Fee' : 'Recargo'}</th>
+            <th class="col-monto">Monto<br><span style="font-weight:400;opacity:.6;font-size:9px;">Amount</span></th>
+            <th class="col-method">Método<br><span style="font-weight:400;opacity:.6;font-size:9px;">Method</span></th>
+            <th class="col-date">Fecha Pago<br><span style="font-weight:400;opacity:.6;font-size:9px;">Date Paid</span></th>
+            <th class="col-fee">Recargo<br><span style="font-weight:400;opacity:.6;font-size:9px;">Late Fee</span></th>
             <th class="col-balance">Balance</th>
-            <th class="col-cond">${showEnTranslation ? 'Condition' : 'Condición'}</th>
-            <th class="col-notes">${showEnTranslation ? 'Notes' : 'Notas'}</th>
-            <th class="col-action">${showEnTranslation ? 'Action' : 'Acción'}</th>
+            <th class="col-cond">Condición<br><span style="font-weight:400;opacity:.6;font-size:9px;">Condition</span></th>
+            <th class="col-notes">Notas<br><span style="font-weight:400;opacity:.6;font-size:9px;">Notes</span></th>
+            <th class="col-action">Acción<br><span style="font-weight:400;opacity:.6;font-size:9px;">Action</span></th>
           </tr></thead>
           <tbody>${rowsHtml}</tbody>
           <tfoot><tr class="hoja-subtotal">
