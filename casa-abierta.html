@@ -1779,7 +1779,12 @@ function renderVacancyBoard() {
   const occList = allRooms().filter(r => !isVacant(r.id));
   vacList.sort((a,b) => (daysSinceVacant(b.id)||0) - (daysSinceVacant(a.id)||0));
   const totalVacRent = vacList.reduce((s,r) => s + effectiveRent(r.id), 0);
-  let vacHtml = `<div class="card-title" style="font-size:16px;margin-bottom:10px;">
+  let vacHtml = `
+  <div style="background:var(--blue-lt);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:14px;font-size:13px;color:var(--blue);font-weight:600;">
+    📋 Esta página muestra cuartos vacíos y ocupados. Toca un vacío para agregar inquilino. Toca un ocupado para registrar salida.<br>
+    <span style="font-weight:400;font-size:11px;opacity:.8;">This page tracks vacancies. Tap a vacant room to add a tenant. Tap an occupied room to log move-out.</span>
+  </div>
+  <div class="card-title" style="font-size:16px;margin-bottom:10px;">
     <span style="color:var(--amber);">${vacList.length} cuartos vacíos</span>
     <span style="margin-left:auto;font-size:13px;color:var(--red);">−${fmt$(totalVacRent)}/sem</span>
   </div>`;
@@ -1810,22 +1815,29 @@ function renderVacancyBoard() {
   vacHtml += `<button class="btn btn-ghost btn-block" style="margin-top:8px;" onclick="window.open('https://wa.me/19048001234?text=${waMsg}','_blank')">📲 Avisar a Jerel por WhatsApp</button>`;
   vacContainer.innerHTML = vacHtml;
 
-  let occHtml = '';
+  let occHtml = `<div style="font-size:12px;color:var(--gray);margin-bottom:10px;">Toca un cuarto para registrar salida / <em>Tap a room to log move-out</em></div>`;
   PROPS.forEach(prop => {
-    const propOcc = prop.rooms.filter(r => !isVacant(r.id));
+    const propOcc = prop.rooms.filter(r => !isVacant(r.id) && !prop.monthly);
     if (propOcc.length === 0) return;
     occHtml += `<div class="property-section"><div class="property-header">🏠 ${prop.name}</div>`;
     propOcc.forEach(r => {
-      const tenant = effectiveTenant(r.id);
-      const pmt = getPayment(r.id, currentWeekKey());
-      const paid = pmt && pmt.paid;
-      occHtml += `<div class="room-card ${paid?'paid':'unpaid'}">
+      const tenant   = effectiveTenant(r.id);
+      const tenants  = load(SK.tenants) || [];
+      const tRec     = tenants.find(t => t.roomId === r.id);
+      const moveIn   = tRec ? (tRec.moveIn || null) : null;
+      const safeName = tenant.replace(/'/g,"\\'");
+      const moveOutCall = moveIn
+        ? `openMoveOutModal('${r.id}','${safeName}','${moveIn}')`
+        : `openMoveOutModal('${r.id}','${safeName}',null)`;
+      occHtml += `<div class="room-card" style="cursor:pointer;" onclick="${moveOutCall}">
         <div class="room-card-left">
           <div class="room-unit">Unit ${r.unit}</div>
           <div class="room-tenant">${tenant}</div>
-          <div class="room-rent">${fmt$(effectiveRent(r.id))}/sem</div>
+          <div class="room-rent">${fmt$(effectiveRent(r.id))}/sem${moveIn ? ` · Desde ${displayDate(moveIn)}` : ''}</div>
         </div>
-        <div class="room-card-right"><span class="status-chip ${paid?'paid':'unpaid'}">${paid?'✅':'❌'}</span></div>
+        <div class="room-card-right">
+          <span style="font-size:12px;color:var(--gray);font-weight:600;">Se Fue →</span>
+        </div>
       </div>`;
     });
     occHtml += '</div>';
