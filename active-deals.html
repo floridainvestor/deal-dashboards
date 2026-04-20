@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Active Deals — Jay Williams</title>
+<style>
+  :root {
+    --bg: #0f0f12;
+    --surface: #18181f;
+    --border: #2a2a35;
+    --accent: #6c63ff;
+    --green: #22c55e;
+    --amber: #f59e0b;
+    --red: #ef4444;
+    --blue: #3b82f6;
+    --purple: #a855f7;
+    --text: #e5e5ef;
+    --muted: #6b6b80;
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── LOCK SCREEN ─────────────────────────────── */
+  #lock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 32px 24px;
+    gap: 24px;
+  }
+  #lock .logo { font-size: 48px; }
+  #lock h1 { font-size: 22px; font-weight: 700; color: var(--text); letter-spacing: -0.5px; }
+  #lock p { font-size: 14px; color: var(--muted); }
+  #lock input {
+    width: 100%;
+    max-width: 300px;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    color: var(--text);
+    font-size: 18px;
+    padding: 14px 18px;
+    text-align: center;
+    outline: none;
+    letter-spacing: 4px;
+  }
+  #lock input:focus { border-color: var(--accent); }
+  #lock button {
+    width: 100%;
+    max-width: 300px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 12px;
+    padding: 16px;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  #lock button:active { opacity: 0.8; }
+  #lock .error {
+    color: var(--red);
+    font-size: 13px;
+    min-height: 18px;
+  }
+
+  /* ── DASHBOARD ───────────────────────────────── */
+  #dash { display: none; }
+
+  .topbar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .topbar h1 { font-size: 17px; font-weight: 700; letter-spacing: -0.3px; }
+  .topbar .date { font-size: 12px; color: var(--muted); }
+  .lock-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+
+  .content { padding: 20px 16px; max-width: 600px; margin: 0 auto; }
+
+  /* ── PORTFOLIO SNAPSHOT ──────────────────────── */
+  .snapshot {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .snap-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+  }
+  .snap-card .val {
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .snap-card .lbl { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .snap-card.warn .val { color: var(--amber); }
+  .snap-card.good .val { color: var(--green); }
+  .snap-card.info .val { color: var(--blue); }
+  .snap-card.active .val { color: var(--purple); }
+
+  /* ── SECTION HEADER ──────────────────────────── */
+  .section-header {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 12px;
+    padding-left: 2px;
+  }
+
+  /* ── DEAL CARDS ──────────────────────────────── */
+  .deals { display: flex; flex-direction: column; gap: 14px; margin-bottom: 32px; }
+  .deal-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    position: relative;
+    overflow: hidden;
+  }
+  .deal-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: var(--accent);
+    border-radius: 4px 0 0 4px;
+  }
+  .deal-card.stage-closing::before { background: var(--green); }
+  .deal-card.stage-negotiating::before { background: var(--amber); }
+  .deal-card.stage-analysis::before { background: var(--blue); }
+  .deal-card.stage-structured::before { background: var(--purple); }
+
+  .deal-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .deal-name { font-size: 16px; font-weight: 700; letter-spacing: -0.3px; }
+  .deal-addr { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+  .badge {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 3px 8px;
+    border-radius: 20px;
+    border: 1px solid;
+  }
+  .badge-stage-closing { background: rgba(34,197,94,.12); color: var(--green); border-color: rgba(34,197,94,.3); }
+  .badge-stage-negotiating { background: rgba(245,158,11,.12); color: var(--amber); border-color: rgba(245,158,11,.3); }
+  .badge-stage-analysis { background: rgba(59,130,246,.12); color: var(--blue); border-color: rgba(59,130,246,.3); }
+  .badge-stage-structured { background: rgba(168,85,247,.12); color: var(--purple); border-color: rgba(168,85,247,.3); }
+  .badge-subto { background: rgba(108,99,255,.12); color: var(--accent); border-color: rgba(108,99,255,.3); }
+  .badge-sf { background: rgba(168,85,247,.12); color: var(--purple); border-color: rgba(168,85,247,.3); }
+  .badge-rto { background: rgba(245,158,11,.12); color: var(--amber); border-color: rgba(245,158,11,.3); }
+  .badge-taxdeed { background: rgba(239,68,68,.12); color: var(--red); border-color: rgba(239,68,68,.3); }
+  .badge-mhp { background: rgba(34,197,94,.12); color: var(--green); border-color: rgba(34,197,94,.3); }
+
+  .deal-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .metric { }
+  .metric .mval {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+  .metric .mlbl {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-top: 1px;
+  }
+
+  .next-action {
+    background: rgba(108,99,255,.08);
+    border: 1px solid rgba(108,99,255,.2);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.4;
+  }
+  .next-action .na-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 4px;
+  }
+
+  .deal-notes {
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+    border-top: 1px solid var(--border);
+    padding-top: 10px;
+  }
+
+  /* ── FLAGS / ALERTS ──────────────────────────── */
+  .alerts { margin-bottom: 28px; display: flex; flex-direction: column; gap: 10px; }
+  .alert-card {
+    background: rgba(239,68,68,.07);
+    border: 1px solid rgba(239,68,68,.25);
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  .alert-card .al { font-weight: 700; color: var(--red); margin-bottom: 2px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .alert-card.warn {
+    background: rgba(245,158,11,.07);
+    border-color: rgba(245,158,11,.25);
+  }
+  .alert-card.warn .al { color: var(--amber); }
+
+  /* ── FOOTER ──────────────────────────────────── */
+  .footer {
+    text-align: center;
+    font-size: 11px;
+    color: var(--muted);
+    padding: 16px;
+    border-top: 1px solid var(--border);
+    margin-top: 8px;
+  }
+</style>
+</head>
+<body>
+
+<!-- LOCK SCREEN -->
+<div id="lock">
+  <div class="logo">🔐</div>
+  <h1>Active Deals</h1>
+  <p>Jay Williams — Ainsley OS</p>
+  <input type="password" id="pw" placeholder="••••••••" autocomplete="off" autocorrect="off" spellcheck="false">
+  <div class="error" id="err"></div>
+  <button onclick="unlock()">Unlock</button>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dash">
+  <div class="topbar">
+    <div>
+      <div class="h1">Active Deals</div>
+      <div class="date" id="topdate"></div>
+    </div>
+    <button class="lock-btn" onclick="lockScreen()">Lock</button>
+  </div>
+
+  <div class="content">
+
+    <!-- PORTFOLIO SNAPSHOT -->
+    <div class="section-header" style="margin-bottom:10px;">Portfolio Snapshot</div>
+    <div class="snapshot">
+      <div class="snap-card good">
+        <div class="val">$60K</div>
+        <div class="lbl">Gross / month</div>
+      </div>
+      <div class="snap-card warn">
+        <div class="val">15</div>
+        <div class="lbl">Vacant rooms</div>
+      </div>
+      <div class="snap-card info">
+        <div class="val">34</div>
+        <div class="lbl">Properties</div>
+      </div>
+      <div class="snap-card active">
+        <div class="val">7</div>
+        <div class="lbl">Active deals</div>
+      </div>
+    </div>
+
+    <!-- FLAGS -->
+    <div class="section-header">Flags</div>
+    <div class="alerts">
+      <div class="alert-card warn">
+        <div class="al">⚠ Vacancy</div>
+        15 vacant rooms — $10K–$13K/mo sitting on table. Q2 target: ≤10.
+      </div>
+      <div class="alert-card warn">
+        <div class="al">⏰ Catoma Balloon</div>
+        $45K balloon due 11/8/2027 — 19 months out. Structure needed now.
+      </div>
+      <div class="alert-card">
+        <div class="al">🔴 Dor Mil Ct</div>
+        Signing staged in push queue. Confirm closing package complete.
+      </div>
+    </div>
+
+    <!-- DEAL CARDS -->
+    <div class="section-header">7 Active Deals</div>
+    <div class="deals">
+
+      <!-- 1. SKYCREST -->
+      <div class="deal-card stage-negotiating">
+        <div class="deal-top">
+          <div>
+            <div class="deal-name">Skycrest</div>
+            <div class="deal-addr">10469 Skycrest Dr N, Jacksonville FL 32246</div>
+          </div>
+        </div>
+        <div class="badges">
+          <span class="badge badge-stage-negotiating">Negotiating</span>
+          <span class="badge badge-sf">Seller Finance IO</span>
+        </div>
+        <div class="deal-metrics">
+          <div class="metric"><div class="mval">$400K</div><div class="mlbl">Ask price</div></div>
+          <div class="metric"><div class="mval">3.5%</div><div class="mlbl">Rate (IO)</div></div>
+          <div class="metric"><div class="mval">9</div><div class="mlbl">PadSplit rooms</div></div>
+          <div class="metric"><div class="mval">~45%</div><div class="mlbl">Target CoC</div></div>
+        </div>
+        <div class="next-action">
+          <div class="na-label">Next Action</div>
+          Pull live PadSplit comps ZIP 32246. Resolve rate assumption ($200/wk vs $161/wk). Then LOI.
+        </div>
+        <div class="deal-notes">
+          Raj Mody bundle — must close BOTH Skycrest + Forest Hills. Seller is motivated, largest homes in neighborhood. Bonus depreciation via cost seg planned. High confidence on structure; rate assumption needs comp validation.
+        </div>
+      </div>
+
+      <!-- 2. FOREST HILLS -->
+      <div class="deal-card stage-analysis">
+        <div class="deal-top">
+          <div>
+            <div class="deal-name">Forest Hills</div>
+            <div class="deal-addr">Jacksonville FL — Raj Mody bundle</div>
+          </div>
+        </div>
+        <div class="badges">
+          <span class="badge badge-stage-analysis">Analysis</span>
+          <span class="badge badge-sf">Seller Finance IO</span>
+        </div>
+        <div class="deal-metrics">
+          <div class="metric"><div class="mval">$380K</div><div class="mlbl">Ask price</div></div>
+          <div class="metric"><div class="mval">3.5%</div><div class="mlbl">Rate (IO)</div></div>
+          <div class="metric"><div class="mval">6.4%</div><div class="mlbl">CoC (tight)</div></div>
+          <div class="metric"><div class="mval">70%</div><div class="mlbl">Break-even occ.</div></div>
+        </div>
+        <div class="next-action">
+          <div class="na-label">Next Action</div>
+          Evaluate — Skycrest carries this bundle. Confirm room count and occupancy assumptions before LOI.
+        </div>
+        <div class="deal-notes">
+          $26,124/yr NOI. ~15yr payback — tight on its own. Skycrest ($43,632/yr NOI, 45% CoC) is the economic engine. Bundle blended: $42,456/yr CF, 37.6% CoC.
+        </div>
+      </div>
+
+      <!-- 3. DOR MIL CT -->
+      <div class="deal-card stage-closing">
+        <div class="deal-top">
+          <div>
+            <div class="deal-name">Dor Mil Ct</div>
+            <div class="deal-addr">Jacksonville FL — Closing package staged</div>
+          </div>
+        </div>
+        <div class="badges">
+          <span class="badge badge-stage-closing">Closing</span>
+          <span class="badge badge-sf">Creative Finance</span>
+        </div>
+        <div class="deal-metrics">
+          <div class="metric"><div class="mval">Signing</div><div class="mlbl">Current stage</div></div>
+          <div class="metric"><div class="mval">Queued</div><div class="mlbl">Push status</div></div>
+        </div>
+        <div class="next-action">
+          <div class="na-label">Next Action</div>
+          Confirm closing package complete. Execute signing.
+        </div>
+        <div class="deal-notes">
+          Closing_Package folder exists in vault. Signing queued in Ainsley push loop — surface item is live.
+        </div>
+      </div>
+
+      <!-- 4. BROOK FOREST -->
+      <div class="deal-card stage-analysis">
+        <div class="deal-top">
+          <div>
+            <div class="deal-name">Brook Forest</div>
+            <div class="deal-addr">Jacksonville FL — Sub-To</div>
+          </div>
+        </div>
+        <div class="badges">
+          <span class="badge badge-stage-analysis">Analysis</span>
+          <span class="badge badge-subto">Subject-To</span>
+        </div>
+        <div class="deal-metrics">
+          <div class="metric"><div class="mval">Sub-To</div><div class="mlbl">Structure</div></div>
+          <div class="metric"><div class="mval">Review</div><div class="mlbl">Deal review built</div></div>
+        </div>
+        <div class="next-action">
+          <div class="na-label">Next Action</div>
+          Review deal analysis. Determine offer / proceed decision.
+        </div>
+        <div class="deal-notes">
+          Deal review HTML in vault: Brook_Forest_Deal_Review.html. 25% scenario version also built.
+        </div>
+      </div>
+
+      <!-- 5. MYRA ST -->
+      <div class="deal-card stage-analysis">
+        <div class="deal-top">
+          <div>
+            <div class="deal-name">Myra St</div>
+            <div class="deal-addr">Jacksonville FL — P&L built</div>
+          </div>
+        </div>
+        <div class="badges">
+          <span class="badge badge-stage-analysis">Analysis</span>
+          <span class="badge badge-sf">Creative Finance</span>
+        </div>
+        <div class="deal-metrics">
+          <div class="metric"><div class="mval">P&L</div><div class="mlbl">Report built</div></div>
+        </div>
+        <div class="next-action">
+          <div class="na-label">Next Action</div>
+          Review Myra_St_PL_Report.html. Determine next move.
+        </div>
+        <div class="deal-notes">
+          P&L report exists. Full deal evaluation pending decision.
+        </div>
+      </div>
+
+      <!-- 6. PARK AVE MHP -->
+      <div class="deal-card stage-structured">
+        <div class="deal-top">
+          <div>
+            <div class="deal-name">Park Ave MHP</div>
+            <div class="deal-addr">Sanford FL 32771 — Steve Levy, 55+ community</div>
+          </div>
+        </div>
+        <div class="badges">
+          <span class="badge badge-stage-structured">Structured</span>
+          <span class="badge badge-mhp">MHP</span>
+          <span class="badge badge-rto">RTO</span>
+        </div>
+        <div class="deal-metrics">
+          <div class="metric"><div class="mval">13</div><div class="mlbl">Units confirmed</div></div>
+          <div class="metric"><div class="mval">$600</div><div class="mlbl">Lot rent / mo</div></div>
+          <div class="metric"><div class="mval">7%</div><div class="mlbl">ROI pricing</div></div>
+          <div class="metric"><div class="mval">Group A</div><div class="mlbl">Ad live ✅</div></div>
+        </div>
+        <div class="next-action">
+          <div class="na-label">Next Action</div>
+          Run Group B arena (Lots 14 + 9, correct photos). Steve Levy follow-up call.
+        </div>
+        <div class="deal-notes">
+          Group A control: Makepeace 83/96 — live at park-ave-flyers/gA-makepeace.html. Title (not deed) transfer at last payment. Group B/C/D arenas pending. 4+ lots with unknown info still need Steve's walkthrough data.
+        </div>
+      </div>
+
+      <!-- 7. CATOMA MHP -->
+      <div class="deal-card stage-structured">
+        <div class="deal-top">
+          <div>
+            <div class="deal-name">Catoma MHP</div>
+            <div class="deal-addr">Florida — 6-unit mobile home park</div>
+          </div>
+        </div>
+        <div class="badges">
+          <span class="badge badge-stage-structured">Structured</span>
+          <span class="badge badge-mhp">MHP</span>
+        </div>
+        <div class="deal-metrics">
+          <div class="metric"><div class="mval">6</div><div class="mlbl">Units</div></div>
+          <div class="metric"><div class="mval">$45K</div><div class="mlbl">Balloon due</div></div>
+          <div class="metric"><div class="mval">11/8/27</div><div class="mlbl">Balloon date</div></div>
+          <div class="metric"><div class="mval">19mo</div><div class="mlbl">Runway</div></div>
+        </div>
+        <div class="next-action">
+          <div class="na-label">Next Action</div>
+          Design balloon payoff structure. Options: refinance, sell, note extension, or payoff from cash flow.
+        </div>
+        <div class="deal-notes">
+          19 months to balloon. Design the exit plan now — not when deadline pressure is on. Options: refi with portfolio lender, sell to tenant-buyer, extend balloon with seller, payoff from cash flow.
+        </div>
+      </div>
+
+    </div><!-- /deals -->
+
+    <!-- CAPITAL STACK -->
+    <div class="section-header">Capital Stack</div>
+    <div class="snapshot" style="margin-bottom:32px;">
+      <div class="snap-card">
+        <div class="val" style="font-size:20px; color:var(--green);">$100K</div>
+        <div class="lbl">Sandra @ 4%</div>
+      </div>
+      <div class="snap-card">
+        <div class="val" style="font-size:20px; color:var(--amber);">Glenn</div>
+        <div class="lbl">2pts + 12% — use last</div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <div class="footer">
+    Ainsley OS · Updated <span id="lastupdate"></span> · 34 properties · $50K/mo target
+  </div>
+</div><!-- /dash -->
+
+<script>
+  const PASS = 'jay2026';
+
+  function unlock() {
+    const val = document.getElementById('pw').value;
+    if (val === PASS) {
+      document.getElementById('lock').style.display = 'none';
+      document.getElementById('dash').style.display = 'block';
+      sessionStorage.setItem('unlocked', '1');
+      initDash();
+    } else {
+      const err = document.getElementById('err');
+      err.textContent = 'Wrong password. Try again.';
+      document.getElementById('pw').value = '';
+      document.getElementById('pw').focus();
+      setTimeout(() => err.textContent = '', 2500);
+    }
+  }
+
+  function lockScreen() {
+    sessionStorage.removeItem('unlocked');
+    document.getElementById('lock').style.display = 'flex';
+    document.getElementById('dash').style.display = 'none';
+    document.getElementById('pw').value = '';
+  }
+
+  function initDash() {
+    const now = new Date();
+    const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    document.getElementById('topdate').textContent =
+      days[now.getDay()] + ' ' + months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
+    document.getElementById('lastupdate').textContent = 'Apr 20, 2026';
+  }
+
+  // Auto-unlock if session is still active
+  if (sessionStorage.getItem('unlocked') === '1') {
+    document.getElementById('lock').style.display = 'none';
+    document.getElementById('dash').style.display = 'block';
+    initDash();
+  }
+
+  // Enter key submits
+  document.getElementById('pw').addEventListener('keydown', e => {
+    if (e.key === 'Enter') unlock();
+  });
+</script>
+</body>
+</html>
