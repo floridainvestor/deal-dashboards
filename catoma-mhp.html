@@ -4,582 +4,1373 @@
 <meta charset="UTF-8">
 <meta name="robots" content="noindex, nofollow, noarchive">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>5849 Catoma St — MHP Deal Review</title>
+<title>5849 Catoma St — Multi-Exit Deal Analyzer</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: Arial, sans-serif; background: #f0f2f5; color: #1a1a1a; font-size: 13px; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #1a1a1a; font-size: 13px; }
 
-  /* ── PHOTO STRIP ── */
-  .photo-hero {
-    width: 100%; max-height: 340px; object-fit: cover; display: block;
-  }
-  .photo-strip {
-    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px;
-    margin-bottom: 0;
-  }
-  .photo-strip img {
-    width: 100%; height: 200px; object-fit: cover; display: block;
-  }
-  .photo-caption {
-    background: #1a2b3c; color: #7fb3d3; font-size: 10px;
-    text-transform: uppercase; letter-spacing: 2px;
-    padding: 8px 16px; text-align: center;
-  }
-  .aerial-strip {
-    display: grid; grid-template-columns: 1fr; gap: 0;
-    margin-bottom: 24px;
-  }
-  .aerial-strip img {
-    width: 100%; max-height: 220px; object-fit: cover; display: block;
-    border-radius: 6px;
-  }
-
+  /* ── COVER (MLS-style: photo on top, compact text bar below) ─────── */
   .cover {
-    background: #1a2b3c; color: white;
-    padding: 70px 60px; text-align: center;
     page-break-after: always;
+    max-width: 1100px; margin: 0 auto;
+    background: #1a2b3c;
+    overflow: hidden;
   }
-  .cover-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #7fb3d3; margin-bottom: 16px; }
-  .cover h1 { font-size: 42px; font-weight: 900; line-height: 1.1; margin-bottom: 10px; }
-  .cover h2 { font-size: 17px; font-weight: 400; color: #7fb3d3; margin-bottom: 32px; }
-  .cover-rule { width: 50px; height: 4px; background: #e8a020; margin: 0 auto 36px; }
-  .cover-meta { font-size: 14px; color: #aac4d8; line-height: 2.2; }
-  .cover-meta strong { color: white; }
+  .cover-photo-ph {
+    width: 100%; height: 540px; overflow: hidden;
+    /* TODO: Replace gradient with actual front photo when available */
+    background: linear-gradient(135deg, #1a2b3c 0%, #2d4a5e 40%, #1e7e34 80%, #155724 100%);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .cover-photo-ph img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
+  .cover-photo-placeholder-text {
+    color: rgba(255,255,255,.25); font-size: 14px; text-transform: uppercase; letter-spacing: 3px; text-align: center;
+  }
+  .cover-text {
+    color: white; padding: 22px 32px 26px;
+  }
+  .cover-top {
+    display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+    margin-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,.12); padding-bottom: 14px;
+  }
+  .cover-top-l { flex: 1; min-width: 280px; }
+  .cover-eyebrow { font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: #7fb3d3; margin-bottom: 6px; }
+  .cover-text h1 { font-size: 28px; font-weight: 900; line-height: 1.05; margin-bottom: 4px; letter-spacing: -0.5px; }
+  .cover-text h2 { font-size: 12px; font-weight: 400; color: #7fb3d3; }
+  .cover-top-r {
+    text-align: right; font-size: 11px; color: #aac4d8; line-height: 1.6;
+  }
+  .cover-top-r strong { color: white; font-weight: 700; }
+  .cover-meta-strip {
+    font-size: 11px; color: #aac4d8; line-height: 1.7; margin-bottom: 14px;
+  }
+  .cover-meta-strip strong { color: white; }
+  .cover-meta-strip .sep { color: #555; padding: 0 8px; }
+
+  /* BALLOON CALLOUT on cover */
+  .balloon-banner {
+    background: rgba(220, 53, 69, .15); border: 1px solid rgba(220, 53, 69, .4); border-radius: 6px;
+    padding: 8px 16px; margin-bottom: 14px; font-size: 11px; color: #ef9a9a;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .balloon-banner strong { color: #ff6b6b; }
 
   .stat-row {
-    display: flex; gap: 0; margin: 44px auto 0; max-width: 800px;
-    border: 1px solid rgba(255,255,255,.15); border-radius: 8px; overflow: hidden;
+    display: flex; flex-wrap: wrap; gap: 0;
+    border: 1px solid rgba(255,255,255,.15); border-radius: 6px; overflow: hidden;
+    margin-bottom: 14px;
   }
-  .stat-cell {
-    flex: 1; padding: 22px 16px; text-align: center;
-    border-right: 1px solid rgba(255,255,255,.12);
-  }
+  .stat-cell { flex: 1; min-width: 90px; padding: 12px 8px; text-align: center; border-right: 1px solid rgba(255,255,255,.12); }
   .stat-cell:last-child { border-right: none; }
-  .stat-num { font-size: 28px; font-weight: 900; color: #e8a020; line-height: 1; }
-  .stat-lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #aac4d8; margin-top: 5px; }
+  .stat-num { font-size: 20px; font-weight: 900; color: #e8a020; line-height: 1; }
+  .stat-num.red { color: #ef9a9a; }
+  .stat-lbl { font-size: 8px; text-transform: uppercase; letter-spacing: 1px; color: #aac4d8; margin-top: 4px; }
 
-  .target-badge {
-    display: inline-block; margin-top: 32px;
-    background: #1e7e34; color: white;
-    font-size: 13px; font-weight: 900; letter-spacing: 1px;
-    padding: 10px 28px; border-radius: 30px; text-transform: uppercase;
+  .type-badge {
+    display: inline-block; background: #1e7e34; color: white;
+    font-size: 10px; font-weight: 900; letter-spacing: .6px;
+    padding: 7px 16px; border-radius: 30px; text-transform: uppercase;
   }
 
-  .section {
-    background: white; padding: 44px 52px;
-    page-break-after: always; max-width: 1100px; margin: 0 auto;
-  }
+  /* ── SECTIONS ───────────────────────────── */
+  .section { background: white; padding: 36px 40px; page-break-after: always; max-width: 1100px; margin: 0 auto; }
   .section-last { page-break-after: auto; }
 
   .page-hdr {
     display: flex; justify-content: space-between; align-items: flex-end;
-    border-bottom: 3px solid #1a2b3c; padding-bottom: 10px; margin-bottom: 28px;
+    border-bottom: 3px solid #1a2b3c; padding-bottom: 10px; margin-bottom: 24px;
+    flex-wrap: wrap; gap: 6px;
   }
-  .page-hdr h2 { font-size: 20px; font-weight: 900; text-transform: uppercase; letter-spacing: .8px; color: #1a2b3c; }
+  .page-hdr h2 { font-size: 18px; font-weight: 900; text-transform: uppercase; letter-spacing: .8px; color: #1a2b3c; }
   .page-hdr span { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #999; }
 
-  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 28px; }
-  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 28px; }
+  /* ── GRIDS ──────────────────────────────── */
+  .two-col   { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
 
-  .info-card {
-    border: 1px solid #e0e0e0; border-radius: 6px; padding: 20px 22px;
-    border-top: 4px solid #1a2b3c;
-  }
-  .info-card h4 { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: #888; margin-bottom: 14px; }
-  .info-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f0f0f0; font-size: 13px; }
+  /* ── INFO CARDS ─────────────────────────── */
+  .info-card { border: 1px solid #e0e0e0; border-radius: 6px; padding: 18px 20px; border-top: 4px solid #1a2b3c; }
+  .info-card h4 { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: #888; margin-bottom: 12px; }
+  .info-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f0f0f0; font-size: 13px; gap: 8px; }
   .info-row:last-child { border-bottom: none; }
-  .info-row .lbl { color: #555; }
-  .info-row .val { font-weight: 700; color: #1a2b3c; }
-  .info-row .val.green { color: #1e7e34; }
+  .info-row .lbl { color: #555; flex-shrink: 0; }
+  .info-row .val { font-weight: 700; color: #1a2b3c; text-align: right; }
+  .info-row .val.green  { color: #1e7e34; }
   .info-row .val.orange { color: #b07700; }
-  .info-row .val.red { color: #8b0000; }
-  .info-row .val.gold { color: #e8a020; }
+  .info-row .val.red    { color: #8b0000; }
+  .info-row .val.gold   { color: #b07700; }
 
-  .dark-box {
-    background: #1a2b3c; border-radius: 8px; padding: 22px 28px;
-    margin-bottom: 24px;
-  }
-  .dark-box h4 { color: #7fb3d3; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; }
-  .dark-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,.08); font-size: 13px; color: white; }
+  /* ── DARK BOX ───────────────────────────── */
+  .dark-box { background: #1a2b3c; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px; }
+  .dark-box h4 { color: #7fb3d3; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 14px; }
+  .dark-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,.08); font-size: 13px; color: white; gap: 8px; }
   .dark-row:last-child { border-bottom: none; }
   .dark-row .dlbl { color: #aac4d8; }
-  .dark-row .dval { font-weight: 700; color: white; }
-  .dark-row .dval.gold { color: #e8a020; }
+  .dark-row .dval { font-weight: 700; color: white; text-align: right; }
+  .dark-row .dval.gold  { color: #e8a020; }
   .dark-row .dval.green { color: #4caf50; }
-  .dark-row .dval.red { color: #ef9a9a; }
+  .dark-row .dval.red   { color: #ef9a9a; }
   .dark-row .dval.orange { color: #ffb74d; }
 
-  .stat-strip {
-    background: #1a2b3c; border-radius: 6px; padding: 18px 24px;
-    display: grid; grid-template-columns: repeat(4,1fr); gap: 12px;
-    text-align: center; margin-bottom: 28px;
-  }
-  .stat-strip .snum { font-size: 26px; font-weight: 900; color: #e8a020; line-height: 1; }
-  .stat-strip .slbl { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #aac4d8; margin-top: 4px; }
+  /* ════════════════════════════════════════
+     EXIT STRATEGY ANALYZER
+     ════════════════════════════════════════ */
 
-  table.twr-table { width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px; }
-  .twr-table th {
-    background: #1a2b3c; color: white; padding: 10px 14px;
+  /* HERO — Recommended Exit */
+  .winner-hero {
+    background: linear-gradient(135deg, #1a2b3c 0%, #2d4a5e 100%);
+    border-radius: 12px; padding: 28px 36px; margin-bottom: 20px;
+    border: 3px solid #e8a020;
+    box-shadow: 0 4px 12px rgba(232, 160, 32, .2);
+  }
+  .winner-eyebrow {
+    font-size: 11px; font-weight: 700; color: #e8a020;
+    text-transform: uppercase; letter-spacing: 2px; margin-bottom: 4px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .winner-title { font-size: 28px; font-weight: 900; color: white; margin-bottom: 22px; letter-spacing: -0.5px; }
+
+  .winner-stats {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 0;
+    border-top: 1px solid rgba(255,255,255,.12);
+    border-bottom: 1px solid rgba(255,255,255,.12);
+    padding: 18px 0; margin-bottom: 18px;
+  }
+  .winner-stat { text-align: center; padding: 0 10px; border-right: 1px solid rgba(255,255,255,.08); }
+  .winner-stat:last-child { border-right: none; }
+  .ws-num { font-size: 32px; font-weight: 900; color: #e8a020; line-height: 1; letter-spacing: -1px; }
+  .ws-num.green { color: #4caf50; }
+  .ws-num.red { color: #ef9a9a; }
+  .ws-lbl { font-size: 9px; color: #aac4d8; text-transform: uppercase; letter-spacing: 1px; margin-top: 6px; font-weight: 700; }
+
+  .winner-why {
+    font-size: 13px; color: #aac4d8; line-height: 1.7; padding-top: 4px;
+  }
+  .winner-why strong { color: white; }
+
+  /* COMPARISON GRID — All 4 Exits at a Glance */
+  .exit-comparison {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 28px;
+  }
+  .exit-card {
+    background: white; border: 1px solid #e0e0e0; border-radius: 8px;
+    padding: 16px 14px; text-align: center; position: relative;
+    border-top: 4px solid #ccc;
+  }
+  .exit-card.go     { border-top-color: #1e7e34; background: #f4faf5; }
+  .exit-card.strong { border-top-color: #e8a020; background: #fffbf0; }
+  .exit-card.pass   { border-top-color: #999; background: #fafafa; opacity: .65; }
+  .exit-card.skip   { border-top-color: #999; background: #f5f5f5; opacity: .55; }
+
+  .ec-verdict {
+    display: inline-block; font-size: 9px; font-weight: 900;
+    padding: 3px 10px; border-radius: 20px; letter-spacing: 1px;
+    text-transform: uppercase; margin-bottom: 8px;
+  }
+  .ec-verdict.go      { background: #1e7e34; color: white; }
+  .ec-verdict.strong  { background: #e8a020; color: white; }
+  .ec-verdict.pass    { background: #999; color: white; }
+  .ec-verdict.skip    { background: #aaa; color: white; }
+  .ec-icon { font-size: 18px; margin-bottom: 4px; }
+  .ec-name { font-size: 12px; font-weight: 700; color: #1a2b3c; margin-bottom: 10px; min-height: 28px; }
+  .ec-coc { font-size: 26px; font-weight: 900; color: #1a2b3c; line-height: 1; letter-spacing: -1px; margin-bottom: 2px; }
+  .ec-coc.green { color: #1e7e34; }
+  .ec-coc.amber { color: #b07700; }
+  .ec-coc.muted { color: #999; }
+  .ec-coc-lbl { font-size: 9px; color: #888; text-transform: uppercase; letter-spacing: .8px; margin-bottom: 10px; }
+  .ec-mocf { font-size: 14px; font-weight: 700; color: #555; }
+  .ec-mocf-lbl { font-size: 9px; color: #888; text-transform: uppercase; letter-spacing: .8px; }
+
+  /* DETAIL PANELS */
+  .exit-panel {
+    border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 16px;
+    overflow: hidden; background: white;
+  }
+  .exit-panel.go     { border-left: 5px solid #1e7e34; }
+  .exit-panel.strong { border-left: 5px solid #e8a020; }
+  .exit-panel.pass   { border-left: 5px solid #999; }
+  .exit-panel.skip   { border-left: 5px solid #999; opacity: .7; }
+
+  .exit-head {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 16px 22px; background: #fafafa; border-bottom: 1px solid #e8e8e8;
+  }
+  .exit-head-l { display: flex; align-items: center; gap: 14px; }
+  .exit-head-l .icon { font-size: 22px; }
+  .exit-head-l h3 { font-size: 16px; font-weight: 900; color: #1a2b3c; }
+  .exit-head-l .sub { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+  .exit-head-r { display: flex; gap: 22px; align-items: center; }
+  .ehr-stat { text-align: right; }
+  .ehr-num { font-size: 18px; font-weight: 900; color: #1a2b3c; line-height: 1; }
+  .ehr-num.green { color: #1e7e34; }
+  .ehr-num.amber { color: #b07700; }
+  .ehr-num.muted { color: #999; }
+  .ehr-lbl { font-size: 9px; color: #888; text-transform: uppercase; letter-spacing: .6px; margin-top: 2px; }
+
+  .exit-body { padding: 22px 26px; }
+
+  .exit-metrics-row {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 22px;
+  }
+  .em-cell {
+    background: #fafafa; border-radius: 6px; padding: 14px 10px; text-align: center;
+    border-top: 3px solid #1a2b3c;
+  }
+  .em-cell.green { border-top-color: #1e7e34; }
+  .em-cell.amber { border-top-color: #e8a020; }
+  .em-cell.red   { border-top-color: #8b0000; }
+  .em-num { font-size: 20px; font-weight: 900; color: #1a2b3c; line-height: 1; letter-spacing: -.5px; }
+  .em-num.green { color: #1e7e34; }
+  .em-num.amber { color: #b07700; }
+  .em-num.red   { color: #8b0000; }
+  .em-num.muted { color: #999; }
+  .em-lbl { font-size: 9px; color: #888; text-transform: uppercase; letter-spacing: .8px; margin-top: 6px; font-weight: 700; }
+
+  .exit-detail-toggle {
+    cursor: pointer; padding: 11px 16px; background: #1a2b3c; color: white;
+    border-radius: 6px; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px;
+    display: inline-flex; align-items: center; gap: 8px; margin-bottom: 0;
+    border: none; outline: none;
+    user-select: none;
+  }
+  .exit-detail-toggle:hover { background: #2d4a5e; }
+  details[open] .exit-detail-toggle { background: #2d4a5e; }
+  details > summary { list-style: none; }
+  details > summary::-webkit-details-marker { display: none; }
+  details > summary::before {
+    content: '+ ';
+    margin-right: 4px; font-weight: 900;
+  }
+  details[open] > summary::before {
+    content: '- ';
+  }
+
+  .exit-deep { margin-top: 18px; padding-top: 18px; border-top: 1px solid #eee; }
+
+  /* Risk flag chips inside exit panel */
+  .risk-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+  .risk-chip {
+    font-size: 10px; padding: 4px 10px; border-radius: 20px;
+    font-weight: 600; border: 1px solid;
+  }
+  .risk-chip.green { background: #f4faf5; color: #1e7e34; border-color: #c6e3ca; }
+  .risk-chip.amber { background: #fffbf0; color: #b07700; border-color: #f0d090; }
+  .risk-chip.red   { background: #fff0f0; color: #8b0000; border-color: #f0c0c0; }
+
+  /* MHP Unit table — always visible */
+  .unit-rent-table {
+    width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 13px;
+  }
+  .unit-rent-table th {
+    background: #1a2b3c; color: white; padding: 9px 12px;
     text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 1px;
   }
-  .twr-table td { padding: 10px 14px; border-bottom: 1px solid #eee; vertical-align: middle; }
-  .twr-table tr:hover td { background: #fafafa; }
-  .twr-table tr.target-row td { background: #fffbf0; border-left: 4px solid #e8a020; }
-  .twr-table tr.target-row td:first-child { padding-left: 10px; }
-  .twr-table tr.above-row td { background: #f0fff4; }
-  .twr-table tr.below-row td { background: #fff5f5; }
-  .strategy-name { font-weight: 700; color: #1a2b3c; }
-  .twr-pct { font-size: 16px; font-weight: 900; }
-  .twr-green { color: #1e7e34; }
-  .twr-gold { color: #b07700; }
-  .twr-red { color: #8b0000; }
-  .badge { display: inline-block; padding: 3px 10px; border-radius: 4px; font-size: 10px; font-weight: 700; white-space: nowrap; }
-  .b-target  { background: #fff3cd; color: #856404; border: 1px solid #e8a020; }
-  .b-above   { background: #d4edda; color: #155724; }
-  .b-below   { background: #f8d7da; color: #721c24; }
-  .b-strong  { background: #1e7e34; color: white; }
-  .b-caution { background: #fff3cd; color: #856404; }
+  .unit-rent-table th.right { text-align: right; }
+  .unit-rent-table td { padding: 9px 12px; border-bottom: 1px solid #eee; }
+  .unit-rent-table td.right { text-align: right; font-weight: 700; }
+  .unit-rent-table tr.occupied td { background: #f0fff4; }
+  .unit-rent-table tr.vacant td { background: #fffbf0; }
+  .unit-rent-table tr.excluded td { background: #fff0f0; }
+  .unit-rent-table tr.total-row td { background: #1a2b3c; color: white; font-weight: 700; }
+  .unit-rent-table tr.total-row td.right { color: #e8a020; }
 
-  .unit-table { width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px; }
-  .unit-table th { background: #1a2b3c; color: white; padding: 9px 12px; text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
-  .unit-table td { padding: 9px 12px; border-bottom: 1px solid #eee; }
-  .unit-table tr:hover td { background: #fafafa; }
-  .unit-fire td { background: #fff5f5 !important; }
-  .unit-occupied td { background: #f0fff4 !important; }
+  /* Waterfall cards for Wrap exit */
+  .wrap-waterfall { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 16px; }
+  .wf-card { border: 1px solid #e0e0e0; border-radius: 6px; padding: 16px 18px; }
+  .wf-card.buy  { border-top: 4px solid #1a2b3c; }
+  .wf-card.sell { border-top: 4px solid #e8a020; background: #fffbf0; }
+  .wf-card h5 { font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px; color: #888; margin-bottom: 10px; }
 
-  .flag-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
-  .flag-card {
-    border: 1px solid #e0e0e0; border-radius: 6px; padding: 16px 18px;
-    display: flex; gap: 14px; align-items: flex-start;
+  /* Gap callout for PASS exits */
+  .gap-callout {
+    background: #fafafa; border: 1px solid #e0e0e0; border-radius: 8px;
+    padding: 24px 22px; margin-bottom: 16px;
   }
+  .gap-callout-title {
+    font-size: 14px; font-weight: 900; color: #8b0000;
+    text-transform: uppercase; letter-spacing: 1px; text-align: center;
+    margin-bottom: 18px;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+  }
+  .gap-callout-title .gc-icon {
+    font-size: 18px; background: #8b0000; color: white; width: 28px; height: 28px;
+    border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+  }
+  .gap-vs {
+    display: grid; grid-template-columns: 1fr auto 1fr; gap: 18px; align-items: center;
+    margin-bottom: 18px;
+  }
+  .gap-side { text-align: center; }
+  .gap-side-num { font-size: 36px; font-weight: 900; color: #1a2b3c; line-height: 1; letter-spacing: -1px; }
+  .gap-side-num.bad { color: #8b0000; }
+  .gap-side-num.good { color: #1e7e34; }
+  .gap-side-num.muted { color: #999; }
+  .gap-side-lbl { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 1.2px; margin-top: 6px; font-weight: 700; }
+  .gap-vs-sym { font-size: 22px; font-weight: 900; color: #999; }
+  .gap-result {
+    text-align: center; padding: 14px 0; background: #f4faf5; border-radius: 6px;
+    border: 1px solid #c6e3ca; margin-bottom: 14px;
+  }
+  .gap-result-num { font-size: 28px; font-weight: 900; color: #1e7e34; line-height: 1; letter-spacing: -.5px; }
+  .gap-result-num.bad { color: #8b0000; }
+  .gap-result-lbl { font-size: 10px; color: #555; text-transform: uppercase; letter-spacing: 1px; margin-top: 6px; font-weight: 700; }
+  .gap-reason {
+    font-size: 12px; color: #555; line-height: 1.7; text-align: center; max-width: 600px; margin: 0 auto;
+  }
+
+  /* All-In Cost Breakdown — visual stack */
+  .all-in-stack {
+    display: grid; grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr; gap: 14px; align-items: center;
+    background: #fffbf0; border: 2px solid #e8a020; border-radius: 8px;
+    padding: 22px 24px; margin-bottom: 24px;
+  }
+  .ais-cell { text-align: center; }
+  .ais-num { font-size: 28px; font-weight: 900; color: #1a2b3c; line-height: 1; letter-spacing: -.5px; }
+  .ais-num.total { color: #b07700; font-size: 34px; }
+  .ais-lbl { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: .8px; margin-top: 6px; font-weight: 700; }
+  .ais-sym { font-size: 22px; font-weight: 900; color: #999; }
+  @media (max-width: 720px) {
+    .all-in-stack { grid-template-columns: 1fr; gap: 8px; }
+    .all-in-stack .ais-sym { display: none; }
+  }
+
+  /* BALLOON RISK CALLOUT — standalone box */
+  .balloon-risk-box {
+    background: #2d0000; border: 2px solid #dc3545; border-radius: 8px;
+    padding: 20px 24px; margin-bottom: 20px;
+  }
+  .balloon-risk-box h4 {
+    color: #ff6b6b; font-size: 12px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .balloon-risk-box .br-row {
+    display: flex; justify-content: space-between; padding: 7px 0;
+    border-bottom: 1px solid rgba(255,255,255,.08); font-size: 13px; color: white; gap: 8px;
+  }
+  .balloon-risk-box .br-row:last-child { border-bottom: none; }
+  .balloon-risk-box .brl { color: #ef9a9a; }
+  .balloon-risk-box .brv { font-weight: 700; color: white; text-align: right; }
+  .balloon-risk-box .brv.green { color: #4caf50; }
+  .balloon-risk-box .brv.orange { color: #ffb74d; }
+
+  /* ── EXPENSE TABLE ──────────────────────── */
+  table.exp-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 12px; }
+  .exp-table th { background: #1a2b3c; color: white; padding: 9px 12px; text-align: left; font-size: 9px; text-transform: uppercase; letter-spacing: 1px; }
+  .exp-table th.right { text-align: right; }
+  .exp-table td { padding: 9px 12px; border-bottom: 1px solid #eee; }
+  .exp-table td.right { text-align: right; font-weight: 600; }
+  .exp-table tr.section-hdr td { background: #f0f2f5; color: #555; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; padding: 6px 12px; }
+  .exp-table tr.subtotal td { background: #fffbf0; font-weight: 700; }
+  .exp-table tr.total-row td { background: #1a2b3c; color: white; font-weight: 700; font-size: 13px; }
+  .exp-table tr.total-row td.right { color: #ef9a9a; }
+  .note-cell { font-size: 11px; color: #888; }
+
+  /* ── YEAR TABLE ─────────────────────────── */
+  table.year-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 20px; }
+  .year-table th { background: #1a2b3c; color: white; padding: 10px 14px; text-align: right; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
+  .year-table th:first-child { text-align: left; }
+  .year-table td { padding: 10px 14px; border-bottom: 1px solid #eee; text-align: right; }
+  .year-table td:first-child { text-align: left; color: #555; }
+  .year-table tr.hl td { background: #fffbf0; font-weight: 700; }
+  .year-table tr.hl td:first-child { color: #1a2b3c; }
+  .year-table tr.cumrow td { background: #e8f4ea; font-weight: 700; }
+  .year-table tr.cumrow td:first-child { color: #1e7e34; }
+  .year-table tr.balloon-row td { background: #3d0a0a; color: white; font-weight: 700; }
+  .year-table tr.balloon-row td:first-child { color: #ff6b6b; }
+  .year-table tr.balloon-row td { color: #ff6b6b; }
+
+  /* ── FLAGS ──────────────────────────────── */
+  .flag-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+  .flag-card { border: 1px solid #e0e0e0; border-radius: 6px; padding: 14px 16px; display: flex; gap: 12px; align-items: flex-start; }
   .flag-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; }
-  .flag-dot.red { background: #dc3545; }
+  .flag-dot.red    { background: #dc3545; }
   .flag-dot.orange { background: #e8a020; }
-  .flag-dot.green { background: #1e7e34; }
-  .flag-title { font-weight: 700; font-size: 13px; color: #1a2b3c; margin-bottom: 4px; }
-  .flag-text { font-size: 12px; color: #555; line-height: 1.5; }
+  .flag-dot.green  { background: #1e7e34; }
+  .flag-title { font-weight: 700; font-size: 13px; color: #1a2b3c; margin-bottom: 3px; }
+  .flag-text  { font-size: 12px; color: #555; line-height: 1.6; }
 
-  .motivation-box {
-    background: #fff8e6; border: 1px solid #e8a020; border-radius: 8px;
-    padding: 20px 24px; margin-bottom: 24px;
-  }
-  .motivation-box h4 { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: #b07700; margin-bottom: 14px; }
-
-  .decision-box {
-    background: #1a2b3c; border-radius: 8px; padding: 28px 32px;
-    margin-top: 28px;
-  }
-  .decision-box h4 { color: #e8a020; font-size: 14px; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 20px; }
-  .decision-item { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,.08); }
+  /* ── DECISION BOX ───────────────────────── */
+  .decision-box { background: #1a2b3c; border-radius: 8px; padding: 24px 28px; margin-top: 24px; }
+  .decision-box h4 { color: #e8a020; font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 18px; }
+  .decision-item { display: flex; gap: 12px; padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,.08); }
   .decision-item:last-child { border-bottom: none; }
-  .decision-num { font-size: 22px; font-weight: 900; color: #e8a020; line-height: 1; flex-shrink: 0; width: 30px; }
-  .decision-text .dt-title { font-weight: 700; color: white; font-size: 14px; margin-bottom: 4px; }
-  .decision-text .dt-body { color: #aac4d8; font-size: 12px; line-height: 1.6; }
+  .decision-num { font-size: 20px; font-weight: 900; color: #e8a020; line-height: 1; flex-shrink: 0; width: 28px; }
+  .dt-title { font-weight: 700; color: white; font-size: 13px; margin-bottom: 3px; }
+  .dt-body  { color: #aac4d8; font-size: 12px; line-height: 1.6; }
 
-  .page-foot { margin-top: 28px; padding-top: 10px; border-top: 1px solid #eee; font-size: 10px; color: #bbb; text-align: center; letter-spacing: 1px; }
+  /* ── BACK NAV ───────────────────────────── */
+  .back-nav {
+    max-width: 1100px; margin: 0 auto; padding: 12px 40px 0;
+    font-size: 12px;
+  }
+  .back-nav a { color: #1a2b3c; text-decoration: none; font-weight: 700; }
+  .back-nav a:hover { color: #e8a020; }
 
+  /* ── PAGE FOOT ──────────────────────────── */
+  .page-foot { margin-top: 24px; padding-top: 10px; border-top: 1px solid #eee; font-size: 10px; color: #bbb; text-align: center; letter-spacing: 1px; }
+
+  /* ── MOBILE ──────────────────────────────── */
+  @media (max-width: 720px) {
+    .cover-photo-ph { height: 280px; }
+    .cover-text { padding: 18px 20px 22px; }
+    .cover-text h1 { font-size: 22px; }
+    .cover-top { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .cover-top-r { text-align: left; }
+    .section { padding: 24px 20px; }
+    .two-col, .three-col, .wrap-waterfall { grid-template-columns: 1fr; }
+    .exit-comparison { grid-template-columns: 1fr 1fr; }
+    .winner-stats { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .winner-stat:nth-child(n+4) { border-right: none; }
+    .exit-metrics-row { grid-template-columns: 1fr 1fr; }
+    .exit-head { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .exit-head-r { width: 100%; justify-content: space-between; }
+    .flag-grid { grid-template-columns: 1fr; }
+    .all-in-stack { grid-template-columns: 1fr; gap: 8px; }
+    .all-in-stack .ais-sym { display: none; }
+  }
   @media print {
     body { background: white; }
     .cover, .section { max-width: 100%; }
+    .back-nav { display: none; }
+    details > .exit-deep { display: block !important; }
     @page { margin: .4in; }
   }
 </style>
 </head>
 <body>
 
-<!-- ══ HERO PHOTO ══ -->
-<img class="photo-hero" src="https://floridainvestor.github.io/deal-dashboards/images/catoma/after1.jpg" alt="5849 Catoma St — Post-Rehab Unit">
-<div class="photo-strip">
-  <img src="https://floridainvestor.github.io/deal-dashboards/images/catoma/thumb1.jpg" alt="Site View 1">
-  <img src="https://floridainvestor.github.io/deal-dashboards/images/catoma/thumb2.jpg" alt="Site View 2">
-  <img src="https://floridainvestor.github.io/deal-dashboards/images/catoma/thumb3.jpg" alt="Site View 3">
+<!-- BACK NAV -->
+<div class="back-nav">
+  <a href="index.html">&larr; All Active Deals</a>
 </div>
-<div class="photo-caption">5849 &amp; 5859 Catoma St · As-Is Site Photos · Jacksonville FL 32244</div>
 
-<!-- ══ COVER ══ -->
+<!-- ══════════════════════════════════════════════════
+     COVER
+═══════════════════════════════════════════════════ -->
 <div class="cover">
-  <div class="cover-eyebrow">Confidential · Deal Analysis — Jerel Williams</div>
-  <h1>5849 &amp; 5859 Catoma St</h1>
-  <h2>6-Unit Mobile Home Park · Jacksonville FL 32244</h2>
-  <div class="cover-rule"></div>
-  <div class="cover-meta">
-    <strong>Strategy:</strong> Seller Finance / Note Buy &nbsp;·&nbsp;
-    <strong>Asset:</strong> 6-Unit MHP · 1.02 Acres &nbsp;·&nbsp;
-    <strong>Date:</strong> April 2026
+  <!-- TODO: Add front photo of 5849 Catoma St when available. Use src="photos/catoma-front.jpg" and remove placeholder div. -->
+  <div class="cover-photo-ph">
+    <div class="cover-photo-placeholder-text">5849 Catoma St &middot; Photo Pending &middot; 6-Unit MHP &middot; Westside Jacksonville</div>
   </div>
+  <div class="cover-text">
 
-  <div class="stat-row">
-    <div class="stat-cell"><div class="stat-num">$47.5K</div><div class="stat-lbl">Entry (SF Path)</div></div>
-    <div class="stat-cell"><div class="stat-num">47.2%</div><div class="stat-lbl">TWR (SF Path)</div></div>
-    <div class="stat-cell"><div class="stat-num">$1,470</div><div class="stat-lbl">Stabilized CF/mo</div></div>
-    <div class="stat-cell"><div class="stat-num">34.5mo</div><div class="stat-lbl">Payback Period</div></div>
-    <div class="stat-cell"><div class="stat-num">$264K</div><div class="stat-lbl">Stabilized Value</div></div>
+    <div class="cover-top">
+      <div class="cover-top-l">
+        <div class="cover-eyebrow">Multi-Exit Deal Analyzer &middot; Jerel Williams</div>
+        <h1>5849 Catoma St</h1>
+        <h2>Jacksonville FL 32210 &middot; 6-Unit Mobile Home Park &middot; 1964 Build &middot; Westside JAX</h2>
+      </div>
+      <div class="cover-top-r">
+        <div><strong>Acquisition:</strong> $75,000 &middot; $10K Down &middot; 5.5% SF &middot; 2-yr Balloon</div>
+        <div><strong>Strategy:</strong> Seller Finance &mdash; Note from Tammy Grab</div>
+        <div><strong>Updated:</strong> April 2026</div>
+      </div>
+    </div>
+
+    <div class="balloon-banner">
+      <strong>BALLOON ALERT:</strong> $45,000 balloon note due <strong>11/8/2027</strong> &mdash; 19 months from today. Refi plan needed by Q3 2027.
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-cell"><div class="stat-num">6</div><div class="stat-lbl">Units Total</div></div>
+      <div class="stat-cell"><div class="stat-num">37.1%</div><div class="stat-lbl">Best CoC</div></div>
+      <div class="stat-cell"><div class="stat-num">$1,470</div><div class="stat-lbl">Best Mo CF</div></div>
+      <div class="stat-cell"><div class="stat-num">$47.5K</div><div class="stat-lbl">All-In</div></div>
+      <div class="stat-cell"><div class="stat-num red">11/8/27</div><div class="stat-lbl">Balloon Due</div></div>
+    </div>
+
+    <div class="type-badge">Recommended Exit: Park &amp; Hold &mdash; 37.1% CoC</div>
   </div>
-
-  <div class="target-badge">✓ Above 30% Target · Rank #3 in Portfolio by Payback</div>
 </div>
 
 
-<!-- ══ PAGE 1: DEAL OVERVIEW ══ -->
+<!-- ══════════════════════════════════════════════════
+     PAGE 1 — DEAL OVERVIEW
+═══════════════════════════════════════════════════ -->
 <div class="section">
   <div class="page-hdr">
     <h2>Deal Overview</h2>
-    <span>Property · Mortgage · Entry</span>
+    <span>Property &middot; Acquisition &middot; MHP Comps</span>
   </div>
 
   <div class="two-col">
     <div class="info-card">
       <h4>Property Details</h4>
-      <div class="info-row"><span class="lbl">Address (Main)</span><span class="val">5849 Catoma St, Jacksonville FL 32244</span></div>
-      <div class="info-row"><span class="lbl">Address (Bonus)</span><span class="val">5859 Catoma St, Jacksonville FL 32244</span></div>
-      <div class="info-row"><span class="lbl">Asset Type</span><span class="val">Mobile Home Park — 6 Units</span></div>
-      <div class="info-row"><span class="lbl">Lot Size</span><span class="val">1.02 Acres (0.85 + 0.17)</span></div>
+      <div class="info-row"><span class="lbl">Address (Main)</span><span class="val">5849 Catoma St, Jacksonville FL 32210</span></div>
+      <div class="info-row"><span class="lbl">Address (Bonus Parcel)</span><span class="val">5859 Catoma St, Jacksonville FL 32210</span></div>
+      <div class="info-row"><span class="lbl">Asset Type</span><span class="val">Mobile Home Park &mdash; 6 Units</span></div>
+      <div class="info-row"><span class="lbl">Year Built</span><span class="val">1964 (oldest unit) &middot; 1971&ndash;72 majority</span></div>
+      <div class="info-row"><span class="lbl">Lot Size</span><span class="val">1.02 Acres (0.85 + 0.17 parcels)</span></div>
+      <div class="info-row"><span class="lbl">Zip / Submarket</span><span class="val">32210 &mdash; Westside Jacksonville</span></div>
       <div class="info-row"><span class="lbl">PAO Combined Value</span><span class="val gold">$157,189</span></div>
-      <div class="info-row"><span class="lbl">Stabilized Cap Value (9%)</span><span class="val gold">$264,600</span></div>
-      <div class="info-row"><span class="lbl">Occupancy</span><span class="val red">2 of 6 (33%) — distressed</span></div>
-      <div class="info-row"><span class="lbl">Zip / Submarket</span><span class="val">32244 — Westside Jacksonville</span></div>
+      <div class="info-row"><span class="lbl">Stabilized Cap Value (9% cap)</span><span class="val gold">$264,600 (Year 3)</span></div>
+      <div class="info-row"><span class="lbl">Income Units</span><span class="val">5 (Unit 1 fire-damaged &mdash; excluded)</span></div>
     </div>
 
-    <div class="info-card">
-      <h4>Existing Mortgage (Balloon)</h4>
-      <div class="info-row"><span class="lbl">Lender (Mortgagee)</span><span class="val">Gary &amp; Tammy Grab</span></div>
-      <div class="info-row"><span class="lbl">Borrower</span><span class="val">Roberts Family Investment Corp</span></div>
-      <div class="info-row"><span class="lbl">Original Amount</span><span class="val">$46,900</span></div>
-      <div class="info-row"><span class="lbl">Current Balance</span><span class="val orange">$45,066.44</span></div>
-      <div class="info-row"><span class="lbl">Balloon Maturity</span><span class="val red">11/8/2027 — 19 months</span></div>
-      <div class="info-row"><span class="lbl">Rate</span><span class="val orange">UNKNOWN — get promissory note</span></div>
-      <div class="info-row"><span class="lbl">Collateral</span><span class="val">Both parcels + all 6 MH titles</span></div>
-      <div class="info-row"><span class="lbl">Near-IO Evidence</span><span class="val">Only $1,834 principal paid in 7 yrs</span></div>
+    <div class="info-card" style="border-top-color: #dc3545;">
+      <h4>Acquisition &mdash; Seller Finance from Tammy Grab Note</h4>
+      <div class="info-row"><span class="lbl">Purchase Price</span><span class="val">$75,000 (seller asking $90K)</span></div>
+      <div class="info-row"><span class="lbl">Down Payment</span><span class="val">$10,000</span></div>
+      <div class="info-row"><span class="lbl">SF Balance</span><span class="val">$65,000</span></div>
+      <div class="info-row"><span class="lbl">Rate / Type</span><span class="val orange">5.5% amortizing</span></div>
+      <div class="info-row"><span class="lbl">Monthly Debt Service</span><span class="val">$704/mo</span></div>
+      <div class="info-row"><span class="lbl">Term</span><span class="val red">2-yr balloon &mdash; due 11/8/2027</span></div>
+      <div class="info-row"><span class="lbl">Rehab Budget (3 units)</span><span class="val">$25,000</span></div>
+      <div class="info-row"><span class="lbl">Closing Costs</span><span class="val">$12,500</span></div>
+      <div class="info-row"><span class="lbl">TOTAL ALL-IN</span><span class="val green">$47,500</span></div>
     </div>
+  </div>
+
+  <!-- ALL-IN COST BREAKDOWN — visual stack -->
+  <h4 style="font-size:11px; color:#555; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">What the $47.5K All-In Includes</h4>
+  <div class="all-in-stack">
+    <div class="ais-cell"><div class="ais-num">$10,000</div><div class="ais-lbl">Down Payment</div></div>
+    <div class="ais-sym">+</div>
+    <div class="ais-cell"><div class="ais-num">$25,000</div><div class="ais-lbl">Rehab (3 units)</div></div>
+    <div class="ais-sym">+</div>
+    <div class="ais-cell"><div class="ais-num">$12,500</div><div class="ais-lbl">Closing Costs</div></div>
+    <div class="ais-sym">=</div>
+    <div class="ais-cell"><div class="ais-num total">$47,500</div><div class="ais-lbl">Total All-In</div></div>
+  </div>
+
+  <div class="info-card" style="border-top-color:#e8a020;">
+    <h4>MHP Market Comps &mdash; Westside Jacksonville / 32210</h4>
+    <div class="info-row"><span class="lbl">Monthly Unit Rent (market)</span><span class="val">$600&ndash;$650/mo &middot; 2/1 mobile homes in 32210</span></div>
+    <div class="info-row"><span class="lbl">Stabilized Gross Income (5 units)</span><span class="val green">$3,000/mo &middot; $36,000/yr</span></div>
+    <div class="info-row"><span class="lbl">JAX MHP Cap Rates</span><span class="val">9&ndash;12% for small parks &mdash; distressed entry below market</span></div>
+    <div class="info-row"><span class="lbl">Stabilized Value @ 9% Cap</span><span class="val gold">~$264,600 (NOI $23,808 &divide; 0.09)</span></div>
+    <div class="info-row"><span class="lbl">Retail Per-Unit Value (stabilized)</span><span class="val">~$26,000&ndash;$35,000 per income unit in 32210</span></div>
+    <div class="info-row"><span class="lbl">Entry Per-Unit Cost</span><span class="val green">$9,500/unit all-in &mdash; well below market</span></div>
+    <div class="info-row"><span class="lbl">Demand Signal</span><span class="val green">MHP demand strong in 32210 &middot; Working-class corridor &middot; Low vacancy</span></div>
+  </div>
+
+  <div class="page-foot">5849 Catoma St &middot; RE_OS Deal File &middot; Page 1 of 5</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 2 — EXIT STRATEGY ANALYZER
+═══════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="page-hdr">
+    <h2>Exit Strategy Analyzer</h2>
+    <span>4 MHP Exits &middot; Pick Your Path</span>
+  </div>
+
+  <!-- WINNER HERO -->
+  <div class="winner-hero">
+    <div class="winner-eyebrow">Recommended Exit</div>
+    <div class="winner-title">Park &amp; Hold (Monthly Rental)</div>
+
+    <div class="winner-stats">
+      <div class="winner-stat">
+        <div class="ws-num green">37.1%</div>
+        <div class="ws-lbl">Cash-on-Cash</div>
+      </div>
+      <div class="winner-stat">
+        <div class="ws-num green">$1,470</div>
+        <div class="ws-lbl">Monthly CF</div>
+      </div>
+      <div class="winner-stat">
+        <div class="ws-num">$47.5K</div>
+        <div class="ws-lbl">Cash In</div>
+      </div>
+      <div class="winner-stat">
+        <div class="ws-num">32 mo</div>
+        <div class="ws-lbl">Payback</div>
+      </div>
+      <div class="winner-stat">
+        <div class="ws-num red">Nov 2027</div>
+        <div class="ws-lbl">Balloon Deadline</div>
+      </div>
+    </div>
+
+    <div class="winner-why">
+      <strong>Why this wins:</strong> 5 income units &times; $600/mo = $3,000 gross. Less OpEx ($826/mo) and debt service ($704/mo), you keep <strong>$1,470/mo net cash flow</strong>. CoC of <strong>37.1% beats the 30% MHP minimum target</strong>. $45K balloon due Nov 2027 is manageable &mdash; 26 months of cash flow covers it, or refi on stabilized NOI. No other MHP exit delivers this return profile with this entry cost.
+    </div>
+  </div>
+
+  <!-- ALL 4 AT A GLANCE -->
+  <div class="exit-comparison">
+
+    <div class="exit-card go">
+      <div class="ec-icon">&#9733;</div>
+      <span class="ec-verdict go">Go</span>
+      <div class="ec-name">Park &amp; Hold<br>Monthly Rental</div>
+      <div class="ec-coc green">37.1%</div>
+      <div class="ec-coc-lbl">Cash-on-Cash</div>
+      <div class="ec-mocf">$1,470/mo</div>
+      <div class="ec-mocf-lbl">Net Cash Flow</div>
+    </div>
+
+    <div class="exit-card strong">
+      <div class="ec-icon">&#9651;</div>
+      <span class="ec-verdict strong">Fallback</span>
+      <div class="ec-name">Seller Finance Wrap<br>Sell on Terms</div>
+      <div class="ec-coc amber">$20K</div>
+      <div class="ec-coc-lbl">Down Captured</div>
+      <div class="ec-mocf">$60&ndash;80K 5-yr</div>
+      <div class="ec-mocf-lbl">Total Profit Estimate</div>
+    </div>
+
+    <div class="exit-card strong">
+      <div class="ec-icon">&#8658;</div>
+      <span class="ec-verdict strong">Strong Alt</span>
+      <div class="ec-name">Wholesale to<br>MHP Investor</div>
+      <div class="ec-coc amber">$80&ndash;100K</div>
+      <div class="ec-coc-lbl">Buyer MAO Range</div>
+      <div class="ec-mocf">$32&ndash;52K</div>
+      <div class="ec-mocf-lbl">Potential Spread</div>
+    </div>
+
+    <div class="exit-card pass">
+      <div class="ec-icon">&#9747;</div>
+      <span class="ec-verdict pass">Last Resort</span>
+      <div class="ec-name">Liquidate Units<br>Sell Homes Off</div>
+      <div class="ec-coc muted">$25&ndash;75K</div>
+      <div class="ec-coc-lbl">Gross Recovery Est.</div>
+      <div class="ec-mocf" style="color:#999;">Keep land</div>
+      <div class="ec-mocf-lbl">Worst-case recovery</div>
+    </div>
+
+  </div>
+
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- DETAIL PANEL: PARK & HOLD (GO) -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="exit-panel go">
+    <div class="exit-head">
+      <div class="exit-head-l">
+        <span class="icon">&#9733;</span>
+        <div>
+          <h3>Exit A &mdash; Park &amp; Hold (Monthly Rental)</h3>
+          <div class="sub">5 Income Units &middot; $600/mo avg &middot; Tenants Pay Their Own Utilities</div>
+        </div>
+      </div>
+      <div class="exit-head-r">
+        <div class="ehr-stat"><div class="ehr-num green">37.1%</div><div class="ehr-lbl">CoC</div></div>
+        <div class="ehr-stat"><div class="ehr-num green">$1,470</div><div class="ehr-lbl">Mo CF</div></div>
+        <div class="ehr-stat"><div class="ehr-num">32 mo</div><div class="ehr-lbl">Payback</div></div>
+      </div>
+    </div>
+    <div class="exit-body">
+
+      <div class="exit-metrics-row">
+        <div class="em-cell"><div class="em-num">$47,500</div><div class="em-lbl">Cash In</div></div>
+        <div class="em-cell green"><div class="em-num green">$1,470</div><div class="em-lbl">Monthly CF</div></div>
+        <div class="em-cell green"><div class="em-num green">37.1%</div><div class="em-lbl">CoC Return</div></div>
+        <div class="em-cell"><div class="em-num">32 mo</div><div class="em-lbl">Payback</div></div>
+        <div class="em-cell green"><div class="em-num green">$264K</div><div class="em-lbl">Stabilized Value</div></div>
+      </div>
+
+      <div class="risk-chips" style="margin-bottom: 22px;">
+        <span class="risk-chip green">Beats 30% MHP target by +7.1 pts</span>
+        <span class="risk-chip green">DSCR 3.09&times; (strong debt coverage)</span>
+        <span class="risk-chip green">Tenants pay own utilities &mdash; lean OpEx</span>
+        <span class="risk-chip amber">Balloon $45K due 11/8/2027 &mdash; refi needed</span>
+        <span class="risk-chip amber">1964 unit &mdash; age risk on Unit 2</span>
+      </div>
+
+      <!-- ALWAYS-VISIBLE UNIT TABLE -->
+      <h4 style="font-size:11px; color:#555; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">Per-Unit Rent Breakdown &mdash; Park &amp; Hold</h4>
+      <table class="unit-rent-table">
+        <thead>
+          <tr>
+            <th>Unit</th>
+            <th>Address</th>
+            <th>Size</th>
+            <th>Year</th>
+            <th>Status</th>
+            <th class="right">Monthly Rent</th>
+            <th class="right">Annual Rent</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="excluded">
+            <td><strong>Unit 1</strong></td>
+            <td>5849 Catoma</td>
+            <td>2/1 &middot; 528 sf</td>
+            <td>1971</td>
+            <td>Fire Damaged &mdash; Excluded from Pro Forma</td>
+            <td class="right" style="color:#8b0000;">$0</td>
+            <td class="right" style="color:#8b0000;">$0</td>
+          </tr>
+          <tr class="vacant">
+            <td><strong>Unit 2</strong></td>
+            <td>5849 Catoma</td>
+            <td>2/1 &middot; 528 sf</td>
+            <td>1964</td>
+            <td>Vacant &mdash; Rehab Needed</td>
+            <td class="right">$600</td>
+            <td class="right">$7,200</td>
+          </tr>
+          <tr class="vacant">
+            <td><strong>Unit 3</strong></td>
+            <td>5849 Catoma</td>
+            <td>2/1 &middot; 576 sf</td>
+            <td>1971</td>
+            <td>Vacant &mdash; Light Rehab</td>
+            <td class="right">$600</td>
+            <td class="right">$7,200</td>
+          </tr>
+          <tr class="occupied">
+            <td><strong>Unit 4</strong></td>
+            <td>5849 Catoma</td>
+            <td>2/1 &middot; 528 sf</td>
+            <td>1971</td>
+            <td>Leased &mdash; Paying</td>
+            <td class="right" style="color:#1e7e34;"><strong>$600</strong></td>
+            <td class="right" style="color:#1e7e34;"><strong>$7,200</strong></td>
+          </tr>
+          <tr class="occupied">
+            <td><strong>Unit 5</strong></td>
+            <td>5849 Catoma</td>
+            <td>2/1 &middot; 528 sf</td>
+            <td>1971</td>
+            <td>Leased &mdash; Paying</td>
+            <td class="right" style="color:#1e7e34;"><strong>$600</strong></td>
+            <td class="right" style="color:#1e7e34;"><strong>$7,200</strong></td>
+          </tr>
+          <tr class="vacant">
+            <td><strong>Unit 6</strong></td>
+            <td>5859 Catoma</td>
+            <td>2/2 &middot; 528 sf</td>
+            <td>1971</td>
+            <td>Vacant &mdash; Light Rehab</td>
+            <td class="right">$600</td>
+            <td class="right">$7,200</td>
+          </tr>
+          <tr class="total-row">
+            <td colspan="5"><strong>Stabilized Total (5 units)</strong></td>
+            <td class="right"><strong>$3,000</strong></td>
+            <td class="right"><strong>$36,000</strong></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="font-size:11px; color:#888; margin-top:-14px; margin-bottom:20px;">
+        Unit 1 excluded from income pro forma. Unit 5 currently rents at $650 &mdash; modeled at $600 for conservative stabilized run. Tenants pay their own electric, gas, and water &mdash; park covers taxes and insurance only.
+      </div>
+
+      <details>
+        <summary class="exit-detail-toggle" style="margin-top:4px;">Full Park &amp; Hold cash flow math</summary>
+        <div class="exit-deep">
+
+          <div class="dark-box" style="margin-bottom: 16px;">
+            <h4>Stabilized Pro Forma &mdash; Park &amp; Hold (5 Units)</h4>
+            <div class="dark-row"><span class="dlbl">Gross Rent (5 &times; $600/mo)</span><span class="dval green">$3,000/mo</span></div>
+            <div class="dark-row"><span class="dlbl">Property Taxes ($2,225/yr)</span><span class="dval">&#8722; $186/mo</span></div>
+            <div class="dark-row"><span class="dlbl">Insurance (MHP policy est.)</span><span class="dval">&#8722; $250/mo</span></div>
+            <div class="dark-row"><span class="dlbl">Maintenance Reserve (10% gross)</span><span class="dval">&#8722; $300/mo</span></div>
+            <div class="dark-row"><span class="dlbl">Vacancy Reserve (3% gross)</span><span class="dval">&#8722; $90/mo</span></div>
+            <div class="dark-row"><span class="dlbl"><strong>Total OpEx</strong></span><span class="dval orange"><strong>&#8722; $826/mo</strong></span></div>
+            <div class="dark-row"><span class="dlbl">NOI (pre-debt)</span><span class="dval green">$2,174/mo &middot; $26,088/yr</span></div>
+            <div class="dark-row"><span class="dlbl">Debt Service (SF note)</span><span class="dval">&#8722; $704/mo</span></div>
+            <div class="dark-row"><span class="dlbl"><strong>Net Cash Flow</strong></span><span class="dval gold"><strong>$1,470/mo &middot; $17,640/yr</strong></span></div>
+            <div class="dark-row"><span class="dlbl">CoC Return ($17,640 &divide; $47,500)</span><span class="dval gold"><strong>37.1%</strong> &mdash; Beats 30% target</span></div>
+            <div class="dark-row"><span class="dlbl">Cap Rate (NOI $26,088 &divide; $47,500 entry)</span><span class="dval green">54.9% on cost &middot; ~9.9% market cap</span></div>
+            <div class="dark-row"><span class="dlbl">DSCR ($2,174 &divide; $704)</span><span class="dval green">3.09&times; &mdash; Strong</span></div>
+          </div>
+
+        </div>
+      </details>
+
+    </div>
+  </div>
+
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- DETAIL PANEL: SELLER FINANCE WRAP (FALLBACK) -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="exit-panel strong">
+    <div class="exit-head">
+      <div class="exit-head-l">
+        <span class="icon">&#9651;</span>
+        <div>
+          <h3>Exit B &mdash; Seller Finance Wrap / Sell on Terms</h3>
+          <div class="sub">Sell Entire Park to MHP Investor on Seller Financing &middot; Capture Down + Spread</div>
+        </div>
+      </div>
+      <div class="exit-head-r">
+        <div class="ehr-stat"><div class="ehr-num green">$20K</div><div class="ehr-lbl">Down Captured</div></div>
+        <div class="ehr-stat"><div class="ehr-num amber">$675/mo</div><div class="ehr-lbl">Mo Spread</div></div>
+        <div class="ehr-stat"><div class="ehr-num">5-yr</div><div class="ehr-lbl">Term</div></div>
+      </div>
+    </div>
+    <div class="exit-body">
+
+      <div class="exit-metrics-row">
+        <div class="em-cell green"><div class="em-num green">$20,000</div><div class="em-lbl">Down Captured</div></div>
+        <div class="em-cell amber"><div class="em-num amber">$675</div><div class="em-lbl">Mo Spread</div></div>
+        <div class="em-cell green"><div class="em-num green">$60&ndash;80K</div><div class="em-lbl">5-yr Profit</div></div>
+        <div class="em-cell green"><div class="em-num green">Day 1</div><div class="em-lbl">Capital Recovery</div></div>
+        <div class="em-cell amber"><div class="em-num amber">Fallback</div><div class="em-lbl">If Park Hold Fails</div></div>
+      </div>
+
+      <div class="risk-chips">
+        <span class="risk-chip green">Balloon solved &mdash; pass the problem to buyer</span>
+        <span class="risk-chip green">$20K down recovers entry capital Day 1</span>
+        <span class="risk-chip amber">Forfeits long-term hold upside</span>
+        <span class="risk-chip amber">End-buyer default risk at 7% wrap</span>
+        <span class="risk-chip amber">Must disclose balloon to end buyer</span>
+      </div>
+
+      <details>
+        <summary class="exit-detail-toggle" style="margin-top:18px;">Wrap math detail</summary>
+        <div class="exit-deep">
+
+          <div class="wrap-waterfall">
+            <div class="wf-card buy">
+              <h5>Your SF Note (Buy side)</h5>
+              <div class="info-row"><span class="lbl">Purchase Price</span><span class="val">$75,000</span></div>
+              <div class="info-row"><span class="lbl">Down Paid</span><span class="val">$10,000</span></div>
+              <div class="info-row"><span class="lbl">Balance Owed</span><span class="val">$65,000 @ 5.5%</span></div>
+              <div class="info-row"><span class="lbl">Monthly Payment</span><span class="val">$704/mo</span></div>
+              <div class="info-row"><span class="lbl">Balloon</span><span class="val red">$45K due 11/8/2027</span></div>
+            </div>
+
+            <div class="wf-card sell">
+              <h5>Wrap Note (Sell to MHP Investor)</h5>
+              <div class="info-row"><span class="lbl">Sale Price</span><span class="val">$90,000&ndash;$100,000</span></div>
+              <div class="info-row"><span class="lbl">Down Payment Captured</span><span class="val green">$20,000 cash at close</span></div>
+              <div class="info-row"><span class="lbl">Wrap Note Balance</span><span class="val">$70,000&ndash;$80,000</span></div>
+              <div class="info-row"><span class="lbl">Rate / Term</span><span class="val">7% &middot; 10-yr amortizing</span></div>
+              <div class="info-row"><span class="lbl">Monthly P&amp;I (at $75K)</span><span class="val">~$872/mo</span></div>
+              <div class="info-row"><span class="lbl">Monthly Spread</span><span class="val green">$872 &minus; $704 = $168/mo raw</span></div>
+            </div>
+          </div>
+
+          <div style="background:#fffbf0; border:1px solid #f0d090; border-radius:6px; padding:14px 16px; font-size:12px; color:#555; line-height:1.7; margin-top:8px;">
+            <strong style="color:#1a2b3c;">Profit summary:</strong> $20K down captured at close recovers entry capital. Monthly spread accrues over life. If buyer pays 5 years, total receipts ~$20K + $52K P&amp;I = ~$72K gross &mdash; less your $47.5K all-in = ~$24K net. If held to term: ~$60&ndash;80K total profit. This exit solves the balloon by wrapping around &mdash; end buyer takes that refinancing risk on their shoulders.
+          </div>
+
+        </div>
+      </details>
+
+    </div>
+  </div>
+
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- DETAIL PANEL: WHOLESALE TO MHP INVESTOR (STRONG ALT) -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="exit-panel strong">
+    <div class="exit-head">
+      <div class="exit-head-l">
+        <span class="icon">&#8658;</span>
+        <div>
+          <h3>Exit C &mdash; Wholesale to MHP Investor</h3>
+          <div class="sub">Assign Contract or Sell to Cash Buyer MHP Operator &middot; Capture Spread Without Holding</div>
+        </div>
+      </div>
+      <div class="exit-head-r">
+        <div class="ehr-stat"><div class="ehr-num amber">$80&ndash;100K</div><div class="ehr-lbl">Buyer MAO</div></div>
+        <div class="ehr-stat"><div class="ehr-num green">$32&ndash;52K</div><div class="ehr-lbl">Potential Spread</div></div>
+        <div class="ehr-stat"><div class="ehr-num">Day 30</div><div class="ehr-lbl">Payback</div></div>
+      </div>
+    </div>
+    <div class="exit-body">
+
+      <div class="exit-metrics-row">
+        <div class="em-cell"><div class="em-num">$47,500</div><div class="em-lbl">Your All-In</div></div>
+        <div class="em-cell amber"><div class="em-num amber">$80&ndash;100K</div><div class="em-lbl">Buyer MAO Range</div></div>
+        <div class="em-cell green"><div class="em-num green">$32&ndash;52K</div><div class="em-lbl">Gross Spread</div></div>
+        <div class="em-cell green"><div class="em-num green">Day 30</div><div class="em-lbl">Capital Return</div></div>
+        <div class="em-cell amber"><div class="em-num amber">Strong Alt</div><div class="em-lbl">Pre-Balloon Exit</div></div>
+      </div>
+
+      <div class="risk-chips">
+        <span class="risk-chip green">Eliminates balloon risk entirely</span>
+        <span class="risk-chip green">Clears capital for next deal</span>
+        <span class="risk-chip amber">MHP buyer pool is smaller &mdash; requires marketing</span>
+        <span class="risk-chip amber">Forfeits $1,470/mo hold income</span>
+        <span class="risk-chip amber">Must rehab and stabilize to maximize buyer MAO</span>
+      </div>
+
+      <details>
+        <summary class="exit-detail-toggle" style="margin-top:18px;">Wholesale math &amp; buyer valuation</summary>
+        <div class="exit-deep">
+
+          <div class="dark-box" style="margin-bottom:16px;">
+            <h4>MHP Investor Buyer Valuation &mdash; Stabilized (5 Units)</h4>
+            <div class="dark-row"><span class="dlbl">Stabilized NOI</span><span class="dval green">$26,088/yr ($2,174/mo)</span></div>
+            <div class="dark-row"><span class="dlbl">Market Cap Rate (JAX MHP)</span><span class="dval">9&ndash;12%</span></div>
+            <div class="dark-row"><span class="dlbl">Stabilized Value @ 9% Cap</span><span class="dval gold">$264,600 (institutional)</span></div>
+            <div class="dark-row"><span class="dlbl">Small-Park Discount (private buyer)</span><span class="dval">$120,000&ndash;$150,000 realistic range</span></div>
+            <div class="dark-row"><span class="dlbl">Cash Buyer MAO (70% of $120K)</span><span class="dval orange">$84,000 (low end)</span></div>
+            <div class="dark-row"><span class="dlbl">Cash Buyer MAO (70% of $150K)</span><span class="dval orange">$105,000 (high end)</span></div>
+            <div class="dark-row"><span class="dlbl">Your Assignment Price Target</span><span class="dval gold">$80,000&ndash;$95,000</span></div>
+            <div class="dark-row"><span class="dlbl">Spread Above All-In ($47.5K)</span><span class="dval green">$32,500&ndash;$47,500</span></div>
+          </div>
+
+          <div style="background:#f4faf5; border:1px solid #c6e3ca; border-radius:6px; padding:12px 16px; font-size:12px; color:#155724; line-height:1.7;">
+            <strong>Timing strategy:</strong> Stabilize 3&ndash;4 units first (get to 4&ndash;5 occupied). A stabilized 5-unit MHP at $3,000/mo gross is a significantly easier wholesale than a distressed 2-unit. Target MHP-focused investors through NCREIA, Florida Mobile Home Association contacts, or BiggerPockets MHP community. Pricing at $80&ndash;95K is realistic. If Park &amp; Hold is failing or balloon is approaching, this is the pre-balloon out.
+          </div>
+
+        </div>
+      </details>
+
+    </div>
+  </div>
+
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- DETAIL PANEL: LIQUIDATE UNITS (PASS / LAST RESORT) -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="exit-panel pass">
+    <div class="exit-head">
+      <div class="exit-head-l">
+        <span class="icon">&#9747;</span>
+        <div>
+          <h3>Exit D &mdash; Liquidate Units (Sell Mobile Homes Off)</h3>
+          <div class="sub">Sell Individual Mobile Homes to Buyers &middot; Keep Land &middot; Last-Resort Recovery Only</div>
+        </div>
+      </div>
+      <div class="exit-head-r">
+        <div class="ehr-stat"><div class="ehr-num muted">$25&ndash;75K</div><div class="ehr-lbl">Gross Recovery</div></div>
+        <div class="ehr-stat"><div class="ehr-num muted">Last</div><div class="ehr-lbl">Resort</div></div>
+      </div>
+    </div>
+    <div class="exit-body">
+
+      <div class="gap-callout">
+        <div class="gap-callout-title">
+          <span class="gc-icon">!</span>
+          Last Resort &mdash; Only if Park &amp; Hold Fails
+        </div>
+
+        <div class="gap-vs">
+          <div class="gap-side">
+            <div class="gap-side-num good">$25&ndash;75K</div>
+            <div class="gap-side-lbl">Gross from Selling 5 Homes at $5&ndash;15K ea</div>
+          </div>
+          <div class="gap-vs-sym">vs</div>
+          <div class="gap-side">
+            <div class="gap-side-num">$47.5K</div>
+            <div class="gap-side-lbl">Your All-In Cost</div>
+          </div>
+        </div>
+
+        <div class="gap-result">
+          <div class="gap-result-num">$0&ndash;$27K</div>
+          <div class="gap-result-lbl">Net Recovery Range (Land Retained)</div>
+        </div>
+
+        <div class="gap-reason">
+          Selling each mobile home individually at $5,000&ndash;$15,000 generates $25,000&ndash;$75,000 gross from 5 homes. After recouping $47.5K all-in, this only makes sense as a last resort. The advantage: you retain the raw land (1.02 acres in 32210) with no structures &mdash; worth $80&ndash;120K for infill development. Only use this if the park is unrentable and wholesale fails. Unit 1 (fire damaged) may already be a forced liquidate.
+        </div>
+      </div>
+
+      <div class="risk-chips">
+        <span class="risk-chip amber">Title transfer for each mobile home is complex in FL</span>
+        <span class="risk-chip amber">1964 and 1971 vintages may not move quickly</span>
+        <span class="risk-chip green">Land retained has residual development value</span>
+        <span class="risk-chip red">Destroys Park &amp; Hold income stream permanently</span>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="page-foot">5849 Catoma St &middot; RE_OS Deal File &middot; Page 2 of 5</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 3 — OPEX BREAKDOWN
+═══════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="page-hdr">
+    <h2>OpEx Breakdown &mdash; Park &amp; Hold</h2>
+    <span>Monthly Operating Expenses &middot; Tenants Pay Own Utilities</span>
+  </div>
+
+  <div style="background:#f0fff4; border:1px solid #c3e6cb; border-radius:6px; padding:12px 18px; font-size:12px; color:#155724; margin-bottom:20px; line-height:1.7;">
+    <strong>MHP OpEx advantage:</strong> Tenants pay their own electric, gas, and water utilities. Unlike single-family rentals or co-living, the park owner only carries taxes, insurance, and a maintenance reserve. This keeps OpEx lean at $826/mo on $3,000 gross &mdash; a 27.5% expense ratio before debt service.
+  </div>
+
+  <table class="exp-table">
+    <thead>
+      <tr>
+        <th>Expense Item</th>
+        <th>Basis / Note</th>
+        <th class="right">Monthly</th>
+        <th class="right">Annual</th>
+        <th class="right">% Gross</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="section-hdr">
+        <td colspan="5">Fixed Expenses</td>
+      </tr>
+      <tr>
+        <td>Property Taxes</td>
+        <td class="note-cell">$2,225.98/yr both parcels (Duval PAO)</td>
+        <td class="right">$186</td>
+        <td class="right">$2,226</td>
+        <td class="right">6.2%</td>
+      </tr>
+      <tr>
+        <td>Insurance (MHP Policy)</td>
+        <td class="note-cell">MHP landlord policy &mdash; land + structures est.</td>
+        <td class="right">$250</td>
+        <td class="right">$3,000</td>
+        <td class="right">8.3%</td>
+      </tr>
+      <tr class="subtotal">
+        <td colspan="2"><strong>Fixed Subtotal</strong></td>
+        <td class="right"><strong>$436</strong></td>
+        <td class="right"><strong>$5,226</strong></td>
+        <td class="right"><strong>14.5%</strong></td>
+      </tr>
+
+      <tr class="section-hdr">
+        <td colspan="5">Variable Expenses</td>
+      </tr>
+      <tr>
+        <td>Maintenance Reserve</td>
+        <td class="note-cell">10% of gross rents &mdash; older MH stock needs buffer</td>
+        <td class="right">$300</td>
+        <td class="right">$3,600</td>
+        <td class="right">10.0%</td>
+      </tr>
+      <tr>
+        <td>Vacancy Reserve</td>
+        <td class="note-cell">3% of gross rents &mdash; stabilized assumption</td>
+        <td class="right">$90</td>
+        <td class="right">$1,080</td>
+        <td class="right">3.0%</td>
+      </tr>
+      <tr class="subtotal">
+        <td colspan="2"><strong>Variable Subtotal</strong></td>
+        <td class="right"><strong>$390</strong></td>
+        <td class="right"><strong>$4,680</strong></td>
+        <td class="right"><strong>13.0%</strong></td>
+      </tr>
+
+      <tr class="section-hdr">
+        <td colspan="5">Items NOT in OpEx (Tenant Responsibility)</td>
+      </tr>
+      <tr style="opacity: .6;">
+        <td>Electric / Gas</td>
+        <td class="note-cell" style="color:#1e7e34;">Tenant pays &mdash; individual meters</td>
+        <td class="right" style="color:#1e7e34;">$0</td>
+        <td class="right" style="color:#1e7e34;">$0</td>
+        <td class="right">0%</td>
+      </tr>
+      <tr style="opacity: .6;">
+        <td>Water / Sewer</td>
+        <td class="note-cell" style="color:#1e7e34;">Tenant pays &mdash; individual meters</td>
+        <td class="right" style="color:#1e7e34;">$0</td>
+        <td class="right" style="color:#1e7e34;">$0</td>
+        <td class="right">0%</td>
+      </tr>
+      <tr style="opacity: .6;">
+        <td>Cleaning / Turnover Labor</td>
+        <td class="note-cell" style="color:#1e7e34;">Tenant unit &mdash; no co-living rotation</td>
+        <td class="right" style="color:#1e7e34;">$0</td>
+        <td class="right" style="color:#1e7e34;">$0</td>
+        <td class="right">0%</td>
+      </tr>
+
+      <tr class="total-row">
+        <td colspan="2"><strong>Total Operating Expenses</strong></td>
+        <td class="right"><strong>$826</strong></td>
+        <td class="right"><strong>$9,906</strong></td>
+        <td class="right" style="color:#aac4d8;"><strong>27.5%</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="two-col">
+    <div class="dark-box" style="margin-bottom:0;">
+      <h4>Income Statement Summary</h4>
+      <div class="dark-row"><span class="dlbl">Gross Rent (5 units)</span><span class="dval green">$3,000/mo</span></div>
+      <div class="dark-row"><span class="dlbl">Total OpEx</span><span class="dval red">&#8722; $826/mo</span></div>
+      <div class="dark-row"><span class="dlbl">NOI (Net Operating Income)</span><span class="dval gold">$2,174/mo &middot; $26,088/yr</span></div>
+      <div class="dark-row"><span class="dlbl">SF Debt Service</span><span class="dval">&#8722; $704/mo</span></div>
+      <div class="dark-row"><span class="dlbl">Net Cash Flow</span><span class="dval gold"><strong>$1,470/mo &middot; $17,640/yr</strong></span></div>
+    </div>
+
+    <div class="dark-box" style="margin-bottom:0;">
+      <h4>Return Metrics</h4>
+      <div class="dark-row"><span class="dlbl">All-In Capital</span><span class="dval">$47,500</span></div>
+      <div class="dark-row"><span class="dlbl">CoC Return</span><span class="dval gold"><strong>37.1%</strong></span></div>
+      <div class="dark-row"><span class="dlbl">Cap Rate (on cost)</span><span class="dval green">54.9%</span></div>
+      <div class="dark-row"><span class="dlbl">DSCR</span><span class="dval green">3.09&times;</span></div>
+      <div class="dark-row"><span class="dlbl">Payback Period</span><span class="dval">~32 months</span></div>
+    </div>
+  </div>
+
+  <div class="page-foot">5849 Catoma St &middot; RE_OS Deal File &middot; Page 3 of 5</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 4 — 5-YEAR PROJECTION
+═══════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="page-hdr">
+    <h2>5-Year Cash Flow Projection</h2>
+    <span>Park &amp; Hold Base Case &middot; Balloon Refi Event in Year 2</span>
+  </div>
+
+  <!-- BALLOON RISK BOX -->
+  <div class="balloon-risk-box">
+    <h4>BALLOON RISK &mdash; $45,000 DUE 11/8/2027</h4>
+    <div class="br-row"><span class="brl">Balloon Amount</span><span class="brv">$45,000</span></div>
+    <div class="br-row"><span class="brl">Due Date</span><span class="brv">November 8, 2027 &mdash; 19 months from today</span></div>
+    <div class="br-row"><span class="brl">Months of CF to Cover Balloon</span><span class="brv orange">~31 months @ $1,470/mo &mdash; longer than runway</span></div>
+    <div class="br-row"><span class="brl">CF Accumulated by Nov 2027 (19 mo)</span><span class="brv green">~$27,930 (shortfall: $17,070)</span></div>
+    <div class="br-row"><span class="brl">Refi Option 1</span><span class="brv green">Portfolio lender on stabilized MHP (9% cap &rArr; $264K value = plenty of LTV)</span></div>
+    <div class="br-row"><span class="brl">Refi Option 2</span><span class="brv green">Sell to MHP investor at $90&ndash;100K (Exit C) &mdash; clears balloon + profit</span></div>
+    <div class="br-row"><span class="brl">Refi Option 3</span><span class="brv orange">Negotiate extension with note holder (Tammy Grab) &mdash; add 2&ndash;3 yrs</span></div>
+    <div class="br-row"><span class="brl">Balloon Action Plan Deadline</span><span class="brv">Initiate refi conversations by <strong>Q3 2027</strong> (6 months before maturity)</span></div>
+  </div>
+
+  <h4 style="font-size:11px; color:#555; text-transform:uppercase; letter-spacing:1px; margin-bottom:14px;">Annual Cash Flow &mdash; Park &amp; Hold Base Case</h4>
+
+  <table class="year-table">
+    <thead>
+      <tr>
+        <th style="text-align:left;">Line Item</th>
+        <th>Year 1<br><span style="font-weight:400; font-size:9px;">Stabilizing</span></th>
+        <th>Year 2<br><span style="font-weight:400; font-size:9px;">Stabilized + Balloon</span></th>
+        <th>Year 3</th>
+        <th>Year 4</th>
+        <th>Year 5</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Occupied Units (of 5 income)</td>
+        <td>3</td>
+        <td>5</td>
+        <td>5</td>
+        <td>5</td>
+        <td>5</td>
+      </tr>
+      <tr>
+        <td>Avg Rent / Unit</td>
+        <td>$600</td>
+        <td>$600</td>
+        <td>$625</td>
+        <td>$650</td>
+        <td>$650</td>
+      </tr>
+      <tr>
+        <td>Gross Rents</td>
+        <td>$21,600</td>
+        <td>$36,000</td>
+        <td>$37,500</td>
+        <td>$39,000</td>
+        <td>$39,000</td>
+      </tr>
+      <tr>
+        <td>Total OpEx (est.)</td>
+        <td style="color:#8b0000;">&#8722; $7,896</td>
+        <td style="color:#8b0000;">&#8722; $9,906</td>
+        <td style="color:#8b0000;">&#8722; $10,200</td>
+        <td style="color:#8b0000;">&#8722; $10,500</td>
+        <td style="color:#8b0000;">&#8722; $10,500</td>
+      </tr>
+      <tr class="hl">
+        <td>NOI (Net Operating Income)</td>
+        <td>$13,704</td>
+        <td>$26,094</td>
+        <td>$27,300</td>
+        <td>$28,500</td>
+        <td>$28,500</td>
+      </tr>
+      <tr>
+        <td>Debt Service (SF note)</td>
+        <td style="color:#8b0000;">&#8722; $8,448</td>
+        <td style="color:#8b0000;">&#8722; $8,448</td>
+        <td style="color:#8b0000;">&#8722; $0 (refi'd)</td>
+        <td style="color:#8b0000;">&#8722; $0</td>
+        <td style="color:#8b0000;">&#8722; $0</td>
+      </tr>
+      <tr class="hl">
+        <td>Annual Net Cash Flow (pre-balloon)</td>
+        <td>$5,256</td>
+        <td>$17,646</td>
+        <td>$27,300</td>
+        <td>$28,500</td>
+        <td>$28,500</td>
+      </tr>
+      <tr class="balloon-row">
+        <td>BALLOON PAYOFF (Nov 2027)</td>
+        <td>&mdash;</td>
+        <td style="color:#ff6b6b;"><strong>&#8722; $45,000</strong></td>
+        <td>&mdash;</td>
+        <td>&mdash;</td>
+        <td>&mdash;</td>
+      </tr>
+      <tr class="hl">
+        <td>Net CF After Balloon Event</td>
+        <td>$5,256</td>
+        <td style="color:#b07700;">&#8722; $27,354</td>
+        <td style="color:#1e7e34;">$27,300</td>
+        <td style="color:#1e7e34;">$28,500</td>
+        <td style="color:#1e7e34;">$28,500</td>
+      </tr>
+      <tr class="cumrow">
+        <td>Cumulative Net CF (all years)</td>
+        <td>$5,256</td>
+        <td>&#8722; $22,098</td>
+        <td>$5,202</td>
+        <td>$33,702</td>
+        <td>$62,202</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="background:#fffbf0; border:1px solid #e8a020; border-radius:6px; padding:16px 20px; font-size:12px; color:#555; line-height:1.7; margin-bottom:20px;">
+    <strong style="color:#1a2b3c;">Year 2 balloon note:</strong> The balloon payoff is modeled as a Year 2 event (Nov 2027). Best case: portfolio lender refinances on stabilized NOI of $26K/yr &rArr; $264K appraised value &rArr; 75% LTV = $198K available &mdash; far more than the $45K needed. Refi should be straightforward on a stabilized 5-unit. If holding free and clear after Year 2, annual CF jumps to $27&ndash;28K. <strong>5-year cumulative profit: ~$62K on $47.5K invested = 131% total return.</strong>
   </div>
 
   <div class="two-col">
-    <div class="info-card">
-      <h4>Entry Stack (Seller Finance Path)</h4>
-      <div class="info-row"><span class="lbl">Asking Price</span><span class="val">$90,000</span></div>
-      <div class="info-row"><span class="lbl">Jerel Offer</span><span class="val green">$75,000</span></div>
-      <div class="info-row"><span class="lbl">Down Payment</span><span class="val">$10,000</span></div>
-      <div class="info-row"><span class="lbl">SF Balance</span><span class="val">$65,000 @ 5–6% / 10yr</span></div>
-      <div class="info-row"><span class="lbl">Light Rehab (3 units)</span><span class="val">~$12,000</span></div>
-      <div class="info-row"><span class="lbl">Closing Costs</span><span class="val">~$1,500</span></div>
-      <div class="info-row"><span class="lbl"><strong>Total Gross Entry</strong></span><span class="val gold"><strong>$47,500</strong></span></div>
+    <div class="info-card" style="border-top-color:#1e7e34;">
+      <h4>Balloon Refi Path &mdash; Optimal</h4>
+      <div class="info-row"><span class="lbl">Stabilized NOI (Year 2)</span><span class="val green">$26,094/yr</span></div>
+      <div class="info-row"><span class="lbl">Appraised Value @ 9% Cap</span><span class="val">$264,600</span></div>
+      <div class="info-row"><span class="lbl">Portfolio Lender LTV (75%)</span><span class="val green">$198,450 available</span></div>
+      <div class="info-row"><span class="lbl">Balloon Needed</span><span class="val">$45,000</span></div>
+      <div class="info-row"><span class="lbl">Refi Covers Balloon?</span><span class="val green">Yes &mdash; with $153K+ to spare</span></div>
+      <div class="info-row"><span class="lbl">Action Deadline</span><span class="val red">Begin by Q3 2027</span></div>
     </div>
 
-    <div class="info-card">
-      <h4>Current vs Stabilized Income</h4>
-      <div class="info-row"><span class="lbl">Current Gross (2 units)</span><span class="val red">$1,250/mo</span></div>
-      <div class="info-row"><span class="lbl">Unit 4</span><span class="val">$600/mo — leased</span></div>
-      <div class="info-row"><span class="lbl">Unit 5</span><span class="val">$650/mo — leased</span></div>
-      <div class="info-row"><span class="lbl">Stabilized Gross (5 units)</span><span class="val green">$3,000/mo</span></div>
-      <div class="info-row"><span class="lbl">Annual Taxes</span><span class="val">$2,225.98/yr ($186/mo)</span></div>
-      <div class="info-row"><span class="lbl">RE# (Main)</span><span class="val">103285-0010</span></div>
-      <div class="info-row"><span class="lbl">RE# (Bonus)</span><span class="val">103285-0015</span></div>
+    <div class="info-card" style="border-top-color:#e8a020;">
+      <h4>Balloon Refi Path &mdash; Backup</h4>
+      <div class="info-row"><span class="lbl">Option A</span><span class="val">Sell to MHP investor at $90&ndash;100K cash (Exit C)</span></div>
+      <div class="info-row"><span class="lbl">Option B</span><span class="val">Call Tammy Grab &mdash; ask for 2-yr extension on balloon</span></div>
+      <div class="info-row"><span class="lbl">Option C</span><span class="val">Use partner capital / private lender bridge for $45K payoff</span></div>
+      <div class="info-row"><span class="lbl">Option D (worst)</span><span class="val red">Exit C wholesale &mdash; balloon problem sold with property</span></div>
+      <div class="info-row"><span class="lbl">Hard Deadline</span><span class="val red">November 8, 2027 &mdash; no extensions without Tammy</span></div>
     </div>
   </div>
 
-  <div class="aerial-strip">
-    <img src="https://floridainvestor.github.io/deal-dashboards/images/catoma/overview.png" alt="Aerial view — 5849 &amp; 5859 Catoma St parcels">
-    <div style="font-size:10px;color:#999;text-transform:uppercase;letter-spacing:1px;padding:6px 0;">Aerial — 1.02 Acre Site · Both Parcels Outlined · Source: Duval PAO</div>
-  </div>
-
-  <div class="dark-box">
-    <h4>Seller Context — Robert A. Smith / Roberts Family Investment Corp</h4>
-    <div class="dark-row"><span class="dlbl">Pressure Point 1</span><span class="dval orange">Balloon due 11/8/2027 — 19 months to resolve or default</span></div>
-    <div class="dark-row"><span class="dlbl">Pressure Point 2</span><span class="dval orange">Unit 1 fire damage — vacant, unsafe, possible code enforcement fines</span></div>
-    <div class="dark-row"><span class="dlbl">Pressure Point 3</span><span class="dval orange">67% vacancy — cannot service debt or fund rehab from current rents</span></div>
-    <div class="dark-row"><span class="dlbl">Creative Angle</span><span class="dval gold">Buy Tammy Grab's note at discount ($35–38K) — free &amp; clear acquisition</span></div>
-    <div class="dark-row"><span class="dlbl">5859 History</span><span class="dval">Acquired via Tax Deed 9/20/2017 for $7,500 — funded by Grab loan</span></div>
-  </div>
-
-  <div class="page-foot">5849 &amp; 5859 Catoma St · MHP Deal Review · April 2026 · Ainsley / Jerel Williams</div>
+  <div class="page-foot">5849 Catoma St &middot; RE_OS Deal File &middot; Page 4 of 5</div>
 </div>
 
 
-<!-- ══ PAGE 2: UNIT BREAKDOWN ══ -->
-<div class="section">
-  <div class="page-hdr">
-    <h2>Unit Breakdown</h2>
-    <span>6 Units · 2 Occupied · 4 Vacant</span>
-  </div>
-
-  <table class="unit-table">
-    <thead>
-      <tr>
-        <th>Unit</th>
-        <th>Address</th>
-        <th>Bed/Bath</th>
-        <th>SqFt</th>
-        <th>Year</th>
-        <th>Status</th>
-        <th>Rent</th>
-        <th>Title #</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr class="unit-fire">
-        <td><strong>Unit 1</strong></td>
-        <td>5849 Catoma</td>
-        <td>2/1</td>
-        <td>528</td>
-        <td>1971</td>
-        <td><span class="badge b-below">🔥 Fire Damaged — Vacant</span></td>
-        <td style="color:#8b0000"><strong>$0</strong></td>
-        <td>4864145</td>
-      </tr>
-      <tr>
-        <td><strong>Unit 2</strong></td>
-        <td>5849 Catoma</td>
-        <td>2/1</td>
-        <td>528</td>
-        <td>1964</td>
-        <td><span class="badge b-caution">Vacant — Oldest Unit</span></td>
-        <td style="color:#8b0000"><strong>$0</strong></td>
-        <td>1788189</td>
-      </tr>
-      <tr>
-        <td><strong>Unit 3</strong></td>
-        <td>5849 Catoma</td>
-        <td>2/1</td>
-        <td>576</td>
-        <td>1971</td>
-        <td><span class="badge b-caution">Vacant — Light Rehab</span></td>
-        <td style="color:#8b0000"><strong>$0</strong></td>
-        <td>4565913</td>
-      </tr>
-      <tr class="unit-occupied">
-        <td><strong>Unit 4</strong></td>
-        <td>5849 Catoma</td>
-        <td>2/1</td>
-        <td>528</td>
-        <td>1971</td>
-        <td><span class="badge b-above">Leased</span></td>
-        <td style="color:#1e7e34"><strong>$600/mo</strong></td>
-        <td>4565914</td>
-      </tr>
-      <tr class="unit-occupied">
-        <td><strong>Unit 5</strong></td>
-        <td>5849 Catoma</td>
-        <td>2/1</td>
-        <td>528</td>
-        <td>1971</td>
-        <td><span class="badge b-above">Leased</span></td>
-        <td style="color:#1e7e34"><strong>$650/mo</strong></td>
-        <td>4857048</td>
-      </tr>
-      <tr>
-        <td><strong>Unit 6</strong></td>
-        <td>5859 Catoma</td>
-        <td>2/2</td>
-        <td>528</td>
-        <td>1971</td>
-        <td><span class="badge b-caution">Vacant — Light Rehab</span></td>
-        <td style="color:#8b0000"><strong>$0</strong></td>
-        <td>5234090</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div style="background:#f0fff4;border:1px solid #c3e6cb;border-radius:6px;padding:16px 20px;font-size:12px;color:#155724;margin-bottom:24px;">
-    <strong>Stabilization Path:</strong> Rehab Units 3, 5, and 6 at ~$4K each (light touch: paint, flooring, fixtures). Unit 2 (1964 vintage) may require more — assess on walkthrough. Unit 1 fire damage: determine if demolish-and-replace or insurance proceeds available. At 5 units rented @ $600/mo avg = $3,000/mo gross. Unit 1 excluded from stabilized pro forma.
-  </div>
-
-  <div class="dark-box">
-    <h4>Stabilized Pro Forma (5 Units)</h4>
-    <div class="dark-row"><span class="dlbl">Gross Rents (5 × $600)</span><span class="dval green">$3,000/mo</span></div>
-    <div class="dark-row"><span class="dlbl">Taxes</span><span class="dval">— $186/mo</span></div>
-    <div class="dark-row"><span class="dlbl">Insurance (est.)</span><span class="dval">— $250/mo</span></div>
-    <div class="dark-row"><span class="dlbl">SF Payment ($65K @ 5.5% / 10yr)</span><span class="dval">— $704/mo</span></div>
-    <div class="dark-row"><span class="dlbl">Maintenance Reserve (10%)</span><span class="dval">— $300/mo</span></div>
-    <div class="dark-row"><span class="dlbl">Vacancy (3%)</span><span class="dval">— $90/mo</span></div>
-    <div class="dark-row"><span class="dlbl"><strong>Net Cash Flow</strong></span><span class="dval gold"><strong>~$1,470/mo</strong></span></div>
-    <div class="dark-row"><span class="dlbl">Year 1 Principal Paydown</span><span class="dval green">~$4,800</span></div>
-    <div class="dark-row"><span class="dlbl"><strong>TWR (CF + Paydown) / Entry</strong></span><span class="dval gold"><strong>47.2%</strong></span></div>
-  </div>
-
-  <div class="page-foot">5849 &amp; 5859 Catoma St · Unit Breakdown · April 2026</div>
-</div>
-
-
-<!-- ══ PAGE 3: TWR ANALYSIS ══ -->
-<div class="section">
-  <div class="page-hdr">
-    <h2>TWR Analysis — All Strategies</h2>
-    <span>Target: 30% TWR</span>
-  </div>
-
-  <div class="stat-strip">
-    <div><div class="snum">$47,500</div><div class="slbl">Entry (SF Path)</div></div>
-    <div><div class="snum">$1,470</div><div class="slbl">CF/mo Stabilized</div></div>
-    <div><div class="snum">$4,800</div><div class="slbl">Year 1 Paydown</div></div>
-    <div><div class="snum">47.2%</div><div class="slbl">TWR (Best Path)</div></div>
-  </div>
-
-  <table class="twr-table">
-    <thead>
-      <tr>
-        <th>Strategy</th>
-        <th>All-In Entry</th>
-        <th>Stabilized CF/mo</th>
-        <th>Annual CF</th>
-        <th>Yr1 Paydown</th>
-        <th>TWR</th>
-        <th>vs. Target</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr class="target-row">
-        <td><span class="strategy-name">Seller Finance @ $75K</span><br><span style="font-size:11px;color:#888">$10K down · $65K balance · 3-unit light rehab · ★ RECOMMENDED</span></td>
-        <td><strong>$47,500</strong></td>
-        <td><strong>$1,470</strong></td>
-        <td>$17,640</td>
-        <td>$4,800</td>
-        <td><span class="twr-pct twr-green">47.2%</span></td>
-        <td><span class="badge b-above">+17.2 pts</span></td>
-      </tr>
-      <tr class="above-row">
-        <td><span class="strategy-name">Note Buy @ $35–38K + Rehab</span><br><span style="font-size:11px;color:#555">Buy Tammy's note at discount · acquire free &amp; clear · highest CF upside</span></td>
-        <td><strong>$81,000</strong></td>
-        <td><strong>$2,800</strong></td>
-        <td>$33,600</td>
-        <td>$0</td>
-        <td><span class="twr-pct twr-green">41.5%</span></td>
-        <td><span class="badge b-above">+11.5 pts</span></td>
-      </tr>
-      <tr class="below-row">
-        <td><span class="strategy-name">Sub-To (assume balloon)</span><br><span style="font-size:11px;color:#8b0000">⚠ Rate unknown · balloon due 11/8/2027 · 19 months to exit</span></td>
-        <td><strong>~$30K equity</strong></td>
-        <td><strong>Unknown</strong></td>
-        <td>TBD</td>
-        <td>~$0</td>
-        <td><span class="twr-pct twr-red">Unknown</span></td>
-        <td><span class="badge b-below">Get rate first</span></td>
-      </tr>
-      <tr class="below-row">
-        <td><span class="strategy-name">Private Money / Note Creation</span><br><span style="font-size:11px;color:#8b0000">$120K @ 10% · create 6 seller-finance notes · negative CF during debt service</span></td>
-        <td><strong>$0 cash</strong></td>
-        <td style="color:#8b0000"><strong>-$880/mo</strong></td>
-        <td style="color:#8b0000">-$10,560</td>
-        <td>N/A</td>
-        <td><span class="twr-pct twr-red">∞ / Neg CF</span></td>
-        <td><span class="badge b-below">Year 3+ play only</span></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div style="background:#fffbf0;border:1px solid #e8a020;border-radius:6px;padding:16px 20px;font-size:12px;color:#555;line-height:1.7;margin-bottom:24px;">
-    <strong style="color:#1a2b3c;">Recommended Path:</strong> Seller Finance at $75K with $10K down. Keeps capital requirement low ($47.5K all-in), delivers 44.7% TWR, and positions you for refinance out of the SF note once stabilized. The <strong style="color:#1e7e34;">Note Buy is the highest CF path</strong> — if Tammy Grab accepts $35–38K for the note, you can acquire free &amp; clear and capture full NOI. Call Tammy first: if she sells at discount, that move alone saves $37K+ vs. paying seller $75K.
-  </div>
-
-  <div class="page-foot">5849 &amp; 5859 Catoma St · TWR Analysis · April 2026</div>
-</div>
-
-
-<!-- ══ PAGE 4: RISK FLAGS + NEXT STEPS ══ -->
+<!-- ══════════════════════════════════════════════════
+     PAGE 5 — RISK FLAGS + DECISION
+═══════════════════════════════════════════════════ -->
 <div class="section section-last">
   <div class="page-hdr">
-    <h2>Risk Flags &amp; Next Steps</h2>
-    <span>Due Diligence Checklist</span>
+    <h2>Risk Flags &amp; Decision</h2>
+    <span>Due Diligence Summary &middot; Go / No-Go</span>
   </div>
 
   <div class="flag-grid">
     <div class="flag-card">
       <div class="flag-dot red"></div>
       <div>
-        <div class="flag-title">BALLOON DUE 11/8/2027</div>
-        <div class="flag-text">Only 19 months from today. Sub-to path has a hard exit deadline. If acquiring via SF, confirm Tammy's note is paid off at close or seller finances around it.</div>
+        <div class="flag-title">BALLOON $45K DUE 11/8/2027</div>
+        <div class="flag-text">Major constraint. 19 months. Cash flow covers $27,930 by maturity &mdash; short by $17K. Must initiate portfolio lender refi or Tammy balloon extension by Q3 2027. Stabilized NOI justifies a full refi &mdash; this is solvable but not ignorable.</div>
       </div>
     </div>
+
     <div class="flag-card">
       <div class="flag-dot red"></div>
       <div>
-        <div class="flag-title">Unit 1 Fire Damage</div>
-        <div class="flag-text">Unit 1 destroyed by fire. Is there an open insurance claim? Active code enforcement violation? Potential accruing daily fines or Special Magistrate order. Verify before closing.</div>
+        <div class="flag-title">Unit 1 Fire Damage &mdash; Excluded from Income</div>
+        <div class="flag-text">Unit 1 (528 sf, 1971) is fire-damaged and vacant. Pro forma excludes it entirely. Must determine: open CE case? Insurance claim available? Demolish and replace, or repair. Could add a 6th income unit and push CoC above 40% if resolved.</div>
       </div>
     </div>
+
     <div class="flag-card">
       <div class="flag-dot orange"></div>
       <div>
-        <div class="flag-title">Mortgage Rate Unknown</div>
-        <div class="flag-text">Rate is in the promissory note — not the recorded deed. Cannot model sub-to payments or full debt service without it. Get note from Robert Smith or Tammy Grab.</div>
+        <div class="flag-title">1964 Vintage Unit 2 &mdash; Age Risk</div>
+        <div class="flag-text">Unit 2 (1964 GULFS MH, title #1788189) is the oldest unit on site and the highest deferred maintenance risk. Scope carefully on walkthrough. May require full replacement rather than light rehab. Exclude from stabilized income if condition is too poor.</div>
       </div>
     </div>
+
     <div class="flag-card">
       <div class="flag-dot orange"></div>
       <div>
-        <div class="flag-title">Code Enforcement Status</div>
-        <div class="flag-text">Jacksonville has no public portal. Must call 904-630-2489 (RE# 103285-0010 and -0015) or file PRR at records.coj.net. Ask specifically about daily fines and Special Magistrate orders.</div>
+        <div class="flag-title">6 Titles on Mortgage, Only 5 Income Units</div>
+        <div class="flag-text">Mortgage exhibit lists 6 mobile home titles. Pro forma uses 5 income units (excluding fire-damaged Unit 1). Confirm Unit 6 at 5859 Catoma is on a separate title and parcel, and that all 6 home titles transfer at closing.</div>
       </div>
     </div>
+
     <div class="flag-card">
       <div class="flag-dot orange"></div>
       <div>
-        <div class="flag-title">Unit 2 — 1964 Vintage</div>
-        <div class="flag-text">Oldest unit on site. Highest deferred maintenance risk. Assess condition on walkthrough before including in rehab budget. May need full replacement vs. light touch.</div>
+        <div class="flag-title">Promissory Note Rate Unknown</div>
+        <div class="flag-text">Existing Grab balloon note rate is not in the recorded mortgage deed. Modeled at 5.5% for the seller finance. Must get promissory note from Robert Smith to confirm actual existing debt terms before any sub-to consideration.</div>
       </div>
     </div>
-    <div class="flag-card">
-      <div class="flag-dot orange"></div>
-      <div>
-        <div class="flag-title">Due-on-Sale Clause</div>
-        <div class="flag-text">Balloon mortgage has standard DOT clause. Sub-to path triggers DOSC risk. SF path eliminates this — seller pays off Grab's note at closing.</div>
-      </div>
-    </div>
+
     <div class="flag-card">
       <div class="flag-dot green"></div>
       <div>
-        <div class="flag-title">No Tax Delinquency</div>
-        <div class="flag-text">Both parcels show current on taxes per Duval PAO. No delinquency on either 103285-0010 or 103285-0015 as of April 2026.</div>
+        <div class="flag-title">CE Blocker CLEARED &mdash; 2026-04-21</div>
+        <div class="flag-text">Code enforcement blocker was cleared as of April 21, 2026. Deal can proceed. Confirm no new violations have opened since clearance, particularly on Unit 1 fire damage which may have triggered a separate open complaint.</div>
       </div>
     </div>
+
     <div class="flag-card">
       <div class="flag-dot green"></div>
       <div>
-        <div class="flag-title">Strong Seller Pressure</div>
-        <div class="flag-text">Balloon in 19 months, fire damage, 67% vacancy. Seller cannot fund rehab from current rents. Classic motivated seller: time &gt; price. Leverage is yours.</div>
+        <div class="flag-title">Strong MHP Demand in 32210</div>
+        <div class="flag-text">Westside Jacksonville working-class corridor has strong MHP rental demand. $600/mo for a 2/1 mobile home is achievable and conservative &mdash; Unit 5 currently rents at $650. Vacancy risk is low once stabilized.</div>
       </div>
     </div>
+
+    <div class="flag-card">
+      <div class="flag-dot green"></div>
+      <div>
+        <div class="flag-title">Seller Pressure Supports Terms</div>
+        <div class="flag-text">Robert Smith has balloon due 19 months, fire damage, and 67% vacancy. Cannot fund rehab from current rents. Classic motivated seller &mdash; time &gt; price. Seller finance at $75K / $10K down is achievable. Note-buy from Tammy at discount is still in play as the strongest creative angle.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:#fff3cd; border:1px solid #e8a020; border-radius:8px; padding:18px 22px; margin-bottom:20px; font-size:13px; line-height:1.7; color:#555;">
+    <strong style="color:#1a2b3c;">Balloon Strategy Recommendation:</strong> The $45K balloon due Nov 2027 is the single largest risk in this deal, but it is <strong>manageable</strong>. A stabilized 5-unit MHP generating $26K NOI/yr will appraise at $264K+ with a portfolio lender, providing far more LTV than needed to cover a $45K payoff. The key discipline: <strong>begin refi conversations no later than May 2027</strong> (6 months before maturity). If stabilization is delayed past mid-2027, pivot to Exit C (wholesale to MHP investor) which eliminates the balloon entirely by selling before it comes due. Do not wait until October 2027 to start this conversation.
   </div>
 
   <div class="decision-box">
-    <h4>Action Sequence</h4>
+    <h4>Decision: GO via Park &amp; Hold &mdash; 37.1% CoC. Balloon Refi Plan by Q3 2027.</h4>
+
     <div class="decision-item">
       <div class="decision-num">1</div>
       <div class="decision-text">
-        <div class="dt-title">Call Tammy Grab — Note Buy Conversation</div>
-        <div class="dt-body">Outreach letter already drafted (Tammy note.docx on SanDisk). Skip trace if needed — search "Gary Grab" or "Tammy Grab" on or.duvalclerk.com for home address. Offer $35–38K for the $45K note. If she accepts, you acquire free &amp; clear — saves $37K+ vs. full seller price and eliminates balloon risk entirely.</div>
+        <div class="dt-title">Finalize Purchase Structure &mdash; SF at $75K or Note Buy from Tammy</div>
+        <div class="dt-body">Tammy Grab note buy ($35&ndash;38K for $45K note) remains the best creative angle &mdash; acquires free and clear and eliminates balloon entirely. If Tammy declines, proceed with seller finance at $75K / $10K down / 5.5% / 2-yr balloon. Confirm all 6 mobile home titles transfer at closing.</div>
       </div>
     </div>
+
     <div class="decision-item">
       <div class="decision-num">2</div>
       <div class="decision-text">
-        <div class="dt-title">Call Code Enforcement — 904-630-2489</div>
-        <div class="dt-body">Reference RE# 103285-0010 and 103285-0015. Ask: any open cases, daily fines, Special Magistrate orders at 5849 and 5859 Catoma. Fire on Unit 1 almost certainly triggered a complaint. Open fines = seller motivation and negotiating leverage.</div>
+        <div class="dt-title">Get Rehab Bids &mdash; Cap at $25K for 3 Units</div>
+        <div class="dt-body">Units 2, 3, and 6 need light rehab (paint, flooring, fixtures &mdash; ~$4&ndash;8K each). Unit 1 (fire) &mdash; determine total loss vs. repair before committing capital. Unit 2 (1964 vintage) &mdash; scope carefully, may be replace vs. rehab. Get 2 contractor bids before closing.</div>
       </div>
     </div>
+
     <div class="decision-item">
       <div class="decision-num">3</div>
       <div class="decision-text">
-        <div class="dt-title">Get Promissory Note from Robert Smith</div>
-        <div class="dt-body">Rate is not in the recorded mortgage deed. Need the promissory note to model sub-to payments and understand true debt service. Also confirms any prepayment penalty language.</div>
+        <div class="dt-title">Stabilize to 4&ndash;5 Units Occupied by Q1 2027</div>
+        <div class="dt-body">Target 4&ndash;5 units occupied by January 2027 to run stabilized NOI for at least 6 months before the balloon maturity. Stabilized income documentation is essential for any portfolio lender refinance. Each occupied unit adds $600/mo to the refi qualifying income.</div>
       </div>
     </div>
+
     <div class="decision-item">
       <div class="decision-num">4</div>
       <div class="decision-text">
-        <div class="dt-title">Walk All 6 Units + Get Rehab Bids</div>
-        <div class="dt-body">Units 2, 3, 6: light touch ($3–5K each). Unit 1 fire: determine total loss vs. repair. Unit 2 (1964 vintage): scope before committing to rehab budget. Get 2 contractor bids. Cap it at $15K before deciding SF vs. Note Buy path.</div>
-      </div>
-    </div>
-    <div class="decision-item">
-      <div class="decision-num">5</div>
-      <div class="decision-text">
-        <div class="dt-title">Decide Buy Structure: SF vs. Note Buy vs. SubTo</div>
-        <div class="dt-body">If Tammy says yes to note buy at $35–38K: go that route. If not: SF at $75K with $10K down is the cleanest path (47.2% TWR). Sub-to is viable only if rate is low and you have a clear exit before Nov 2027.</div>
+        <div class="dt-title">Begin Balloon Refi Conversations by Q3 2027 (May&ndash;August)</div>
+        <div class="dt-body">Target portfolio lenders who do MHP loans &mdash; community banks, credit unions, or private MHP lenders. Stabilized NOI of $26K/yr at 9% cap = $264K value. 75% LTV = $198K available &mdash; far exceeds $45K balloon. If refi delays arise, pivot to Exit C (wholesale) by September 2027 to clear balloon before maturity. Never let this reach October 2027 without a confirmed solution.</div>
       </div>
     </div>
   </div>
 
-  <div class="page-foot">5849 &amp; 5859 Catoma St · Risk Flags &amp; Next Steps · April 2026 · Ainsley / Jerel Williams</div>
+  <div class="page-foot">5849 Catoma St &middot; RE_OS Deal File &middot; Page 5 of 5</div>
 </div>
 
 </body>

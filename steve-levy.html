@@ -4,1193 +4,1433 @@
 <meta charset="UTF-8">
 <meta name="robots" content="noindex, nofollow, noarchive">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Park Avenue MHP — Deal Review for Steve Levy</title>
+<title>Park Avenue MHP — Multi-Exit Deal Analyzer</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: Arial, sans-serif; background: #f0f2f5; color: #1a1a1a; font-size: 13px; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #1a1a1a; font-size: 13px; }
 
-  /* ── COVER ─────────────────────────────── */
+  /* ── COVER (MLS-style: photo on top, compact text bar below) ─────── */
   .cover {
-    background: #1a2b3c; color: white;
-    padding: 70px 60px; text-align: center;
     page-break-after: always;
+    max-width: 1100px; margin: 0 auto;
+    background: #1a2b3c;
+    overflow: hidden;
   }
-  .cover-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #7fb3d3; margin-bottom: 16px; }
-  .cover h1 { font-size: 48px; font-weight: 900; line-height: 1.1; margin-bottom: 10px; }
-  .cover h2 { font-size: 18px; font-weight: 400; color: #7fb3d3; margin-bottom: 32px; }
-  .cover-rule { width: 50px; height: 4px; background: #e8a020; margin: 0 auto 36px; }
-  .cover-meta { font-size: 14px; color: #aac4d8; line-height: 2.2; }
-  .cover-meta strong { color: white; }
+  .cover-photo-ph {
+    width: 100%; height: 540px; overflow: hidden;
+    /* TODO: Replace gradient with aerial or entrance photo of Park Avenue MHP in Sanford FL */
+    background: linear-gradient(135deg, #1a2b3c 0%, #2d5a3d 40%, #4a7c59 70%, #2d4a5e 100%);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .cover-photo-ph img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
+  .cover-photo-placeholder-text {
+    text-align: center; color: rgba(255,255,255,.35); font-size: 14px; line-height: 2;
+    letter-spacing: 1px;
+  }
+  .cover-photo-placeholder-text strong { display: block; font-size: 22px; color: rgba(255,255,255,.5); margin-bottom: 6px; letter-spacing: -0.5px; }
+  .cover-text {
+    color: white; padding: 22px 32px 26px;
+  }
+  .cover-top {
+    display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+    margin-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,.12); padding-bottom: 14px;
+  }
+  .cover-top-l { flex: 1; min-width: 280px; }
+  .cover-eyebrow { font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: #7fb3d3; margin-bottom: 6px; }
+  .cover-text h1 { font-size: 28px; font-weight: 900; line-height: 1.05; margin-bottom: 4px; letter-spacing: -0.5px; }
+  .cover-text h2 { font-size: 12px; font-weight: 400; color: #7fb3d3; }
+  .cover-top-r {
+    text-align: right; font-size: 11px; color: #aac4d8; line-height: 1.6;
+  }
+  .cover-top-r strong { color: white; font-weight: 700; }
+  .cover-meta-strip {
+    font-size: 11px; color: #aac4d8; line-height: 1.7; margin-bottom: 14px;
+  }
+  .cover-meta-strip strong { color: white; }
+  .cover-meta-strip .sep { color: #555; padding: 0 8px; }
 
   .stat-row {
-    display: flex; gap: 0; margin: 44px auto 0; max-width: 680px;
-    border: 1px solid rgba(255,255,255,.15); border-radius: 8px; overflow: hidden;
+    display: flex; flex-wrap: wrap; gap: 0;
+    border: 1px solid rgba(255,255,255,.15); border-radius: 6px; overflow: hidden;
+    margin-bottom: 14px;
   }
-  .stat-cell {
-    flex: 1; padding: 22px 16px; text-align: center;
-    border-right: 1px solid rgba(255,255,255,.12);
-  }
+  .stat-cell { flex: 1; min-width: 90px; padding: 12px 8px; text-align: center; border-right: 1px solid rgba(255,255,255,.12); }
   .stat-cell:last-child { border-right: none; }
-  .stat-num { font-size: 34px; font-weight: 900; color: #e8a020; line-height: 1; }
-  .stat-lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #aac4d8; margin-top: 5px; }
+  .stat-num { font-size: 20px; font-weight: 900; color: #e8a020; line-height: 1; }
+  .stat-lbl { font-size: 8px; text-transform: uppercase; letter-spacing: 1px; color: #aac4d8; margin-top: 4px; }
 
-  .legend { display: flex; gap: 10px; justify-content: center; margin-top: 36px; flex-wrap: wrap; }
-  .leg { padding: 5px 14px; border-radius: 20px; font-size: 11px; font-weight: 700; letter-spacing: .4px; }
-  .leg-a { background: #1e7e34; color: white; }
-  .leg-b { background: #e8a020; color: #1a1a1a; }
-  .leg-c { background: #c05800; color: white; }
-  .leg-d { background: #8b0000; color: white; }
-
-  /* ── SECTION PAGES ──────────────────────── */
-  .section {
-    background: white; padding: 44px 52px;
-    page-break-after: always; max-width: 1100px; margin: 0 auto;
+  .type-badge {
+    display: inline-block; background: #1e7e34; color: white;
+    font-size: 10px; font-weight: 900; letter-spacing: .6px;
+    padding: 7px 16px; border-radius: 30px; text-transform: uppercase;
   }
+
+  /* ── SECTIONS ───────────────────────────── */
+  .section { background: white; padding: 36px 40px; page-break-after: always; max-width: 1100px; margin: 0 auto; }
   .section-last { page-break-after: auto; }
 
   .page-hdr {
     display: flex; justify-content: space-between; align-items: flex-end;
-    border-bottom: 3px solid #1a2b3c; padding-bottom: 10px; margin-bottom: 28px;
+    border-bottom: 3px solid #1a2b3c; padding-bottom: 10px; margin-bottom: 24px;
+    flex-wrap: wrap; gap: 6px;
   }
-  .page-hdr h2 { font-size: 20px; font-weight: 900; text-transform: uppercase; letter-spacing: .8px; color: #1a2b3c; }
+  .page-hdr h2 { font-size: 18px; font-weight: 900; text-transform: uppercase; letter-spacing: .8px; color: #1a2b3c; }
   .page-hdr span { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #999; }
 
-  /* ── MARKET COMPS ───────────────────────── */
-  .comp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 28px; }
-  .comp-card {
-    border: 1px solid #e0e0e0; border-radius: 6px; padding: 18px 20px;
-    border-top: 4px solid #1a2b3c;
-  }
-  .comp-card h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: #888; margin-bottom: 12px; }
-  .comp-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #f0f0f0; font-size: 13px; }
-  .comp-row:last-child { border-bottom: none; }
-  .comp-row .label { color: #555; }
-  .comp-row .value { font-weight: 700; color: #1a2b3c; }
+  /* ── GRIDS ──────────────────────────────── */
+  .two-col   { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
 
-  .advantage-box {
-    background: #1a2b3c; border-radius: 8px; padding: 22px 28px;
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; text-align: center;
-  }
-  .adv-cell .adv-num { font-size: 26px; font-weight: 900; color: #e8a020; line-height: 1; }
-  .adv-cell .adv-lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #aac4d8; margin-top: 5px; }
+  /* ── INFO CARDS ─────────────────────────── */
+  .info-card { border: 1px solid #e0e0e0; border-radius: 6px; padding: 18px 20px; border-top: 4px solid #1a2b3c; }
+  .info-card h4 { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: #888; margin-bottom: 12px; }
+  .info-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f0f0f0; font-size: 13px; gap: 8px; }
+  .info-row:last-child { border-bottom: none; }
+  .info-row .lbl { color: #555; flex-shrink: 0; }
+  .info-row .val { font-weight: 700; color: #1a2b3c; text-align: right; }
+  .info-row .val.green  { color: #1e7e34; }
+  .info-row .val.orange { color: #b07700; }
+  .info-row .val.red    { color: #8b0000; }
+  .info-row .val.gold   { color: #b07700; }
 
-  /* ── SUMMARY TABLE ──────────────────────── */
-  table.master { width: 100%; border-collapse: collapse; margin-bottom: 24px; }
-  .master th {
-    background: #1a2b3c; color: white; padding: 9px 12px;
-    text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 1px;
-  }
-  .master td { padding: 9px 12px; border-bottom: 1px solid #eee; vertical-align: middle; font-size: 13px; }
-  .master tr:hover td { background: #fafafa; }
-  .lot-n { font-weight: 900; font-size: 16px; color: #1a2b3c; }
-  .g-a { color: #1e7e34; font-weight: 700; }
-  .g-b { color: #b07700; font-weight: 700; }
-  .g-c { color: #c05800; font-weight: 700; }
-  .g-d { color: #8b0000; font-weight: 700; }
-  .price { font-weight: 700; color: #1a2b3c; }
-  .badge { display: inline-block; padding: 3px 9px; border-radius: 4px; font-size: 10px; font-weight: 700; white-space: nowrap; }
-  .b-ready  { background: #d4edda; color: #155724; }
-  .b-prep   { background: #fff3cd; color: #856404; }
-  .b-hold   { background: #f8d7da; color: #721c24; }
-  .b-andrea { background: #e8f4fd; color: #0c5460; }
+  /* ── DARK BOX ───────────────────────────── */
+  .dark-box { background: #1a2b3c; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px; }
+  .dark-box h4 { color: #7fb3d3; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 14px; }
+  .dark-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,.08); font-size: 13px; color: white; gap: 8px; }
+  .dark-row:last-child { border-bottom: none; }
+  .dark-row .dlbl { color: #aac4d8; }
+  .dark-row .dval { font-weight: 700; color: white; text-align: right; }
+  .dark-row .dval.gold  { color: #e8a020; }
+  .dark-row .dval.green { color: #4caf50; }
+  .dark-row .dval.red   { color: #ef9a9a; }
 
-  .totals-bar {
-    background: #1a2b3c; border-radius: 6px; padding: 18px 24px;
-    display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; text-align: center;
-  }
-  .totals-bar .tnum { font-size: 22px; font-weight: 900; color: #e8a020; }
-  .totals-bar .tlbl { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #aac4d8; margin-top: 3px; }
+  /* ════════════════════════════════════════
+     EXIT STRATEGY ANALYZER
+     ════════════════════════════════════════ */
 
-  /* ── UNIT CARDS ─────────────────────────── */
-  .unit-card {
-    display: grid; grid-template-columns: 260px 1fr;
-    gap: 0; border: 1px solid #ddd; border-radius: 8px;
-    overflow: hidden; margin-bottom: 20px;
+  /* HERO — Recommended Exit */
+  .winner-hero {
+    background: linear-gradient(135deg, #1a2b3c 0%, #2d4a5e 100%);
+    border-radius: 12px; padding: 28px 36px; margin-bottom: 20px;
+    border: 3px solid #e8a020;
+    box-shadow: 0 4px 12px rgba(232, 160, 32, .2);
   }
-  .unit-photo { position: relative; }
-  .unit-photo img { width: 260px; height: 200px; object-fit: cover; display: block; }
-  .unit-photo-label {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    background: rgba(0,0,0,.55); color: white;
-    font-size: 11px; text-align: center; padding: 5px;
-    letter-spacing: .5px;
+  .winner-eyebrow {
+    font-size: 11px; font-weight: 700; color: #e8a020;
+    text-transform: uppercase; letter-spacing: 2px; margin-bottom: 4px;
+    display: flex; align-items: center; gap: 6px;
   }
-  .unit-body { padding: 16px 20px; display: flex; flex-direction: column; gap: 10px; }
+  .winner-title { font-size: 28px; font-weight: 900; color: white; margin-bottom: 22px; letter-spacing: -0.5px; }
 
-  .unit-top { display: flex; align-items: flex-start; justify-content: space-between; }
-  .unit-lot-num { font-size: 28px; font-weight: 900; color: #1a2b3c; line-height: 1; }
-  .unit-lot-tag { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: #999; }
-  .unit-title { font-size: 14px; font-weight: 700; color: #1a2b3c; margin-top: 2px; }
-  .tier-pill {
-    padding: 4px 12px; border-radius: 20px; font-size: 11px;
-    font-weight: 700; text-transform: uppercase; letter-spacing: .5px; white-space: nowrap;
+  .winner-stats {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 0;
+    border-top: 1px solid rgba(255,255,255,.12);
+    border-bottom: 1px solid rgba(255,255,255,.12);
+    padding: 18px 0; margin-bottom: 18px;
   }
-  .p-premium  { background: #1e7e34; color: white; }
-  .p-fast     { background: #e8a020; color: #1a1a1a; }
-  .p-builder  { background: #c05800; color: white; }
-  .p-hold     { background: #8b0000; color: white; }
-  .p-rehab    { background: #4a4a4a; color: white; }
+  .winner-stat { text-align: center; padding: 0 10px; border-right: 1px solid rgba(255,255,255,.08); }
+  .winner-stat:last-child { border-right: none; }
+  .ws-num { font-size: 32px; font-weight: 900; color: #e8a020; line-height: 1; letter-spacing: -1px; }
+  .ws-num.green { color: #4caf50; }
+  .ws-lbl { font-size: 9px; color: #aac4d8; text-transform: uppercase; letter-spacing: 1px; margin-top: 6px; font-weight: 700; }
 
-  .unit-note {
-    font-size: 12px; color: #444; line-height: 1.5;
-    border-left: 3px solid #ddd; padding-left: 10px;
+  .winner-why {
+    font-size: 13px; color: #aac4d8; line-height: 1.7; padding-top: 4px;
   }
-  .unit-note.warn { border-left-color: #e8a020; }
-  .unit-note.danger { border-left-color: #8b0000; }
-  .unit-note.good { border-left-color: #1e7e34; }
+  .winner-why strong { color: white; }
 
-  .unit-pricing {
-    display: grid; grid-template-columns: repeat(3,1fr);
-    gap: 6px; background: #f7f9fc; border-radius: 5px; padding: 10px 12px;
+  /* COMPARISON GRID — All 4 Exits at a Glance */
+  .exit-comparison {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 28px;
   }
-  .up-cell .up-lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #888; }
-  .up-cell .up-val { font-size: 15px; font-weight: 900; color: #1a2b3c; margin-top: 1px; }
-  .up-cell.highlight .up-val { color: #1e7e34; }
-
-  .unit-action {
-    font-size: 11px; padding: 6px 10px; border-radius: 4px;
-    font-weight: 700; letter-spacing: .3px;
+  .exit-card {
+    background: white; border: 1px solid #e0e0e0; border-radius: 8px;
+    padding: 16px 14px; text-align: center; position: relative;
+    border-top: 4px solid #ccc;
   }
-  .act-go     { background: #d4edda; color: #155724; }
-  .act-prep   { background: #fff3cd; color: #856404; }
-  .act-andrea { background: #e8f4fd; color: #0c5460; }
-  .act-hold   { background: #f8d7da; color: #721c24; }
+  .exit-card.go     { border-top-color: #1e7e34; background: #f4faf5; }
+  .exit-card.strong { border-top-color: #e8a020; background: #fffbf0; }
+  .exit-card.pass   { border-top-color: #999; background: #fafafa; opacity: .65; }
+  .exit-card.skip   { border-top-color: #999; background: #f5f5f5; opacity: .55; }
 
-  /* ── QUESTIONS + LAUNCH ─────────────────── */
-  .q-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px; }
-  .q-card { border: 1px solid #e0e0e0; border-radius: 6px; padding: 16px 18px; }
-  .q-num { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #999; margin-bottom: 4px; }
-  .q-lot { font-weight: 700; color: #1a2b3c; font-size: 14px; margin-bottom: 6px; }
-  .q-text { font-size: 12px; color: #555; line-height: 1.5; }
-
-  .launch-two { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-  .launch-col { background: #1a2b3c; border-radius: 8px; padding: 20px 24px; }
-  .launch-col h4 { color: white; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,.15); }
-  .launch-item { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,.08); color: white; font-size: 12px; }
-  .launch-item:last-child { border-bottom: none; }
-  .ldot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .ldot-g { background: #4caf50; }
-  .ldot-y { background: #e8a020; }
-  .ldot-r { background: #e57373; }
-
-  /* ── FOOTER ─────────────────────────────── */
-  .page-foot { margin-top: 28px; padding-top: 10px; border-top: 1px solid #eee; font-size: 10px; color: #bbb; text-align: center; letter-spacing: 1px; }
-
-  /* ── PHOTO GALLERY ───────────────────────── */
-  .unit-gallery { position: relative; width: 260px; background: #000; flex-shrink: 0; }
-  .gal-img { width: 260px; height: 200px; object-fit: cover; display: none; }
-  .gal-img.active { display: block; }
-  .gal-btn {
-    position: absolute; top: 50%; transform: translateY(-50%);
-    background: rgba(0,0,0,.55); color: white; border: none; cursor: pointer;
-    width: 26px; height: 36px; font-size: 14px; line-height: 1;
-    border-radius: 3px; z-index: 10;
+  .ec-verdict {
+    display: inline-block; font-size: 9px; font-weight: 900;
+    padding: 3px 10px; border-radius: 20px; letter-spacing: 1px;
+    text-transform: uppercase; margin-bottom: 8px;
   }
-  .gal-prev { left: 4px; }
-  .gal-next { right: 4px; }
-  .gal-counter {
-    position: absolute; bottom: 24px; right: 6px;
-    background: rgba(0,0,0,.55); color: white;
-    font-size: 10px; padding: 2px 6px; border-radius: 10px;
+  .ec-verdict.go      { background: #1e7e34; color: white; }
+  .ec-verdict.strong  { background: #e8a020; color: white; }
+  .ec-verdict.pass    { background: #999; color: white; }
+  .ec-verdict.skip    { background: #aaa; color: white; }
+  .ec-icon { font-size: 18px; margin-bottom: 4px; }
+  .ec-name { font-size: 12px; font-weight: 700; color: #1a2b3c; margin-bottom: 10px; min-height: 28px; }
+  .ec-coc { font-size: 26px; font-weight: 900; color: #1a2b3c; line-height: 1; letter-spacing: -1px; margin-bottom: 2px; }
+  .ec-coc.green { color: #1e7e34; }
+  .ec-coc.amber { color: #b07700; }
+  .ec-coc.muted { color: #999; }
+  .ec-coc-lbl { font-size: 9px; color: #888; text-transform: uppercase; letter-spacing: .8px; margin-bottom: 10px; }
+  .ec-mocf { font-size: 14px; font-weight: 700; color: #555; }
+  .ec-mocf-lbl { font-size: 9px; color: #888; text-transform: uppercase; letter-spacing: .8px; }
+
+  /* DETAIL PANELS */
+  .exit-panel {
+    border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 16px;
+    overflow: hidden; background: white;
   }
-  .unit-photo-label {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    background: rgba(0,0,0,.55); color: white;
-    font-size: 11px; text-align: center; padding: 5px;
-    letter-spacing: .5px;
+  .exit-panel.go     { border-left: 5px solid #1e7e34; }
+  .exit-panel.strong { border-left: 5px solid #e8a020; }
+  .exit-panel.pass   { border-left: 5px solid #999; }
+  .exit-panel.skip   { border-left: 5px solid #999; opacity: .7; }
+
+  .exit-head {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 16px 22px; background: #fafafa; border-bottom: 1px solid #e8e8e8;
   }
-  .unit-specs {
-    display: flex; gap: 8px; flex-wrap: wrap;
+  .exit-head-l { display: flex; align-items: center; gap: 14px; }
+  .exit-head-l .icon { font-size: 22px; }
+  .exit-head-l h3 { font-size: 16px; font-weight: 900; color: #1a2b3c; }
+  .exit-head-l .sub { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+  .exit-head-r { display: flex; gap: 22px; align-items: center; }
+  .ehr-stat { text-align: right; }
+  .ehr-num { font-size: 18px; font-weight: 900; color: #1a2b3c; line-height: 1; }
+  .ehr-num.green { color: #1e7e34; }
+  .ehr-num.muted { color: #999; }
+  .ehr-lbl { font-size: 9px; color: #888; text-transform: uppercase; letter-spacing: .6px; margin-top: 2px; }
+
+  .exit-body { padding: 22px 26px; }
+
+  .exit-metrics-row {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 22px;
   }
-  .spec-pill {
-    background: #eef2f7; border-radius: 12px;
-    padding: 3px 10px; font-size: 11px; font-weight: 700; color: #1a2b3c;
+  .em-cell {
+    background: #fafafa; border-radius: 6px; padding: 14px 10px; text-align: center;
+    border-top: 3px solid #1a2b3c;
+  }
+  .em-cell.green { border-top-color: #1e7e34; }
+  .em-cell.amber { border-top-color: #e8a020; }
+  .em-cell.red   { border-top-color: #8b0000; }
+  .em-num { font-size: 20px; font-weight: 900; color: #1a2b3c; line-height: 1; letter-spacing: -.5px; }
+  .em-num.green { color: #1e7e34; }
+  .em-num.amber { color: #b07700; }
+  .em-num.red   { color: #8b0000; }
+  .em-num.muted { color: #999; }
+  .em-lbl { font-size: 9px; color: #888; text-transform: uppercase; letter-spacing: .8px; margin-top: 6px; font-weight: 700; }
+
+  .exit-detail-toggle {
+    cursor: pointer; padding: 11px 16px; background: #1a2b3c; color: white;
+    border-radius: 6px; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px;
+    display: inline-flex; align-items: center; gap: 8px; margin-bottom: 0;
+    border: none; outline: none;
+    user-select: none;
+  }
+  .exit-detail-toggle:hover { background: #2d4a5e; }
+  details[open] .exit-detail-toggle { background: #2d4a5e; }
+  details > summary { list-style: none; }
+  details > summary::-webkit-details-marker { display: none; }
+  details > summary::before {
+    content: '+ ';
+    margin-right: 4px; font-weight: 900;
+  }
+  details[open] > summary::before {
+    content: '− ';
   }
 
-  /* ── ASKING PRICE ────────────────────────── */
-  .asking-bar {
-    display: flex; align-items: center; justify-content: space-between;
-    background: #1a2b3c; border-radius: 5px; padding: 8px 14px; margin-bottom: 4px;
+  .exit-deep { margin-top: 18px; padding-top: 18px; border-top: 1px solid #eee; }
+
+  /* Risk flag chips inside exit panel */
+  .risk-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+  .risk-chip {
+    font-size: 10px; padding: 4px 10px; border-radius: 20px;
+    font-weight: 600; border: 1px solid;
   }
-  .asking-lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: #7fb3d3; }
-  .asking-val { font-size: 20px; font-weight: 900; color: #e8a020; }
-  .asking-note { font-size: 10px; color: #aac4d8; font-style: italic; }
+  .risk-chip.green { background: #f4faf5; color: #1e7e34; border-color: #c6e3ca; }
+  .risk-chip.amber { background: #fffbf0; color: #b07700; border-color: #f0d090; }
+  .risk-chip.red   { background: #fff0f0; color: #8b0000; border-color: #f0c0c0; }
 
-  /* ── COMP REFERENCE SECTION ─────────────── */
-  .comp-ref { background: #f7f9fc; border: 1px solid #dde3ec; border-radius: 8px; padding: 28px 36px; margin-top: 28px; }
-  .comp-ref h3 { font-size: 15px; font-weight: 900; color: #1a2b3c; text-transform: uppercase; letter-spacing: .8px; margin-bottom: 6px; }
-  .comp-ref .cr-sub { font-size: 11px; color: #888; margin-bottom: 20px; letter-spacing: .5px; }
-  .cr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
-  .cr-card { background: white; border: 1px solid #dde3ec; border-radius: 6px; padding: 16px 18px; border-top: 3px solid #1a2b3c; }
-  .cr-card h4 { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: #888; margin-bottom: 10px; }
-  .cr-row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #f0f0f0; font-size: 12px; }
-  .cr-row:last-child { border-bottom: none; }
-  .cr-row .cr-lbl { color: #555; }
-  .cr-row .cr-val { font-weight: 700; color: #1a2b3c; }
-  .cr-highlight { background: #fff8e6; border: 1px solid #e8a020; border-radius: 6px; padding: 14px 18px; margin-bottom: 16px; }
-  .cr-highlight strong { color: #1a2b3c; }
-  .cr-bands { width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 12px; }
-  .cr-bands th { background: #1a2b3c; color: white; padding: 7px 12px; text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
-  .cr-bands td { padding: 7px 12px; border-bottom: 1px solid #eee; }
-  .cr-bands tr:last-child td { border-bottom: none; }
-  .cr-source { font-size: 10px; color: #aaa; margin-top: 12px; font-style: italic; }
+  /* RTO per-lot/group table — ALWAYS VISIBLE */
+  .rto-table-wrap {
+    background: #fffbf0; border: 2px solid #e8a020; border-radius: 8px;
+    padding: 20px 22px; margin-bottom: 22px;
+  }
+  .rto-table-wrap h5 {
+    font-size: 11px; font-weight: 700; color: #1a2b3c; text-transform: uppercase;
+    letter-spacing: 1.2px; margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .rto-table-wrap h5 .always-pill {
+    background: #e8a020; color: white; font-size: 9px; padding: 2px 8px;
+    border-radius: 10px; letter-spacing: .5px; font-weight: 900;
+  }
 
+  .rto-lot-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .rto-lot-table th { background: #1a2b3c; color: white; padding: 8px 10px; text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: .8px; }
+  .rto-lot-table th.right { text-align: right; }
+  .rto-lot-table td { padding: 8px 10px; border-bottom: 1px solid #f0d090; }
+  .rto-lot-table td.right { text-align: right; font-weight: 700; }
+  .rto-lot-table tr.group-hdr td { background: #f5f0e8; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; color: #7a5500; }
+  .rto-lot-table tr.group-total td { background: #fff3cd; font-weight: 700; border-top: 2px solid #e8a020; }
+  .rto-lot-table tr.portfolio-total td { background: #1a2b3c; color: white; font-weight: 700; font-size: 13px; }
+  .rto-lot-table tr.portfolio-total td.right { color: #e8a020; }
+
+  /* 3-column scenario grid */
+  .cf-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0;
+    border: 1px solid #e0e0e0; border-radius: 6px; overflow: hidden; margin-bottom: 20px;
+  }
+  .cf-col { padding: 22px 20px; border-right: 1px solid #e8e8e8; }
+  .cf-col:last-child { border-right: none; }
+  .cf-col.mkt-col { background: #fffbf0; border-top: 4px solid #e8a020; }
+  .cf-col.con-col { border-top: 4px solid #1a2b3c; }
+  .cf-col.opt-col { border-top: 4px solid #1e7e34; }
+  .cf-col h3 { font-size: 13px; font-weight: 900; color: #1a2b3c; margin-bottom: 2px; }
+  .cf-sub { font-size: 10px; color: #999; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 14px; }
+  .li { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #f5f5f5; font-size: 12px; gap: 6px; }
+  .li.divider { border-top: 1px solid #ddd; border-bottom: none; margin-top: 4px; padding-top: 7px; }
+  .li.total { border-top: 2px solid #1a2b3c; border-bottom: none; padding-top: 9px; margin-top: 4px; font-weight: 900; font-size: 15px; }
+  .ll { color: #555; }
+  .lv { font-weight: 600; color: #1a2b3c; }
+  .lv.neg  { color: #8b0000; }
+  .lv.pos  { color: #1e7e34; }
+  .lv.gold { color: #b07700; }
+
+  /* Reason banner for non-viable exits — visual gap callout */
+  .gap-callout {
+    background: #fafafa; border: 1px solid #e0e0e0; border-radius: 8px;
+    padding: 24px 22px; margin-bottom: 16px;
+  }
+  .gap-callout-title {
+    font-size: 14px; font-weight: 900; color: #8b0000;
+    text-transform: uppercase; letter-spacing: 1px; text-align: center;
+    margin-bottom: 18px;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+  }
+  .gap-callout-title .gc-icon {
+    font-size: 18px; background: #8b0000; color: white; width: 28px; height: 28px;
+    border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+  }
+  .gap-vs {
+    display: grid; grid-template-columns: 1fr auto 1fr; gap: 18px; align-items: center;
+    margin-bottom: 18px;
+  }
+  .gap-side { text-align: center; }
+  .gap-side-num { font-size: 36px; font-weight: 900; color: #1a2b3c; line-height: 1; letter-spacing: -1px; }
+  .gap-side-num.bad { color: #8b0000; }
+  .gap-side-num.good { color: #1e7e34; }
+  .gap-side-num.muted { color: #999; }
+  .gap-side-lbl { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 1.2px; margin-top: 6px; font-weight: 700; }
+  .gap-vs-sym { font-size: 22px; font-weight: 900; color: #999; }
+  .gap-result {
+    text-align: center; padding: 14px 0; background: #fff0f0; border-radius: 6px;
+    border: 1px solid #f0c0c0; margin-bottom: 14px;
+  }
+  .gap-result-num { font-size: 28px; font-weight: 900; color: #8b0000; line-height: 1; letter-spacing: -.5px; }
+  .gap-result-lbl { font-size: 10px; color: #8b0000; text-transform: uppercase; letter-spacing: 1px; margin-top: 6px; font-weight: 700; }
+  .gap-reason {
+    font-size: 12px; color: #555; line-height: 1.7; text-align: center; max-width: 600px; margin: 0 auto;
+  }
+
+  /* All-In Cost Breakdown — visual stack */
+  .all-in-stack {
+    display: grid; grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr; gap: 14px; align-items: center;
+    background: #fffbf0; border: 2px solid #e8a020; border-radius: 8px;
+    padding: 22px 24px; margin-bottom: 24px;
+  }
+  .ais-cell { text-align: center; }
+  .ais-num { font-size: 28px; font-weight: 900; color: #1a2b3c; line-height: 1; letter-spacing: -.5px; }
+  .ais-num.zero { color: #1e7e34; }
+  .ais-num.total { color: #b07700; font-size: 34px; }
+  .ais-lbl { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: .8px; margin-top: 6px; font-weight: 700; }
+  .ais-sym { font-size: 22px; font-weight: 900; color: #999; }
+  @media (max-width: 720px) {
+    .all-in-stack { grid-template-columns: 1fr; gap: 8px; }
+    .all-in-stack .ais-sym { display: none; }
+  }
+
+  /* Wrap waterfall */
+  .wrap-waterfall { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 16px; }
+  .wf-card { border: 1px solid #e0e0e0; border-radius: 6px; padding: 16px 18px; }
+  .wf-card.buy  { border-top: 4px solid #1a2b3c; }
+  .wf-card.sell { border-top: 4px solid #e8a020; background: #fffbf0; }
+  .wf-card h5 { font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px; color: #888; margin-bottom: 10px; }
+
+  .lc-table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 12px; }
+  .lc-table th { background: #1a2b3c; color: white; padding: 8px 10px; text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
+  .lc-table th.right { text-align: right; }
+  .lc-table td { padding: 9px 10px; border-bottom: 1px solid #eee; font-size: 12px; }
+  .lc-table td.right { text-align: right; font-weight: 700; }
+  .lc-table tr.good td { background: #f4faf5; }
+  .lc-table tr.bad td { background: #fff0f0; }
+  .lc-table .verdict-cell { font-weight: 700; font-size: 11px; }
+  .lc-table .verdict-cell.good { color: #1e7e34; }
+  .lc-table .verdict-cell.bad { color: #8b0000; }
+
+  /* ── EXPENSE TABLE ──────────────────────── */
+  table.exp-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 12px; }
+  .exp-table th { background: #1a2b3c; color: white; padding: 9px 12px; text-align: left; font-size: 9px; text-transform: uppercase; letter-spacing: 1px; }
+  .exp-table th.right { text-align: right; }
+  .exp-table td { padding: 9px 12px; border-bottom: 1px solid #eee; }
+  .exp-table td.right { text-align: right; font-weight: 600; }
+  .exp-table tr.section-hdr td { background: #f0f2f5; color: #555; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; padding: 6px 12px; }
+  .exp-table tr.subtotal td { background: #fffbf0; font-weight: 700; }
+  .exp-table tr.total-row td { background: #1a2b3c; color: white; font-weight: 700; font-size: 13px; }
+  .exp-table tr.total-row td.right { color: #ef9a9a; }
+  .note-cell { font-size: 11px; color: #888; }
+
+  /* ── YEAR TABLE ─────────────────────────── */
+  table.year-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 20px; }
+  .year-table th { background: #1a2b3c; color: white; padding: 10px 14px; text-align: right; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
+  .year-table th:first-child { text-align: left; }
+  .year-table td { padding: 10px 14px; border-bottom: 1px solid #eee; text-align: right; }
+  .year-table td:first-child { text-align: left; color: #555; }
+  .year-table tr.hl td { background: #fffbf0; font-weight: 700; }
+  .year-table tr.hl td:first-child { color: #1a2b3c; }
+  .year-table tr.cumrow td { background: #e8f4ea; font-weight: 700; }
+  .year-table tr.cumrow td:first-child { color: #1e7e34; }
+
+  /* ── FLAGS ──────────────────────────────── */
+  .flag-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+  .flag-card { border: 1px solid #e0e0e0; border-radius: 6px; padding: 14px 16px; display: flex; gap: 12px; align-items: flex-start; }
+  .flag-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; }
+  .flag-dot.red    { background: #dc3545; }
+  .flag-dot.orange { background: #e8a020; }
+  .flag-dot.green  { background: #1e7e34; }
+  .flag-title { font-weight: 700; font-size: 13px; color: #1a2b3c; margin-bottom: 3px; }
+  .flag-text  { font-size: 12px; color: #555; line-height: 1.6; }
+
+  /* ── ASSUMPTION BADGE ───────────────────── */
+  .assumption-banner {
+    background: #f0f2f5; border: 1px solid #ccc; border-radius: 6px;
+    padding: 10px 16px; margin-bottom: 20px; font-size: 11px; color: #555;
+    display: flex; align-items: flex-start; gap: 10px;
+  }
+  .assumption-banner .ab-label {
+    font-weight: 900; color: #b07700; text-transform: uppercase;
+    font-size: 10px; letter-spacing: 1px; flex-shrink: 0; padding-top: 1px;
+  }
+
+  /* ── DECISION BOX ───────────────────────── */
+  .decision-box { background: #1a2b3c; border-radius: 8px; padding: 24px 28px; margin-top: 24px; }
+  .decision-box h4 { color: #e8a020; font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 18px; }
+  .decision-item { display: flex; gap: 12px; padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,.08); }
+  .decision-item:last-child { border-bottom: none; }
+  .decision-num { font-size: 20px; font-weight: 900; color: #e8a020; line-height: 1; flex-shrink: 0; width: 28px; }
+  .dt-title { font-weight: 700; color: white; font-size: 13px; margin-bottom: 3px; }
+  .dt-body  { color: #aac4d8; font-size: 12px; line-height: 1.6; }
+
+  /* ── BACK NAV ───────────────────────────── */
+  .back-nav {
+    max-width: 1100px; margin: 0 auto; padding: 12px 40px 0;
+    font-size: 12px;
+  }
+  .back-nav a { color: #1a2b3c; text-decoration: none; font-weight: 700; }
+  .back-nav a:hover { color: #e8a020; }
+
+  /* ── PAGE FOOT ──────────────────────────── */
+  .page-foot { margin-top: 24px; padding-top: 10px; border-top: 1px solid #eee; font-size: 10px; color: #bbb; text-align: center; letter-spacing: 1px; }
+
+  /* ── MOBILE ──────────────────────────────── */
+  @media (max-width: 720px) {
+    .cover-photo-ph { height: 280px; }
+    .cover-text { padding: 18px 20px 22px; }
+    .cover-text h1 { font-size: 22px; }
+    .cover-top { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .cover-top-r { text-align: left; }
+    .section { padding: 24px 20px; }
+    .two-col, .three-col, .cf-grid, .wrap-waterfall { grid-template-columns: 1fr; }
+    .exit-comparison { grid-template-columns: 1fr 1fr; }
+    .winner-stats { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .winner-stat:nth-child(n+4) { border-right: none; }
+    .exit-metrics-row { grid-template-columns: 1fr 1fr; }
+    .exit-head { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .exit-head-r { width: 100%; justify-content: space-between; }
+    .flag-grid { grid-template-columns: 1fr; }
+  }
   @media print {
     body { background: white; }
     .cover, .section { max-width: 100%; }
+    .back-nav { display: none; }
+    details > .exit-deep { display: block !important; }
     @page { margin: .4in; }
   }
 </style>
 </head>
 <body>
 
-<!-- ══════════════════════════════════════════
+<!-- BACK NAV -->
+<div class="back-nav">
+  <a href="index.html">&larr; All Active Deals</a>
+</div>
+
+<!-- ══════════════════════════════════════════════════
      COVER
-══════════════════════════════════════════ -->
+═══════════════════════════════════════════════════ -->
 <div class="cover">
-  <div class="cover-eyebrow">Confidential · For Review by Steve Levy</div>
-  <h1>Park Avenue MHP<br>Deal Review</h1>
-  <h2>13-Unit Rent-to-Own Portfolio · Sanford FL 32771</h2>
-  <div class="cover-rule"></div>
-  <div class="cover-meta">
-    <strong>Prepared by:</strong> Jerel Williams (Jay) &nbsp;·&nbsp;
-    <strong>Date:</strong> March 2026 &nbsp;·&nbsp;
-    <strong>Structure:</strong> Rent-to-Own · 55+ HOPA Community
+  <!-- TODO: Replace gradient with aerial photo or park entrance shot of Park Avenue MHP, Sanford FL 32771 -->
+  <div class="cover-photo-ph">
+    <div class="cover-photo-placeholder-text">
+      <strong>Park Avenue MHP &middot; Sanford FL</strong>
+      [Photo placeholder — add aerial or entrance shot]<br>
+      55+ Community &middot; Seminole County &middot; 1.5 mi from St. Johns River
+    </div>
   </div>
+  <div class="cover-text">
 
-  <div class="stat-row">
-    <div class="stat-cell"><div class="stat-num">13</div><div class="stat-lbl">Units Reviewed</div></div>
-    <div class="stat-cell"><div class="stat-num">4</div><div class="stat-lbl">List Now</div></div>
-    <div class="stat-cell"><div class="stat-num">4</div><div class="stat-lbl">Prep &amp; List</div></div>
-    <div class="stat-cell"><div class="stat-num">2</div><div class="stat-lbl">Roofer Specials</div></div>
-  </div>
+    <div class="cover-top">
+      <div class="cover-top-l">
+        <div class="cover-eyebrow">Multi-Exit Deal Analyzer &middot; Jerel Williams</div>
+        <h1>Park Avenue MHP</h1>
+        <h2>Sanford FL 32771 &middot; 13-Unit Mobile Home Portfolio &middot; 55+ HOPA Community</h2>
+      </div>
+      <div class="cover-top-r">
+        <div><strong>Structure:</strong> Steve Levy Partnership &middot; Rent-to-Own Sales</div>
+        <div><strong>Group A Ad:</strong> LIVE &mdash; demand confirmed</div>
+        <div><strong>Updated:</strong> April 2026</div>
+      </div>
+    </div>
 
-  <div class="legend">
-    <span class="leg leg-a">🟢 Premium — Grade A</span>
-    <span class="leg leg-b">🟡 Fast Mover — Grade B</span>
-    <span class="leg leg-c">🟠 Builder — Grade C</span>
-    <span class="leg leg-d">🔴 Roofer Special — Grade D</span>
+    <div class="stat-row">
+      <div class="stat-cell"><div class="stat-num">13</div><div class="stat-lbl">Total Lots</div></div>
+      <div class="stat-cell"><div class="stat-num">$600</div><div class="stat-lbl">Lot Rent/mo</div></div>
+      <div class="stat-cell"><div class="stat-num">$6,825</div><div class="stat-lbl">RTO Flow/mo*</div></div>
+      <div class="stat-cell"><div class="stat-num">$67K+</div><div class="stat-lbl">Down Payments</div></div>
+      <div class="stat-cell"><div class="stat-num">$452K</div><div class="stat-lbl">Note Portfolio</div></div>
+    </div>
+
+    <div class="type-badge">&#9733; Recommended Exit: RTO Sales Program &mdash; 13 Units</div>
+    <div style="font-size:10px; color:#7fb3d3; margin-top:8px;">* RTO monthly payment income only (excludes lot rent paid directly to park). Conservative: 80% performing. ASSUMED — pending full walkthrough.</div>
   </div>
 </div>
 
 
-<!-- ══════════════════════════════════════════
-     SANFORD MARKET COMPS
-══════════════════════════════════════════ -->
+<!-- ══════════════════════════════════════════════════
+     PAGE 1 — DEAL OVERVIEW
+═══════════════════════════════════════════════════ -->
 <div class="section">
   <div class="page-hdr">
-    <h2>Sanford Market Comps</h2>
-    <span>Why our pricing works</span>
+    <h2>Deal Overview</h2>
+    <span>Property &middot; Partnership &middot; Comps</span>
   </div>
 
-  <div class="comp-grid">
-    <div class="comp-card">
-      <h4>Apartment Rents — Sanford FL 32771 · 2026</h4>
-      <div class="comp-row"><span class="label" style="font-style:italic;color:#888">— Affordable / Non-Luxury —</span><span class="value"></span></div>
-      <div class="comp-row"><span class="label">1BR — Affordable (older, basic)</span><span class="value">$1,225–$1,400/mo</span></div>
-      <div class="comp-row"><span class="label">2BR — Affordable (standard, non-luxury)</span><span class="value">$1,450–$1,650/mo</span></div>
-      <div class="comp-row"><span class="label" style="font-style:italic;color:#888">— All-Class Average —</span><span class="value"></span></div>
-      <div class="comp-row"><span class="label">1BR — Sanford average</span><span class="value">$1,520–$1,550/mo</span></div>
-      <div class="comp-row"><span class="label">2BR — Sanford average</span><span class="value">$1,750–$1,850/mo</span></div>
+  <div class="assumption-banner">
+    <span class="ab-label">Data Note</span>
+    <span>This analyzer is built on the best available data as of April 2026. 4+ lots still require Steve's walkthrough data — individual unit condition grades, exact square footage, and per-lot cost basis are ASSUMED from portfolio averages. Assumptions are marked where used. All financial projections use midpoint estimates from the RTO playbook until verified.</span>
+  </div>
+
+  <div class="two-col">
+    <div class="info-card">
+      <h4>Property Details</h4>
+      <div class="info-row"><span class="lbl">Community Name</span><span class="val">Park Avenue MHP</span></div>
+      <div class="info-row"><span class="lbl">Address</span><span class="val">Park Avenue, Sanford FL 32771</span></div>
+      <div class="info-row"><span class="lbl">County</span><span class="val">Seminole County (FL #1 school district)</span></div>
+      <div class="info-row"><span class="lbl">Type</span><span class="val gold">55+ HOPA Community &middot; Owner-Financed MH</span></div>
+      <div class="info-row"><span class="lbl">Total Units</span><span class="val">13 mobile homes (RTO portfolio)</span></div>
+      <div class="info-row"><span class="lbl">Lot Rent</span><span class="val">$600/mo &mdash; includes water, sewer, lawn, landscaping</span></div>
+      <div class="info-row"><span class="lbl">Buyer Pays</span><span class="val orange">Electric only (~$100&ndash;$200/mo est.)</span></div>
+      <div class="info-row"><span class="lbl">Title Transfer</span><span class="val orange">DHSMV title (not deed) at final RTO payment</span></div>
+      <div class="info-row"><span class="lbl">River Proximity</span><span class="val green">1.5 miles from St. Johns River</span></div>
+      <div class="info-row"><span class="lbl">Ad Status</span><span class="val green">Group A ad LIVE &mdash; demand confirmed</span></div>
     </div>
-    <div class="comp-card">
-      <h4>HUD Fair Market Rents — Seminole County (FY 2026)</h4>
-      <div class="comp-row"><span class="label">1-Bedroom FMR</span><span class="value">$1,731/mo</span></div>
-      <div class="comp-row"><span class="label">2-Bedroom FMR</span><span class="value">$1,972/mo</span></div>
-      <div class="comp-row"><span class="label">Section 8 avg payment (Sanford)</span><span class="value">$1,100/mo</span></div>
-      <div class="comp-row"><span class="label">1BR house rent — 32771</span><span class="value">~$1,200/mo</span></div>
-      <div class="comp-row"><span class="label">2BR house rent — 32771</span><span class="value">~$1,600/mo</span></div>
+
+    <div class="info-card">
+      <h4>Steve Levy Partnership Terms</h4>
+      <div class="info-row"><span class="lbl">Seller / Partner</span><span class="val">Steve Levy</span></div>
+      <div class="info-row"><span class="lbl">Structure</span><span class="val">Jay markets &amp; sells via RTO; Steve holds park interest</span></div>
+      <div class="info-row"><span class="lbl">Pricing Method</span><span class="val gold">7% ROI on home value (VERIFIED framework)</span></div>
+      <div class="info-row"><span class="lbl">Price Example (Cat A $35K home)</span><span class="val">$35K &times; 7% &divide; 12 = $204/mo RTO payment</span></div>
+      <div class="info-row"><span class="lbl">Ad Groups Agreed</span><span class="val green">3 groups &mdash; confirmed Jay + Steve 2026-03-25</span></div>
+      <div class="info-row"><span class="lbl">Group 1 (lots 16,31,103,14,9)</span><span class="val">Move-in ready / premium</span></div>
+      <div class="info-row"><span class="lbl">Group 2 (lots 30,80,7,94,90,55)</span><span class="val">Clean &amp; move-in, lower barrier</span></div>
+      <div class="info-row"><span class="lbl">Group 3 (lots 22,92)</span><span class="val orange">Rehabber Special &mdash; assess first</span></div>
+      <div class="info-row"><span class="lbl">Lots Still Needing Walkthrough</span><span class="val red">4+ lots &mdash; pricing TBD</span></div>
     </div>
   </div>
 
-  <div class="advantage-box">
-    <div class="adv-cell">
-      <div class="adv-num">$1,075–$1,350</div>
-      <div class="adv-lbl">Our buyer all-in range<br>(Builder → Premium)</div>
-    </div>
-    <div class="adv-cell">
-      <div class="adv-num">$300–$575/mo</div>
-      <div class="adv-lbl">Below cheapest Sanford 2BR apt<br>($1,450 affordable · $1,850 avg)</div>
-    </div>
-    <div class="adv-cell">
-      <div class="adv-num">Own, Don't Rent</div>
-      <div class="adv-lbl">No credit check · No bank<br>Equity path · Water/sewer incl.</div>
-    </div>
+  <!-- ALL-IN COST BREAKDOWN -->
+  <h4 style="font-size:11px; color:#555; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">What Capital Is Required &mdash; Marketing &amp; Setup (ASSUMED)</h4>
+  <div class="all-in-stack">
+    <div class="ais-cell"><div class="ais-num zero">$0</div><div class="ais-lbl">Purchase / Down</div></div>
+    <div class="ais-sym">+</div>
+    <div class="ais-cell"><div class="ais-num">~$3,000</div><div class="ais-lbl">Marketing Costs</div></div>
+    <div class="ais-sym">+</div>
+    <div class="ais-cell"><div class="ais-num">~$2,000</div><div class="ais-lbl">Legal (contracts)</div></div>
+    <div class="ais-sym">=</div>
+    <div class="ais-cell"><div class="ais-num total">~$5K</div><div class="ais-lbl">Total All-In (Jay's Capital)</div></div>
+  </div>
+  <div style="font-size:11px; color:#888; margin-top:-16px; margin-bottom:24px;">Jay does not purchase the homes outright. Steve Levy retains the homes; Jay sells via RTO and collects spread. Capital requirement is marketing + legal only. Steve's walkthrough pricing call required to finalize per-lot terms.</div>
+
+  <div class="info-card" style="border-top-color:#e8a020;">
+    <h4>Market Comps &mdash; Sanford 32771 &amp; Central FL MHP RTO Context</h4>
+    <div class="info-row"><span class="lbl">Sanford 1BR Apt Rent</span><span class="val">$1,225&ndash;$1,400/mo (comparable housing, zero equity)</span></div>
+    <div class="info-row"><span class="lbl">Sanford 2BR Apt Rent</span><span class="val">$1,450&ndash;$1,650/mo</span></div>
+    <div class="info-row"><span class="lbl">HUD FMR (Seminole County)</span><span class="val">1BR $1,731 / 2BR $1,972</span></div>
+    <div class="info-row"><span class="lbl">Competing MH Parks Lot Rent</span><span class="val orange">$700&ndash;$900+/mo (water/sewer often extra)</span></div>
+    <div class="info-row"><span class="lbl">Park Avenue Lot Rent Advantage</span><span class="val green">$100&ndash;$300/mo cheaper all-in vs. competing parks</span></div>
+    <div class="info-row"><span class="lbl">Carriage Cove (0.4mi to river)</span><span class="val">Double-wides $90K&ndash;$125K (2003&ndash;2006 vintage)</span></div>
+    <div class="info-row"><span class="lbl">RTO Monthly (all-in) vs. Renting</span><span class="val green">$950&ndash;$1,375/mo all-in (saves $100&ndash;$700/mo vs. renting)</span></div>
+    <div class="info-row"><span class="lbl">Performing MH Note Sale (if bulk exit)</span><span class="val">60&ndash;80 cents on dollar &mdash; $452K portfolio &times; 0.70 = ~$316K lump sum</span></div>
+    <div class="info-row"><span class="lbl">Comparable RTO Program CoC</span><span class="val green">Semi-passive after 90-day launch &mdash; industry benchmark: $5K&ndash;$8K/mo performing portfolio</span></div>
   </div>
 
-  <p style="margin-top:16px; font-size:12px; color:#666; line-height:1.6;">
-    <strong>Buyer all-in = RTO payment + $600 lot rent + ~$150 electric. Water, sewer &amp; lawn included in lot rent.</strong>
-    Here's what renters in Sanford are up against right now. The cheapest non-luxury 2BR apartment in 32771 starts at $1,450/mo. Most run $1,600 to $1,850 — and that's before water, electric, or lawn. Our buyers pay $1,075–$1,350/mo all-in, everything included. That's $300–$575 less per month than a basic apartment — and they own something at the end of it. No bank said yes to them. No credit check let them through. They just need someone willing to do owner financing. That's the product. And the market is full of qualified buyers.
-  </p>
-
-  <div class="page-foot">Park Avenue MHP · Market Comps · Sanford FL · March 2026</div>
+  <div class="page-foot">Park Avenue MHP &middot; Sanford FL &middot; RE_OS Deal File &middot; Page 1 of 5</div>
 </div>
 
 
-<!-- ══════════════════════════════════════════
-     PORTFOLIO SUMMARY TABLE
-══════════════════════════════════════════ -->
+<!-- ══════════════════════════════════════════════════
+     PAGE 2 — EXIT STRATEGY ANALYZER
+═══════════════════════════════════════════════════ -->
 <div class="section">
   <div class="page-hdr">
-    <h2>Portfolio Summary</h2>
-    <span>All 13 Units at a Glance</span>
+    <h2>Exit Strategy Analyzer</h2>
+    <span>4 Ways to Work This Deal &middot; Glance + Click for Detail</span>
   </div>
 
-  <table class="master">
+  <!-- WINNER HERO -->
+  <div class="winner-hero">
+    <div class="winner-eyebrow">&#9733; Recommended Exit</div>
+    <div class="winner-title">RTO Sales Program &mdash; 13 Units</div>
+
+    <div class="winner-stats">
+      <div class="winner-stat">
+        <div class="ws-num green">$6,825</div>
+        <div class="ws-lbl">RTO Flow/mo (80% perf.)</div>
+      </div>
+      <div class="winner-stat">
+        <div class="ws-num green">$67K+</div>
+        <div class="ws-lbl">Down Payments (est.)</div>
+      </div>
+      <div class="winner-stat">
+        <div class="ws-num">$452K</div>
+        <div class="ws-lbl">Note Portfolio Value</div>
+      </div>
+      <div class="winner-stat">
+        <div class="ws-num">~$5K</div>
+        <div class="ws-lbl">Jay's Capital In</div>
+      </div>
+      <div class="winner-stat">
+        <div class="ws-num green">$313K</div>
+        <div class="ws-lbl">3-Yr Cumulative (est.)</div>
+      </div>
+    </div>
+
+    <div class="winner-why">
+      <strong>Why this wins:</strong> Jay markets and sells 13 homes via RTO at 7% ROI pricing. No purchase required &mdash; Steve holds the homes, Jay earns the spread. Down payments ($67K est.) recapture capital immediately. Monthly RTO flow of $7,500/mo (all performing) becomes ~$6,000/mo at 80% performance rate. <strong>Defaults are profit events</strong> &mdash; Jay keeps down payment, re-sells with new down. Conservative 3-year view: $313K cumulative. Group A ad is LIVE proving buyer demand. No other exit generates this return without acquiring the park outright.
+    </div>
+  </div>
+
+  <!-- ALL 4 AT A GLANCE -->
+  <div class="exit-comparison">
+
+    <div class="exit-card go">
+      <div class="ec-icon">&#9733;</div>
+      <span class="ec-verdict go">Go</span>
+      <div class="ec-name">RTO Sales<br>Program</div>
+      <div class="ec-coc green">$6,825</div>
+      <div class="ec-coc-lbl">RTO Flow/mo (80%)</div>
+      <div class="ec-mocf">$67K Down Pmts</div>
+      <div class="ec-mocf-lbl">Year 1 capital event</div>
+    </div>
+
+    <div class="exit-card strong">
+      <div class="ec-icon">&#9651;</div>
+      <span class="ec-verdict strong">Fallback</span>
+      <div class="ec-name">Bulk Note Sale<br>to MHP Investor</div>
+      <div class="ec-coc amber">~$316K</div>
+      <div class="ec-coc-lbl">Lump Sum @ 70&cent;</div>
+      <div class="ec-mocf">One-time exit</div>
+      <div class="ec-mocf-lbl">Sacrifices monthly flow</div>
+    </div>
+
+    <div class="exit-card pass">
+      <div class="ec-icon">&#10005;</div>
+      <span class="ec-verdict pass">Pass</span>
+      <div class="ec-name">Wholesale<br>Assignment</div>
+      <div class="ec-coc muted">&mdash;</div>
+      <div class="ec-coc-lbl">No assignable spread</div>
+      <div class="ec-mocf" style="color:#999;">$0/mo</div>
+      <div class="ec-mocf-lbl">Jay lacks park title</div>
+    </div>
+
+    <div class="exit-card strong">
+      <div class="ec-icon">&#9646;</div>
+      <span class="ec-verdict strong">Compare</span>
+      <div class="ec-name">Lot Rental Hold<br>$600 &times; 13</div>
+      <div class="ec-coc amber">$7,800</div>
+      <div class="ec-coc-lbl">Gross Lot Rent/mo</div>
+      <div class="ec-mocf">Steve's play, not Jay's</div>
+      <div class="ec-mocf-lbl">Jay earns 0 without partnership</div>
+    </div>
+
+  </div>
+
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- DETAIL PANEL: RTO SALES (GO) -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="exit-panel go">
+    <div class="exit-head">
+      <div class="exit-head-l">
+        <span class="icon">&#9733;</span>
+        <div>
+          <h3>Exit A &mdash; RTO Sales Program</h3>
+          <div class="sub">13 Lots &middot; 7% ROI Pricing &middot; Title Transfers at Final Payment &middot; Lease-Option Structure</div>
+        </div>
+      </div>
+      <div class="exit-head-r">
+        <div class="ehr-stat"><div class="ehr-num green">$7,500</div><div class="ehr-lbl">Mo Flow (100%)</div></div>
+        <div class="ehr-stat"><div class="ehr-num green">$6,000</div><div class="ehr-lbl">Mo Flow (80%)</div></div>
+        <div class="ehr-stat"><div class="ehr-num">$67K</div><div class="ehr-lbl">Downs Est.</div></div>
+      </div>
+    </div>
+    <div class="exit-body">
+
+      <div class="exit-metrics-row">
+        <div class="em-cell green"><div class="em-num green">$7,500</div><div class="em-lbl">Mo RTO Flow (all)</div></div>
+        <div class="em-cell green"><div class="em-num green">$67,400</div><div class="em-lbl">Down Pmts (est.)</div></div>
+        <div class="em-cell"><div class="em-num">$452K</div><div class="em-lbl">Note Portfolio</div></div>
+        <div class="em-cell amber"><div class="em-num amber">~$5K</div><div class="em-lbl">Jay's Capital</div></div>
+        <div class="em-cell green"><div class="em-num green">$313K</div><div class="em-lbl">3-Yr Cumulative</div></div>
+      </div>
+
+      <div class="risk-chips" style="margin-bottom: 22px;">
+        <span class="risk-chip green">&#10003; Group A ad LIVE &mdash; buyer demand proven</span>
+        <span class="risk-chip green">&#10003; Defaults = profit events (re-sell with new down)</span>
+        <span class="risk-chip green">&#10003; Lowest lot rent in Sanford ($600 incl. water/sewer)</span>
+        <span class="risk-chip amber">&#9888; 4+ lots still need walkthrough data</span>
+        <span class="risk-chip amber">&#9888; Title (not deed) = DHSMV process at payoff</span>
+        <span class="risk-chip amber">&#9888; FL attorney-reviewed lease-option required before marketing</span>
+      </div>
+
+      <!-- PER-LOT RTO TABLE — ALWAYS VISIBLE -->
+      <div class="rto-table-wrap">
+        <h5>Per-Lot &amp; Per-Group RTO Pricing Table <span class="always-pill">Always Visible</span></h5>
+        <p style="font-size:11px; color:#888; margin-bottom:14px;">Pricing based on 7% ROI on home value (verified framework). Monthly RTO = home value &times; 7% &divide; 12. Buyer also pays $600/mo lot rent + electric directly to park. ASSUMED grades pending full walkthrough.</p>
+
+        <table class="rto-lot-table">
+          <thead>
+            <tr>
+              <th>Lot</th>
+              <th>Grade / Tier</th>
+              <th>Est. Home Value</th>
+              <th class="right">Est. Down Pmt</th>
+              <th class="right">RTO Mo Payment</th>
+              <th class="right">Lot Rent</th>
+              <th class="right">Buyer All-In/mo</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- GROUP 1: READY TO GO -->
+            <tr class="group-hdr">
+              <td colspan="8">Group 1 &mdash; Ready to Go (Lots 16, 31, 103, 14, 9) &mdash; Ad LIVE</td>
+            </tr>
+            <tr>
+              <td>16</td>
+              <td>A &mdash; Premium</td>
+              <td>~$35,000 <span style="color:#888;font-size:10px;">ASSUMED</span></td>
+              <td class="right">~$5,000</td>
+              <td class="right" style="color:#1e7e34;font-weight:700;">~$204/mo</td>
+              <td class="right">$600</td>
+              <td class="right">~$954&ndash;$1,054</td>
+              <td><span style="color:#1e7e34;font-weight:700;">Ready</span></td>
+            </tr>
+            <tr>
+              <td>31</td>
+              <td>A &mdash; Premium</td>
+              <td>~$35,000 <span style="color:#888;font-size:10px;">ASSUMED</span></td>
+              <td class="right">~$5,000</td>
+              <td class="right" style="color:#1e7e34;font-weight:700;">~$204/mo</td>
+              <td class="right">$600</td>
+              <td class="right">~$954&ndash;$1,054</td>
+              <td><span style="color:#1e7e34;font-weight:700;">Ready</span></td>
+            </tr>
+            <tr>
+              <td>103</td>
+              <td>A &mdash; Premium</td>
+              <td>~$35,000 <span style="color:#888;font-size:10px;">ASSUMED</span></td>
+              <td class="right">~$5,000</td>
+              <td class="right" style="color:#1e7e34;font-weight:700;">~$204/mo</td>
+              <td class="right">$600</td>
+              <td class="right">~$954&ndash;$1,054</td>
+              <td><span style="color:#b07700;font-weight:700;">Yard cleanup needed</span></td>
+            </tr>
+            <tr>
+              <td>14</td>
+              <td>A &mdash; Premium</td>
+              <td>~$35,000 <span style="color:#888;font-size:10px;">ASSUMED</span></td>
+              <td class="right">~$5,000</td>
+              <td class="right" style="color:#1e7e34;font-weight:700;">~$204/mo</td>
+              <td class="right">$600</td>
+              <td class="right">~$954&ndash;$1,054</td>
+              <td><span style="color:#1e7e34;font-weight:700;">Ready</span></td>
+            </tr>
+            <tr>
+              <td>9</td>
+              <td>A &mdash; Premium</td>
+              <td>TBD <span style="color:#888;font-size:10px;">Steve to confirm cost basis</span></td>
+              <td class="right">TBD</td>
+              <td class="right" style="color:#b07700;font-weight:700;">TBD</td>
+              <td class="right">$600</td>
+              <td class="right">TBD</td>
+              <td><span style="color:#b07700;font-weight:700;">Confirm w/ Steve</span></td>
+            </tr>
+            <tr class="group-total">
+              <td colspan="3"><strong>Group 1 Subtotal (5 lots, excl. lot 9 TBD)</strong></td>
+              <td class="right">~$20,000</td>
+              <td class="right">~$816/mo</td>
+              <td class="right">&mdash;</td>
+              <td class="right">&mdash;</td>
+              <td></td>
+            </tr>
+
+            <!-- GROUP 2: CLEAN OUT & MOVE IN -->
+            <tr class="group-hdr">
+              <td colspan="8">Group 2 &mdash; Clean Out &amp; Move In (Lots 30, 80, 7, 94, 90, 55)</td>
+            </tr>
+            <tr>
+              <td>30</td>
+              <td>B &mdash; Fast Mover</td>
+              <td>~$25,000 <span style="color:#888;font-size:10px;">ASSUMED</span></td>
+              <td class="right">~$3,200</td>
+              <td class="right" style="color:#b07700;font-weight:700;">~$146/mo</td>
+              <td class="right">$600</td>
+              <td class="right">~$896&ndash;$996</td>
+              <td><span style="color:#1e7e34;">Ready</span></td>
+            </tr>
+            <tr>
+              <td>80</td>
+              <td>B &mdash; Fast Mover</td>
+              <td>~$22,000 <span style="color:#888;font-size:10px;">ASSUMED</span></td>
+              <td class="right">~$2,500</td>
+              <td class="right" style="color:#b07700;font-weight:700;">~$128/mo</td>
+              <td class="right">$600</td>
+              <td class="right">~$878&ndash;$978</td>
+              <td><span style="color:#b07700;">Window/porch repair + cleanout</span></td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td>B &mdash; Fast Mover</td>
+              <td>~$22,000 <span style="color:#888;font-size:10px;">ASSUMED</span></td>
+              <td class="right">~$2,500</td>
+              <td class="right" style="color:#b07700;font-weight:700;">~$128/mo</td>
+              <td class="right">$600</td>
+              <td class="right">~$878&ndash;$978</td>
+              <td><span style="color:#b07700;">Vegetation removal</span></td>
+            </tr>
+            <tr>
+              <td>94</td>
+              <td>B &mdash; Fast Mover</td>
+              <td>~$25,000 <span style="color:#888;font-size:10px;">ASSUMED</span></td>
+              <td class="right">~$3,000</td>
+              <td class="right" style="color:#b07700;font-weight:700;">~$146/mo</td>
+              <td class="right">$600</td>
+              <td class="right">~$896&ndash;$996</td>
+              <td><span style="color:#1e7e34;">Ready</span></td>
+            </tr>
+            <tr>
+              <td>90</td>
+              <td>B &mdash; Fast Mover</td>
+              <td>~$20,000 <span style="color:#888;font-size:10px;">ASSUMED</span></td>
+              <td class="right">~$2,000</td>
+              <td class="right" style="color:#b07700;font-weight:700;">~$117/mo</td>
+              <td class="right">$600</td>
+              <td class="right">~$867&ndash;$967</td>
+              <td><span style="color:#b07700;">Andrea cleanout</span></td>
+            </tr>
+            <tr>
+              <td>55</td>
+              <td>B &mdash; Fast Mover</td>
+              <td>~$20,000 <span style="color:#888;font-size:10px;">ASSUMED</span></td>
+              <td class="right">~$2,000</td>
+              <td class="right" style="color:#b07700;font-weight:700;">~$117/mo</td>
+              <td class="right">$600</td>
+              <td class="right">~$867&ndash;$967</td>
+              <td><span style="color:#b07700;">Andrea cleanout</span></td>
+            </tr>
+            <tr class="group-total">
+              <td colspan="3"><strong>Group 2 Subtotal (6 lots)</strong></td>
+              <td class="right">~$15,200</td>
+              <td class="right">~$782/mo</td>
+              <td class="right">&mdash;</td>
+              <td class="right">&mdash;</td>
+              <td></td>
+            </tr>
+
+            <!-- GROUP 3: REHABBER SPECIAL -->
+            <tr class="group-hdr">
+              <td colspan="8">Group 3 &mdash; Rehabber Special (Lots 22, 92) &mdash; Assess First</td>
+            </tr>
+            <tr>
+              <td>22</td>
+              <td>C/D &mdash; Builder</td>
+              <td>TBD <span style="color:#888;font-size:10px;">Roof assess required</span></td>
+              <td class="right">~$1,500</td>
+              <td class="right" style="color:#8b0000;font-weight:700;">~$100&ndash;$200/mo</td>
+              <td class="right">$600</td>
+              <td class="right">~$850&ndash;$950</td>
+              <td><span style="color:#8b0000;">Roof assessment needed</span></td>
+            </tr>
+            <tr>
+              <td>92</td>
+              <td>C/D &mdash; Builder</td>
+              <td>TBD <span style="color:#888;font-size:10px;">Roof assess required</span></td>
+              <td class="right">~$1,500</td>
+              <td class="right" style="color:#8b0000;font-weight:700;">~$100&ndash;$200/mo</td>
+              <td class="right">$600</td>
+              <td class="right">~$850&ndash;$950</td>
+              <td><span style="color:#8b0000;">Roof assessment needed</span></td>
+            </tr>
+            <tr class="group-total">
+              <td colspan="3"><strong>Group 3 Subtotal (2 lots &mdash; labor trade or as-is)</strong></td>
+              <td class="right">~$3,000</td>
+              <td class="right">~$200&ndash;$400/mo</td>
+              <td class="right">&mdash;</td>
+              <td class="right">&mdash;</td>
+              <td></td>
+            </tr>
+
+            <!-- PORTFOLIO TOTAL -->
+            <tr class="portfolio-total">
+              <td colspan="3"><strong>PORTFOLIO TOTAL (13 lots, midpoint estimates)</strong></td>
+              <td class="right"><strong style="color:#e8a020;">~$67,400</strong></td>
+              <td class="right"><strong style="color:#e8a020;">~$7,500/mo</strong></td>
+              <td class="right">&mdash;</td>
+              <td class="right">&mdash;</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="font-size:10px; color:#888; margin-top:10px;">All home values ASSUMED from playbook midpoints pending Steve's walkthrough. RTO payment = home value &times; 7% &divide; 12. Down payments use midpoint by tier: A=$5K, B=$2.5K, C/D=$1.5K. Lot 9 TBD per Steve.</div>
+      </div>
+
+      <!-- 3-SCENARIO RTO CASH FLOW -->
+      <h4 style="font-size:11px; color:#555; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">3 Performance Scenarios &mdash; Monthly RTO Income (Jay's Flow)</h4>
+      <div class="cf-grid">
+        <div class="cf-col con-col">
+          <h3>Conservative</h3>
+          <div class="cf-sub">70% performing &middot; 9 of 13 units</div>
+          <div class="li"><span class="ll">13 units @ $577/mo avg RTO</span><span class="lv">$7,500/mo gross</span></div>
+          <div class="li"><span class="ll">Performing rate</span><span class="lv">70%</span></div>
+          <div class="li"><span class="ll">Effective RTO income</span><span class="lv">$5,250/mo</span></div>
+          <div class="li divider"></div>
+          <div class="li"><span class="ll">Marketing &amp; management</span><span class="lv neg">&minus;$350</span></div>
+          <div class="li"><span class="ll">Legal / admin reserve</span><span class="lv neg">&minus;$150</span></div>
+          <div class="li"><span class="ll">Default recovery cost</span><span class="lv neg">&minus;$200</span></div>
+          <div class="li total"><span class="ll">Net RTO Flow</span><span class="lv pos">~$4,550/mo</span></div>
+          <div style="margin-top:10px; font-size:11px; color:#888;">Annual: ~$54,600 + re-sell downs</div>
+        </div>
+
+        <div class="cf-col mkt-col">
+          <h3>&#9733; Base Case</h3>
+          <div class="cf-sub">80% performing &middot; 10&ndash;11 of 13 units</div>
+          <div class="li"><span class="ll">13 units @ $577/mo avg RTO</span><span class="lv">$7,500/mo gross</span></div>
+          <div class="li"><span class="ll">Performing rate</span><span class="lv">80%</span></div>
+          <div class="li"><span class="ll">Effective RTO income</span><span class="lv">$6,000/mo</span></div>
+          <div class="li divider"></div>
+          <div class="li"><span class="ll">Marketing &amp; management</span><span class="lv neg">&minus;$350</span></div>
+          <div class="li"><span class="ll">Legal / admin reserve</span><span class="lv neg">&minus;$150</span></div>
+          <div class="li"><span class="ll">Default recovery cost</span><span class="lv neg">&minus;$175</span></div>
+          <div class="li total"><span class="ll">Net RTO Flow</span><span class="lv pos">~$5,325/mo</span></div>
+          <div style="margin-top:10px; font-size:11px; color:#888;">Annual: ~$63,900 + re-sell downs ~$10K/yr</div>
+        </div>
+
+        <div class="cf-col opt-col">
+          <h3>Optimistic</h3>
+          <div class="cf-sub">90% performing &middot; 12 of 13 units</div>
+          <div class="li"><span class="ll">13 units @ $577/mo avg RTO</span><span class="lv">$7,500/mo gross</span></div>
+          <div class="li"><span class="ll">Performing rate</span><span class="lv">90%</span></div>
+          <div class="li"><span class="ll">Effective RTO income</span><span class="lv">$6,750/mo</span></div>
+          <div class="li divider"></div>
+          <div class="li"><span class="ll">Marketing &amp; management</span><span class="lv neg">&minus;$350</span></div>
+          <div class="li"><span class="ll">Legal / admin reserve</span><span class="lv neg">&minus;$150</span></div>
+          <div class="li"><span class="ll">Default recovery cost</span><span class="lv neg">&minus;$100</span></div>
+          <div class="li total"><span class="ll">Net RTO Flow</span><span class="lv pos">~$6,150/mo</span></div>
+          <div style="margin-top:10px; font-size:11px; color:#888;">Annual: ~$73,800 + re-sell downs ~$5K/yr</div>
+        </div>
+      </div>
+
+      <div class="dark-box">
+        <h4>The Default Profit Engine &mdash; Why Non-Performance Isn&rsquo;t a Loss</h4>
+        <div class="dark-row"><span class="dlbl">Cat B buyer pays $2,500 down + 8 months &times; $128/mo = $1,024</span><span class="dval">$3,524 collected</span></div>
+        <div class="dark-row"><span class="dlbl">Buyer defaults &mdash; you keep all collected, get home back</span><span class="dval green">+$3,524 profit</span></div>
+        <div class="dark-row"><span class="dlbl">Re-sell same home &mdash; new $2,500 down + $128/mo</span><span class="dval green">+$2,500 new down</span></div>
+        <div class="dark-row" style="border-top:1px solid rgba(255,255,255,.2); margin-top:4px; padding-top:10px;"><span class="dlbl" style="color:white;font-weight:700;">Total from one unit before re-sell even performs again</span><span class="dval gold" style="font-size:16px;">$6,024</span></div>
+        <div class="dark-row" style="border-bottom:none;"><span class="dlbl">Portfolio at 2&ndash;3 defaults/yr</span><span class="dval green">+$8K&ndash;$15K bonus income/yr</span></div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- DETAIL PANEL: BULK NOTE SALE (FALLBACK) -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="exit-panel strong">
+    <div class="exit-head">
+      <div class="exit-head-l">
+        <span class="icon">&#9651;</span>
+        <div>
+          <h3>Exit B &mdash; Bulk Note Sale to MHP Investor</h3>
+          <div class="sub">Sell Performing RTO Contracts as a Note Portfolio &middot; One-Time Cash Exit</div>
+        </div>
+      </div>
+      <div class="exit-head-r">
+        <div class="ehr-stat"><div class="ehr-num green">~$316K</div><div class="ehr-lbl">Lump Sum @ 70&cent;</div></div>
+        <div class="ehr-stat"><div class="ehr-num green">Day 1</div><div class="ehr-lbl">Payback</div></div>
+        <div class="ehr-stat"><div class="ehr-num">Forfeits</div><div class="ehr-lbl">Monthly Flow</div></div>
+      </div>
+    </div>
+    <div class="exit-body">
+
+      <div class="exit-metrics-row">
+        <div class="em-cell green"><div class="em-num green">$452K</div><div class="em-lbl">Portfolio Face Value</div></div>
+        <div class="em-cell amber"><div class="em-num amber">70&cent;</div><div class="em-lbl">Note Buyer Rate</div></div>
+        <div class="em-cell green"><div class="em-num green">~$316K</div><div class="em-lbl">Lump Sum Cash</div></div>
+        <div class="em-cell"><div class="em-num">Day 1</div><div class="em-lbl">Payback</div></div>
+        <div class="em-cell red"><div class="em-num red">$0</div><div class="em-lbl">Ongoing Flow</div></div>
+      </div>
+
+      <div class="risk-chips">
+        <span class="risk-chip green">&#10003; Immediate capital event &mdash; $316K+ lump sum</span>
+        <span class="risk-chip green">&#10003; Eliminates default management &amp; collection ops</span>
+        <span class="risk-chip green">&#10003; Plus $67K down payments already collected</span>
+        <span class="risk-chip amber">&#9888; Forfeits ~$5,325/mo base case RTO flow</span>
+        <span class="risk-chip amber">&#9888; Must be fully performing before note buyer will buy at 70&cent;</span>
+        <span class="risk-chip amber">&#9888; Non-performing notes may only get 50&ndash;55&cent;</span>
+      </div>
+
+      <details>
+        <summary class="exit-detail-toggle" style="margin-top: 18px;">Bulk note sale math</summary>
+        <div class="exit-deep">
+          <table class="lc-table">
+            <thead>
+              <tr><th>Metric</th><th class="right">Value</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Total note portfolio face value</td><td class="right">$452,000</td><td>13 homes at midpoint RTO prices</td></tr>
+              <tr><td>Note buyer rate &mdash; performing (60&ndash;80&cent;)</td><td class="right">70&cent; midpoint</td><td>Industry standard for MH performing notes</td></tr>
+              <tr class="good"><td>Estimated lump sum</td><td class="right">~$316,400</td><td>$452K &times; 0.70</td></tr>
+              <tr><td>Down payments already collected</td><td class="right">~$67,400</td><td>Kept regardless of note sale</td></tr>
+              <tr class="good"><td>Total combined cash event</td><td class="right">~$383,800</td><td>Down pmts + note sale proceeds</td></tr>
+              <tr class="bad"><td>Monthly flow sacrificed</td><td class="right">$5,325/mo &times; 36 mo = $191,700</td><td>Base case 3-year flow given up</td></tr>
+            </tbody>
+          </table>
+          <div style="background:#fffbf0; border:1px solid #e8a020; border-radius:6px; padding:12px 16px; margin-top:14px; font-size:12px; color:#555; line-height:1.7;">
+            <strong>Why this is the fallback, not the winner:</strong> Bulk note sale generates a large capital event ($383K combined with downs) but permanently exits $5,325/mo of ongoing flow. Over 3 years, holding the notes generates $313K cumulative &mdash; plus Jay keeps the park relationship for future deal flow. Use bulk sale if: (a) capital is needed immediately for another deal, (b) operating overhead becomes unsustainable, or (c) Steve Levy's partnership terms change.
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- DETAIL PANEL: WHOLESALE (PASS) -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="exit-panel pass">
+    <div class="exit-head">
+      <div class="exit-head-l">
+        <span class="icon">&#10005;</span>
+        <div>
+          <h3>Exit C &mdash; Wholesale / Assignment</h3>
+          <div class="sub">No Assignable Interest &middot; Steve Levy Holds Park &middot; No Equity Spread for Jay</div>
+        </div>
+      </div>
+      <div class="exit-head-r">
+        <div class="ehr-stat"><div class="ehr-num muted">&mdash;</div><div class="ehr-lbl">Assignment Fee</div></div>
+        <div class="ehr-stat"><div class="ehr-num muted">$0</div><div class="ehr-lbl">Mo CF</div></div>
+        <div class="ehr-stat"><div class="ehr-num muted">N/A</div><div class="ehr-lbl">Payback</div></div>
+      </div>
+    </div>
+    <div class="exit-body">
+
+      <div class="gap-callout">
+        <div class="gap-callout-title">
+          <span class="gc-icon">&#10005;</span>
+          No Assignable Interest &mdash; Jay Cannot Wholesale the Park
+        </div>
+        <div class="gap-vs">
+          <div class="gap-side">
+            <div class="gap-side-num muted">$0</div>
+            <div class="gap-side-lbl">Jay&rsquo;s Assignable Equity</div>
+          </div>
+          <div class="gap-vs-sym">vs.</div>
+          <div class="gap-side">
+            <div class="gap-side-num">$15K+</div>
+            <div class="gap-side-lbl">Assignment Fee Needed</div>
+          </div>
+        </div>
+        <div class="gap-result">
+          <div class="gap-result-num">No Equity Spread &mdash; Pass</div>
+          <div class="gap-result-lbl">Jay holds no title or purchase contract to assign</div>
+        </div>
+        <div class="gap-reason">
+          Jay&rsquo;s role is RTO marketing partner, not contract holder or title owner. There is no assignable interest in Steve Levy&rsquo;s homes or land to wholesale. To generate cash from this deal, Jay must sell <strong>through</strong> the RTO program (Exit A) or sell the <strong>notes</strong> once created (Exit B). Wholesale assignment is structurally impossible without renegotiating to a purchase contract with Steve.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- DETAIL PANEL: TRADITIONAL LOT RENTAL (COMPARE) -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="exit-panel strong">
+    <div class="exit-head">
+      <div class="exit-head-l">
+        <span class="icon">&#9646;</span>
+        <div>
+          <h3>Exit D &mdash; Traditional Lot Rental Hold</h3>
+          <div class="sub">$600 Lot Rent &times; 13 Lots &middot; Steve&rsquo;s Play, Not Jay&rsquo;s &middot; Comparison Only</div>
+        </div>
+      </div>
+      <div class="exit-head-r">
+        <div class="ehr-stat"><div class="ehr-num amber">$7,800</div><div class="ehr-lbl">Gross Lot Rent/mo</div></div>
+        <div class="ehr-stat"><div class="ehr-num muted">$0</div><div class="ehr-lbl">Jay&rsquo;s Cut</div></div>
+        <div class="ehr-stat"><div class="ehr-num">Lower Risk</div><div class="ehr-lbl">vs. RTO</div></div>
+      </div>
+    </div>
+    <div class="exit-body">
+
+      <div class="exit-metrics-row">
+        <div class="em-cell"><div class="em-num">$7,800</div><div class="em-lbl">Gross Lot Rent/mo</div></div>
+        <div class="em-cell amber"><div class="em-num amber">~$4,600</div><div class="em-lbl">Est. Net (Steve)</div></div>
+        <div class="em-cell red"><div class="em-num red">$0</div><div class="em-lbl">Jay&rsquo;s Share</div></div>
+        <div class="em-cell"><div class="em-num">Lower</div><div class="em-lbl">Default Risk</div></div>
+        <div class="em-cell red"><div class="em-num red">No Upside</div><div class="em-lbl">For Jay Standalone</div></div>
+      </div>
+
+      <div style="background:#fafafa; border:1px solid #e0e0e0; border-radius:8px; padding:18px 20px; margin-bottom:18px;">
+        <div style="font-size:12px; color:#555; line-height:1.8;">
+          <strong style="color:#1a2b3c;">What &ldquo;just hold for lot rent&rdquo; looks like for Steve Levy:</strong><br>
+          13 lots &times; $600/mo = <strong>$7,800/mo gross lot rent</strong>. Less park operating costs (~$2,000&ndash;$3,000/mo estimated for Steve&rsquo;s expenses), Steve nets ~$4,600&ndash;$5,800/mo on a fully occupied park.<br><br>
+          <strong style="color:#8b0000;">Why this doesn&rsquo;t work for Jay without the partnership:</strong> Jay earns $0 from lot rent &mdash; that flows entirely to the park/Steve. Jay&rsquo;s value is <em>in</em> the RTO sales layer, not in the lot rent layer. The comparison exists to help Jay understand Steve&rsquo;s baseline: if Jay&rsquo;s RTO program fails to perform, Steve falls back to $4,600&ndash;$5,800/mo lot rent income with no action needed. Jay has a strong incentive to make the RTO work &mdash; it&rsquo;s the only path to Jay&rsquo;s income.
+        </div>
+      </div>
+
+      <table class="lc-table">
+        <thead>
+          <tr><th>Strategy</th><th class="right">Steve Monthly</th><th class="right">Jay Monthly</th><th>Best For</th></tr>
+        </thead>
+        <tbody>
+          <tr class="good"><td>Exit A: RTO Sales (base case)</td><td class="right">$7,800 lot rent (from RTO buyers)</td><td class="right" style="color:#1e7e34;font-weight:700;">~$5,325/mo</td><td class="verdict-cell good">Both &mdash; Jay + Steve win</td></tr>
+          <tr><td>Exit D: Lot Rental Hold only</td><td class="right">~$4,600&ndash;$5,800/mo net</td><td class="right" style="color:#8b0000;font-weight:700;">$0</td><td class="verdict-cell bad">Steve only &mdash; Jay earns nothing</td></tr>
+        </tbody>
+      </table>
+
+      <div style="background:#f4faf5; border:1px solid #c6e3ca; border-radius:6px; padding:12px 16px; margin-top:14px; font-size:12px; color:#155724; line-height:1.7;">
+        <strong>Key insight:</strong> The lot rental model is Steve&rsquo;s fallback floor &mdash; $4,600&ndash;$5,800/mo. RTO creates $7,500/mo in additional note income on top of lot rent (the buyers pay both). Jay earns $5,325/mo from RTO spread. Both parties are better off with RTO. Jay&rsquo;s pitch to Steve: &ldquo;You still get all 13 lot rents. I bring you buyers who pay both. You get paid twice per lot.&rdquo;
+      </div>
+
+    </div>
+  </div>
+
+  <div class="page-foot">Park Avenue MHP &middot; Sanford FL &middot; RE_OS Deal File &middot; Page 2 of 5</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 3 — OPEX BREAKDOWN
+═══════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="page-hdr">
+    <h2>Operating Expense Breakdown &mdash; RTO Program</h2>
+    <span>Per-Lot OpEx &middot; Jay&rsquo;s Cost to Run the Sales Program &middot; 13 Units</span>
+  </div>
+
+  <div class="assumption-banner">
+    <span class="ab-label">Assumed</span>
+    <span>OpEx estimates below are based on industry benchmarks for a 13-unit RTO marketing program in a 55+ community. Actual costs may vary once lot walkthrough data is complete and Steve&rsquo;s partnership terms are finalized. Lot repair costs (cleanouts, windows, vegetation) are assumed to be covered by Steve or deducted from Jay&rsquo;s share &mdash; confirm in writing.</span>
+  </div>
+
+  <div style="margin-bottom:28px;">
+    <div style="font-size:11px; font-weight:700; color:#555; text-transform:uppercase; letter-spacing:.8px; margin-bottom:12px;">Fixed Marketing &amp; Admin Expenses &mdash; Monthly (Jay&rsquo;s Program)</div>
+    <table class="exp-table">
+      <thead>
+        <tr>
+          <th style="width:30%;">Expense</th>
+          <th class="right" style="width:13%;">Per Month</th>
+          <th class="right" style="width:13%;">Per Year</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="section-hdr"><td colspan="4">Marketing &amp; Advertising</td></tr>
+        <tr><td>Facebook Marketplace &amp; Craigslist</td><td class="right" style="color:#8b0000;">&minus;$100</td><td class="right" style="color:#888;">&minus;$1,200</td><td class="note-cell">Boosted posts + refresh fees; base organic is free</td></tr>
+        <tr><td>MHVillage.com listing (paid)</td><td class="right" style="color:#8b0000;">&minus;$75</td><td class="right" style="color:#888;">&minus;$900</td><td class="note-cell">Targeted MH buyer audience</td></tr>
+        <tr><td>Bandit signs &amp; physical flyers</td><td class="right" style="color:#8b0000;">&minus;$75</td><td class="right" style="color:#888;">&minus;$900</td><td class="note-cell">Signs at park + 3&ndash;5 intersections</td></tr>
+        <tr><td>Bird dog referral fees</td><td class="right" style="color:#8b0000;">&minus;$100</td><td class="right" style="color:#888;">&minus;$1,200</td><td class="note-cell">Avg $350/placed buyer &times; 3&ndash;4 closings/yr amortized</td></tr>
+
+        <tr class="section-hdr"><td colspan="4">Administration &amp; Collections</td></tr>
+        <tr><td>Payment collection software (DoorLoop or ACH)</td><td class="right" style="color:#8b0000;">&minus;$50</td><td class="right" style="color:#888;">&minus;$600</td><td class="note-cell">Automated payment &amp; late fee tracking</td></tr>
+        <tr><td>Legal / contract review reserve</td><td class="right" style="color:#8b0000;">&minus;$100</td><td class="right" style="color:#888;">&minus;$1,200</td><td class="note-cell">FL attorney-reviewed lease-option template; ongoing compliance</td></tr>
+        <tr><td>Buyer screening (income verify)</td><td class="right" style="color:#8b0000;">&minus;$25</td><td class="right" style="color:#888;">&minus;$300</td><td class="note-cell">Background + income verification per applicant</td></tr>
+
+        <tr class="total-row">
+          <td>TOTAL FIXED PROGRAM OpEx</td>
+          <td class="right">&minus;$525</td>
+          <td class="right">&minus;$6,300</td>
+          <td class="note-cell" style="color:#aac4d8;">Jay&rsquo;s cost to run the RTO program</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="margin-bottom:28px;">
+    <div style="font-size:11px; font-weight:700; color:#555; text-transform:uppercase; letter-spacing:.8px; margin-bottom:12px;">Variable / Event-Driven Expenses</div>
+    <table class="exp-table">
+      <thead>
+        <tr>
+          <th style="width:30%;">Expense</th>
+          <th class="right" style="width:13%;">Per Event</th>
+          <th class="right" style="width:13%;">Annual Est.</th>
+          <th>Trigger</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Default recovery (eviction, legal)</td><td class="right" style="color:#8b0000;">&minus;$500</td><td class="right" style="color:#888;">&minus;$1,000</td><td class="note-cell">2 events/yr assumed; FL lease-option = ~15&ndash;30 day eviction</td></tr>
+        <tr><td>Unit turn &amp; re-sell prep (cosmetic)</td><td class="right" style="color:#8b0000;">&minus;$500</td><td class="right" style="color:#888;">&minus;$1,000</td><td class="note-cell">Per default unit re-listed; cleaning + minor touch-up</td></tr>
+        <tr><td>Title processing (DHSMV)</td><td class="right" style="color:#8b0000;">&minus;$150</td><td class="right" style="color:#888;">&minus;$300</td><td class="note-cell">At payoff; buyer applies for title transfer via DHSMV</td></tr>
+        <tr><td>Insurance (blanket policy on unsold units)</td><td class="right" style="color:#8b0000;">&minus;$150</td><td class="right" style="color:#888;">&minus;$1,800</td><td class="note-cell">Jay&rsquo;s exposure while homes are unsold or in RTO</td></tr>
+
+        <tr class="total-row">
+          <td>TOTAL VARIABLE (annual estimate)</td>
+          <td class="right">&mdash;</td>
+          <td class="right">&minus;$4,100</td>
+          <td class="note-cell" style="color:#aac4d8;">~$342/mo amortized</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="dark-box">
+    <h4>Total Program OpEx Summary &mdash; Base Case</h4>
+    <div class="dark-row"><span class="dlbl">Fixed program OpEx</span><span class="dval red">&minus;$525/mo</span></div>
+    <div class="dark-row"><span class="dlbl">Variable / event-driven (amortized)</span><span class="dval red">&minus;$342/mo</span></div>
+    <div class="dark-row" style="border-top:1px solid rgba(255,255,255,.2); margin-top:4px; padding-top:10px;">
+      <span class="dlbl" style="color:white; font-weight:700;">Total Jay Program OpEx</span>
+      <span class="dval red" style="font-size:16px;">&minus;$867/mo</span>
+    </div>
+    <div class="dark-row"><span class="dlbl">Gross RTO income (80% performing)</span><span class="dval">$6,000/mo</span></div>
+    <div class="dark-row"><span class="dlbl">OpEx as % of gross</span><span class="dval gold">14.5% of gross &mdash; very lean</span></div>
+    <div class="dark-row" style="border-bottom:none;">
+      <span class="dlbl" style="color:white; font-weight:700;">Net RTO Cash Flow</span>
+      <span class="dval green" style="font-size:16px;">~$5,133/mo</span>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="info-card">
+      <h4>Per-Lot Economics (Average)</h4>
+      <div class="info-row"><span class="lbl">Avg RTO payment per lot</span><span class="val">$577/mo (midpoint)</span></div>
+      <div class="info-row"><span class="lbl">Program OpEx per lot</span><span class="val orange">&minus;$67/mo allocated</span></div>
+      <div class="info-row"><span class="lbl">Net per lot (performing)</span><span class="val green">~$510/mo</span></div>
+      <div class="info-row"><span class="lbl">Lot rent (paid by buyer to park)</span><span class="val">$600/mo (Jay doesn&rsquo;t touch)</span></div>
+      <div class="info-row"><span class="lbl">Buyer total all-in</span><span class="val">$1,077&ndash;$1,327/mo</span></div>
+    </div>
+    <div class="info-card" style="border-top-color: #e8a020;">
+      <h4>Start-Up vs. Steady State</h4>
+      <div class="info-row"><span class="lbl">Launch phase (Months 1&ndash;3)</span><span class="val orange">Higher marketing spend ~$750/mo</span></div>
+      <div class="info-row"><span class="lbl">Steady state (Month 4+)</span><span class="val green">$525/mo fixed only</span></div>
+      <div class="info-row"><span class="lbl">Legal setup (one-time)</span><span class="val orange">~$2,000 (FL attorney template)</span></div>
+      <div class="info-row"><span class="lbl">Break-even on legal (1 down payment)</span><span class="val green">First closing recovers legal cost</span></div>
+      <div class="info-row"><span class="lbl">Marketing payback</span><span class="val green">Covered by first month&rsquo;s RTO flow</span></div>
+    </div>
+  </div>
+
+  <div class="page-foot">Park Avenue MHP &middot; Sanford FL &middot; RE_OS Deal File &middot; Page 3 of 5</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 4 — 5-YEAR PROJECTION
+═══════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="page-hdr">
+    <h2>5-Year Projection &mdash; RTO Sales Program</h2>
+    <span>Base Case &middot; 80% Performing &middot; $10K/yr Default Re-Sell Bonus &middot; ASSUMED</span>
+  </div>
+
+  <div class="assumption-banner">
+    <span class="ab-label">Assumed</span>
+    <span>All projections use midpoint estimates from the Grand Slam Offer playbook. Year 1 down payments collected at close ($67,400 estimated). Monthly flow ramps as units sell (not all 13 close simultaneously). Payoff events (buyouts by buyers at end of term) begin Year 4+ as early Cat A terms expire. Numbers are ASSUMED pending verified walkthrough data from Steve Levy.</span>
+  </div>
+
+  <table class="year-table">
     <thead>
-      <tr>
-        <th>Lot #</th>
-        <th>Grade</th>
-        <th>Tier</th>
-        <th>Condition / Key Note</th>
-        <th>Down Payment</th>
-        <th>Monthly RTO</th>
-        <th>Buyer All-In</th>
-        <th>Jay's Cut</th>
-        <th>Asking Price</th>
-        <th>Status</th>
-      </tr>
+      <tr><th>Metric</th><th>Year 1</th><th>Year 2</th><th>Year 3</th><th>Year 4</th><th>Year 5</th></tr>
     </thead>
     <tbody>
-      <tr>
-        <td><span class="lot-n">16</span></td>
-        <td><span class="g-a">A</span></td>
-        <td>Premium</td>
-        <td>2BR/1BA + Screen Room — Full gut renovation — best interior in portfolio</td>
-        <td class="price">$4,500</td>
-        <td class="price">$700/mo</td>
-        <td class="price">$1,450/mo</td>
-        <td class="price">$2,250</td>
-        <td class="price">$46,000</td>
-        <td><span class="badge b-ready">✅ List Now</span></td>
+      <tr><td>Units performing (of 13)</td><td>~10</td><td>~10.5</td><td>~11</td><td>~11</td><td>~11</td></tr>
+      <tr><td>Avg RTO payment / unit</td><td>$577</td><td>$585</td><td>$595</td><td>$605</td><td>$615</td></tr>
+      <tr><td>Gross RTO income</td><td>$5,770</td><td>$6,143</td><td>$6,545</td><td>$6,655</td><td>$6,765</td></tr>
+      <tr><td>Program OpEx</td><td>($867)</td><td>($842)</td><td>($820)</td><td>($800)</td><td>($780)</td></tr>
+      <tr><td>Default re-sell bonus</td><td>$10,000</td><td>$10,000</td><td>$10,000</td><td>$8,000</td><td>$6,000</td></tr>
+      <tr><td>Early buyout events (notes paid off)</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>~$20,000</td><td>~$35,000</td></tr>
+      <tr class="hl">
+        <td>Net Cash / Month (RTO flow only)</td>
+        <td style="color:#1e7e34;">$4,903</td>
+        <td style="color:#1e7e34;">$5,301</td>
+        <td style="color:#1e7e34;">$5,725</td>
+        <td style="color:#1e7e34;">$5,855</td>
+        <td style="color:#1e7e34;">$5,985</td>
       </tr>
-      <tr>
-        <td><span class="lot-n">31</span></td>
-        <td><span class="g-a">A</span></td>
-        <td>Premium</td>
-        <td>Full renovation — dark LVP, white kitchen, mini-split</td>
-        <td class="price">$3,000</td>
-        <td class="price">$575/mo</td>
-        <td class="price">$1,325/mo</td>
-        <td class="price">$1,500</td>
-        <td class="price">$36,000</td>
-        <td><span class="badge b-ready">✅ List Now</span></td>
-      </tr>
-      <tr>
-        <td><span class="lot-n">103</span></td>
-        <td><span class="g-a">A</span></td>
-        <td>Premium</td>
-        <td>Best bathroom in portfolio — 1hr yard cleanup needed</td>
-        <td class="price">$3,500</td>
-        <td class="price">$600/mo</td>
-        <td class="price">$1,350/mo</td>
-        <td class="price">$1,750</td>
-        <td class="price">$40,000</td>
-        <td><span class="badge b-prep">🧹 Yard Cleanup</span></td>
-      </tr>
-      <tr>
-        <td><span class="lot-n">14</span></td>
-        <td><span class="g-b">B</span></td>
-        <td>Fast Mover</td>
-        <td>Good shape, effective 1BR — no stove (hot plate), small 2nd room</td>
-        <td class="price">$2,000</td>
-        <td class="price">$375/mo</td>
-        <td class="price">$1,125/mo</td>
-        <td class="price">$1,000</td>
-        <td class="price">$24,000</td>
-        <td><span class="badge b-ready">✅ List Now (1BR)</span></td>
-      </tr>
-      <tr>
-        <td><span class="lot-n">9</span></td>
-        <td><span class="g-c">C</span></td>
-        <td>Builder</td>
-        <td>Compact single wide — dated but livable, lowest price point</td>
-        <td class="price">$1,000</td>
-        <td class="price">$350/mo</td>
-        <td class="price">$1,100/mo</td>
-        <td class="price">$500</td>
-        <td class="price">$15,000</td>
-        <td><span class="badge b-ready">✅ List Now</span></td>
-      </tr>
-      <tr>
-        <td><span class="lot-n">30</span></td>
-        <td><span class="g-b">B</span></td>
-        <td>Fast Mover</td>
-        <td>Good shape — used as materials storage; needs doors + cleanout</td>
-        <td class="price">$2,000–2,500</td>
-        <td class="price">$425–450/mo</td>
-        <td class="price">$1,175–1,200/mo</td>
-        <td class="price">$1,000–1,250</td>
-        <td class="price">$25,000</td>
-        <td><span class="badge b-andrea">🔧 Andrea Quote</span></td>
-      </tr>
-      <tr>
-        <td><span class="lot-n">80</span></td>
-        <td><span class="g-b">B</span></td>
-        <td>Fast Mover</td>
-        <td>Near-complete reno — full cleanout + spray white + exterior fix needed</td>
-        <td class="price">TBD</td>
-        <td class="price">TBD</td>
-        <td class="price">TBD</td>
-        <td class="price">TBD</td>
-        <td class="price">TBD</td>
-        <td><span class="badge b-andrea">🔧 Andrea Quote</span></td>
-      </tr>
-      <tr>
-        <td><span class="lot-n">94</span></td>
-        <td><span class="g-c">C</span></td>
-        <td>Builder</td>
-        <td>Partial reno — sagging porch roof, disclose before listing</td>
-        <td class="price">$1,500</td>
-        <td class="price">$375/mo</td>
-        <td class="price">$1,125/mo</td>
-        <td class="price">$750</td>
-        <td class="price">$18,000</td>
-        <td><span class="badge b-prep">⚠️ Disclose Porch</span></td>
-      </tr>
-      <tr>
-        <td><span class="lot-n">7</span></td>
-        <td><span class="g-c">C</span></td>
-        <td>Fast Mover</td>
-        <td>Original interior — vegetation into siding must be cleared first</td>
-        <td class="price">$1,500</td>
-        <td class="price">$400/mo</td>
-        <td class="price">$1,150/mo</td>
-        <td class="price">$750</td>
-        <td class="price">$18,000</td>
-        <td><span class="badge b-andrea">🌿 Andrea Quote</span></td>
-      </tr>
-      <tr>
-        <td><span class="lot-n">90</span></td>
-        <td><span class="g-c">C</span></td>
-        <td>Builder</td>
-        <td>Post-eviction — not occupied, full junk cleanout needed</td>
-        <td class="price">$1,000–1,500</td>
-        <td class="price">$350–375/mo</td>
-        <td class="price">$1,100–1,125/mo</td>
-        <td class="price">$500–750</td>
-        <td class="price">$14,000</td>
-        <td><span class="badge b-andrea">🔧 Andrea Quote</span></td>
-      </tr>
-      <tr>
-        <td><span class="lot-n">55</span></td>
-        <td><span class="g-c">C</span></td>
-        <td>Builder</td>
-        <td>Decent shape — junk cleanout, then ready to list</td>
-        <td class="price">$750–1,000</td>
-        <td class="price">$325–350/mo</td>
-        <td class="price">$1,075–1,100/mo</td>
-        <td class="price">$375–500</td>
-        <td class="price">$16,000</td>
-        <td><span class="badge b-andrea">🔧 Andrea Quote</span></td>
-      </tr>
-      <tr>
-        <td><span class="lot-n">22</span></td>
-        <td><span class="g-d">D</span></td>
-        <td>Roofer Special</td>
-        <td>Catastrophic water/mold — sell as-is to rehabber/roofer</td>
-        <td class="price">—</td>
-        <td class="price">—</td>
-        <td class="price">—</td>
-        <td class="price">Wholesale</td>
-        <td class="price">$5K–$8K</td>
-        <td><span class="badge b-hold">🔴 Sell to Rehabber</span></td>
-      </tr>
-      <tr>
-        <td><span class="lot-n">92</span></td>
-        <td><span class="g-d">D</span></td>
-        <td>Roofer Special</td>
-        <td>Severe water/mold — cleanout first, then sell as-is</td>
-        <td class="price">—</td>
-        <td class="price">—</td>
-        <td class="price">—</td>
-        <td class="price">Wholesale</td>
-        <td class="price">$5K–$8K</td>
-        <td><span class="badge b-hold">🔴 Sell to Rehabber</span></td>
+      <tr><td>Annual RTO Cash Flow</td><td>$58,836</td><td>$63,612</td><td>$68,700</td><td>$70,260</td><td>$71,820</td></tr>
+      <tr><td>Annual default re-sell</td><td>$10,000</td><td>$10,000</td><td>$10,000</td><td>$8,000</td><td>$6,000</td></tr>
+      <tr><td>Annual buyout proceeds</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>$20,000</td><td>$35,000</td></tr>
+      <tr><td>Annual Total (excl. Y1 downs)</td><td>$68,836</td><td>$73,612</td><td>$78,700</td><td>$98,260</td><td>$112,820</td></tr>
+      <tr><td>Down payments (Year 1 only)</td><td style="color:#1e7e34;">$67,400</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr class="cumrow">
+        <td>Cumulative Net (incl. downs)</td>
+        <td style="color:#1e7e34;">$136,236</td>
+        <td style="color:#1e7e34;">$209,848</td>
+        <td style="color:#1e7e34;">$288,548</td>
+        <td style="color:#1e7e34;">$386,808</td>
+        <td style="color:#1e7e34;">$499,628</td>
       </tr>
     </tbody>
   </table>
 
-  <div class="totals-bar">
-    <div><div class="tnum">$11–16K</div><div class="tlbl">Jay's Est. Cut (RTO units)</div></div>
-    <div><div class="tnum">4</div><div class="tlbl">Ready to List Now</div></div>
-    <div><div class="tnum">5</div><div class="tlbl">Andrea Quotes Needed</div></div>
-    <div><div class="tnum">$600/mo</div><div class="tlbl">Lot Rent (All Units)</div></div>
+  <div class="three-col">
+    <div class="dark-box" style="margin-bottom:0;">
+      <h4>Year 1 Capital Event</h4>
+      <div class="dark-row"><span class="dlbl">Down payments collected</span><span class="dval green">+$67,400</span></div>
+      <div class="dark-row"><span class="dlbl">Year 1 RTO flow</span><span class="dval green">+$58,836</span></div>
+      <div class="dark-row"><span class="dlbl">Default re-sells</span><span class="dval green">+$10,000</span></div>
+      <div class="dark-row" style="border-bottom:none;"><span class="dlbl">Year 1 Total</span><span class="dval gold">$136,236</span></div>
+    </div>
+    <div class="dark-box" style="margin-bottom:0;">
+      <h4>3-Year Position</h4>
+      <div class="dark-row"><span class="dlbl">Cumulative by Year 3</span><span class="dval green">+$288,548</span></div>
+      <div class="dark-row"><span class="dlbl">Notes still outstanding</span><span class="dval">$380K+ face</span></div>
+      <div class="dark-row" style="border-bottom:none;"><span class="dlbl">Option: sell notes for $266K</span><span class="dval gold">+$266K cash</span></div>
+    </div>
+    <div class="dark-box" style="margin-bottom:0;">
+      <h4>5-Year Compound</h4>
+      <div class="dark-row"><span class="dlbl">Cumulative to Year 5</span><span class="dval green">+$499,628</span></div>
+      <div class="dark-row"><span class="dlbl">Remaining notes payoff</span><span class="dval">~$200K+ face</span></div>
+      <div class="dark-row" style="border-bottom:none;"><span class="dlbl">Free homes to re-sell</span><span class="dval gold">Early payoffs re-list</span></div>
+    </div>
   </div>
 
-  <div class="page-foot">Park Avenue MHP · Portfolio Summary · March 2026 · Confidential</div>
+  <div style="margin-top:20px; background:#f4faf5; border:1px solid #c6e3ca; border-radius:6px; padding:16px 20px; font-size:12px; color:#155724; line-height:1.8;">
+    <strong>Key insight &mdash; Why Year 4+ accelerates:</strong> When Cat A buyers (60&ndash;84-month terms) begin paying off their notes, Jay gets the homes back free and clear &mdash; or Steve does, depending on the partnership split. Each paid-off home can be re-sold with a new down payment and new RTO stream. This compounding effect is what MH RTO operators mean by &ldquo;the machine.&rdquo; The earlier you sell the Group 1 lots, the sooner this cycle starts.
+  </div>
+
+  <div class="page-foot">Park Avenue MHP &middot; Sanford FL &middot; RE_OS Deal File &middot; Page 4 of 5</div>
 </div>
 
 
-<!-- ══════════════════════════════════════════
-     UNIT CARDS — PREMIUM
-══════════════════════════════════════════ -->
-<div class="section">
-  <div class="page-hdr"><h2>Premium Units — Grade A</h2><span>Ready to List or Near-Ready</span></div>
-
-  <!-- LOT 16 -->
-  <div class="unit-card">
-    <div class="unit-gallery">
-      <img class="gal-img active" src="Units/Lot_16/Photos/IMG_1048-Lot 16.JPG" alt="Lot 16 Photo 1">
-      <img class="gal-img" src="Units/Lot_16/Photos/IMG_1049-Lot 16.JPG" alt="Lot 16 Photo 2">
-      <img class="gal-img" src="Units/Lot_16/Photos/IMG_1050.JPG" alt="Lot 16 Photo 3">
-      <img class="gal-img" src="Units/Lot_16/Photos/IMG_1051.JPG" alt="Lot 16 Photo 4">
-      <img class="gal-img" src="Units/Lot_16/Photos/IMG_1052.JPG" alt="Lot 16 Photo 5">
-      <img class="gal-img" src="Units/Lot_16/Photos/IMG_1053.JPG" alt="Lot 16 Photo 6">
-      <img class="gal-img" src="Units/Lot_16/Photos/IMG_1054.JPG" alt="Lot 16 Photo 7">
-      <img class="gal-img" src="Units/Lot_16/Photos/IMG_1055.JPG" alt="Lot 16 Photo 8">
-      <img class="gal-img" src="Units/Lot_16/Photos/IMG_1056.JPG" alt="Lot 16 Photo 9">
-      <button class="gal-btn gal-prev">&#8249;</button>
-      <button class="gal-btn gal-next">&#8250;</button>
-      <div class="gal-counter">1/9</div>
-      <div class="unit-photo-label">LOT 16 — 2BR · 1BA · Screen Room</div>
-    </div>
-    <div class="unit-body">
-      <div class="asking-bar">
-        <div><div class="asking-lbl">Asking Price</div><div class="asking-val">$46,000</div></div>
-        <div class="asking-note">Comp: $48K remodeled 2BR at Park Avenue (same park)</div>
-      </div>
-      <div class="unit-top">
-        <div>
-          <div class="unit-lot-tag">Lot Number</div>
-          <div class="unit-lot-num">16</div>
-          <div class="unit-title">Full Gut Renovation — Best Interior in Portfolio</div>
-        </div>
-        <span class="tier-pill p-premium">🟢 Premium A</span>
-      </div>
-      <div class="unit-note good">Full renovation — new LVP, white shaker kitchen, stainless appliances, side-by-side fridge, updated bath, mini-split AC, screened porch. Move-in ready. Lead listing.</div>
-      <div class="unit-specs">
-        <span class="spec-pill">2 BR</span>
-        <span class="spec-pill">1 BA</span>
-        <span class="spec-pill">Screen Room</span>
-      </div>
-      <div class="unit-pricing">
-        <div class="up-cell highlight"><div class="up-lbl">Down Payment</div><div class="up-val">$4,500</div></div>
-        <div class="up-cell"><div class="up-lbl">Monthly RTO</div><div class="up-val">$700/mo</div></div>
-        <div class="up-cell"><div class="up-lbl">Buyer All-In</div><div class="up-val">$1,450/mo</div></div>
-      </div>
-      <div class="unit-action act-go">✅ List immediately — no prep needed. Only 2BR in portfolio. Lead unit for FB Marketplace. Jay's cut at signing: $2,250.</div>
-    </div>
-  </div>
-
-  <!-- LOT 31 -->
-  <div class="unit-card">
-    <div class="unit-gallery">
-      <img class="gal-img active" src="Units/Lot_31/Photos/IMG_1077-Lot 31.JPG" alt="Lot 31 Photo 1">
-      <img class="gal-img" src="Units/Lot_31/Photos/IMG_1078-Lot 31.JPG" alt="Lot 31 Photo 2">
-      <img class="gal-img" src="Units/Lot_31/Photos/IMG_1079.JPG" alt="Lot 31 Photo 3">
-      <img class="gal-img" src="Units/Lot_31/Photos/IMG_1080.JPG" alt="Lot 31 Photo 4">
-      <img class="gal-img" src="Units/Lot_31/Photos/IMG_1081.JPG" alt="Lot 31 Photo 5">
-      <img class="gal-img" src="Units/Lot_31/Photos/IMG_1082.JPG" alt="Lot 31 Photo 6">
-      <img class="gal-img" src="Units/Lot_31/Photos/IMG_1083.JPG" alt="Lot 31 Photo 7">
-      <img class="gal-img" src="Units/Lot_31/Photos/IMG_1084.JPG" alt="Lot 31 Photo 8">
-      <button class="gal-btn gal-prev">&#8249;</button>
-      <button class="gal-btn gal-next">&#8250;</button>
-      <div class="gal-counter">1/8</div>
-      <div class="unit-photo-label">LOT 31 — 1BR</div>
-    </div>
-    <div class="unit-body">
-      <div class="asking-bar">
-        <div><div class="asking-lbl">Asking Price</div><div class="asking-val">$36,000</div></div>
-        <div class="asking-note">Comp: $37K 1BR renovated, Sanford senior park</div>
-      </div>
-      <div class="unit-top">
-        <div>
-          <div class="unit-lot-tag">Lot Number</div>
-          <div class="unit-lot-num">31</div>
-          <div class="unit-title">Full Renovation — Dark LVP, White Kitchen, Mini-Split</div>
-        </div>
-        <span class="tier-pill p-premium">🟢 Premium A</span>
-      </div>
-      <div class="unit-note good">Full renovation — dark LVP floors, white cabinets, new appliances, fresh paint, textured ceilings, mini-split AC. Clean, empty, strong curb appeal with white skirting.</div>
-      <div class="unit-specs">
-        <span class="spec-pill">1 BR</span>
-      </div>
-      <div class="unit-pricing">
-        <div class="up-cell highlight"><div class="up-lbl">Down Payment</div><div class="up-val">$3,000</div></div>
-        <div class="up-cell"><div class="up-lbl">Monthly RTO</div><div class="up-val">$575/mo</div></div>
-        <div class="up-cell"><div class="up-lbl">Buyer All-In</div><div class="up-val">$1,325/mo</div></div>
-      </div>
-      <div class="unit-action act-go">✅ List immediately. Jay's cut at signing: $1,500.</div>
-    </div>
-  </div>
-
-  <!-- LOT 103 -->
-  <div class="unit-card">
-    <div class="unit-gallery">
-      <img class="gal-img active" src="Units/Lot_103/Photos/IMG_1118-Lot 103.JPG" alt="Lot 103 Photo 1">
-      <img class="gal-img" src="Units/Lot_103/Photos/IMG_1119.JPG" alt="Lot 103 Photo 2">
-      <img class="gal-img" src="Units/Lot_103/Photos/IMG_1120.JPG" alt="Lot 103 Photo 3">
-      <img class="gal-img" src="Units/Lot_103/Photos/IMG_1121.JPG" alt="Lot 103 Photo 4">
-      <img class="gal-img" src="Units/Lot_103/Photos/IMG_1122.JPG" alt="Lot 103 Photo 5">
-      <img class="gal-img" src="Units/Lot_103/Photos/IMG_1123.JPG" alt="Lot 103 Photo 6">
-      <img class="gal-img" src="Units/Lot_103/Photos/IMG_1124.JPG" alt="Lot 103 Photo 7">
-      <img class="gal-img" src="Units/Lot_103/Photos/IMG_1125.JPG" alt="Lot 103 Photo 8">
-      <img class="gal-img" src="Units/Lot_103/Photos/IMG_1126.JPG" alt="Lot 103 Photo 9">
-      <button class="gal-btn gal-prev">&#8249;</button>
-      <button class="gal-btn gal-next">&#8250;</button>
-      <div class="gal-counter">1/9</div>
-      <div class="unit-photo-label">LOT 103 — Exterior</div>
-    </div>
-    <div class="unit-body">
-      <div class="asking-bar">
-        <div><div class="asking-lbl">Asking Price</div><div class="asking-val">$40,000</div></div>
-        <div class="asking-note">Full reno — BR count TBD</div>
-      </div>
-      <div class="unit-top">
-        <div>
-          <div class="unit-lot-tag">Lot Number</div>
-          <div class="unit-lot-num">103</div>
-          <div class="unit-title">Best Bathroom in Portfolio — 1 Hour of Yard Work Away</div>
-        </div>
-        <span class="tier-pill p-premium">🟢 Premium A</span>
-      </div>
-      <div class="unit-note warn">Interior is pristine — marble tile bath, white shaker kitchen, new LVP. Exterior yard debris (palm fronds) misrepresents the home. One cleanup session away from lead-worthy photos.</div>
-      <div class="unit-pricing">
-        <div class="up-cell highlight"><div class="up-lbl">Down Payment</div><div class="up-val">$3,500</div></div>
-        <div class="up-cell"><div class="up-lbl">Monthly RTO</div><div class="up-val">$600/mo</div></div>
-        <div class="up-cell"><div class="up-lbl">Buyer All-In</div><div class="up-val">$1,350/mo</div></div>
-      </div>
-      <div class="unit-action act-prep">🧹 Yard debris cleanup first — then list immediately. Jay's cut at signing: $1,750.</div>
-    </div>
-  </div>
-
-  <div class="page-foot">Park Avenue MHP · Premium Units · March 2026</div>
-</div>
-
-
-<!-- ══════════════════════════════════════════
-     UNIT CARDS — FAST MOVER / BUILDER
-══════════════════════════════════════════ -->
-<div class="section">
-  <div class="page-hdr"><h2>Fast Mover &amp; Builder Units</h2><span>Ready, Prep Needed, or Awaiting Andrea Quote</span></div>
-
-  <!-- LOT 14 -->
-  <div class="unit-card">
-    <div class="unit-gallery">
-      <img class="gal-img active" src="Units/Lot_14/Photos/IMG_1058-Lot 14.JPG" alt="Lot 14 Photo 1">
-      <img class="gal-img" src="Units/Lot_14/Photos/IMG_1059.JPG" alt="Lot 14 Photo 2">
-      <img class="gal-img" src="Units/Lot_14/Photos/IMG_1060.JPG" alt="Lot 14 Photo 3">
-      <img class="gal-img" src="Units/Lot_14/Photos/IMG_1061.JPG" alt="Lot 14 Photo 4">
-      <img class="gal-img" src="Units/Lot_14/Photos/IMG_1062.JPG" alt="Lot 14 Photo 5">
-      <img class="gal-img" src="Units/Lot_14/Photos/IMG_1063.JPG" alt="Lot 14 Photo 6">
-      <button class="gal-btn gal-prev">&#8249;</button>
-      <button class="gal-btn gal-next">&#8250;</button>
-      <div class="gal-counter">1/6</div>
-      <div class="unit-photo-label">LOT 14 — Exterior</div>
-    </div>
-    <div class="unit-body">
-      <div class="asking-bar">
-        <div><div class="asking-lbl">Asking Price</div><div class="asking-val">$24,000</div></div>
-        <div class="asking-note">Good shape, not renovated</div>
-      </div>
-      <div class="unit-top">
-        <div>
-          <div class="unit-lot-tag">Lot Number</div>
-          <div class="unit-lot-num">14</div>
-          <div class="unit-title">Good Shape — Effective 1BR · Screened Porch · Should Move Fast</div>
-        </div>
-        <span class="tier-pill p-fast">🟡 Fast Mover B</span>
-      </div>
-      <div class="unit-note warn">2BR layout but lists as 1BR — second bedroom is very small and no full stove (hot plate only). Otherwise in good shape. Screened porch is the lead selling point. Should sell quickly.</div>
-      <div class="unit-pricing">
-        <div class="up-cell highlight"><div class="up-lbl">Down Payment</div><div class="up-val">$2,000</div></div>
-        <div class="up-cell"><div class="up-lbl">Monthly RTO</div><div class="up-val">$375/mo</div></div>
-        <div class="up-cell"><div class="up-lbl">Buyer All-In</div><div class="up-val">$1,125/mo</div></div>
-      </div>
-      <div class="unit-action act-go">✅ List as 1BR — disclose no full stove. Lead with screened porch. Jay's cut at signing: $1,000.</div>
-    </div>
-  </div>
-
-  <!-- LOT 9 -->
-  <div class="unit-card">
-    <div class="unit-gallery">
-      <img class="gal-img active" src="Units/Lot_09/Photos/IMG_1065-Lot 9.JPG" alt="Lot 9 Photo 1">
-      <img class="gal-img" src="Units/Lot_09/Photos/IMG_1066.JPG" alt="Lot 9 Photo 2">
-      <img class="gal-img" src="Units/Lot_09/Photos/IMG_1067.JPG" alt="Lot 9 Photo 3">
-      <img class="gal-img" src="Units/Lot_09/Photos/IMG_1068.JPG" alt="Lot 9 Photo 4">
-      <img class="gal-img" src="Units/Lot_09/Photos/IMG_1069.JPG" alt="Lot 9 Photo 5">
-      <img class="gal-img" src="Units/Lot_09/Photos/IMG_1070.JPG" alt="Lot 9 Photo 6">
-      <img class="gal-img" src="Units/Lot_09/Photos/IMG_1071.JPG" alt="Lot 9 Photo 7">
-      <img class="gal-img" src="Units/Lot_09/Photos/IMG_1072.JPG" alt="Lot 9 Photo 8">
-      <img class="gal-img" src="Units/Lot_09/Photos/IMG_1073.JPG" alt="Lot 9 Photo 9">
-      <img class="gal-img" src="Units/Lot_09/Photos/IMG_1074.JPG" alt="Lot 9 Photo 10">
-      <button class="gal-btn gal-prev">&#8249;</button>
-      <button class="gal-btn gal-next">&#8250;</button>
-      <div class="gal-counter">1/10</div>
-      <div class="unit-photo-label">LOT 9 — Exterior</div>
-    </div>
-    <div class="unit-body">
-      <div class="asking-bar">
-        <div><div class="asking-lbl">Asking Price</div><div class="asking-val">$15,000</div></div>
-        <div class="asking-note">Dated single wide — lowest price point</div>
-      </div>
-      <div class="unit-top">
-        <div>
-          <div class="unit-lot-tag">Lot Number</div>
-          <div class="unit-lot-num">9</div>
-          <div class="unit-title">Compact Single Wide — Lowest Price Point in Portfolio</div>
-        </div>
-        <span class="tier-pill p-builder">🟠 Builder C</span>
-      </div>
-      <div class="unit-note">Dated throughout — paneling, parquet tile, gold fixtures. Compact lot. Livable right now. For the buyer who just needs a roof and a low monthly payment, this is the answer. Lowest price point in the portfolio.</div>
-      <div class="unit-pricing">
-        <div class="up-cell highlight"><div class="up-lbl">Down Payment</div><div class="up-val">$1,000</div></div>
-        <div class="up-cell"><div class="up-lbl">Monthly RTO</div><div class="up-val">$350/mo</div></div>
-        <div class="up-cell"><div class="up-lbl">Buyer All-In</div><div class="up-val">$1,100/mo</div></div>
-      </div>
-      <div class="unit-action act-go">✅ List now. Price to move. Jay's cut at signing: $500.</div>
-    </div>
-  </div>
-
-  <!-- LOT 94 -->
-  <div class="unit-card">
-    <div class="unit-gallery">
-      <img class="gal-img active" src="Units/Lot_94/Photos/IMG_1086-Lot 94.JPG" alt="Lot 94 Photo 1">
-      <img class="gal-img" src="Units/Lot_94/Photos/IMG_1087.JPG" alt="Lot 94 Photo 2">
-      <img class="gal-img" src="Units/Lot_94/Photos/IMG_1088.JPG" alt="Lot 94 Photo 3">
-      <img class="gal-img" src="Units/Lot_94/Photos/IMG_1089.JPG" alt="Lot 94 Photo 4">
-      <img class="gal-img" src="Units/Lot_94/Photos/IMG_1090.JPG" alt="Lot 94 Photo 5">
-      <img class="gal-img" src="Units/Lot_94/Photos/IMG_1091.JPG" alt="Lot 94 Photo 6">
-      <img class="gal-img" src="Units/Lot_94/Photos/IMG_1092.JPG" alt="Lot 94 Photo 7">
-      <button class="gal-btn gal-prev">&#8249;</button>
-      <button class="gal-btn gal-next">&#8250;</button>
-      <div class="gal-counter">1/7</div>
-      <div class="unit-photo-label">LOT 94 — Exterior</div>
-    </div>
-    <div class="unit-body">
-      <div class="asking-bar">
-        <div><div class="asking-lbl">Asking Price</div><div class="asking-val">$18,000</div></div>
-        <div class="asking-note">Partial reno — porch issue priced in</div>
-      </div>
-      <div class="unit-top">
-        <div>
-          <div class="unit-lot-tag">Lot Number</div>
-          <div class="unit-lot-num">94</div>
-          <div class="unit-title">Partial Renovation — Sagging Porch Roof to Disclose</div>
-        </div>
-        <span class="tier-pill p-builder">🟠 Builder C</span>
-      </div>
-      <div class="unit-note warn">Kitchen updated (new LVP, white cabinets), bathroom floor updated. Screened porch/carport roof sagging — must disclose. Unfinished bedroom. Can list as-is with disclosure.</div>
-      <div class="unit-pricing">
-        <div class="up-cell highlight"><div class="up-lbl">Down Payment</div><div class="up-val">$1,500</div></div>
-        <div class="up-cell"><div class="up-lbl">Monthly RTO</div><div class="up-val">$375/mo</div></div>
-        <div class="up-cell"><div class="up-lbl">Buyer All-In</div><div class="up-val">$1,125/mo</div></div>
-      </div>
-      <div class="unit-action act-prep">⚠️ Disclose porch roof before listing. Jay's cut at signing: $750. If Steve fixes porch first, bump to $2,500 down.</div>
-    </div>
-  </div>
-
-  <!-- LOT 7 -->
-  <div class="unit-card">
-    <div class="unit-gallery">
-      <img class="gal-img active" src="Units/Lot_07/Photos/IMG_1106.JPG" alt="Lot 7 Photo 1">
-      <img class="gal-img" src="Units/Lot_07/Photos/IMG_1107-Lot 7.JPG" alt="Lot 7 Photo 2">
-      <img class="gal-img" src="Units/Lot_07/Photos/IMG_1108.JPG" alt="Lot 7 Photo 3">
-      <img class="gal-img" src="Units/Lot_07/Photos/IMG_1109.JPG" alt="Lot 7 Photo 4">
-      <img class="gal-img" src="Units/Lot_07/Photos/IMG_1110.JPG" alt="Lot 7 Photo 5">
-      <img class="gal-img" src="Units/Lot_07/Photos/IMG_1111.JPG" alt="Lot 7 Photo 6">
-      <img class="gal-img" src="Units/Lot_07/Photos/IMG_1112.JPG" alt="Lot 7 Photo 7">
-      <img class="gal-img" src="Units/Lot_07/Photos/IMG_1113.JPG" alt="Lot 7 Photo 8">
-      <img class="gal-img" src="Units/Lot_07/Photos/IMG_1114.JPG" alt="Lot 7 Photo 9">
-      <img class="gal-img" src="Units/Lot_07/Photos/IMG_1115.JPG" alt="Lot 7 Photo 10">
-      <img class="gal-img" src="Units/Lot_07/Photos/IMG_1116.JPG" alt="Lot 7 Photo 11">
-      <button class="gal-btn gal-prev">&#8249;</button>
-      <button class="gal-btn gal-next">&#8250;</button>
-      <div class="gal-counter">1/11</div>
-      <div class="unit-photo-label">LOT 7 — Exterior</div>
-    </div>
-    <div class="unit-body">
-      <div class="asking-bar">
-        <div><div class="asking-lbl">Asking Price</div><div class="asking-val">$18,000</div></div>
-        <div class="asking-note">Original interior — solid structure</div>
-      </div>
-      <div class="unit-top">
-        <div>
-          <div class="unit-lot-tag">Lot Number</div>
-          <div class="unit-lot-num">7</div>
-          <div class="unit-title">Original Interior — Vegetation Pressing Into Siding</div>
-        </div>
-        <span class="tier-pill p-fast">🟡 Fast Mover C</span>
-      </div>
-      <div class="unit-note danger">Shrubs are growing into the siding. That's a moisture risk and an insurance red flag — clear the overgrowth before photos or listing, no exceptions. Once it's cleared, this home looks completely different. Inside appears solid. Original throughout but livable.</div>
-      <div class="unit-pricing">
-        <div class="up-cell highlight"><div class="up-lbl">Down Payment</div><div class="up-val">$1,500</div></div>
-        <div class="up-cell"><div class="up-lbl">Monthly RTO</div><div class="up-val">$400/mo</div></div>
-        <div class="up-cell"><div class="up-lbl">Buyer All-In</div><div class="up-val">$1,150/mo</div></div>
-      </div>
-      <div class="unit-action act-andrea">🌿 Andrea: vegetation removal + junk out. Then list. Jay's cut at signing: $750.</div>
-    </div>
-  </div>
-
-  <div class="page-foot">Park Avenue MHP · Fast Mover &amp; Builder Units · March 2026</div>
-</div>
-
-
-<!-- ══════════════════════════════════════════
-     UNIT CARDS — ANDREA QUEUE + SPECIALS
-══════════════════════════════════════════ -->
-<div class="section">
-  <div class="page-hdr"><h2>Cleanout Queue + Roofer Specials</h2><span>Awaiting Andrea · Then Price or Wholesale</span></div>
-
-  <!-- LOT 30 -->
-  <div class="unit-card">
-    <div class="unit-gallery">
-      <img class="gal-img active" src="Units/Lot_30/Photos/IMG_1138-Lot 30.JPG" alt="Lot 30 Photo 1">
-      <img class="gal-img" src="Units/Lot_30/Photos/IMG_1140.JPG" alt="Lot 30 Photo 2">
-      <img class="gal-img" src="Units/Lot_30/Photos/IMG_1141.JPG" alt="Lot 30 Photo 3">
-      <img class="gal-img" src="Units/Lot_30/Photos/IMG_1142.JPG" alt="Lot 30 Photo 4">
-      <img class="gal-img" src="Units/Lot_30/Photos/IMG_1143.JPG" alt="Lot 30 Photo 5">
-      <img class="gal-img" src="Units/Lot_30/Photos/IMG_1144.JPG" alt="Lot 30 Photo 6">
-      <img class="gal-img" src="Units/Lot_30/Photos/IMG_1145.JPG" alt="Lot 30 Photo 7">
-      <img class="gal-img" src="Units/Lot_30/Photos/IMG_1146-Lot-30.JPG" alt="Lot 30 Photo 8">
-      <button class="gal-btn gal-prev">&#8249;</button>
-      <button class="gal-btn gal-next">&#8250;</button>
-      <div class="gal-counter">1/8</div>
-      <div class="unit-photo-label">LOT 30 — Exterior</div>
-    </div>
-    <div class="unit-body">
-      <div class="asking-bar">
-        <div><div class="asking-lbl">Asking Price</div><div class="asking-val">$25,000</div></div>
-        <div class="asking-note">Good shape — doors + cleanout pending</div>
-      </div>
-      <div class="unit-top">
-        <div>
-          <div class="unit-lot-tag">Lot Number</div>
-          <div class="unit-lot-num">30</div>
-          <div class="unit-title">Used as Materials Storage — Good Shape Underneath</div>
-        </div>
-        <span class="tier-pill p-fast">🟡 Fast Mover B</span>
-      </div>
-      <div class="unit-note good">Actually in pretty good shape — just needs finishing touches. Materials stored inside need to be cleared out, interior doors to be installed. Should be show-ready quickly after.</div>
-      <div class="unit-pricing">
-        <div class="up-cell highlight"><div class="up-lbl">Down Payment</div><div class="up-val">$2,000–2,500</div></div>
-        <div class="up-cell"><div class="up-lbl">Monthly RTO</div><div class="up-val">$425–450/mo</div></div>
-        <div class="up-cell"><div class="up-lbl">Buyer All-In</div><div class="up-val">$1,175–1,200/mo</div></div>
-      </div>
-      <div class="unit-action act-andrea">🔧 Andrea: clear materials + install doors. Quote requested. Jay's cut at signing: $1,000–1,250.</div>
-    </div>
-  </div>
-
-  <!-- LOT 80 -->
-  <div class="unit-card">
-    <div class="unit-gallery">
-      <img class="gal-img active" src="Units/Lot_80/Photos/IMG_1147-Lot-80.JPG" alt="Lot 80 Photo 1">
-      <img class="gal-img" src="Units/Lot_80/Photos/IMG_1149.JPG" alt="Lot 80 Photo 2">
-      <img class="gal-img" src="Units/Lot_80/Photos/IMG_1150.JPG" alt="Lot 80 Photo 3">
-      <img class="gal-img" src="Units/Lot_80/Photos/IMG_1151.JPG" alt="Lot 80 Photo 4">
-      <img class="gal-img" src="Units/Lot_80/Photos/IMG_1152.JPG" alt="Lot 80 Photo 5">
-      <img class="gal-img" src="Units/Lot_80/Photos/IMG_1153.JPG" alt="Lot 80 Photo 6">
-      <img class="gal-img" src="Units/Lot_80/Photos/IMG_1154.JPG" alt="Lot 80 Photo 7">
-      <img class="gal-img" src="Units/Lot_80/Photos/IMG_1155.JPG" alt="Lot 80 Photo 8">
-      <img class="gal-img" src="Units/Lot_80/Photos/IMG_1156.JPG" alt="Lot 80 Photo 9">
-      <button class="gal-btn gal-prev">&#8249;</button>
-      <button class="gal-btn gal-next">&#8250;</button>
-      <div class="gal-counter">1/9</div>
-      <div class="unit-photo-label">LOT 80 — Exterior</div>
-    </div>
-    <div class="unit-body">
-      <div class="asking-bar">
-        <div><div class="asking-lbl">Asking Price</div><div class="asking-val">TBD</div></div>
-        <div class="asking-note">Price after Andrea cleanout + scope</div>
-      </div>
-      <div class="unit-top">
-        <div>
-          <div class="unit-lot-tag">Lot Number</div>
-          <div class="unit-lot-num">80</div>
-          <div class="unit-title">Near-Complete Reno — Full Cleanout + Spray White Needed</div>
-        </div>
-        <span class="tier-pill p-fast">🟡 Fast Mover B</span>
-      </div>
-      <div class="unit-note warn">Interior renovation mostly done — white kitchen, LVP, new drywall. Full cleanout of junk needed + spray entire interior white. Exterior also needs: window replacement, porch repair, paint. Pricing TBD after cleanout.</div>
-      <div class="unit-pricing">
-        <div class="up-cell highlight"><div class="up-lbl">Down Payment</div><div class="up-val">TBD</div></div>
-        <div class="up-cell"><div class="up-lbl">Monthly RTO</div><div class="up-val">TBD</div></div>
-        <div class="up-cell"><div class="up-lbl">Buyer All-In</div><div class="up-val">TBD</div></div>
-      </div>
-      <div class="unit-action act-andrea">🔧 Andrea: full cleanout + spray interior white. Quote requested. Price after assessment.</div>
-    </div>
-  </div>
-
-  <!-- LOT 90 -->
-  <div class="unit-card">
-    <div class="unit-gallery">
-      <img class="gal-img active" src="Units/Lot_90/Photos/IMG_1094-Lot-90.JPG" alt="Lot 90 Photo 1">
-      <img class="gal-img" src="Units/Lot_90/Photos/IMG_1095.JPG" alt="Lot 90 Photo 2">
-      <img class="gal-img" src="Units/Lot_90/Photos/IMG_1096.JPG" alt="Lot 90 Photo 3">
-      <img class="gal-img" src="Units/Lot_90/Photos/IMG_1097.JPG" alt="Lot 90 Photo 4">
-      <img class="gal-img" src="Units/Lot_90/Photos/IMG_1098.JPG" alt="Lot 90 Photo 5">
-      <img class="gal-img" src="Units/Lot_90/Photos/IMG_1099.JPG" alt="Lot 90 Photo 6">
-      <img class="gal-img" src="Units/Lot_90/Photos/IMG_1100.JPG" alt="Lot 90 Photo 7">
-      <img class="gal-img" src="Units/Lot_90/Photos/IMG_1101.JPG" alt="Lot 90 Photo 8">
-      <img class="gal-img" src="Units/Lot_90/Photos/IMG_1102.JPG" alt="Lot 90 Photo 9">
-      <img class="gal-img" src="Units/Lot_90/Photos/IMG_1103.JPG" alt="Lot 90 Photo 10">
-      <img class="gal-img" src="Units/Lot_90/Photos/IMG_1104.JPG" alt="Lot 90 Photo 11">
-      <button class="gal-btn gal-prev">&#8249;</button>
-      <button class="gal-btn gal-next">&#8250;</button>
-      <div class="gal-counter">1/11</div>
-      <div class="unit-photo-label">LOT 90 — Exterior</div>
-    </div>
-    <div class="unit-body">
-      <div class="asking-bar">
-        <div><div class="asking-lbl">Asking Price</div><div class="asking-val">$14,000</div></div>
-        <div class="asking-note">Estimate — confirm after cleanout</div>
-      </div>
-      <div class="unit-top">
-        <div>
-          <div class="unit-lot-tag">Lot Number</div>
-          <div class="unit-lot-num">90</div>
-          <div class="unit-title">Post-Eviction — Not Occupied — Needs Full Cleanout</div>
-        </div>
-        <span class="tier-pill p-builder">🟠 Builder C</span>
-      </div>
-      <div class="unit-note warn">Eviction is done. Home is empty. The junk left behind makes it look worse than it is. Once Andrea clears it out, we'll know exactly what we have. Pricing below is an estimate — final numbers come after the cleanout.</div>
-      <div class="unit-pricing">
-        <div class="up-cell highlight"><div class="up-lbl">Down Payment</div><div class="up-val">$1,000–1,500</div></div>
-        <div class="up-cell"><div class="up-lbl">Monthly RTO</div><div class="up-val">$350–375/mo</div></div>
-        <div class="up-cell"><div class="up-lbl">Buyer All-In</div><div class="up-val">~$1,100/mo</div></div>
-      </div>
-      <div class="unit-action act-andrea">🔧 Andrea: full post-eviction cleanout. Then reassess and price. Jay's cut est. $500–750.</div>
-    </div>
-  </div>
-
-  <!-- LOT 55 -->
-  <div class="unit-card">
-    <div class="unit-gallery">
-      <img class="gal-img active" src="Units/Lot_55/Photos/IMG_1168-Lot 55.JPG" alt="Lot 55 Photo 1">
-      <img class="gal-img" src="Units/Lot_55/Photos/IMG_1169.JPG" alt="Lot 55 Photo 2">
-      <img class="gal-img" src="Units/Lot_55/Photos/IMG_1170.JPG" alt="Lot 55 Photo 3">
-      <img class="gal-img" src="Units/Lot_55/Photos/IMG_1171.JPG" alt="Lot 55 Photo 4">
-      <img class="gal-img" src="Units/Lot_55/Photos/IMG_1172.JPG" alt="Lot 55 Photo 5">
-      <img class="gal-img" src="Units/Lot_55/Photos/IMG_1173.JPG" alt="Lot 55 Photo 6">
-      <button class="gal-btn gal-prev">&#8249;</button>
-      <button class="gal-btn gal-next">&#8250;</button>
-      <div class="gal-counter">1/6</div>
-      <div class="unit-photo-label">LOT 55 — Exterior</div>
-    </div>
-    <div class="unit-body">
-      <div class="asking-bar">
-        <div><div class="asking-lbl">Asking Price</div><div class="asking-val">$16,000</div></div>
-        <div class="asking-note">Estimate — junk out first</div>
-      </div>
-      <div class="unit-top">
-        <div>
-          <div class="unit-lot-tag">Lot Number</div>
-          <div class="unit-lot-num">55</div>
-          <div class="unit-title">Decent Shape — Junk Cleanout, Then List</div>
-        </div>
-        <span class="tier-pill p-builder">🟠 Builder C</span>
-      </div>
-      <div class="unit-note good">Structure intact — no ceiling collapse or major damage. Kitchen and bathroom workable. Just needs junk and debris cleared. Not a gut job. Should be listable quickly after cleanout.</div>
-      <div class="unit-pricing">
-        <div class="up-cell highlight"><div class="up-lbl">Down Payment</div><div class="up-val">$750–1,000</div></div>
-        <div class="up-cell"><div class="up-lbl">Monthly RTO</div><div class="up-val">$325–350/mo</div></div>
-        <div class="up-cell"><div class="up-lbl">Buyer All-In</div><div class="up-val">~$1,075/mo</div></div>
-      </div>
-      <div class="unit-action act-andrea">🔧 Andrea: junk cleanout. Then list. Steve to confirm lot # on next visit. Jay's cut est. $375–500.</div>
-    </div>
-  </div>
-
-  <!-- LOT 22 -->
-  <div class="unit-card">
-    <div class="unit-gallery">
-      <img class="gal-img active" src="Units/Lot_22/Photos/IMG_1128-Lot 22.JPG" alt="Lot 22 Photo 1">
-      <img class="gal-img" src="Units/Lot_22/Photos/IMG_1129.JPG" alt="Lot 22 Photo 2">
-      <img class="gal-img" src="Units/Lot_22/Photos/IMG_1130.JPG" alt="Lot 22 Photo 3">
-      <img class="gal-img" src="Units/Lot_22/Photos/IMG_1131.JPG" alt="Lot 22 Photo 4">
-      <img class="gal-img" src="Units/Lot_22/Photos/IMG_1132.JPG" alt="Lot 22 Photo 5">
-      <img class="gal-img" src="Units/Lot_22/Photos/IMG_1133.JPG" alt="Lot 22 Photo 6">
-      <img class="gal-img" src="Units/Lot_22/Photos/IMG_1134.JPG" alt="Lot 22 Photo 7">
-      <img class="gal-img" src="Units/Lot_22/Photos/IMG_1135.JPG" alt="Lot 22 Photo 8">
-      <img class="gal-img" src="Units/Lot_22/Photos/IMG_1136.JPG" alt="Lot 22 Photo 9">
-      <button class="gal-btn gal-prev">&#8249;</button>
-      <button class="gal-btn gal-next">&#8250;</button>
-      <div class="gal-counter">1/9</div>
-      <div class="unit-photo-label">LOT 22 — Exterior</div>
-    </div>
-    <div class="unit-body">
-      <div class="asking-bar">
-        <div><div class="asking-lbl">Asking Price</div><div class="asking-val">$5K–$8K</div></div>
-        <div class="asking-note">Wholesale only — sell to rehabber</div>
-      </div>
-      <div class="unit-top">
-        <div>
-          <div class="unit-lot-tag">Lot Number</div>
-          <div class="unit-lot-num">22</div>
-          <div class="unit-title">Roofer Special — Catastrophic Water &amp; Mold Damage</div>
-        </div>
-        <span class="tier-pill p-rehab">🔴 Roofer Special D</span>
-      </div>
-      <div class="unit-note danger">Roof likely leaking. Multiple collapsed ceilings, black mold, rotted subfloors. Not safe to occupy. NOT an RTO listing — sell as-is to a roofer or rehabber. Not included in Jay's RTO income projection.</div>
-      <div class="unit-pricing">
-        <div class="up-cell"><div class="up-lbl">RTO</div><div class="up-val">N/A</div></div>
-        <div class="up-cell"><div class="up-lbl">Disposition</div><div class="up-val">Wholesale</div></div>
-        <div class="up-cell"><div class="up-lbl">Est. Ask</div><div class="up-val">$3K–8K</div></div>
-      </div>
-      <div class="unit-action act-hold">🔴 Discuss with Steve: sell to rehabber as-is. Fix up and sell or wholesale — no demo.</div>
-    </div>
-  </div>
-
-  <!-- LOT 92 -->
-  <div class="unit-card">
-    <div class="unit-gallery">
-      <img class="gal-img active" src="Units/Lot_92/Photos/IMG_1157-Lot-92.JPG" alt="Lot 92 Photo 1">
-      <img class="gal-img" src="Units/Lot_92/Photos/IMG_1158.JPG" alt="Lot 92 Photo 2">
-      <img class="gal-img" src="Units/Lot_92/Photos/IMG_1159.JPG" alt="Lot 92 Photo 3">
-      <img class="gal-img" src="Units/Lot_92/Photos/IMG_1160.JPG" alt="Lot 92 Photo 4">
-      <img class="gal-img" src="Units/Lot_92/Photos/IMG_1161.JPG" alt="Lot 92 Photo 5">
-      <img class="gal-img" src="Units/Lot_92/Photos/IMG_1162.JPG" alt="Lot 92 Photo 6">
-      <img class="gal-img" src="Units/Lot_92/Photos/IMG_1163.JPG" alt="Lot 92 Photo 7">
-      <img class="gal-img" src="Units/Lot_92/Photos/IMG_1164.JPG" alt="Lot 92 Photo 8">
-      <img class="gal-img" src="Units/Lot_92/Photos/IMG_1165.JPG" alt="Lot 92 Photo 9">
-      <img class="gal-img" src="Units/Lot_92/Photos/IMG_1166.JPG" alt="Lot 92 Photo 10">
-      <button class="gal-btn gal-prev">&#8249;</button>
-      <button class="gal-btn gal-next">&#8250;</button>
-      <div class="gal-counter">1/10</div>
-      <div class="unit-photo-label">LOT 92 — Exterior</div>
-    </div>
-    <div class="unit-body">
-      <div class="asking-bar">
-        <div><div class="asking-lbl">Asking Price</div><div class="asking-val">$5K–$8K</div></div>
-        <div class="asking-note">Wholesale only — sell to rehabber</div>
-      </div>
-      <div class="unit-top">
-        <div>
-          <div class="unit-lot-tag">Lot Number</div>
-          <div class="unit-lot-num">92</div>
-          <div class="unit-title">Roofer Special — Severe Water Damage &amp; Neglect</div>
-        </div>
-        <span class="tier-pill p-rehab">🔴 Roofer Special D</span>
-      </div>
-      <div class="unit-note danger">Roof likely leaking. Rotted floors, mold, severe water damage throughout. Andrea will clear the junk so a rehabber buyer can walk through and assess. Single wide. Sell as-is after cleanout.</div>
-      <div class="unit-pricing">
-        <div class="up-cell"><div class="up-lbl">RTO</div><div class="up-val">N/A</div></div>
-        <div class="up-cell"><div class="up-lbl">Disposition</div><div class="up-val">Wholesale</div></div>
-        <div class="up-cell"><div class="up-lbl">Est. Ask</div><div class="up-val">$3K–8K</div></div>
-      </div>
-      <div class="unit-action act-andrea">🔧 Andrea cleanout first — then sell to rehabber as-is. No demo.</div>
-    </div>
-  </div>
-
-  <div class="page-foot">Park Avenue MHP · Cleanout Queue + Roofer Specials · March 2026</div>
-</div>
-
-
-<!-- ══════════════════════════════════════════
-     QUESTIONS + NEXT STEPS
-══════════════════════════════════════════ -->
+<!-- ══════════════════════════════════════════════════
+     PAGE 5 — RISK FLAGS + DECISION
+═══════════════════════════════════════════════════ -->
 <div class="section section-last">
-  <div class="page-hdr"><h2>Steve: Four Questions + Next Steps</h2><span>Park Avenue MHP · March 2026</span></div>
-
-  <div class="q-grid">
-    <div class="q-card">
-      <div class="q-num">Question 01</div>
-      <div class="q-lot">Lot 55 — Lot Number Confirmation</div>
-      <div class="q-text">We've got it labeled Lot 55 based on the photo file. The number should be on the exterior of the home. Can you confirm on your next site visit?</div>
-    </div>
-    <div class="q-card">
-      <div class="q-num">Question 02</div>
-      <div class="q-lot">Lot 94 — Porch Roof</div>
-      <div class="q-text">Two options: fix the porch roof before listing (bumps the down to $2,500) or disclose it and price it in at $1,500 down. Either works — just need to know which direction you want to go.</div>
-    </div>
-    <div class="q-card">
-      <div class="q-num">Question 03</div>
-      <div class="q-lot">Lots 22 + 92 — Rehabber Sale</div>
-      <div class="q-text">Jay can find a rehabber buyer for both once Andrea clears Lot 92. If you already have someone in mind, we defer to that. Either way — the Lot 92 cleanout has to happen first. What's your preferred path?</div>
-    </div>
-    <div class="q-card">
-      <div class="q-num">Question 04</div>
-      <div class="q-lot">Lot 80 — Exterior Work</div>
-      <div class="q-text">The interior of Lot 80 is almost there. The exterior still needs windows and porch repair. Is your team handling those, or should Jay get a separate contractor quote alongside Andrea's interior scope?</div>
-    </div>
+  <div class="page-hdr">
+    <h2>Risk Flags + Decision</h2>
+    <span>Confirmed Strengths &middot; Open Risks &middot; Verdict &middot; Next Steps</span>
   </div>
 
-  <div class="launch-two">
-    <div class="launch-col">
-      <h4>List Now — No Prep Needed</h4>
-      <div class="launch-item"><span class="ldot ldot-g"></span><strong>Lot 16</strong> — Lead listing. Best interior.</div>
-      <div class="launch-item"><span class="ldot ldot-g"></span><strong>Lot 31</strong> — Ready now.</div>
-      <div class="launch-item"><span class="ldot ldot-g"></span><strong>Lot 14</strong> — List as 1BR. Screened porch lead.</div>
-      <div class="launch-item"><span class="ldot ldot-g"></span><strong>Lot 9</strong> — Ready. Lowest entry point.</div>
-    </div>
-    <div class="launch-col">
-      <h4>Prep First — Then List</h4>
-      <div class="launch-item"><span class="ldot ldot-y"></span><strong>Lot 103</strong> — Yard cleanup → list immediately</div>
-      <div class="launch-item"><span class="ldot ldot-y"></span><strong>Lot 94</strong> — Porch disclosure → list</div>
-      <div class="launch-item"><span class="ldot ldot-y"></span><strong>Lot 7</strong> — Andrea vegetation out → list</div>
-      <div class="launch-item"><span class="ldot ldot-y"></span><strong>Lot 30</strong> — Andrea doors + clearout → list</div>
-      <div class="launch-item"><span class="ldot ldot-r"></span><strong>Lots 80, 90, 55</strong> — Andrea quotes pending</div>
-      <div class="launch-item"><span class="ldot ldot-r"></span><strong>Lots 22, 92</strong> — Rehabber sale path</div>
-    </div>
-  </div>
-
-  <div class="page-foot" style="margin-top:28px;">Park Avenue MHP · Prepared for Steve Levy · March 2026 · Confidential — Not for Public Distribution</div>
-
-  <div class="comp-ref">
-    <h3>Market Comp Reference — Sanford / Seminole County</h3>
-    <div class="cr-sub">For internal review only · Jay &amp; Steve · March 2026 · Sources: MHVillage, Perplexity, Homes.com</div>
-
-    <div class="cr-highlight">
-      <strong>$600/mo lot rent is legitimately one of the lowest in Seminole County for a 55+ park.</strong> Comparable FL senior land-lease communities run $485–$725/mo; lifestyle parks run $750–$1,000+. This is a front-line selling point — lead with it in every listing headline.
-    </div>
-
-    <div class="cr-grid">
-      <div class="cr-card">
-        <h4>Active Comps — Park Avenue MHP (Same Park)</h4>
-        <div class="cr-row"><span class="cr-lbl">2BR/1BA · 1979 · 624 sqft · Newly Remodeled</span><span class="cr-val">$48,000</span></div>
-        <div class="cr-row"><span class="cr-lbl">2BR/1BA · 1980 · 650 sqft · Low Lot Rent</span><span class="cr-val">$28,000</span></div>
-        <div class="cr-row"><span class="cr-lbl">In-park range (renovated 2BR)</span><span class="cr-val">$28K – $48K</span></div>
-      </div>
-      <div class="cr-card">
-        <h4>Active Comps — Sanford Senior Parks (Land-Lease)</h4>
-        <div class="cr-row"><span class="cr-lbl">1BR/2BA · 1980 · 784 sqft · Renovated</span><span class="cr-val">$37,000</span></div>
-        <div class="cr-row"><span class="cr-lbl">2BR/2BA · 2001 · 1,040 sqft · Oviedo 55+</span><span class="cr-val">$59,900</span></div>
-        <div class="cr-row"><span class="cr-lbl">Seminole Co. early-2000s 2/2 (nicer parks)</span><span class="cr-val">$48K – $70K</span></div>
+  <div class="flag-grid">
+    <div class="flag-card">
+      <div class="flag-dot green"></div>
+      <div>
+        <div class="flag-title">Group A Ad Is LIVE &mdash; Demand Proven</div>
+        <div class="flag-text">Facebook Marketplace ad running for lots 16, 31, 103, 14, 9. Inbound inquiries confirm buyer demand for the 55+ RTO product at Park Avenue. Proof of concept is live &mdash; this is not a theoretical deal.</div>
       </div>
     </div>
-
-    <table class="cr-bands">
-      <thead>
-        <tr>
-          <th>Unit Type</th>
-          <th>Condition</th>
-          <th>Market Band (Land-Lease)</th>
-          <th>Our Range</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>2BR single wide</td><td>Renovated / move-in ready</td><td>$28,000 – $48,000</td><td>$40,000 – $46,000</td></tr>
-        <tr><td>2BR single wide</td><td>Average / dated</td><td>$20,000 – $32,000</td><td>$24,000 – $28,000</td></tr>
-        <tr><td>1BR single wide</td><td>Renovated / clean</td><td>$30,000 – $40,000</td><td>$34,000 – $36,000</td></tr>
-        <tr><td>1BR single wide</td><td>Decent / not renovated</td><td>$25,000 – $30,000</td><td>$22,000 – $25,000</td></tr>
-        <tr><td>1BR single wide</td><td>Dated / needs work</td><td>$15,000 – $22,000</td><td>$14,000 – $18,000</td></tr>
-      </tbody>
-    </table>
-
-    <div class="cr-highlight">
-      <strong>RTO payment structure example (Perplexity / market practice):</strong><br>
-      $40,000 home · $4,000 down · $36,000 financed · 10-year term → ~$450–$550/mo home payment + $600 lot rent = <strong>~$1,050–$1,150/mo all-in</strong>. Competitive against Sanford apartments while building ownership. Our shorter-term structures yield higher monthly but faster payoff — discuss preferred term length with Steve.
+    <div class="flag-card">
+      <div class="flag-dot green"></div>
+      <div>
+        <div class="flag-title">55+ Market Is Stable &amp; Undersupplied</div>
+        <div class="flag-text">Senior mobile home demand in Sanford is structurally undersupplied. Competing parks charge $700&ndash;$900+ lot rent. $600 all-in at Park Avenue is a genuine market moat. SSI + pension buyers match the product perfectly.</div>
+      </div>
     </div>
-
-    <div class="cr-source">Sources: MHVillage active listings (March 2026) · Perplexity AI market research · Homes.com Seminole County · MHResales.com lot rent survey · Sanford 32771/32773 land-lease comps only. No lifestyle/resort communities included.</div>
+    <div class="flag-card">
+      <div class="flag-dot green"></div>
+      <div>
+        <div class="flag-title">Seminole County #1 School District</div>
+        <div class="flag-text">Ranked #1 public school district in Florida (Niche 2025), A-rating FL Dept. of Education, #1 STEM statewide. For buyers with grandchildren &mdash; or non-55 units under the 80/20 rule &mdash; this is a headline selling point no competing MH park in Volusia, Orange, or Lake County can match.</div>
+      </div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-dot orange"></div>
+      <div>
+        <div class="flag-title">4+ Lots Still Need Walkthrough Data</div>
+        <div class="flag-text">Lot 9 cost basis TBD per Steve. Lots 22 &amp; 92 need roof assessment before pricing. Group 2 cleanup status (lots 80, 7, 90, 55) still in progress. All financial projections in this file are ASSUMED until Steve&rsquo;s walkthrough data is received and confirmed. <strong>Do not finalize advertising on unwalked lots.</strong></div>
+      </div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-dot orange"></div>
+      <div>
+        <div class="flag-title">Title Transfer (Not Deed) &mdash; DHSMV Process</div>
+        <div class="flag-text">FL mobile homes are titled via DHSMV like vehicles, not via deed. Title transfers at final RTO payment. Jay must use FL-compliant Lease-Option or Installment Sale structure. Lease-option = eviction on default (15&ndash;30 days); installment sale may require foreclosure. Get FL attorney review <strong>before marketing any unit</strong>.</div>
+      </div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-dot orange"></div>
+      <div>
+        <div class="flag-title">Steve Levy Partnership Dependency</div>
+        <div class="flag-text">Jay&rsquo;s income flows from Steve&rsquo;s homes. If Steve changes terms, exits the partnership, or restricts Jay&rsquo;s marketing rights, Jay&rsquo;s income stops. Partnership terms should be documented in writing &mdash; specifically: Jay&rsquo;s right to market, collect RTO payments, split structure, and what happens at note payoff.</div>
+      </div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-dot orange"></div>
+      <div>
+        <div class="flag-title">55+ HOPA 80/20 Rule</div>
+        <div class="flag-text">At least 80% of occupied units must have at least one resident 55+. Confirm with Steve exactly how many non-55 slots are available before marketing to younger buyers. Labor-trade candidates (roofers, handymen) may be under 55 &mdash; verify slot availability per unit first.</div>
+      </div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-dot orange"></div>
+      <div>
+        <div class="flag-title">Park Approval for RTO Sales Required</div>
+        <div class="flag-text">Confirm in writing that Park Avenue MHP allows RTO / owner-finance sales and has a resident approval process Jay can navigate. Get the buyer approval criteria, transfer fees (if any), and timeline before the first open house. No marketing to buyers who can&rsquo;t pass park approval.</div>
+      </div>
+    </div>
   </div>
+
+  <div class="decision-box">
+    <h4>Verdict: GO &mdash; Continue Rolling Out Groups B, C &amp; D Ads + Close More RTO Sales</h4>
+    <div class="decision-item">
+      <div class="decision-num">&#10003;</div>
+      <div>
+        <div class="dt-title">Group A ad is live and producing inquiries &mdash; the strategy is validated</div>
+        <div class="dt-body">Don&rsquo;t overthink it. The model works. One selling unit pays for the legal setup and first month&rsquo;s marketing. $67K in down payments + $5,133/mo base-case flow is the target. Keep rolling. At 80% performance over 3 years: $288K cumulative. No other exit &mdash; bulk note sale, wholesale, lot rent hold &mdash; generates this return without a hard-money acquisition.</div>
+      </div>
+    </div>
+    <div class="decision-item">
+      <div class="decision-num">1</div>
+      <div>
+        <div class="dt-title">Get Steve&rsquo;s walkthrough data &mdash; all 4+ open lots &mdash; before running Groups B&ndash;D ads</div>
+        <div class="dt-body">Call Steve this week. Get pricing on Lot 9 (cost basis). Schedule roof assessment on Lots 22 &amp; 92. Confirm Andrea&rsquo;s cleanout timeline for lots 80, 7, 90, 55. Until walkthrough is complete, every number in this analyzer has an asterisk. Fill the asterisks before the next ad launch.</div>
+      </div>
+    </div>
+    <div class="decision-item">
+      <div class="decision-num">2</div>
+      <div>
+        <div class="dt-title">Engage FL attorney &mdash; lease-option template required before scaling ads</div>
+        <div class="dt-body">Lease-option gives you 15&ndash;30 day eviction on default (vs. months for installment sale). Get the FL-attorney-reviewed lease-option, labor-trade agreement, and utility disclosure drafted now. Do not close buyers on paper you haven&rsquo;t had reviewed. The $2K legal spend is recovered in the first down payment.</div>
+      </div>
+    </div>
+    <div class="decision-item">
+      <div class="decision-num">3</div>
+      <div>
+        <div class="dt-title">Document the Steve Levy partnership agreement in writing</div>
+        <div class="dt-body">Confirm in writing: Jay&rsquo;s right to market all 13 lots, the RTO payment collection structure (who receives payments, how Jay&rsquo;s split works), what happens at payoff (title transfer process), and exit terms. A handshake partnership on a $452K note portfolio is not sufficient. Get it documented.</div>
+      </div>
+    </div>
+    <div class="decision-item">
+      <div class="decision-num">4</div>
+      <div>
+        <div class="dt-title">Launch Group B &amp; C ads as soon as walkthrough data is confirmed</div>
+        <div class="dt-body">Group 2 (lots 30, 80, 7, 94, 90, 55) ads go live as each lot clears its prep step. Group 3 (lots 22, 92) ads launch after roof assessment: either as Builder/Roofer Special ads ($500 down, labor trade) or as Fast Mover after fixing the fatal flaw (spend $5K to reclassify from Cat C to Cat B, unlock $22K note). Phone number: 904-495-1554. Deploy to FB Marketplace (English + Spanish), Craigslist, MHVillage.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-foot">Park Avenue MHP &middot; Sanford FL &middot; RE_OS Deal File &middot; Page 5 of 5</div>
 </div>
 
-<script>
-  document.querySelectorAll('.unit-gallery').forEach(function(gallery) {
-    var imgs = gallery.querySelectorAll('.gal-img');
-    if (imgs.length <= 1) return;
-    var current = 0;
-    var counter = gallery.querySelector('.gal-counter');
-    function show(n) {
-      imgs[current].classList.remove('active');
-      current = (n + imgs.length) % imgs.length;
-      imgs[current].classList.add('active');
-      if (counter) counter.textContent = (current+1) + '/' + imgs.length;
-    }
-    gallery.querySelector('.gal-prev').addEventListener('click', function(e) { e.stopPropagation(); show(current-1); });
-    gallery.querySelector('.gal-next').addEventListener('click', function(e) { e.stopPropagation(); show(current+1); });
-  });
-</script>
 </body>
 </html>

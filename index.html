@@ -2,12 +2,503 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="robots" content="noindex, nofollow, noarchive">
-<meta http-equiv="refresh" content="0; url=portfolio.html">
-<title>Deal Dashboards — Redirecting</title>
+<title>Active Deals — Jay Williams</title>
+<style>
+  :root {
+    --bg: #0f0f12;
+    --surface: #18181f;
+    --border: #2a2a35;
+    --accent: #6c63ff;
+    --green: #22c55e;
+    --amber: #f59e0b;
+    --red: #ef4444;
+    --blue: #3b82f6;
+    --purple: #a855f7;
+    --gold: #e8a020;
+    --text: #e5e5ef;
+    --muted: #6b6b80;
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── LOCK SCREEN ─────────────────────────────── */
+  #lock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 32px 24px;
+    gap: 24px;
+  }
+  #lock .logo { font-size: 48px; }
+  #lock h1 { font-size: 22px; font-weight: 700; color: var(--text); letter-spacing: -0.5px; }
+  #lock p { font-size: 14px; color: var(--muted); }
+  #lock input {
+    width: 100%;
+    max-width: 300px;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    color: var(--text);
+    font-size: 18px;
+    padding: 14px 18px;
+    text-align: center;
+    outline: none;
+    letter-spacing: 4px;
+  }
+  #lock input:focus { border-color: var(--accent); }
+  #lock button {
+    width: 100%;
+    max-width: 300px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 12px;
+    padding: 16px;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  #lock button:active { opacity: 0.8; }
+  #lock .error { color: var(--red); font-size: 13px; min-height: 18px; }
+
+  /* ── DASHBOARD ───────────────────────────────── */
+  #dash { display: none; }
+  .topbar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 10;
+  }
+  .topbar h1 { font-size: 17px; font-weight: 700; letter-spacing: -0.3px; }
+  .topbar .date { font-size: 12px; color: var(--muted); }
+  .lock-btn {
+    background: none; border: 1px solid var(--border); color: var(--muted);
+    border-radius: 8px; padding: 6px 12px; font-size: 12px; cursor: pointer;
+  }
+  .content { padding: 20px 16px 40px; max-width: 800px; margin: 0 auto; }
+
+  /* ── PORTFOLIO SNAPSHOT ──────────────────────── */
+  .snapshot {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 28px;
+  }
+  .snap-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 16px;
+  }
+  .snap-card .val { font-size: 26px; font-weight: 800; letter-spacing: -1px; line-height: 1; margin-bottom: 4px; }
+  .snap-card .lbl { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .snap-card.warn .val { color: var(--amber); }
+  .snap-card.good .val { color: var(--green); }
+  .snap-card.info .val { color: var(--blue); }
+  .snap-card.active .val { color: var(--purple); }
+
+  /* ── SECTION HEADER ──────────────────────────── */
+  .section-header {
+    font-size: 13px; font-weight: 600; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.8px;
+    margin-bottom: 12px; padding-left: 2px;
+  }
+
+  /* ── DEAL CARDS ──────────────────────────────── */
+  .deals { display: flex; flex-direction: column; gap: 14px; margin-bottom: 32px; }
+  .deal-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 18px;
+    position: relative; overflow: hidden;
+    text-decoration: none; color: inherit; display: block;
+    transition: transform 0.15s, border-color 0.15s;
+  }
+  .deal-card:hover { transform: translateY(-1px); border-color: var(--accent); }
+  .deal-card::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 4px; background: var(--accent); border-radius: 4px 0 0 4px;
+  }
+  .deal-card.stage-go::before          { background: var(--green); }
+  .deal-card.stage-conditional::before { background: var(--amber); }
+  .deal-card.stage-bundle::before      { background: var(--gold); }
+
+  .deal-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+  .deal-name { font-size: 16px; font-weight: 700; letter-spacing: -0.3px; }
+  .deal-addr { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .deal-arrow { color: var(--muted); font-size: 18px; flex-shrink: 0; }
+  .deal-card:hover .deal-arrow { color: var(--accent); }
+
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+  .badge {
+    font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+    padding: 3px 8px; border-radius: 20px; border: 1px solid;
+  }
+  .badge-go          { background: rgba(34,197,94,.12);  color: var(--green); border-color: rgba(34,197,94,.3); }
+  .badge-conditional { background: rgba(245,158,11,.12); color: var(--amber); border-color: rgba(245,158,11,.3); }
+  .badge-bundle      { background: rgba(232,160,32,.12); color: var(--gold);  border-color: rgba(232,160,32,.3); }
+  .badge-coliving    { background: rgba(108,99,255,.12); color: var(--accent); border-color: rgba(108,99,255,.3); }
+  .badge-subto       { background: rgba(168,85,247,.12); color: var(--purple); border-color: rgba(168,85,247,.3); }
+  .badge-sf          { background: rgba(168,85,247,.12); color: var(--purple); border-color: rgba(168,85,247,.3); }
+  .badge-mhp         { background: rgba(34,197,94,.12);  color: var(--green); border-color: rgba(34,197,94,.3); }
+  .badge-rto         { background: rgba(245,158,11,.12); color: var(--amber); border-color: rgba(245,158,11,.3); }
+
+  .deal-metrics {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    gap: 10px; margin-bottom: 14px;
+  }
+  .metric .mval { font-size: 16px; font-weight: 700; letter-spacing: -0.3px; color: var(--text); }
+  .metric .mval.green { color: var(--green); }
+  .metric .mval.amber { color: var(--amber); }
+  .metric .mval.gold  { color: var(--gold); }
+  .metric .mlbl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; margin-top: 1px; }
+
+  .next-action {
+    background: rgba(108,99,255,.08); border: 1px solid rgba(108,99,255,.2);
+    border-radius: 10px; padding: 10px 12px; font-size: 13px; color: var(--text); line-height: 1.4;
+  }
+  .next-action .na-label {
+    font-size: 10px; font-weight: 700; color: var(--accent);
+    text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 4px;
+  }
+
+  /* ── FLAGS / ALERTS ──────────────────────────── */
+  .alerts { margin-bottom: 28px; display: flex; flex-direction: column; gap: 10px; }
+  .alert-card {
+    background: rgba(239,68,68,.07); border: 1px solid rgba(239,68,68,.25);
+    border-radius: 12px; padding: 14px 16px; font-size: 13px; line-height: 1.4;
+  }
+  .alert-card .al { font-weight: 700; color: var(--red); margin-bottom: 2px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .alert-card.warn { background: rgba(245,158,11,.07); border-color: rgba(245,158,11,.25); }
+  .alert-card.warn .al { color: var(--amber); }
+
+  .footer {
+    text-align: center; font-size: 11px; color: var(--muted);
+    padding: 16px; border-top: 1px solid var(--border); margin-top: 8px;
+  }
+</style>
 </head>
 <body>
-<p>Redirecting to <a href="portfolio.html">Deal Prioritization Hub</a>...</p>
+
+<!-- LOCK SCREEN -->
+<div id="lock">
+  <div class="logo">🔐</div>
+  <h1>Active Deals</h1>
+  <p>Jay Williams — Multi-Exit Deal Analyzer</p>
+  <input type="password" id="pw" placeholder="••••••••" autocomplete="off" autocorrect="off" spellcheck="false">
+  <div class="error" id="err"></div>
+  <button onclick="unlock()">Unlock</button>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dash">
+  <div class="topbar">
+    <div>
+      <h1>Active Deals</h1>
+      <div class="date" id="topdate"></div>
+    </div>
+    <button class="lock-btn" onclick="lockScreen()">Lock</button>
+  </div>
+
+  <div class="content">
+
+    <div class="section-header" style="margin-bottom:10px;">Portfolio Snapshot</div>
+    <div class="snapshot">
+      <div class="snap-card good"><div class="val">8</div><div class="lbl">Active deals</div></div>
+      <div class="snap-card info"><div class="val">5 GO</div><div class="lbl">Approved exits</div></div>
+      <div class="snap-card warn"><div class="val">3</div><div class="lbl">Conditional</div></div>
+      <div class="snap-card active"><div class="val">$1.5M+</div><div class="lbl">Combined ARV</div></div>
+    </div>
+
+    <div class="section-header">Flags</div>
+    <div class="alerts">
+      <div class="alert-card warn">
+        <div class="al">⏰ Catoma Balloon</div>
+        $45K balloon due 11/8/2027 — 19 months out. Refi path identified ($198K available at 75% LTV). Action trigger: Q3 2027.
+      </div>
+      <div class="alert-card warn">
+        <div class="al">⚠ Forest Hills</div>
+        Standalone money-loser (cumulative −$39K Yr5). Bundle with Skycrest mandatory. Don't unbundle.
+      </div>
+      <div class="alert-card warn">
+        <div class="al">⚠ Brook Forest</div>
+        4 rooms = 11% CoC (fails 20% target). Add 5th room (~$3K) → 40%+ CoC. 5th room is the entire thesis.
+      </div>
+    </div>
+
+    <div class="section-header">8 Active Deals · Click to View Full Analysis</div>
+    <div class="deals">
+
+      <a href="skycrest.html" class="deal-card stage-go">
+        <div class="deal-top">
+          <div>
+            <div class="deal-name">★ Skycrest <span style="color: var(--gold); font-size: 11px; font-weight: 600; margin-left: 6px;">ANCHOR</span></div>
+            <div class="deal-addr">10469 Skycrest Dr N · Jacksonville FL 32246</div>
+          </div>
+          <div class="deal-arrow">→</div>
+        </div>
+        <div class="badges">
+          <span class="badge badge-go">GO · Co-Living</span>
+          <span class="badge badge-sf">Seller Finance IO</span>
+          <span class="badge badge-bundle">Raj Mody Bundle</span>
+        </div>
+        <div class="deal-metrics">
+          <div class="metric"><div class="mval green">45.4%</div><div class="mlbl">Best CoC</div></div>
+          <div class="metric"><div class="mval green">$1,969</div><div class="mlbl">Best Mo CF</div></div>
+          <div class="metric"><div class="mval">9</div><div class="mlbl">Rooms</div></div>
+          <div class="metric"><div class="mval">$52K</div><div class="mlbl">All-In</div></div>
+        </div>
+        <div class="next-action">
+          <div class="na-label">Next Action</div>
+          GC walk-through to validate $40K rehab. Bundle with Forest Hills at $780K. Lock 5% IO with 5-yr extension option. Confirm zoning with COJ Planning.
+        </div>
+      </a>
+
+      <a href="forest-hills.html" class="deal-card stage-bundle">
+        <div class="deal-top">
+          <div>
+            <div class="deal-name">Forest Hills</div>
+            <div class="deal-addr">1645 Forest Hills Rd · Jacksonville FL 32208</div>
+          </div>
+          <div class="deal-arrow">→</div>
+        </div>
+        <div class="badges">
+          <span class="badge badge-bundle">Bundle GO Only</span>
+          <span class="badge badge-sf">Seller Finance IO</span>
+          <span class="badge badge-coliving">Co-Living</span>
+        </div>
+        <div class="deal-metrics">
+          <div class="metric"><div class="mval amber">6.5%</div><div class="mlbl">CoC standalone</div></div>
+          <div class="metric"><div class="mval">$467</div><div class="mlbl">Mo CF (mkt)</div></div>
+          <div class="metric"><div class="mval">9</div><div class="mlbl">Rooms</div></div>
+          <div class="metric"><div class="mval">$86K</div><div class="mlbl">All-In</div></div>
+        </div>
+        <div class="next-action">
+          <div class="na-label">Next Action</div>
+          Negotiate as part of $780K bundle with Skycrest. Wrap-around exit ($1,522/mo spread, $115K 5-yr) is actually stronger standalone. Skycrest carries the bundle.
+        </div>
+      </a>
+
+      <a href="catoma-mhp.html" class="deal-card stage-go">
+        <div class="deal-top">
+          <div>
+            <div class="deal-name">Catoma MHP</div>
+            <div class="deal-addr">5849 Catoma St · Jacksonville FL 32210 · 6-unit park</div>
+          </div>
+          <div class="deal-arrow">→</div>
+        </div>
+        <div class="badges">
+          <span class="badge badge-go">GO · Park & Hold</span>
+          <span class="badge badge-mhp">MHP</span>
+          <span class="badge badge-sf">Seller Finance</span>
+        </div>
+        <div class="deal-metrics">
+          <div class="metric"><div class="mval green">37.1%</div><div class="mlbl">CoC</div></div>
+          <div class="metric"><div class="mval green">$1,470</div><div class="mlbl">Mo CF</div></div>
+          <div class="metric"><div class="mval gold">$45K</div><div class="mlbl">Balloon 11/27</div></div>
+          <div class="metric"><div class="mval">$47.5K</div><div class="mlbl">All-In</div></div>
+        </div>
+        <div class="next-action">
+          <div class="na-label">Next Action</div>
+          CE blocker cleared 4/21. Make offer. Build refi path for $45K balloon (Q3 2027 trigger — $198K available at 75% LTV).
+        </div>
+      </a>
+
+      <a href="ron-rd.html" class="deal-card stage-conditional">
+        <div class="deal-top">
+          <div>
+            <div class="deal-name">Ron Rd</div>
+            <div class="deal-addr">1430 Ron Rd · Jacksonville FL 32218 · Sub-To PadSplit</div>
+          </div>
+          <div class="deal-arrow">→</div>
+        </div>
+        <div class="badges">
+          <span class="badge badge-conditional">Conditional GO</span>
+          <span class="badge badge-subto">Sub-To</span>
+          <span class="badge badge-coliving">PadSplit</span>
+        </div>
+        <div class="deal-metrics">
+          <div class="metric"><div class="mval green">24.0%</div><div class="mlbl">CoC</div></div>
+          <div class="metric"><div class="mval">$697</div><div class="mlbl">Mo CF</div></div>
+          <div class="metric"><div class="mval">7</div><div class="mlbl">Rooms</div></div>
+          <div class="metric"><div class="mval">$34.9K</div><div class="mlbl">All-In</div></div>
+        </div>
+        <div class="next-action">
+          <div class="na-label">Next Action</div>
+          3 deal-gates before close: (1) confirm underlying mortgage rate, (2) physical walk for 7-room feasibility, (3) Sub-To attorney + land trust for DOS protection.
+        </div>
+      </a>
+
+      <a href="harts-rd.html" class="deal-card stage-go">
+        <div class="deal-top">
+          <div>
+            <div class="deal-name">Harts Rd</div>
+            <div class="deal-addr">11714 Harts Rd · Jacksonville FL 32218 · Sub-To PadSplit</div>
+          </div>
+          <div class="deal-arrow">→</div>
+        </div>
+        <div class="badges">
+          <span class="badge badge-go">GO · PadSplit</span>
+          <span class="badge badge-subto">Sub-To 5.25%</span>
+        </div>
+        <div class="deal-metrics">
+          <div class="metric"><div class="mval green">21.2%</div><div class="mlbl">CoC market</div></div>
+          <div class="metric"><div class="mval green">43.2%</div><div class="mlbl">CoC seller-2nd</div></div>
+          <div class="metric"><div class="mval">7</div><div class="mlbl">Rooms</div></div>
+          <div class="metric"><div class="mval">$62K</div><div class="mlbl">All-In</div></div>
+        </div>
+        <div class="next-action">
+          <div class="na-label">Next Action</div>
+          Title search · 7-room walk · PadSplit comp verification 32218 · written servicer reinstatement quote (DOS posture).
+        </div>
+      </a>
+
+      <a href="brook-forest.html" class="deal-card stage-conditional">
+        <div class="deal-top">
+          <div>
+            <div class="deal-name">Brook Forest</div>
+            <div class="deal-addr">1588 Brook Forest Dr · Sub-To PadSplit</div>
+          </div>
+          <div class="deal-arrow">→</div>
+        </div>
+        <div class="badges">
+          <span class="badge badge-conditional">Conditional · 5th Room</span>
+          <span class="badge badge-subto">Sub-To 5.87%</span>
+        </div>
+        <div class="deal-metrics">
+          <div class="metric"><div class="mval amber">10.9%</div><div class="mlbl">4-room CoC</div></div>
+          <div class="metric"><div class="mval green">40%+</div><div class="mlbl">5-room CoC</div></div>
+          <div class="metric"><div class="mval">4 → 5</div><div class="mlbl">Rooms</div></div>
+          <div class="metric"><div class="mval">$24.5K</div><div class="mlbl">All-In</div></div>
+        </div>
+        <div class="next-action">
+          <div class="na-label">Next Action</div>
+          5th room is the entire thesis. Validate conversion (~$3K) before close. Without it, deal fails 20% target.
+        </div>
+      </a>
+
+      <a href="alicante-rd.html" class="deal-card stage-conditional">
+        <div class="deal-top">
+          <div>
+            <div class="deal-name">Alicante Rd</div>
+            <div class="deal-addr">102 Alicante Rd · St. Johns County · Sub-To 4.625%</div>
+          </div>
+          <div class="deal-arrow">→</div>
+        </div>
+        <div class="badges">
+          <span class="badge badge-conditional">Conditional GO</span>
+          <span class="badge badge-subto">Sub-To 4.625%</span>
+          <span class="badge badge-coliving">Co-Living</span>
+        </div>
+        <div class="deal-metrics">
+          <div class="metric"><div class="mval">10%</div><div class="mlbl">CoC market</div></div>
+          <div class="metric"><div class="mval green">33%</div><div class="mlbl">CoC optimistic</div></div>
+          <div class="metric"><div class="mval">6</div><div class="mlbl">Rooms target</div></div>
+          <div class="metric"><div class="mval">$41K</div><div class="mlbl">All-In</div></div>
+        </div>
+        <div class="next-action">
+          <div class="na-label">Next Action</div>
+          Walk-through to confirm 6-room conversion in 1,722sqft 3BR/2BA. St. Johns zoning confirmation for weekly co-living.
+        </div>
+      </a>
+
+      <a href="steve-levy.html" class="deal-card stage-go">
+        <div class="deal-top">
+          <div>
+            <div class="deal-name">Park Ave MHP — Steve Levy</div>
+            <div class="deal-addr">Sanford FL 32771 · 13-unit RTO portfolio · 55+</div>
+          </div>
+          <div class="deal-arrow">→</div>
+        </div>
+        <div class="badges">
+          <span class="badge badge-go">GO · RTO Sales</span>
+          <span class="badge badge-mhp">MHP</span>
+          <span class="badge badge-rto">RTO</span>
+        </div>
+        <div class="deal-metrics">
+          <div class="metric"><div class="mval green">$67.4K</div><div class="mlbl">Yr1 Down Pmts</div></div>
+          <div class="metric"><div class="mval green">$5,133</div><div class="mlbl">Mo CF base</div></div>
+          <div class="metric"><div class="mval">13</div><div class="mlbl">Lots</div></div>
+          <div class="metric"><div class="mval gold">7%</div><div class="mlbl">ROI Pricing</div></div>
+        </div>
+        <div class="next-action">
+          <div class="na-label">Next Action</div>
+          Group A live. Get Lot 9 cost basis from Steve. Schedule roof assessment Lots 22 + 92. Run Group B/C/D ads.
+        </div>
+      </a>
+
+    </div>
+
+    <div class="section-header">Capital Stack</div>
+    <div class="snapshot" style="margin-bottom:32px;">
+      <div class="snap-card">
+        <div class="val" style="font-size:20px; color:var(--green);">$100K</div>
+        <div class="lbl">Sandra @ 4%</div>
+      </div>
+      <div class="snap-card">
+        <div class="val" style="font-size:20px; color:var(--amber);">Glenn</div>
+        <div class="lbl">2pts + 12% — use last</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    Multi-Exit Deal Analyzer · Updated <span id="lastupdate"></span> · 8 active deals
+  </div>
+</div>
+
+<script>
+  const PASS = 'jay2026';
+
+  function unlock() {
+    const val = document.getElementById('pw').value;
+    if (val === PASS) {
+      document.getElementById('lock').style.display = 'none';
+      document.getElementById('dash').style.display = 'block';
+      sessionStorage.setItem('unlocked', '1');
+      initDash();
+    } else {
+      const err = document.getElementById('err');
+      err.textContent = 'Wrong password. Try again.';
+      document.getElementById('pw').value = '';
+      document.getElementById('pw').focus();
+      setTimeout(() => err.textContent = '', 2500);
+    }
+  }
+
+  function lockScreen() {
+    sessionStorage.removeItem('unlocked');
+    document.getElementById('lock').style.display = 'flex';
+    document.getElementById('dash').style.display = 'none';
+    document.getElementById('pw').value = '';
+  }
+
+  function initDash() {
+    const now = new Date();
+    const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    document.getElementById('topdate').textContent =
+      days[now.getDay()] + ' ' + months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
+    document.getElementById('lastupdate').textContent = months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
+  }
+
+  if (sessionStorage.getItem('unlocked') === '1') {
+    document.getElementById('lock').style.display = 'none';
+    document.getElementById('dash').style.display = 'block';
+    initDash();
+  }
+
+  document.getElementById('pw').addEventListener('keydown', e => {
+    if (e.key === 'Enter') unlock();
+  });
+</script>
 </body>
 </html>
