@@ -960,6 +960,59 @@
     .justify-between { justify-content: space-between; }
     .gap-8 { gap: 8px; }
     .w-100 { width: 100%; }
+
+    /* Move-in checklist */
+    .mi-checklist {
+      background: var(--amber-lt);
+      border: 1.5px solid var(--amber);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      margin-bottom: 14px;
+    }
+    .mi-checklist-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #92400E;
+      margin-bottom: 10px;
+    }
+    .mi-check-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 0;
+      font-size: 13px;
+      color: #1F2937;
+      border-bottom: 1px solid rgba(245,158,11,0.3);
+      cursor: pointer;
+    }
+    .mi-check-item:last-child { border-bottom: none; }
+    .mi-check-item input[type="checkbox"] {
+      width: 18px; height: 18px;
+      accent-color: var(--green);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .mi-check-item.checked { color: var(--green); text-decoration: line-through; }
+
+    /* Price notification banner on Andrea's tablero */
+    .price-notif-banner {
+      background: var(--blue-lt);
+      border: 2px solid var(--blue);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      margin-bottom: 14px;
+    }
+    .price-notif-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--blue);
+      margin-bottom: 8px;
+    }
+    .price-notif-row {
+      font-size: 13px;
+      color: #1F2937;
+      padding: 3px 0;
+    }
   </style>
 </head>
 <body>
@@ -1272,6 +1325,18 @@
         </div>
       </div>
 
+      <!-- Vacancy bleed alert row -->
+      <div class="stat-row" style="margin-bottom:14px;">
+        <div class="stat-bubble" style="background:var(--red-lt);border:2px solid var(--red);flex:1;">
+          <span class="stat-num" style="color:var(--red);font-size:20px;" id="j-vacancy-bleed">$0</span>
+          <span class="stat-label" style="color:var(--red);">Vacancy Bleed/wk</span>
+        </div>
+        <div class="stat-bubble" style="background:var(--red-lt);border:2px solid var(--red);flex:1;">
+          <span class="stat-num" style="color:var(--red);font-size:20px;" id="j-annual-bleed">$0</span>
+          <span class="stat-label" style="color:var(--red);">Annual Run-Rate Lost</span>
+        </div>
+      </div>
+
       <!-- Property Table -->
       <div style="overflow-x:auto;margin-bottom:14px;border-radius:var(--radius-sm);">
         <table class="portfolio-table" id="portfolio-table">
@@ -1421,6 +1486,11 @@
     </div>
 
     <div class="form-group">
+      <label class="form-label">Referido por / <span class="en-label">Referred by</span></label>
+      <input type="text" class="form-input" id="nt-referrer" placeholder="¿Quién los recomendó? / Who referred them?">
+    </div>
+
+    <div class="form-group">
       <label class="form-label">ID presentado / <span class="en-label">ID type</span></label>
       <select class="form-select" id="nt-id">
         <option value="">Selecciona...</option>
@@ -1475,9 +1545,39 @@
       <input type="date" class="form-input" id="mi-movein">
     </div>
 
+    <div class="form-group">
+      <label class="form-label">Referido por / <span class="en-label">Referred by</span></label>
+      <input type="text" class="form-input" id="mi-referrer" placeholder="¿Quién los recomendó? / Who referred them?">
+    </div>
+
+    <!-- Move-in checklist — all must be checked before Confirmar enables -->
+    <div class="mi-checklist">
+      <div class="mi-checklist-title">☑️ Lista antes de confirmar / Pre-move-in checklist</div>
+      <label class="mi-check-item" id="mici-id">
+        <input type="checkbox" class="mi-check" onchange="updateMoveInBtn(this)">
+        Foto de ID tomada / ID photo taken
+      </label>
+      <label class="mi-check-item" id="mici-rules">
+        <input type="checkbox" class="mi-check" onchange="updateMoveInBtn(this)">
+        Reglas de la casa entregadas / House rules delivered
+      </label>
+      <label class="mi-check-item" id="mici-deposit">
+        <input type="checkbox" class="mi-check" onchange="updateMoveInBtn(this)">
+        Depósito $100 cobrado / $100 deposit collected
+      </label>
+      <label class="mi-check-item" id="mici-week">
+        <input type="checkbox" class="mi-check" onchange="updateMoveInBtn(this)">
+        Primera semana cobrada / First week collected
+      </label>
+      <label class="mi-check-item" id="mici-emergency">
+        <input type="checkbox" class="mi-check" onchange="updateMoveInBtn(this)">
+        Contacto de emergencia anotado / Emergency contact noted
+      </label>
+    </div>
+
     <div class="btn-row">
       <button class="btn btn-ghost" onclick="closeModal('movein-modal')">Cancelar</button>
-      <button class="btn btn-green" onclick="saveMoveIn()">✓ Confirmar Mudanza</button>
+      <button class="btn btn-green" id="movein-confirm-btn" onclick="saveMoveIn()" disabled style="opacity:0.4;">✓ Confirmar Mudanza</button>
     </div>
   </div>
 </div>
@@ -1784,6 +1884,7 @@ async function atSyncNewTenant(tenantData) {
       'Phone': tenantData.phone || '',
       'Weekly Rent': tenantData.rent,
       'Move In Date': tenantData.moveIn || null,
+      'Referred By': tenantData.referredBy || '',
       'Status': 'ACTIVE',
     });
     // Update room status in Airtable
@@ -1853,13 +1954,14 @@ async function atSyncMaintenance(maintData) {
    STORAGE KEYS
 ---------------------------------------------------------------- */
 const SK = {
-  vacancies:   'ca_v6_vac',    // {roomId: {since:'YYYY-MM-DD'}}
-  payments:    'ca_v6_pay',    // {weekKey: {roomId: {paid,amt,method,ts,late}}}
-  pricing:     'ca_v6_price',  // {roomId: newRent}
-  submissions: 'ca_v6_sub',    // [{weekKey,ts,collected,owed,vacant,notes}]
-  tenants:     'ca_v6_tenants',// [{id,name,propId,roomId,rent,moveIn,idType,incomeProof,phone,method}]
-  maintenance: 'ca_v6_maint',  // [{id,propId,roomId,issue,desc,ts,status}]
-  cleaning:    'ca_v6_clean',  // {taskId: {done,ts}}
+  vacancies:    'ca_v6_vac',       // {roomId: {since:'YYYY-MM-DD'}}
+  payments:     'ca_v6_pay',       // {weekKey: {roomId: {paid,amt,method,ts,late}}}
+  pricing:      'ca_v6_price',     // {roomId: newRent}
+  submissions:  'ca_v6_sub',       // [{weekKey,ts,collected,owed,vacant,notes}]
+  tenants:      'ca_v6_tenants',   // [{id,name,propId,roomId,rent,moveIn,idType,incomeProof,phone,method,referredBy}]
+  maintenance:  'ca_v6_maint',     // [{id,propId,roomId,issue,desc,ts,status}]
+  cleaning:     'ca_v6_clean',     // {taskId: {done,ts}}
+  priceNotifs:  'ca_v7_price_notifs', // [{ts,changes:[{roomId,propName,unit,from,to}],read:false}]
 };
 
 /* ----------------------------------------------------------------
@@ -2458,13 +2560,14 @@ function populateRoomSelect() {
 }
 
 function saveNewTenant() {
-  const name   = document.getElementById('nt-name').value.trim();
-  const phone  = document.getElementById('nt-phone').value.trim();
-  const propId = document.getElementById('nt-prop').value;
-  const roomId = document.getElementById('nt-room').value;
-  const rent   = parseFloat(document.getElementById('nt-rent').value);
-  const moveIn = document.getElementById('nt-movein').value;
-  const idType = document.getElementById('nt-id').value;
+  const name       = document.getElementById('nt-name').value.trim();
+  const phone      = document.getElementById('nt-phone').value.trim();
+  const propId     = document.getElementById('nt-prop').value;
+  const roomId     = document.getElementById('nt-room').value;
+  const rent       = parseFloat(document.getElementById('nt-rent').value);
+  const moveIn     = document.getElementById('nt-movein').value;
+  const idType     = document.getElementById('nt-id').value;
+  const referredBy = document.getElementById('nt-referrer').value.trim();
 
   if (!name || !roomId || !rent) {
     showToast('⚠️ Completa nombre, cuarto y renta / Fill name, room, rent');
@@ -2481,6 +2584,7 @@ function saveNewTenant() {
     moveIn:      moveIn || today(),
     idType,
     phone,
+    referredBy,
     method:      selectedNewTenantMethod || '',
     addedTs:     new Date().toISOString(),
   });
@@ -2504,12 +2608,23 @@ function saveNewTenant() {
 
   // Write-through to Airtable
   const prop = getPropById(propId);
-  atSyncNewTenant({ name, roomId, rent, moveIn: moveIn || today(), phone, propAddr: prop ? prop.addr : '' });
+  atSyncNewTenant({ name, roomId, rent, moveIn: moveIn || today(), phone, referredBy, propAddr: prop ? prop.addr : '' });
 }
 
 /* ----------------------------------------------------------------
    MOVE-IN MODAL (from vacancy board)
 ---------------------------------------------------------------- */
+function updateMoveInBtn(changedBox) {
+  if (changedBox) {
+    const label = changedBox.closest('.mi-check-item');
+    if (label) label.classList.toggle('checked', changedBox.checked);
+  }
+  const checks = document.querySelectorAll('.mi-check');
+  const allChecked = checks.length > 0 && Array.from(checks).every(c => c.checked);
+  const btn = document.getElementById('movein-confirm-btn');
+  if (btn) { btn.disabled = !allChecked; btn.style.opacity = allChecked ? '1' : '0.4'; }
+}
+
 function openMoveInModal(roomId) {
   moveInRoomId = roomId;
   const room = getRoomById(roomId);
@@ -2517,19 +2632,31 @@ function openMoveInModal(roomId) {
 
   document.getElementById('movein-room-info').textContent =
     `${room.propName} — Unit ${room.unit}`;
-  document.getElementById('mi-name').value   = '';
-  document.getElementById('mi-phone').value  = '';
-  document.getElementById('mi-rent').value   = effectiveRent(roomId);
-  document.getElementById('mi-movein').value = today();
+  document.getElementById('mi-name').value     = '';
+  document.getElementById('mi-phone').value    = '';
+  document.getElementById('mi-rent').value     = effectiveRent(roomId);
+  document.getElementById('mi-movein').value   = today();
+  document.getElementById('mi-referrer').value = '';
+
+  // Reset checklist
+  document.querySelectorAll('.mi-check').forEach(c => {
+    c.checked = false;
+    const label = c.closest('.mi-check-item');
+    if (label) label.classList.remove('checked');
+  });
+  const btn = document.getElementById('movein-confirm-btn');
+  if (btn) { btn.disabled = true; btn.style.opacity = '0.4'; }
+
   openModal('movein-modal');
 }
 
 function saveMoveIn() {
   if (!moveInRoomId) return;
-  const name  = document.getElementById('mi-name').value.trim();
-  const phone = document.getElementById('mi-phone').value.trim();
-  const rent  = parseFloat(document.getElementById('mi-rent').value);
-  const moveIn = document.getElementById('mi-movein').value;
+  const name       = document.getElementById('mi-name').value.trim();
+  const phone      = document.getElementById('mi-phone').value.trim();
+  const rent       = parseFloat(document.getElementById('mi-rent').value);
+  const moveIn     = document.getElementById('mi-movein').value;
+  const referredBy = document.getElementById('mi-referrer').value.trim();
 
   if (!name || !rent) {
     showToast('⚠️ Ingresa nombre y renta / Enter name and rent');
@@ -2539,14 +2666,15 @@ function saveMoveIn() {
   const room = getRoomById(moveInRoomId);
   const tenants = load(SK.tenants) || [];
   tenants.push({
-    id:      `t-${Date.now()}`,
+    id:          `t-${Date.now()}`,
     name,
-    propId:  room ? room.propId : '',
-    roomId:  moveInRoomId,
+    propId:      room ? room.propId : '',
+    roomId:      moveInRoomId,
     rent,
-    moveIn:  moveIn || today(),
+    moveIn:      moveIn || today(),
     phone,
-    addedTs: new Date().toISOString(),
+    referredBy,
+    addedTs:     new Date().toISOString(),
   });
   save(SK.tenants, tenants);
 
@@ -2568,7 +2696,7 @@ function saveMoveIn() {
 
   // Write-through to Airtable
   const miRoom = getRoomById(moveInRoomId);
-  atSyncNewTenant({ name, roomId: moveInRoomId, rent, moveIn: moveIn || today(), phone, propAddr: miRoom ? miRoom.propAddr : '' });
+  atSyncNewTenant({ name, roomId: moveInRoomId, rent, moveIn: moveIn || today(), phone, referredBy, propAddr: miRoom ? miRoom.propAddr : '' });
 }
 
 /* ----------------------------------------------------------------
@@ -2794,6 +2922,41 @@ function renderAndreaTablero() {
   } else if (arrearsEl) {
     arrearsEl.remove();
   }
+
+  // --- Price change notification ---
+  let priceNotifEl = document.getElementById('price-notif-banner');
+  const allNotifs = load(SK.priceNotifs) || [];
+  const unreadNotifs = allNotifs.filter(n => !n.read);
+
+  if (unreadNotifs.length > 0) {
+    if (!priceNotifEl) {
+      priceNotifEl = document.createElement('div');
+      priceNotifEl.id = 'price-notif-banner';
+      priceNotifEl.className = 'price-notif-banner';
+      tableroPanel.insertBefore(priceNotifEl, tableroPanel.firstChild);
+    }
+    const latest = unreadNotifs[0];
+    const changeDate = displayDate(latest.ts);
+    let rowsHtml = latest.changes.map(c =>
+      `<div class="price-notif-row">• ${c.propName.split('/')[0].trim()} · ${c.unit}: <strong>$${c.from}</strong> → <strong style="color:var(--green);">$${c.to}</strong>/wk</div>`
+    ).join('');
+    priceNotifEl.innerHTML = `
+      <div class="price-notif-title">💰 Cambio de renta — ${changeDate} / Rent update</div>
+      ${rowsHtml}
+      <div style="font-size:12px;color:var(--gray);margin-top:6px;">Jerel actualizó estos precios. Cobrar la nueva renta en la próxima visita.</div>
+      <button class="btn btn-blue btn-sm" style="margin-top:10px;width:100%;" onclick="dismissPriceNotif()">✓ Entendido / Got it</button>`;
+  } else if (priceNotifEl) {
+    priceNotifEl.remove();
+  }
+}
+
+function dismissPriceNotif() {
+  const notifs = load(SK.priceNotifs) || [];
+  notifs.forEach(n => { n.read = true; });
+  save(SK.priceNotifs, notifs);
+  const el = document.getElementById('price-notif-banner');
+  if (el) el.remove();
+  showToast('✅ Precios anotados / Prices noted');
 }
 
 /* ----------------------------------------------------------------
@@ -3243,6 +3406,13 @@ function renderJerelPortfolio() {
   setEl('j-vacant-count', stats.vacant);
   setEl('j-occ-rate',     occRate + '%');
 
+  // Vacancy bleed: sum of rents for all currently vacant rooms
+  const vacBleedWk = allRooms()
+    .filter(r => isVacant(r.id))
+    .reduce((s, r) => s + effectiveRent(r.id), 0);
+  setEl('j-vacancy-bleed', fmt$(vacBleedWk));
+  setEl('j-annual-bleed',  fmt$(vacBleedWk * 52));
+
   // Property breakdown table
   const tbody = document.getElementById('portfolio-tbody');
   if (!tbody) return;
@@ -3500,7 +3670,23 @@ function adjustPrice(roomId, delta) {
 }
 
 function applyPriceChanges() {
-  showToast('✅ Price changes saved');
+  // Detect which rooms had prices changed from their base rent
+  const pricing = load(SK.pricing) || {};
+  const changes = [];
+  allRooms().forEach(r => {
+    const stored = pricing[r.id];
+    if (stored !== undefined && stored !== r.rent) {
+      changes.push({ roomId: r.id, propName: r.propName, unit: r.unit, from: r.rent, to: stored });
+    }
+  });
+
+  if (changes.length > 0) {
+    const notifs = load(SK.priceNotifs) || [];
+    notifs.unshift({ ts: new Date().toISOString(), changes, read: false });
+    save(SK.priceNotifs, notifs);
+  }
+
+  showToast('✅ Price changes saved' + (changes.length ? ` — ${changes.length} room${changes.length > 1 ? 's' : ''} updated` : ''));
   renderJerelPortfolio();
 }
 
