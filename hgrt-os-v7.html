@@ -994,6 +994,192 @@
     }
     .mi-check-item.checked { color: var(--green); text-decoration: line-through; }
 
+    /* ============================================================
+       LEADS TAB
+    ============================================================ */
+    .lead-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow);
+      padding: 14px 16px;
+      margin-bottom: 10px;
+    }
+    .lead-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+    .lead-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1F2937;
+    }
+    .lead-phone {
+      font-size: 13px;
+      color: var(--gray);
+      margin-top: 2px;
+    }
+    .lead-phone a { color: var(--blue); text-decoration: none; }
+    .lead-detail-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      font-size: 12px;
+      color: var(--gray);
+      margin-bottom: 8px;
+    }
+    .lead-detail-row span { white-space: nowrap; }
+    .lead-actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .stage-pill {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.15s;
+    }
+    .stage-pill:active { transform: scale(0.95); }
+    .stage-pill.active { border-color: #1F2937; }
+    .stage-nuevo      { background: var(--gray-lt); color: var(--gray); }
+    .stage-cita        { background: var(--blue-lt); color: var(--blue); }
+    .stage-mostrado    { background: var(--amber-lt); color: #92400E; }
+    .stage-deposito    { background: var(--purple-lt); color: var(--purple); }
+    .stage-firmado     { background: var(--green-lt); color: #166534; }
+    .stage-mudo        { background: #FFF7ED; color: #9A3412; }
+    .stage-perdido     { background: var(--red-lt); color: var(--red); }
+    .lead-followup-flag {
+      background: #FFF7ED;
+      border: 1px solid #FDBA74;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 12px;
+      color: #9A3412;
+      margin-top: 8px;
+    }
+    .lead-notes-text {
+      font-size: 12px;
+      color: var(--gray);
+      margin-top: 6px;
+      font-style: italic;
+    }
+    .lead-stats-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .lead-stat-chip {
+      flex: 1;
+      text-align: center;
+      background: var(--card-bg);
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow);
+      padding: 10px 6px;
+    }
+    .lead-stat-num {
+      font-size: 22px;
+      font-weight: 800;
+      display: block;
+    }
+    .lead-stat-label {
+      font-size: 10px;
+      color: var(--gray);
+      font-weight: 600;
+    }
+    .lead-filter-row {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .lead-filter-btn {
+      flex-shrink: 0;
+      padding: 6px 12px;
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 2px solid var(--gray-lt);
+      background: var(--card-bg);
+      color: var(--gray);
+      cursor: pointer;
+    }
+    .lead-filter-btn.active {
+      border-color: var(--green);
+      background: var(--green-lt);
+      color: #166534;
+    }
+    .lead-hoy-badge {
+      display: inline-block;
+      background: var(--red);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 99px;
+      margin-left: 6px;
+      animation: pulse-hoy 2s ease-in-out infinite;
+      vertical-align: middle;
+    }
+    @keyframes pulse-hoy { 0%,100%{opacity:1;} 50%{opacity:0.6;} }
+    .lead-wa-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      background: #25D366;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+    }
+    .lead-call-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      background: var(--blue);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+    }
+    .lead-action-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .tab-badge {
+      position: absolute;
+      top: 2px;
+      right: 6px;
+      background: var(--red);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+      min-width: 18px;
+      height: 18px;
+      line-height: 18px;
+      text-align: center;
+      border-radius: 99px;
+      padding: 0 4px;
+    }
+    .tab-btn { position: relative; }
+
     /* Price notification banner on Andrea's tablero */
     .price-notif-banner {
       background: var(--blue-lt);
@@ -1239,6 +1425,55 @@
       </div>
     </div><!-- /andrea-mantenimiento -->
 
+    <!-- LEADS -->
+    <div id="andrea-leads" class="tab-panel">
+      <div class="card-title" style="font-size:18px;margin-bottom:12px;">📋 Leads
+        <div class="en-sub">Prospect Pipeline</div>
+      </div>
+
+      <!-- Stats chips -->
+      <div class="lead-stats-row" id="lead-stats-row">
+        <div class="lead-stat-chip">
+          <span class="lead-stat-num" id="lead-stat-active" style="color:var(--blue);">0</span>
+          <span class="lead-stat-label">Activos</span>
+        </div>
+        <div class="lead-stat-chip">
+          <span class="lead-stat-num" id="lead-stat-showing" style="color:var(--amber);">0</span>
+          <span class="lead-stat-label">Citas</span>
+        </div>
+        <div class="lead-stat-chip">
+          <span class="lead-stat-num" id="lead-stat-won" style="color:var(--green);">0</span>
+          <span class="lead-stat-label">Firmados</span>
+        </div>
+        <div class="lead-stat-chip">
+          <span class="lead-stat-num" id="lead-stat-followup" style="color:#9A3412;">0</span>
+          <span class="lead-stat-label">Seguimiento</span>
+        </div>
+      </div>
+
+      <!-- Filter pills -->
+      <div class="lead-filter-row">
+        <button class="lead-filter-btn active" onclick="filterLeads('all')">Todos</button>
+        <button class="lead-filter-btn" onclick="filterLeads('INQUIRY')">Nuevo</button>
+        <button class="lead-filter-btn" onclick="filterLeads('SHOWING_BOOKED')">Cita</button>
+        <button class="lead-filter-btn" onclick="filterLeads('SHOWED')">Mostrado</button>
+        <button class="lead-filter-btn" onclick="filterLeads('DEPOSIT_REQUESTED')">Deposito</button>
+        <button class="lead-filter-btn" onclick="filterLeads('LOST')">Perdido</button>
+        <button class="lead-filter-btn" onclick="filterLeads('followup')">⚠ Seguir</button>
+      </div>
+
+      <!-- Lead cards container -->
+      <div id="leads-list">
+        <!-- Rendered by JS -->
+      </div>
+
+      <!-- Add lead button -->
+      <button class="btn btn-green btn-block mt-8" onclick="openModal('lead-modal')">
+        ➕ Nuevo Lead
+        <div class="en-sub" style="display:none;font-size:11px;">New Lead</div>
+      </button>
+    </div><!-- /andrea-leads -->
+
   </div><!-- /scroll area -->
 
   <!-- Bottom Tab Nav — Andrea -->
@@ -1258,6 +1493,11 @@
     <button class="tab-btn" onclick="showTab('andrea','inquilinos')" id="tab-andrea-inquilinos">
       <span class="tab-icon">👥</span>
       <span class="tab-label">INQUILINOS</span>
+    </button>
+    <button class="tab-btn" onclick="showTab('andrea','leads')" id="tab-andrea-leads">
+      <span class="tab-icon">📋</span>
+      <span class="tab-label">PROSPECTOS</span>
+      <span class="tab-badge" id="leads-badge" style="display:none;">0</span>
     </button>
     <button class="tab-btn" onclick="showTab('andrea','mantenimiento')" id="tab-andrea-mantenimiento">
       <span class="tab-icon">🔧</span>
@@ -1659,6 +1899,104 @@
   </div>
 </div>
 
+<!-- Lead Modal -->
+<div class="modal-overlay" id="lead-modal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Nuevo Lead 📋<br><span style="font-size:14px;font-weight:400;color:var(--gray);">New Lead</span></div>
+
+    <div class="form-group">
+      <label class="form-label">Nombre / <span class="en-label">Name</span></label>
+      <input type="text" class="form-input" id="lead-name" placeholder="Nombre completo...">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Telefono / <span class="en-label">Phone</span></label>
+      <input type="tel" class="form-input" id="lead-phone" placeholder="904-555-1234" inputmode="tel">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Fuente / <span class="en-label">Source</span></label>
+      <select class="form-select" id="lead-source">
+        <option value="FB Marketplace">FB Marketplace</option>
+        <option value="FB Group">FB Group</option>
+        <option value="WhatsApp">WhatsApp</option>
+        <option value="Referral">Referido / Referral</option>
+        <option value="Walk-in">Visita directa / Walk-in</option>
+        <option value="AI Sophia">AI Sophia</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Idioma / <span class="en-label">Language</span></label>
+      <select class="form-select" id="lead-lang">
+        <option value="Spanish">Espanol</option>
+        <option value="English">English</option>
+        <option value="Both">Ambos / Both</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Propiedad / <span class="en-label">Interested Property</span></label>
+      <select class="form-select" id="lead-property">
+        <option value="">Cualquiera / Any</option>
+        <!-- Populated by JS -->
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Presupuesto semanal / <span class="en-label">Weekly Budget</span></label>
+      <input type="number" class="form-input" id="lead-budget" placeholder="$150" inputmode="decimal">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Notas / <span class="en-label">Notes</span></label>
+      <textarea class="form-input" id="lead-notes" rows="2" placeholder="Detalles adicionales..." style="resize:none;height:auto;min-height:60px;"></textarea>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="closeModal('lead-modal')">Cancelar</button>
+      <button class="btn btn-green" onclick="saveLead()">📋 Guardar Lead</button>
+    </div>
+  </div>
+</div>
+
+<!-- Lead Detail Modal (for advancing stages / notes) -->
+<div class="modal-overlay" id="lead-detail-modal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="lead-detail-title">Lead</div>
+
+    <div class="lead-action-bar" id="lead-detail-actions">
+      <!-- Call + WhatsApp buttons rendered by JS -->
+    </div>
+
+    <div id="lead-detail-info" style="margin-bottom:16px;"></div>
+
+    <div class="form-group">
+      <label class="form-label">Cambiar estado / <span class="en-label">Change Stage</span></label>
+      <div class="lead-actions" id="lead-detail-stages" style="flex-wrap:wrap;gap:8px;">
+        <!-- Stage pills rendered by JS -->
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Notas / <span class="en-label">Notes</span></label>
+      <textarea class="form-input" id="lead-detail-notes" rows="3" placeholder="Agregar nota..." style="resize:none;height:auto;min-height:70px;"></textarea>
+    </div>
+
+    <div class="form-group" id="lead-lost-reason-group" style="display:none;">
+      <label class="form-label">Razon de perdida / <span class="en-label">Lost Reason</span></label>
+      <input type="text" class="form-input" id="lead-lost-reason" placeholder="Por que se perdio...">
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="closeModal('lead-detail-modal')">Cerrar</button>
+      <button class="btn btn-blue" onclick="updateLeadDetail()">💾 Guardar</button>
+    </div>
+  </div>
+</div>
+
 <!-- ================================================================
      JAVASCRIPT — DATA + STATE + HELPERS
 ================================================================ -->
@@ -1729,6 +2067,9 @@ async function atUpdate(tableId, recordId, fields) {
 let atRoomRecords = [];       // raw Airtable room records
 let atTenantRecords = [];     // raw Airtable tenant records
 let atMaintenanceRecords = []; // raw Airtable maintenance records
+let atLeadRecords = [];       // raw Airtable lead records
+let currentLeadFilter = 'all'; // active lead filter
+let editingLeadId = null;      // lead record being edited
 
 /* ----------------------------------------------------------------
    PROPS — dynamically built from Airtable
@@ -1741,15 +2082,17 @@ let PROPS = [];
  */
 async function loadFromAirtable() {
   try {
-    const [roomRecs, tenantRecs, maintRecs] = await Promise.all([
+    const [roomRecs, tenantRecs, maintRecs, leadRecs] = await Promise.all([
       atFetchAll(AT.tables.rooms),
       atFetchAll(AT.tables.tenants),
       atFetchAll(AT.tables.maintenance),
+      atFetchAll(AT.tables.leads),
     ]);
 
     atRoomRecords = roomRecs;
     atTenantRecords = tenantRecs;
     atMaintenanceRecords = maintRecs;
+    atLeadRecords = leadRecs;
 
     // Build tenant lookup: roomId → tenant record
     const tenantByRoom = {};
@@ -2349,6 +2692,8 @@ function activateRole(role) {
     renderTenants();
     renderCleaning();
     renderMaintenance();
+    renderLeads();         // renders cards + updates badge count
+    populateLeadPropertyDropdown();
   } else {
     showScreen('jerel-shell');
     const wk = currentWeekKey();
@@ -2391,6 +2736,7 @@ function showTab(role, tab) {
     if (tab === 'cobros')       renderCobros();
     if (tab === 'cuartos')      renderVacancyBoard();
     if (tab === 'inquilinos')   renderTenants();
+    if (tab === 'leads')         renderLeads();
     if (tab === 'mantenimiento') { renderCleaning(); renderMaintenance(); }
   } else {
     if (tab === 'portfolio') renderJerelPortfolio();
@@ -3778,6 +4124,322 @@ function exportCsv() {
   a.click();
   URL.revokeObjectURL(url);
   showToast('📥 CSV exported');
+}
+
+/* ================================================================
+   LEADS — Pipeline Management
+================================================================ */
+
+const STAGE_MAP = {
+  'INQUIRY':           { label: 'Nuevo',     css: 'stage-nuevo' },
+  'RESPONDED':         { label: 'Contactado', css: 'stage-cita' },
+  'QUALIFIED':         { label: 'Calificado', css: 'stage-cita' },
+  'SHOWING_BOOKED':    { label: 'Cita',       css: 'stage-cita' },
+  'SHOWED':            { label: 'Mostrado',   css: 'stage-mostrado' },
+  'APPLICATION':       { label: 'Aplicacion', css: 'stage-mostrado' },
+  'DEPOSIT_REQUESTED': { label: 'Deposito',   css: 'stage-deposito' },
+  'DEPOSIT_RECEIVED':  { label: 'Deposito OK', css: 'stage-deposito' },
+  'SIGNED':            { label: 'Firmado',    css: 'stage-firmado' },
+  'LOST':              { label: 'Perdido',    css: 'stage-perdido' },
+};
+
+// Simplified stage flow for Andrea's pills
+const ANDREA_STAGES = ['INQUIRY','SHOWING_BOOKED','SHOWED','DEPOSIT_REQUESTED','SIGNED','LOST'];
+
+function leadNeedsFollowup(rec) {
+  const f = rec.fields;
+  const stage = f['Stage'] || 'INQUIRY';
+  if (stage === 'SIGNED' || stage === 'LOST') return false;
+  const lastAction = f['Last Action'] || f['First Contact'];
+  if (!lastAction) return true;
+  const hoursSince = (Date.now() - new Date(lastAction).getTime()) / 3600000;
+  // Follow up needed if >24h since last action
+  return hoursSince > 24;
+}
+
+function renderLeads() {
+  const container = document.getElementById('leads-list');
+  if (!container) return;
+
+  // Sort: follow-ups first, then by recency
+  const leads = [...atLeadRecords].sort((a, b) => {
+    const aFollow = leadNeedsFollowup(a) ? 0 : 1;
+    const bFollow = leadNeedsFollowup(b) ? 0 : 1;
+    if (aFollow !== bFollow) return aFollow - bFollow;
+    const aDate = a.fields['First Contact'] || '';
+    const bDate = b.fields['First Contact'] || '';
+    return bDate.localeCompare(aDate);
+  });
+
+  // Filter
+  let filtered = leads;
+  if (currentLeadFilter === 'followup') {
+    filtered = leads.filter(r => leadNeedsFollowup(r));
+  } else if (currentLeadFilter !== 'all') {
+    filtered = leads.filter(r => (r.fields['Stage'] || 'INQUIRY') === currentLeadFilter);
+  }
+
+  // Stats
+  const activeStages = ['INQUIRY','RESPONDED','QUALIFIED','SHOWING_BOOKED','SHOWED','APPLICATION','DEPOSIT_REQUESTED','DEPOSIT_RECEIVED'];
+  const showingStages = ['SHOWING_BOOKED','SHOWED'];
+  const activeCount = leads.filter(r => activeStages.includes(r.fields['Stage'] || 'INQUIRY')).length;
+  const showingCount = leads.filter(r => showingStages.includes(r.fields['Stage'] || '')).length;
+  const wonCount = leads.filter(r => r.fields['Stage'] === 'SIGNED').length;
+  const followupCount = leads.filter(r => leadNeedsFollowup(r)).length;
+
+  const setNum = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  setNum('lead-stat-active', activeCount);
+  setNum('lead-stat-showing', showingCount);
+  setNum('lead-stat-won', wonCount);
+  setNum('lead-stat-followup', followupCount);
+
+  // Update badge on PROSPECTOS tab
+  const badge = document.getElementById('leads-badge');
+  if (badge) {
+    if (followupCount > 0) {
+      badge.textContent = followupCount;
+      badge.style.display = '';
+    } else {
+      badge.style.display = 'none';
+    }
+  }
+
+  // Update filter button active state
+  document.querySelectorAll('.lead-filter-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  const filterBtns = document.querySelectorAll('.lead-filter-btn');
+  filterBtns.forEach(btn => {
+    const onclick = btn.getAttribute('onclick') || '';
+    const match = onclick.match(/filterLeads\('([^']+)'\)/);
+    if (match && match[1] === currentLeadFilter) btn.classList.add('active');
+  });
+
+  if (filtered.length === 0) {
+    container.innerHTML = `
+      <div style="text-align:center;padding:40px 20px;color:var(--gray);">
+        <div style="font-size:48px;margin-bottom:12px;">📋</div>
+        <div style="font-size:15px;font-weight:600;">
+          ${currentLeadFilter === 'all' ? 'No hay leads todavia' : 'Ningun lead en este estado'}
+        </div>
+        <div class="en-sub" style="font-size:12px;margin-top:4px;">
+          ${currentLeadFilter === 'all' ? 'Tap + to add your first lead' : 'No leads match this filter'}
+        </div>
+      </div>`;
+    return;
+  }
+
+  let html = '';
+  filtered.forEach(rec => {
+    const f = rec.fields;
+    const stage = f['Stage'] || 'INQUIRY';
+    const stageInfo = STAGE_MAP[stage] || STAGE_MAP['INQUIRY'];
+    const needsFollowup = leadNeedsFollowup(rec);
+    const lastAction = f['Last Action'] || f['First Contact'];
+    const timeSince = lastAction ? timeSinceStr(lastAction) : '';
+    const isToday = f['First Contact'] && new Date(f['First Contact']).toDateString() === new Date().toDateString();
+    const cleanPhone = (f['Phone'] || '').replace(/\D/g, '');
+    const waLink = cleanPhone ? `https://wa.me/1${cleanPhone.slice(-10)}` : '';
+
+    html += `
+      <div class="lead-card" onclick="openLeadDetail('${rec.id}')">
+        <div class="lead-card-header">
+          <div>
+            <div class="lead-name">${esc(f['Lead Name'] || 'Sin nombre')}${isToday ? '<span class="lead-hoy-badge">HOY</span>' : ''}</div>
+            <div class="lead-phone">
+              ${f['Phone'] ? `<a href="tel:${f['Phone']}" onclick="event.stopPropagation();">${esc(f['Phone'])}</a>` : 'Sin telefono'}
+              ${waLink ? `<a href="${waLink}" target="_blank" onclick="event.stopPropagation();" style="margin-left:6px;color:#25D366;font-weight:700;font-size:12px;">WhatsApp</a>` : ''}
+            </div>
+          </div>
+          <span class="stage-pill ${stageInfo.css}">${stageInfo.label}</span>
+        </div>
+        <div class="lead-detail-row">
+          ${f['Source'] ? `<span>📱 ${esc(f['Source'])}</span>` : ''}
+          ${f['Interested Property'] ? `<span>🏠 ${esc(f['Interested Property'])}</span>` : ''}
+          ${f['Budget'] ? `<span>💰 $${f['Budget']}/sem</span>` : ''}
+          ${timeSince ? `<span>⏱ ${timeSince}</span>` : ''}
+        </div>
+        ${f['Notes'] ? `<div class="lead-notes-text">"${esc(f['Notes'].substring(0, 80))}${f['Notes'].length > 80 ? '...' : ''}"</div>` : ''}
+        ${needsFollowup ? `<div class="lead-followup-flag">⚠ Necesita seguimiento — ${timeSince || 'sin contacto'}</div>` : ''}
+      </div>`;
+  });
+
+  container.innerHTML = html;
+}
+
+function timeSinceStr(dateStr) {
+  const ms = Date.now() - new Date(dateStr).getTime();
+  const mins = Math.floor(ms / 60000);
+  if (mins < 60) return `${mins}m`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return `${hrs}h`;
+  const days = Math.floor(hrs / 24);
+  return `${days}d`;
+}
+
+function esc(str) {
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+function filterLeads(stage) {
+  currentLeadFilter = stage;
+  renderLeads();
+}
+
+function populateLeadPropertyDropdown() {
+  const sel = document.getElementById('lead-property');
+  if (!sel) return;
+  // Keep the first "Any" option
+  while (sel.options.length > 1) sel.remove(1);
+  PROPS.forEach(p => {
+    const vacantCount = p.rooms.filter(r => r.vacant).length;
+    const opt = document.createElement('option');
+    opt.value = p.addr;
+    opt.textContent = `${p.addr}${vacantCount ? ` (${vacantCount} vacios)` : ''}`;
+    sel.appendChild(opt);
+  });
+}
+
+async function saveLead() {
+  const name = document.getElementById('lead-name').value.trim();
+  const phone = document.getElementById('lead-phone').value.trim();
+  if (!name) { showToast('Nombre es requerido'); return; }
+
+  const fields = {
+    'Lead Name': name,
+    'Phone': phone,
+    'Source': document.getElementById('lead-source').value,
+    'Language': document.getElementById('lead-lang').value,
+    'Interested Property': document.getElementById('lead-property').value,
+    'Budget': parseFloat(document.getElementById('lead-budget').value) || null,
+    'Notes': document.getElementById('lead-notes').value.trim(),
+    'Stage': 'INQUIRY',
+    'Assigned To': 'Andrea',
+    'First Contact': new Date().toISOString(),
+    'Last Action': new Date().toISOString(),
+  };
+  // Remove null budget
+  if (!fields['Budget']) delete fields['Budget'];
+
+  try {
+    const result = await atCreate(AT.tables.leads, fields);
+    atLeadRecords.push(result);
+    showToast('Lead guardado');
+    closeModal('lead-modal');
+    // Reset form
+    document.getElementById('lead-name').value = '';
+    document.getElementById('lead-phone').value = '';
+    document.getElementById('lead-budget').value = '';
+    document.getElementById('lead-notes').value = '';
+    document.getElementById('lead-property').value = '';
+    renderLeads();
+  } catch (err) {
+    console.warn('Lead save failed:', err);
+    showToast('Error guardando lead');
+  }
+}
+
+function openLeadDetail(recordId) {
+  editingLeadId = recordId;
+  const rec = atLeadRecords.find(r => r.id === recordId);
+  if (!rec) return;
+  const f = rec.fields;
+
+  document.getElementById('lead-detail-title').innerHTML =
+    `${esc(f['Lead Name'] || 'Lead')} <span style="font-size:14px;font-weight:400;color:var(--gray);">${esc(f['Phone'] || '')}</span>`;
+
+  // Action buttons (Call + WhatsApp)
+  const detailPhone = (f['Phone'] || '').replace(/\D/g, '');
+  const detailWa = detailPhone ? `https://wa.me/1${detailPhone.slice(-10)}` : '';
+  const actionBar = document.getElementById('lead-detail-actions');
+  if (actionBar) {
+    actionBar.innerHTML = detailPhone ? `
+      <a href="tel:${f['Phone']}" class="lead-call-btn" onclick="event.stopPropagation();">📞 Llamar</a>
+      ${detailWa ? `<a href="${detailWa}" target="_blank" class="lead-wa-btn" onclick="event.stopPropagation();">💬 WhatsApp</a>` : ''}
+    ` : '<span style="font-size:13px;color:var(--gray);">Sin telefono</span>';
+  }
+
+  // Info block
+  const infoHtml = `
+    <div style="font-size:13px;color:var(--gray);line-height:1.8;">
+      ${f['Source'] ? `📱 <b>Fuente:</b> ${esc(f['Source'])}<br>` : ''}
+      ${f['Interested Property'] ? `🏠 <b>Propiedad:</b> ${esc(f['Interested Property'])}<br>` : ''}
+      ${f['Budget'] ? `💰 <b>Presupuesto:</b> $${f['Budget']}/sem<br>` : ''}
+      ${f['Language'] ? `🗣 <b>Idioma:</b> ${esc(f['Language'])}<br>` : ''}
+      ${f['First Contact'] ? `📅 <b>Primer contacto:</b> ${new Date(f['First Contact']).toLocaleDateString()}<br>` : ''}
+      ${f['Assigned To'] ? `👤 <b>Asignado:</b> ${esc(f['Assigned To'])}` : ''}
+    </div>`;
+  document.getElementById('lead-detail-info').innerHTML = infoHtml;
+
+  // Stage pills
+  const currentStage = f['Stage'] || 'INQUIRY';
+  const stagesContainer = document.getElementById('lead-detail-stages');
+  stagesContainer.innerHTML = ANDREA_STAGES.map(s => {
+    const info = STAGE_MAP[s];
+    const isActive = s === currentStage;
+    return `<span class="stage-pill ${info.css} ${isActive ? 'active' : ''}" onclick="selectLeadStage('${s}')" data-stage="${s}">${info.label}</span>`;
+  }).join('');
+
+  // Notes
+  document.getElementById('lead-detail-notes').value = f['Notes'] || '';
+
+  // Lost reason visibility
+  document.getElementById('lead-lost-reason-group').style.display =
+    currentStage === 'LOST' ? 'block' : 'none';
+  document.getElementById('lead-lost-reason').value = f['Lost Reason'] || '';
+
+  openModal('lead-detail-modal');
+}
+
+function selectLeadStage(stage) {
+  // Update pill UI
+  document.querySelectorAll('#lead-detail-stages .stage-pill').forEach(p => {
+    p.classList.toggle('active', p.dataset.stage === stage);
+  });
+  // Show/hide lost reason
+  document.getElementById('lead-lost-reason-group').style.display =
+    stage === 'LOST' ? 'block' : 'none';
+}
+
+async function updateLeadDetail() {
+  if (!editingLeadId) return;
+  const rec = atLeadRecords.find(r => r.id === editingLeadId);
+  if (!rec) return;
+
+  // Find selected stage
+  const activePill = document.querySelector('#lead-detail-stages .stage-pill.active');
+  const newStage = activePill ? activePill.dataset.stage : (rec.fields['Stage'] || 'INQUIRY');
+  const notes = document.getElementById('lead-detail-notes').value.trim();
+  const lostReason = document.getElementById('lead-lost-reason').value.trim();
+
+  if (newStage === 'LOST' && !lostReason) {
+    showToast('Escribe la razon de perdida');
+    return;
+  }
+
+  const fields = {
+    'Stage': newStage,
+    'Notes': notes,
+    'Last Action': new Date().toISOString(),
+  };
+  if (newStage === 'LOST') fields['Lost Reason'] = lostReason;
+
+  try {
+    await atUpdate(AT.tables.leads, editingLeadId, fields);
+    // Update local cache
+    rec.fields['Stage'] = newStage;
+    rec.fields['Notes'] = notes;
+    rec.fields['Last Action'] = fields['Last Action'];
+    if (newStage === 'LOST') rec.fields['Lost Reason'] = lostReason;
+    showToast('Lead actualizado');
+    closeModal('lead-detail-modal');
+    renderLeads();
+  } catch (err) {
+    console.warn('Lead update failed:', err);
+    showToast('Error actualizando lead');
+  }
 }
 
 /* ================================================================
