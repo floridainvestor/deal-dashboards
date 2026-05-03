@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YT Intelligence Feed</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #0d0d0f; color: #e8e8e8; min-height: 100vh; padding: 20px 24px;
+}
+.card { background: #13131a; border: 1px solid #1f1f2e; border-radius: 8px; padding: 14px; }
+.lbl { font-size: 0.6rem; font-weight: 800; letter-spacing: 0.12em; color: #ffffff; text-transform: uppercase; }
+details > summary { list-style: none; cursor: pointer; }
+details > summary::-webkit-details-marker { display: none; }
+.stat-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+.scan-table { width: 100%; border-collapse: collapse; }
+.scan-table th { text-align: left; padding: 6px 8px; color: #555; font-size: 0.6rem; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 0.08em; border-bottom: 1px solid #2a2a40; }
+.scan-table tr:hover td { background: #15151e; }
+.feed-container { max-width: 960px; margin: 0 auto; }
+@media (max-width: 768px) {
+  body { padding: 12px 14px; }
+  .stat-strip { grid-template-columns: 1fr 1fr; }
+  .hide-mobile { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="feed-container">
+
+<!-- ─── HEADER ─── -->
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;
+  padding-bottom:14px;border-bottom:1px solid #1f1f2e;flex-wrap:wrap;gap:10px;">
+  <div>
+    <h1 style="font-size:1.25rem;font-weight:800;color:#fff;letter-spacing:-0.3px;">
+      &#127891; YT Intelligence Feed
+    </h1>
+    <div style="font-size:0.65rem;color:#555;text-transform:uppercase;letter-spacing:1px;margin-top:3px;">
+      1 videos extracted &middot; 1 channels &middot; updated May 03
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:8px;">
+    <a href="./"
+      style="background:#111;border:1px solid #2a2a40;border-radius:6px;padding:6px 12px;
+      font-size:0.72rem;color:#60a5fa;text-decoration:none;">&#8592; Command Center</a>
+  </div>
+</div>
+
+<!-- ─── STATS ─── -->
+<div class="stat-strip">
+  <div class="card" style="border-top:3px solid #3b82f6;text-align:center;">
+    <div class="lbl" style="margin-bottom:4px;">Extracted</div>
+    <div style="font-size:1.6rem;font-weight:800;color:#3b82f6;">1</div>
+  </div>
+  <div class="card" style="border-top:3px solid #22c55e;text-align:center;">
+    <div class="lbl" style="margin-bottom:4px;">High Relevance</div>
+    <div style="font-size:1.6rem;font-weight:800;color:#22c55e;">1</div>
+  </div>
+  <div class="card" style="border-top:3px solid #e2b714;text-align:center;">
+    <div class="lbl" style="margin-bottom:4px;">Skill Updates</div>
+    <div style="font-size:1.6rem;font-weight:800;color:#e2b714;">1</div>
+  </div>
+  <div class="card" style="border-top:3px solid #c084fc;text-align:center;">
+    <div class="lbl" style="margin-bottom:4px;">Channels</div>
+    <div style="font-size:1.6rem;font-weight:800;color:#c084fc;">1</div>
+  </div>
+</div>
+
+<!-- ─── DO THIS NOW ─── -->
+
+<div class="card" style="margin-bottom:20px;border-left:3px solid #ef4444;padding:16px 18px;">
+  <div class="lbl" style="margin-bottom:12px;color:#ef4444;">&#128293; Do This Now &mdash; Top Actions From This Week's Intel</div>
+  
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:10px;">
+            <div style="background:#ef444422;color:#ef4444;font-size:0.88rem;font-weight:900;
+                width:28px;height:28px;border-radius:6px;display:flex;align-items:center;
+                justify-content:center;flex-shrink:0;">1</div>
+            <div style="flex:1;">
+                <div style="font-size:0.85rem;color:#fff;font-weight:600;line-height:1.4;">Shift Casa Abierta marketing from acquisition-heavy to retention-focused. Instead of acquiring 20 new rooms/quarter, focus on 95%+ retention of existing 87 rooms. This unlocks compounding—reinvestable cash flow grows geometrically without spending 3x CAC for each new tenant.</div>
+                <div style="font-size:0.65rem;color:#555;margin-top:3px;">
+                    via <span style="color:#ef4444">Hormozi</span>
+                    &middot; <span style="background:#3b82f622;color:#3b82f6;font-size:0.56rem;font-weight:800;padding:1px 5px;border-radius:3px;text-transform:uppercase;">finance</span>
+                </div>
+            </div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:10px;">
+            <div style="background:#ef444422;color:#ef4444;font-size:0.88rem;font-weight:900;
+                width:28px;height:28px;border-radius:6px;display:flex;align-items:center;
+                justify-content:center;flex-shrink:0;">2</div>
+            <div style="flex:1;">
+                <div style="font-size:0.85rem;color:#fff;font-weight:600;line-height:1.4;">If Jerel cannot fund growth in SubTo deals or Casa Abierta expansion, audit the ROIC. Is each deal generating 3x return in year 1? If not, the issue is deal quality, not capital availability. Tighten underwriting (AI system) to improve ROIC, then capital will seek him.</div>
+                <div style="font-size:0.65rem;color:#555;margin-top:3px;">
+                    via <span style="color:#ef4444">Hormozi</span>
+                    &middot; <span style="background:#3b82f622;color:#3b82f6;font-size:0.56rem;font-weight:800;padding:1px 5px;border-radius:3px;text-transform:uppercase;">finance</span>
+                </div>
+            </div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:10px;">
+            <div style="background:#ef444422;color:#ef4444;font-size:0.88rem;font-weight:900;
+                width:28px;height:28px;border-radius:6px;display:flex;align-items:center;
+                justify-content:center;flex-shrink:0;">3</div>
+            <div style="flex:1;">
+                <div style="font-size:0.85rem;color:#fff;font-weight:600;line-height:1.4;">Casa Abierta: Andrea must design a flawless 30-day onboarding (welcome packet, property tour, community intro, FAQ call). Sandra leases monthly; use week 1-2 to ensure tenant satisfaction. Measure month 1 churn by property. Fix any property with &gt;20% churn before scaling.</div>
+                <div style="font-size:0.65rem;color:#555;margin-top:3px;">
+                    via <span style="color:#ef4444">Hormozi</span>
+                    &middot; <span style="background:#22c55e22;color:#22c55e;font-size:0.56rem;font-weight:800;padding:1px 5px;border-radius:3px;text-transform:uppercase;">operations</span>
+                </div>
+            </div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:10px;">
+            <div style="background:#ef444422;color:#ef4444;font-size:0.88rem;font-weight:900;
+                width:28px;height:28px;border-radius:6px;display:flex;align-items:center;
+                justify-content:center;flex-shrink:0;">4</div>
+            <div style="flex:1;">
+                <div style="font-size:0.85rem;color:#fff;font-weight:600;line-height:1.4;">Casa Abierta should test: basic room $400/mo → upgraded room $600/mo → furnished + utilities $800/mo → premium package $1,200/mo (furnished, utilities, cleaning, community). If 20% churn but 10% upsell to premium, NRR exceeds 100% and business compounds.</div>
+                <div style="font-size:0.65rem;color:#555;margin-top:3px;">
+                    via <span style="color:#ef4444">Hormozi</span>
+                    &middot; <span style="background:#e2b71422;color:#e2b714;font-size:0.56rem;font-weight:800;padding:1px 5px;border-radius:3px;text-transform:uppercase;">pricing</span>
+                </div>
+            </div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:10px;">
+            <div style="background:#ef444422;color:#ef4444;font-size:0.88rem;font-weight:900;
+                width:28px;height:28px;border-radius:6px;display:flex;align-items:center;
+                justify-content:center;flex-shrink:0;">5</div>
+            <div style="flex:1;">
+                <div style="font-size:0.85rem;color:#fff;font-weight:600;line-height:1.4;">Casa Abierta is commodity housing—low margin. Decommoditize by: (1) branding as &#x27;co-living for entrepreneurs/remote workers,&#x27; (2) adding community events (networking, skill shares), (3) bundling info (real estate investing content), (4) creating exclusive access (SubTo deal flow for tenants). This justifies premium pricing.</div>
+                <div style="font-size:0.65rem;color:#555;margin-top:3px;">
+                    via <span style="color:#ef4444">Hormozi</span>
+                    &middot; <span style="background:#fbbf2422;color:#fbbf24;font-size:0.56rem;font-weight:800;padding:1px 5px;border-radius:3px;text-transform:uppercase;">marketing</span>
+                </div>
+            </div>
+        </div>
+</div>
+
+
+<!-- ─── SCAN TABLE ─── -->
+<div class="card" style="margin-bottom:20px;padding:12px;">
+  <div class="lbl" style="margin-bottom:10px;">Quick Scan &mdash; Click any row to expand</div>
+  <table class="scan-table">
+    <tr>
+      <th style="width:60px;">Who</th>
+      <th>Title</th>
+      <th style="width:36px;text-align:center;">&#11088;</th>
+      <th class="hide-mobile">Top Takeaway</th>
+      <th style="width:60px;text-align:center;" class="hide-mobile">F/N/S</th>
+      <th style="width:36px;text-align:center;">&#128736;</th>
+      <th style="width:30px;"></th>
+    </tr>
+    
+        <tr style="border-bottom:1px solid #1a1a24;cursor:pointer;" onclick="document.getElementById('detail-0').querySelector('details').open=true;document.getElementById('detail-0').scrollIntoView({behavior:'smooth',block:'start'});">
+            <td style="padding:8px 8px;vertical-align:middle;">
+                <span style="color:#ef4444;font-weight:800;font-size:0.72rem;">Hormozi</span>
+            </td>
+            <td style="padding:8px 8px;color:#e8e8e8;font-size:0.8rem;font-weight:600;vertical-align:middle;">The 5 Advantages That Make Any Business Easier to Grow </td>
+            <td style="padding:8px 8px;text-align:center;vertical-align:middle;"><span style="color:#22c55e;font-weight:900;">8</span></td>
+            <td style="padding:8px 8px;color:#999;font-size:0.72rem;vertical-align:middle;">Company B (100 customers/year, 0% churn) generates same revenue as Company A (100,200,300 customers/year with 100% churn</td>
+            <td style="padding:8px 6px;text-align:center;font-size:0.68rem;color:#555;vertical-align:middle;">5/10/4</td>
+            <td style="padding:8px 6px;text-align:center;vertical-align:middle;"><span style="color:#22c55e;">&#10004;</span></td>
+            <td style="padding:8px 6px;text-align:center;vertical-align:middle;"></td>
+        </tr>
+  </table>
+</div>
+
+<!-- ─── DETAIL CARDS ─── -->
+<div style="margin-bottom:12px;">
+  <div class="lbl" style="margin-bottom:10px;">Full Extractions &mdash; Click to expand</div>
+</div>
+
+
+    <div id="detail-0" class="card" style="margin-bottom:14px;border-left:3px solid #ef4444;">
+        <details>
+            <summary style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:4px 0;user-select:none;">
+                <span style="background:#ef444422;color:#ef4444;font-size:0.68rem;font-weight:900;
+                    width:30px;height:30px;border-radius:6px;display:flex;align-items:center;
+                    justify-content:center;flex-shrink:0;">AH</span>
+                <span style="flex:1;font-size:0.88rem;font-weight:700;color:#fff;">The 5 Advantages That Make Any Business Easier to Grow and More Profitable</span>
+                <span style="font-size:0.72rem;color:#555;"><span style="color:#22c55e;font-weight:900;">8</span>/10</span>
+            </summary>
+            <div style="margin-top:14px;padding-top:12px;border-top:1px solid #1f1f2e;">
+                
+        <div style="margin-bottom:16px;">
+            <div style="font-size:0.68rem;font-weight:800;color:#e2b714;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">
+                Frameworks
+            </div>
+            <table style="width:100%;border-collapse:collapse;font-size:0.8rem;">
+                <tr style="border-bottom:1px solid #2a2a40;">
+                    <th style="text-align:left;padding:6px 10px;color:#555;font-size:0.65rem;font-weight:800;text-transform:uppercase;width:40%;">Framework</th>
+                    <th style="text-align:left;padding:6px 10px;color:#555;font-size:0.65rem;font-weight:800;text-transform:uppercase;">Apply To Your Business</th>
+                </tr>
+                <tr>
+                <td style="padding:8px 10px;border-bottom:1px solid #1a1a24;vertical-align:top;">
+                    <span style="color:#e2b714;font-weight:700;">Revenue Retention vs. Logo Retention</span><br>
+                    <span style="font-size:0.72rem;color:#777;">Distinguishes between keeping customer count stable (logo retention) and increasing spend from existing customers (net revenue retention &gt;100%). Emphasizes structural vs. voluntary churn and the importance of qualifying customers and creating upsell pathways.</span>
+                </td>
+                <td style="padding:8px 10px;border-bottom:1px solid #1a1a24;color:#60a5fa;font-size:0.78rem;vertical-align:top;">
+                    Jerel&#x27;s room rental business can dramatically improve profitability by implementing tiered membership/loyalty programs (basic room rental → furnished + utilities → premium furnished + services). Track month 1, month 3, and month 6 churn milestones aggressively. Create clear upgrade paths within Casa Abierta properties to achieve &gt;100% net revenue retention from existing tenants.
+                </td>
+            </tr><tr>
+                <td style="padding:8px 10px;border-bottom:1px solid #1a1a24;vertical-align:top;">
+                    <span style="color:#e2b714;font-weight:700;">Five Business Advantages Matrix (SEEUP)</span><br>
+                    <span style="font-size:0.72rem;color:#777;">Framework evaluating businesses on: Sticky (revenue retention), Expensive (high gross margins), Expanding (growing market), Air (low operational complexity/capex), and Unique (competitive moat). Provides scoring rubric across industries.</span>
+                </td>
+                <td style="padding:8px 10px;border-bottom:1px solid #1a1a24;color:#60a5fa;font-size:0.78rem;vertical-align:top;">
+                    Audit Jerel&#x27;s real estate portfolio against this matrix. Room rentals score HIGH on sticky and MEDIUM on expensive; LOW on Air due to operational drag. Creative acquisitions (SubTo, seller finance) score HIGH on unique moat. Use this to identify which revenue streams to double down on and which to redesign operationally.
+                </td>
+            </tr><tr>
+                <td style="padding:8px 10px;border-bottom:1px solid #1a1a24;vertical-align:top;">
+                    <span style="color:#e2b714;font-weight:700;">Churn Curve Methodology</span><br>
+                    <span style="font-size:0.72rem;color:#777;">Empirical data showing predictable churn peaks at month 1 (&gt;20%), month 3 (~10%), and month 6 (final drop to ~2%/month). Focus intervention effort on getting customers to month 6.</span>
+                </td>
+                <td style="padding:8px 10px;border-bottom:1px solid #1a1a24;color:#60a5fa;font-size:0.78rem;vertical-align:top;">
+                    Implement 30-day tenant onboarding program (Casa Abierta) with touchpoints from Andrea (ops) and Sandra (leasing). Create month-3 engagement checkpoint (amenity tour, community event, lease review). By month 6, automate retention. Track cohort churn by property.
+                </td>
+            </tr><tr>
+                <td style="padding:8px 10px;border-bottom:1px solid #1a1a24;vertical-align:top;">
+                    <span style="color:#e2b714;font-weight:700;">Moat Building Through Capital &amp; Specialization</span><br>
+                    <span style="font-size:0.72rem;color:#777;">Capital expenditure can create defensibility if ROIC is high. Best moats combine capital investment with proprietary knowledge (recipes, processes, patents, brand, skills).</span>
+                </td>
+                <td style="padding:8px 10px;border-bottom:1px solid #1a1a24;color:#60a5fa;font-size:0.78rem;vertical-align:top;">
+                    Jerel&#x27;s AI-powered lead generation and deal evaluation system is a HIGH-ROIC moat. Invest in proprietary technology that competitors cannot replicate (tax deed analysis, SubTo underwriting algorithms). This creates pricing power and barriers to entry in creative RE acquisitions.
+                </td>
+            </tr><tr>
+                <td style="padding:8px 10px;border-bottom:1px solid #1a1a24;vertical-align:top;">
+                    <span style="color:#e2b714;font-weight:700;">Gross Margin as Cash Flow Driver</span><br>
+                    <span style="font-size:0.72rem;color:#777;">Higher gross margins enable better employee compensation, faster cash conversion cycles, and reinvestment capacity. Commodities have low margins; information, media, software, and community have high margins.</span>
+                </td>
+                <td style="padding:8px 10px;border-bottom:1px solid #1a1a24;color:#60a5fa;font-size:0.78rem;vertical-align:top;">
+                    Jerel&#x27;s room rental has thin margins due to commodity nature (housing). Increase gross margins by: (1) adding high-margin services (cleaning, maintenance, co-working, packages), (2) creating information products (creative RE course, SubTo masterclass), (3) building community features (events, networking for tenants).
+                </td>
+            </tr>
+            </table>
+        </div>
+                
+        <div style="margin-bottom:16px;">
+            <div style="font-size:0.68rem;font-weight:800;color:#22c55e;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">
+                Business Nuggets
+            </div>
+            <table style="width:100%;border-collapse:collapse;font-size:0.8rem;">
+                <tr style="border-bottom:1px solid #2a2a40;">
+                    <th style="text-align:left;padding:4px 8px;color:#555;font-size:0.6rem;font-weight:800;text-transform:uppercase;width:70px;">Cat</th>
+                    <th style="text-align:left;padding:4px 10px;color:#555;font-size:0.6rem;font-weight:800;text-transform:uppercase;width:45%;">Insight</th>
+                    <th style="text-align:left;padding:4px 10px;color:#555;font-size:0.6rem;font-weight:800;text-transform:uppercase;">Action</th>
+                </tr>
+                <tr>
+                <td style="padding:6px 8px;border-bottom:1px solid #1a1a24;vertical-align:top;">
+                    <span style="background:#3b82f622;color:#3b82f6;font-size:0.58rem;font-weight:800;padding:1px 5px;border-radius:3px;text-transform:uppercase;">finance</span>
+                </td>
+                <td style="padding:6px 10px;border-bottom:1px solid #1a1a24;color:#ddd;font-size:0.78rem;vertical-align:top;">
+                    Company B (100 customers/year, 0% churn) generates same revenue as Company A (100,200,300 customers/year with 100% churn) but requires 50% of customer acquisition cost. By year 3, Company B is far more profitable and scalable.
+                </td>
+                <td style="padding:6px 10px;border-bottom:1px solid #1a1a24;color:#60a5fa;font-size:0.75rem;vertical-align:top;">
+                    Shift Casa Abierta marketing from acquisition-heavy to retention-focused. Instead of acquiring 20 new rooms/quarter, focus on 95%+ retention of existing 87 rooms. This unlocks compounding—reinvestable cash flow grows geometrically without spending 3x CAC for each new tenant.
+                </td>
+            </tr><tr>
+                <td style="padding:6px 8px;border-bottom:1px solid #1a1a24;vertical-align:top;">
+                    <span style="background:#3b82f622;color:#3b82f6;font-size:0.58rem;font-weight:800;padding:1px 5px;border-radius:3px;text-transform:uppercase;">finance</span>
+                </td>
+                <td style="padding:6px 10px;border-bottom:1px solid #1a1a24;color:#ddd;font-size:0.78rem;vertical-align:top;">
+                    If you cannot raise external capital easily, the problem is not your pitch—it&#x27;s your unit economics. A franchise with 100K investment returning 300K in year 1 is fundable; one returning 30K is not.
+                </td>
+                <td style="padding:6px 10px;border-bottom:1px solid #1a1a24;color:#60a5fa;font-size:0.75rem;vertical-align:top;">
+                    If Jerel cannot fund growth in SubTo deals or Casa Abierta expansion, audit the ROIC. Is each deal generating 3x return in year 1? If not, the issue is deal quality, not capital availability. Tighten underwriting (AI system) to improve ROIC, then capital will seek him.
+                </td>
+            </tr><tr>
+                <td style="padding:6px 8px;border-bottom:1px solid #1a1a24;vertical-align:top;">
+                    <span style="background:#22c55e22;color:#22c55e;font-size:0.58rem;font-weight:800;padding:1px 5px;border-radius:3px;text-transform:uppercase;">operations</span>
+                </td>
+                <td style="padding:6px 10px;border-bottom:1px solid #1a1a24;color:#ddd;font-size:0.78rem;vertical-align:top;">
+                    First 30 days is the battleground. &gt;20% churn in month 1 across all categories. Focus all retention energy there. Then bridge to month 3 and month 6.
+                </td>
+                <td style="padding:6px 10px;border-bottom:1px solid #1a1a24;color:#60a5fa;font-size:0.75rem;vertical-align:top;">
+                    Casa Abierta: Andrea must design a flawless 30-day onboarding (welcome packet, property tour, community intro, FAQ call). Sandra leases monthly; use week 1-2 to ensure tenant satisfaction. Measure month 1 churn by property. Fix any property with &gt;20% churn before scaling.
+                </td>
+            </tr><tr>
+                <td style="padding:6px 8px;border-bottom:1px solid #1a1a24;vertical-align:top;">
+                    <span style="background:#e2b71422;color:#e2b714;font-size:0.58rem;font-weight:800;padding:1px 5px;border-radius:3px;text-transform:uppercase;">pricing</span>
+                </td>
+                <td style="padding:6px 10px;border-bottom:1px solid #1a1a24;color:#ddd;font-size:0.78rem;vertical-align:top;">
+                    Net revenue retention of &gt;100% means losing some customers but having remaining customers spend enough to offset losses. Example: 9 customers at $9/mo → 8 at $9/mo + 1 at $99/mo = 11x value from that customer cohort.
+                </td>
+                <td style="padding:6px 10px;border-bottom:1px solid #1a1a24;color:#60a5fa;font-size:0.75rem;vertical-align:top;">
+                    Casa Abierta should test: basic room $400/mo → upgraded room $600/mo → furnished + utilities $800/mo → premium package $1,200/mo (furnished, utilities, cleaning, community). If 20% churn but 10% upsell to premium, NRR exceeds 100% and business compounds.
+                </td>
+            </tr><tr>
+                <td style="padding:6px 8px;border-bottom:1px solid #1a1a24;vertical-align:top;">
+                    <span style="background:#fbbf2422;color:#fbbf24;font-size:0.58rem;font-weight:800;padding:1px 5px;border-radius:3px;text-transform:uppercase;">marketing</span>
+                </td>
+                <td style="padding:6px 10px;border-bottom:1px solid #1a1a24;color:#ddd;font-size:0.78rem;vertical-align:top;">
+                    Commodity products (grocery, farming, restaurants) have razor margins because products are elastic. Decommoditize by adding brand, community, or information value.
+                </td>
+                <td style="padding:6px 10px;border-bottom:1px solid #1a1a24;color:#60a5fa;font-size:0.75rem;vertical-align:top;">
+                    Casa Abierta is commodity housing—low margin. Decommoditize by: (1) branding as &#x27;co-living for entrepreneurs/remote workers,&#x27; (2) adding community events (networking, skill shares), (3) bundling info (real estate investing content), (4) creating exclusive access (SubTo deal flow for tenants). This justifies premium pricing.
+                </td>
+            </tr><tr>
+                <td style="padding:6px 8px;border-bottom:1px solid #1a1a24;vertical-align:top;">
+                    <span style="background:#6b728022;color:#6b7280;font-size:0.58rem;font-weight:800;padding:1px 5px;border-radius:3px;text-transform:uppercase;">mindset</span>
+                </td>
+                <td style="padding:6px 10px;border-bottom:1px solid #1a1a24;color:#ddd;font-size:0.78rem;vertical-align:top;">
+                    Industries shrinking: newspapers, formal education (−6%/yr), tobacco, retail, clerical roles. Industries growing: energy, AI, healthcare, cyber, e-commerce, alternative education (20%+ CAGR).
+                </td>
+                <td style="padding:6px 10px;border-bottom:1px solid #1a1a24;color:#60a5fa;font-size:0.75rem;vertical-align:top;">
+                    Jerel is in real estate (mature, not shrinking) and alternative education/software (via AI tools, growing). Bet harder on the growth vector. Develop course, SaaS product, or membership around creative real estate—this captures the 20%+ CAGR tailwind.
+                </td>
+            </tr><tr>
+                <td style="padding:6px 8px;border-bottom:1px solid #1a1a24;vertical-align:top;">
+                    <span style="background:#3b82f622;color:#3b82f6;font-size:0.58rem;font-weight:800;padding:1px 5px;border-radius:3px;text-transform:uppercase;">finance</span>
+                </td>
+                <td style="padding:6px 10px;border-bottom:1px solid #1a1a24;color:#ddd;font-size:0.78rem;vertical-align:top;">
+                    Warren Buffett rule: Seek businesses that generate cash without requiring constant reinvestment. Most capital-intensive businesses fail this test.
+                </td>
+                <td style="padding:6px 10px;border-bottom:1px solid #1a1a24;color:#60a5fa;font-size:0.75rem;vertical-align:top;">
+                    Compare: Room rentals require constant capex (repairs, turnover). SubTo/seller finance deals require time but low capex. AI lead generation system requires upfront tech investment but then scales without proportional reinvestment. Shift portfolio weight toward the latter two.
+                </td>
+            </tr><tr>
+                <td style="padding:6px 8px;border-bottom:1px solid #1a1a24;vertical-align:top;">
+                    <span style="background:#6b728022;color:#6b7280;font-size:0.58rem;font-weight:800;padding:1px 5px;border-radius:3px;text-transform:uppercase;">mindset</span>
+                </td>
+                <td style="padding:6px 10px;border-bottom:1px solid #1a1a24;color:#ddd;font-size:0.78rem;vertical-align:top;">
+                    Moat hierarchy: (1) Proprietary knowledge/skills (best), (2) Capital barriers + proprietary knowledge (Nvidia, nuclear), (3) Brand (Coke, Revlon), (4) Capital alone (weakest moat, defensible only by continuous investment).
+                </td>
+                <td style="padding:6px 10px;border-bottom:1px solid #1a1a24;color:#60a5fa;font-size:0.75rem;vertical-align:top;">
+                    Jerel&#x27;s moat is proprietary deal flow sourcing and AI underwriting (knowledge-based). Strengthen by: (1) patenting the AI model if novel, (2) documenting processes as trade secrets, (3) building &#x27;Casa Abierta&#x27; brand as premium co-living, (4) creating network effects (past tenants refer future tenants, deal partners refer deals).
+                </td>
+            </tr><tr>
+                <td style="padding:6px 8px;border-bottom:1px solid #1a1a24;vertical-align:top;">
+                    <span style="background:#fbbf2422;color:#fbbf24;font-size:0.58rem;font-weight:800;padding:1px 5px;border-radius:3px;text-transform:uppercase;">marketing</span>
+                </td>
+                <td style="padding:6px 10px;border-bottom:1px solid #1a1a24;color:#ddd;font-size:0.78rem;vertical-align:top;">
+                    Brand can convert a commodity into premium. Generic CVS makeup and Revlon come off same factory line but Revlon sells at premium and higher conversion.
+                </td>
+                <td style="padding:6px 10px;border-bottom:1px solid #1a1a24;color:#60a5fa;font-size:0.75rem;vertical-align:top;">
+                    Casa Abierta can brand itself as a lifestyle (not just rooms)—&#x27;Where Entrepreneurs Live &amp; Grow.&#x27; Charge 10-15% premium over generic rentals. Add community, content, and networking to justify premium. This increases stickiness and LTV.
+                </td>
+            </tr><tr>
+                <td style="padding:6px 8px;border-bottom:1px solid #1a1a24;vertical-align:top;">
+                    <span style="background:#60a5fa22;color:#60a5fa;font-size:0.58rem;font-weight:800;padding:1px 5px;border-radius:3px;text-transform:uppercase;">strategy</span>
+                </td>
+                <td style="padding:6px 10px;border-bottom:1px solid #1a1a24;color:#ddd;font-size:0.78rem;vertical-align:top;">
+                    If business has zero retention (one-time sales), consider switching to a recurring model early. If business has retention, obsess over it first—then backfill other advantages.
+                </td>
+                <td style="padding:6px 10px;border-bottom:1px solid #1a1a24;color:#60a5fa;font-size:0.75rem;vertical-align:top;">
+                    Jerel&#x27;s SubTo deals are one-time (low stickiness). Wrap recurring layer around it: (1) membership for deal flow access, (2) SaaS for deal underwriting, (3) course for education. This shifts unit economics from deal-based to recurring-based, unlocking compounding.
+                </td>
+            </tr>
+            </table>
+        </div>
+                
+        <div style="margin-bottom:16px;">
+            <div style="font-size:0.68rem;font-weight:800;color:#c084fc;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">
+                Special Sauce
+            </div>
+            <div style="display:flex;gap:8px;margin-bottom:8px;">
+                <span style="color:#c084fc;font-weight:900;font-size:0.82rem;flex-shrink:0;">1.</span>
+                <div>
+                    <span style="color:#e8e8e8;font-size:0.8rem;font-weight:600;">Month-1 churn &gt;20% is universal, not a failure signal. It&#x27;s structural. The real skill is building a 30-day experience so good that month 1 becomes the conversion funnel, not the exit funnel.</span>
+                    <span style="color:#666;font-size:0.72rem;"> &mdash; Most operators blame month-1 churn on marketing or customer fit. This reframes it as a product design problem. For Jerel, this means onboarding (first 30 days) is the highest-ROI investment, not acquisition.</span>
+                </div>
+            </div><div style="display:flex;gap:8px;margin-bottom:8px;">
+                <span style="color:#c084fc;font-weight:900;font-size:0.82rem;flex-shrink:0;">2.</span>
+                <div>
+                    <span style="color:#e8e8e8;font-size:0.8rem;font-weight:600;">Net revenue retention &gt;100% creates compounding without growth. Company can flatline on new customer acquisition and still grow revenue 10-20%+ annually. This is the hidden wealth-building lever.</span>
+                    <span style="color:#666;font-size:0.72rem;"> &mdash; Most entrepreneurs obsess over customer acquisition (hard, expensive, visible). Net revenue retention is the leverage point that decouples growth from marketing spend. This is why subscription SaaS businesses are valued at 10x+ multiples—they have this property built in.</span>
+                </div>
+            </div><div style="display:flex;gap:8px;margin-bottom:8px;">
+                <span style="color:#c084fc;font-weight:900;font-size:0.82rem;flex-shrink:0;">3.</span>
+                <div>
+                    <span style="color:#e8e8e8;font-size:0.8rem;font-weight:600;">The perfect business doesn&#x27;t exist. Tradeoffs are inherent. High gross margins often mean low expansion (e.g., consulting). High expansion means low margins (e.g., e-commerce). Winning play is to pick 2-3 advantages to own and accept the rest.</span>
+                    <span style="color:#666;font-size:0.72rem;"> &mdash; This licenses Jerel to stop chasing perfection and instead double down on his genuine strengths (unique deal sourcing, retention-focused operations, building brand/community). It&#x27;s a clarity tool.</span>
+                </div>
+            </div><div style="display:flex;gap:8px;margin-bottom:8px;">
+                <span style="color:#c084fc;font-weight:900;font-size:0.82rem;flex-shrink:0;">4.</span>
+                <div>
+                    <span style="color:#e8e8e8;font-size:0.8rem;font-weight:600;">Raising capital is not hard if ROIC is great. If raising capital is hard, the problem is always the underlying unit economics, not the pitch. This inverts the conventional blame narrative.</span>
+                    <span style="color:#666;font-size:0.72rem;"> &mdash; This is a diagnostic tool. Instead of &#x27;I need better investors,&#x27; Jerel can ask &#x27;Is each SubTo deal generating 3x return? Is each room generating $X profit?&#x27; If not, fix the deal quality. Then capital appears.</span>
+                </div>
+            </div>
+        </div>
+                
+        <div style="margin-bottom:16px;">
+            <div style="font-size:0.68rem;font-weight:800;color:#f97316;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">
+                Forecasts
+            </div>
+            <table style="width:100%;border-collapse:collapse;">
+                <tr style="border-bottom:1px solid #2a2a40;">
+                    <th style="text-align:left;padding:4px 8px;color:#555;font-size:0.6rem;font-weight:800;text-transform:uppercase;width:100px;">When</th>
+                    <th style="text-align:left;padding:4px 10px;color:#555;font-size:0.6rem;font-weight:800;text-transform:uppercase;">Prediction</th>
+                </tr>
+                <tr>
+                <td style="padding:5px 8px;border-bottom:1px solid #1a1a24;color:#f97316;font-size:0.72rem;white-space:nowrap;vertical-align:top;">12-18 months</td>
+                <td style="padding:5px 10px;border-bottom:1px solid #1a1a24;color:#ddd;font-size:0.78rem;vertical-align:top;">Jerel&#x27;s Casa Abierta business will compound 3-5x faster by targeting 95%+ retention + 15% NRR vs. 80% retention + flat revenue. Within 18 months, profitability per property increases 40% without scaling tenant count.</td>
+            </tr><tr>
+                <td style="padding:5px 8px;border-bottom:1px solid #1a1a24;color:#f97316;font-size:0.72rem;white-space:nowrap;vertical-align:top;">3-5 years</td>
+                <td style="padding:5px 10px;border-bottom:1px solid #1a1a24;color:#ddd;font-size:0.78rem;vertical-align:top;">AI-powered real estate software market (for SubTo, tax deed, deal evaluation) will capture 15-20% CAGRcompounded over next 5 years. Jerel&#x27;s proprietary system becomes 10x more valuable if productized and positioned as industry solution.</td>
+            </tr><tr>
+                <td style="padding:5px 8px;border-bottom:1px solid #1a1a24;color:#f97316;font-size:0.72rem;white-space:nowrap;vertical-align:top;">18-24 months</td>
+                <td style="padding:5px 10px;border-bottom:1px solid #1a1a24;color:#ddd;font-size:0.78rem;vertical-align:top;">Alternative education (including real estate skill-building) grows at 20%+ CAGR. If Jerel launches SubTo course or membership, it can reach $500K-$2M ARR within 24 months, with 70%+ gross margins.</td>
+            </tr><tr>
+                <td style="padding:5px 8px;border-bottom:1px solid #1a1a24;color:#f97316;font-size:0.72rem;white-space:nowrap;vertical-align:top;">2-3 years</td>
+                <td style="padding:5px 10px;border-bottom:1px solid #1a1a24;color:#ddd;font-size:0.78rem;vertical-align:top;">Room-by-room rental industry will face consolidation. Properties with strong brand, community, and &gt;95% retention will command 20-30% premiums in valuation vs. commodity landlords.</td>
+            </tr><tr>
+                <td style="padding:5px 8px;border-bottom:1px solid #1a1a24;color:#f97316;font-size:0.72rem;white-space:nowrap;vertical-align:top;">Ongoing</td>
+                <td style="padding:5px 10px;border-bottom:1px solid #1a1a24;color:#ddd;font-size:0.78rem;vertical-align:top;">Capital-light, software-first business models (like Jerel&#x27;s AI underwriting) will outcompete capital-heavy models by 10x in growth rate. Jerel&#x27;s portfolio should trend toward this composition.</td>
+            </tr>
+            </table>
+        </div>
+            </div>
+        </details>
+    </div>
+
+
+
+<!-- ─── FOOTER ─── -->
+<div style="text-align:center;color:#333;font-size:0.58rem;padding:20px 0;border-top:1px solid #1a1a24;margin-top:20px;">
+  YT Intelligence Pipeline &middot; Generated 2026-05-03 10:44 PT &middot; $2/day &middot; $30/mo budget
+</div>
+
+</div>
+</body>
+</html>

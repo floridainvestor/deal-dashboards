@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Casa Abierta Rentals — Equipo</title>
+<style>
+:root {
+  --green:#16a34a; --green-bg:#dcfce7; --green-border:#86efac;
+  --red:#dc2626; --red-bg:#fee2e2; --red-border:#fca5a5;
+  --orange:#ea580c; --orange-bg:#ffedd5; --orange-border:#fdba74;
+  --yellow:#d97706; --yellow-bg:#fef3c7; --yellow-border:#fcd34d;
+  --blue:#1d4ed8; --blue-bg:#dbeafe; --blue-border:#93c5fd;
+  --gray:#6b7280; --gray-bg:#f3f4f6; --gray-border:#d1d5db;
+  --dark:#111827; --text:#374151; --bg:#f1f5f9;
+  --white:#fff; --border:#e5e7eb;
+  --radius:12px; --radius-sm:8px;
+  --shadow:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.08);
+  --shadow-md:0 4px 12px rgba(0,0,0,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);font-size:15px;-webkit-font-smoothing:antialiased;}
+button{cursor:pointer;font-family:inherit;}
+
+/* TOP BAR */
+.topbar{background:var(--dark);color:#fff;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;}
+.topbar-logo{font-size:17px;font-weight:800;letter-spacing:-.3px;}
+.topbar-logo span{color:#fbbf24;}
+.avatars{display:flex;gap:10px;}
+.av-wrap{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;}
+.av{width:38px;height:38px;border-radius:50%;border:2px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;transition:border-color .15s,box-shadow .15s;}
+.av-wrap.active .av{border-color:#fbbf24;box-shadow:0 0 0 2px #fbbf24;}
+.av-andrea{background:#dc2626;}
+.av-jerel{background:#1d4ed8;}
+.av-name{font-size:9px;font-weight:700;color:rgba(255,255,255,.6);letter-spacing:.3px;}
+.av-wrap.active .av-name{color:#fbbf24;}
+.week-badge{font-size:11px;color:rgba(255,255,255,.5);white-space:nowrap;}
+
+/* NAV BAR */
+.navbar{background:#fff;border-bottom:1px solid var(--border);display:flex;overflow-x:auto;position:sticky;z-index:190;scrollbar-width:none;}
+.navbar::-webkit-scrollbar{display:none;}
+.navbtn{flex:1;min-width:70px;display:flex;flex-direction:column;align-items:center;gap:1px;padding:9px 6px;border:none;background:none;color:var(--gray);font-size:9px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;transition:all .15s;white-space:nowrap;}
+.navbtn .ico{font-size:20px;line-height:1;}
+.navbtn:hover{background:var(--blue-bg);color:var(--blue);}
+.navbtn.active{background:var(--blue);color:#fff;border-radius:0;}
+
+/* ROLE SECTIONS */
+.role{display:none;}
+.role.active{display:block;}
+.view{display:none;}
+.view.active{display:block;}
+
+/* MAIN CONTAINER */
+main{max-width:540px;margin:0 auto;padding:12px;}
+
+/* CARDS */
+.card{background:#fff;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);padding:16px;margin-bottom:12px;}
+.card-title{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--gray);margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+
+/* HERO METRIC */
+.hero{border-radius:var(--radius);padding:18px 16px;color:#fff;margin-bottom:12px;text-align:center;box-shadow:var(--shadow-md);}
+.hero.red{background:linear-gradient(135deg,#991b1b,#dc2626);}
+.hero.green{background:linear-gradient(135deg,#14532d,#16a34a);}
+.hero.orange{background:linear-gradient(135deg,#9a3412,#ea580c);}
+.hero.blue{background:linear-gradient(135deg,#1e3a8a,#1d4ed8);}
+.hero-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;opacity:.85;}
+.hero-val{font-size:44px;font-weight:900;letter-spacing:-2px;line-height:1.1;margin:4px 0;}
+.hero-sub{font-size:13px;opacity:.9;}
+.hero-bar{height:8px;background:rgba(255,255,255,.25);border-radius:99px;margin-top:10px;overflow:hidden;}
+.hero-fill{height:100%;background:#fff;border-radius:99px;transition:width .4s;}
+
+/* STAT ROW */
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px;}
+.stat{background:#fff;border-radius:var(--radius-sm);border:1px solid var(--border);padding:12px 8px;text-align:center;}
+.stat-val{font-size:24px;font-weight:900;line-height:1;}
+.stat-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--gray);margin-top:3px;}
+.stat.green .stat-val{color:var(--green);}
+.stat.red .stat-val{color:var(--red);}
+.stat.orange .stat-val{color:var(--orange);}
+
+/* SECTION LABEL */
+.sec-lbl{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--gray);margin:16px 0 8px;padding:0 2px;}
+
+/* ROOM CARDS */
+.room-card{background:#fff;border-radius:var(--radius);border-left:5px solid var(--green);padding:12px 14px;margin-bottom:8px;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.room-card.vacant{border-left-color:var(--red);background:var(--red-bg);}
+.room-card.late{border-left-color:var(--orange);}
+.room-card.unpaid{border-left-color:var(--yellow);}
+.room-left{flex:1;min-width:0;}
+.room-name{font-size:15px;font-weight:800;color:var(--dark);}
+.room-sub{font-size:12px;color:var(--gray);margin-top:2px;}
+.room-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
+.room-amt{font-size:18px;font-weight:900;}
+.room-amt.green{color:var(--green);}
+.room-amt.red{color:var(--red);}
+.room-amt.orange{color:var(--orange);}
+.room-amt.gray{color:var(--gray);}
+.late-badge{font-size:10px;font-weight:800;padding:2px 7px;border-radius:99px;background:var(--orange-bg);color:var(--orange);}
+
+/* PROPERTY GROUP */
+.prop-header{background:var(--dark);color:#fff;border-radius:var(--radius-sm) var(--radius-sm) 0 0;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;margin-bottom:0;}
+.prop-header-name{font-size:13px;font-weight:800;}
+.prop-header-sub{font-size:11px;opacity:.7;}
+.prop-group{margin-bottom:16px;border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--border);}
+.prop-rooms{background:#fff;}
+.prop-rooms .room-card{border-radius:0;border-left-width:4px;margin:0;border-bottom:1px solid var(--border);}
+.prop-rooms .room-card:last-child{border-bottom:none;}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:11px 18px;border-radius:var(--radius-sm);font-size:14px;font-weight:700;border:none;transition:all .15s;}
+.btn-green{background:var(--green);color:#fff;}
+.btn-green:hover{background:#15803d;}
+.btn-red{background:var(--red);color:#fff;}
+.btn-red:hover{background:#b91c1c;}
+.btn-orange{background:var(--orange);color:#fff;}
+.btn-yellow{background:var(--yellow);color:#fff;}
+.btn-blue{background:var(--blue);color:#fff;}
+.btn-blue:hover{background:#1e40af;}
+.btn-gray{background:var(--gray-bg);color:var(--dark);border:1px solid var(--border);}
+.btn-full{width:100%;display:flex;}
+.btn-lg{padding:14px 18px;font-size:16px;}
+
+/* FORMS */
+.form-group{margin-bottom:14px;}
+.form-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--gray);margin-bottom:6px;display:block;}
+.form-input{width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:var(--radius-sm);font-size:15px;font-family:inherit;background:#fff;color:var(--dark);transition:border-color .15s;}
+.form-input:focus{outline:none;border-color:var(--blue);}
+.form-select{width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:var(--radius-sm);font-size:15px;font-family:inherit;background:#fff;color:var(--dark);appearance:none;-webkit-appearance:none;}
+.form-select:focus{outline:none;border-color:var(--blue);}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;align-items:center;justify-content:center;padding:16px;}
+.modal-overlay.open{display:flex;}
+.modal{background:#fff;border-radius:16px;padding:20px;width:100%;max-width:420px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3);}
+.modal-title{font-size:18px;font-weight:800;color:var(--dark);margin-bottom:16px;}
+.modal-close{float:right;background:none;border:none;font-size:22px;cursor:pointer;color:var(--gray);line-height:1;}
+
+/* ALERT BANNER */
+.alert{border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:12px;font-size:13px;font-weight:600;display:flex;align-items:flex-start;gap:8px;}
+.alert-red{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border);}
+.alert-green{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border);}
+.alert-orange{background:var(--orange-bg);color:var(--orange);border:1px solid var(--orange-border);}
+.alert-blue{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-border);}
+
+/* WEEKLY SHEET ROWS */
+.sheet-row{display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--border);}
+.sheet-row:last-child{border-bottom:none;}
+.sheet-tenant{flex:1;font-size:14px;font-weight:700;color:var(--dark);}
+.sheet-rent{font-size:13px;color:var(--gray);width:52px;text-align:right;}
+.sheet-input{width:90px;padding:8px 10px;border:2px solid var(--border);border-radius:var(--radius-sm);font-size:15px;font-weight:700;text-align:right;font-family:inherit;}
+.sheet-input:focus{outline:none;border-color:var(--blue);}
+.sheet-input.overpaid{border-color:var(--green);}
+.sheet-input.short{border-color:var(--orange);}
+.sheet-input.zero{border-color:var(--red);}
+
+/* PRICING TABLE */
+.price-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);}
+.price-row:last-child{border-bottom:none;}
+.price-unit{font-size:13px;font-weight:700;color:var(--dark);flex:1;}
+.price-tenant{font-size:12px;color:var(--gray);width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.price-input{width:80px;padding:6px 10px;border:2px solid var(--border);border-radius:var(--radius-sm);font-size:14px;font-weight:700;text-align:center;font-family:inherit;}
+.price-input:focus{outline:none;border-color:var(--blue);}
+
+/* CONTACT CARD */
+.contact-card{background:#fff;border-radius:var(--radius);border:1px solid var(--border);padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;}
+.contact-name{font-size:15px;font-weight:800;color:var(--dark);}
+.contact-sub{font-size:12px;color:var(--gray);margin-top:2px;}
+.contact-call{background:var(--green);color:#fff;border:none;border-radius:var(--radius-sm);padding:10px 14px;font-size:13px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:5px;}
+
+/* WATERFALL */
+.wf-row{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:1px solid var(--border);font-size:14px;}
+.wf-row:last-child{border-bottom:none;}
+.wf-row.collected{background:var(--green-bg);}
+.wf-val{font-weight:700;}
+
+/* SUBMISSION STATUS */
+.submit-status{text-align:center;padding:20px;border-radius:var(--radius);border:2px dashed var(--border);color:var(--gray);font-size:13px;}
+.submit-status.submitted{border-color:var(--green);background:var(--green-bg);color:var(--green);}
+.submit-status .submit-icon{font-size:36px;display:block;margin-bottom:8px;}
+.submit-status .submit-date{font-weight:700;}
+
+/* VACANCY STATUS */
+.vac-stat{display:inline-block;padding:3px 9px;border-radius:99px;font-size:11px;font-weight:800;text-transform:uppercase;}
+.vac-stat.occupied{background:var(--green-bg);color:var(--green);}
+.vac-stat.vacant{background:var(--red-bg);color:var(--red);}
+.vac-days{font-size:11px;font-weight:700;color:var(--red);}
+
+/* LATE FEE CALC BOX */
+.late-box{background:var(--orange-bg);border:1px solid var(--orange-border);border-radius:var(--radius-sm);padding:10px 12px;margin-top:8px;}
+.late-box-title{font-size:11px;font-weight:800;text-transform:uppercase;color:var(--orange);margin-bottom:4px;}
+.late-box-row{display:flex;justify-content:space-between;font-size:13px;padding:2px 0;}
+
+/* MONDAY REMINDER */
+.monday-banner{background:var(--blue);color:#fff;border-radius:var(--radius);padding:14px 16px;margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.monday-banner.warn{background:var(--orange);}
+.monday-banner.done{background:var(--green);}
+.monday-banner-text{flex:1;font-size:14px;font-weight:700;}
+.monday-banner-sub{font-size:12px;opacity:.85;margin-top:2px;}
+
+/* PadSplit link */
+.padsplit-link{display:flex;align-items:center;gap:8px;background:var(--blue-bg);border:1px solid var(--blue-border);border-radius:var(--radius-sm);padding:10px 14px;text-decoration:none;color:var(--blue);font-size:13px;font-weight:700;margin-bottom:12px;}
+</style>
+</head>
+<body>
+
+<!-- ===== TOP BAR ===== -->
+<div class="topbar">
+  <div class="topbar-logo">Casa <span>Abierta</span></div>
+  <div class="week-badge" id="week-label">Sem. Apr 6</div>
+  <div class="avatars">
+    <div class="av-wrap active" onclick="switchRole('andrea')">
+      <div class="av av-andrea">A</div>
+      <div class="av-name">ANDREA</div>
+    </div>
+    <div class="av-wrap" onclick="switchRole('jerel')">
+      <div class="av av-jerel">J</div>
+      <div class="av-name">JEREL</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ANDREA ROLE ===== -->
+<div class="role active" id="role-andrea">
+  <div class="navbar">
+    <button class="navbtn active" onclick="showTab('andrea','cuartos',this)"><span class="ico">🏠</span>CUARTOS</button>
+    <button class="navbtn" onclick="showTab('andrea','cobrar',this)"><span class="ico">💰</span>COBRAR</button>
+    <button class="navbtn" onclick="showTab('andrea','semana',this)"><span class="ico">📋</span>SEMANA</button>
+    <button class="navbtn" onclick="showTab('andrea','contactos',this)"><span class="ico">📞</span>LISTA</button>
+  </div>
+  <main>
+
+    <!-- ===== CUARTOS (VACANCY BOARD) ===== -->
+    <div class="view active" id="andrea-cuartos">
+      <div id="vacancy-hero"></div>
+      <div class="sec-lbl">🔴 Cuartos Vacantes — Toca para marcar rentado</div>
+      <div id="vacant-list"></div>
+      <div class="sec-lbl">✅ Todos los Cuartos</div>
+      <div id="all-rooms-by-prop"></div>
+    </div>
+
+    <!-- ===== COBRAR (COLLECTIONS + LATE FEES) ===== -->
+    <div class="view" id="andrea-cobrar">
+      <div id="cobrar-summary"></div>
+      <div class="sec-lbl" id="cobrar-late-lbl">⚠️ Con Cargo por Tardanza</div>
+      <div id="cobrar-late-list"></div>
+      <div class="sec-lbl">📋 Pendientes Esta Semana</div>
+      <div id="cobrar-pending-list"></div>
+      <div class="sec-lbl" style="opacity:.5;">✅ Pagaron Esta Semana</div>
+      <div id="cobrar-paid-list"></div>
+    </div>
+
+    <!-- ===== SEMANA (WEEKLY SHEET — Monday submission) ===== -->
+    <div class="view" id="andrea-semana">
+      <div id="semana-banner"></div>
+      <div id="semana-submit-status"></div>
+      <div id="semana-form"></div>
+    </div>
+
+    <!-- ===== CONTACTOS (TENANT DIRECTORY) ===== -->
+    <div class="view" id="andrea-contactos">
+      <div class="alert alert-blue">📞 Toca el número para llamar directamente</div>
+      <div id="contactos-list"></div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ===== JEREL ROLE ===== -->
+<div class="role" id="role-jerel">
+  <div class="navbar">
+    <button class="navbtn active" onclick="showTab('jerel','resumen',this)"><span class="ico">📊</span>RESUMEN</button>
+    <button class="navbtn" onclick="showTab('jerel','precios',this)"><span class="ico">💵</span>PRECIOS</button>
+    <button class="navbtn" onclick="showTab('jerel','control',this)"><span class="ico">⚠️</span>CONTROL</button>
+    <button class="navbtn" onclick="showTab('jerel','hojas',this)"><span class="ico">📄</span>HOJAS</button>
+  </div>
+  <main>
+
+    <!-- ===== RESUMEN ===== -->
+    <div class="view active" id="jerel-resumen">
+      <div id="owner-hero"></div>
+      <div id="owner-stats"></div>
+      <div class="sec-lbl">💧 Pérdida Semanal de Ingresos</div>
+      <div class="card" id="waterfall-card"></div>
+      <div class="sec-lbl">🏘️ Por Propiedad</div>
+      <div id="prop-breakdown"></div>
+    </div>
+
+    <!-- ===== PRECIOS ===== -->
+    <div class="view" id="jerel-precios">
+      <a class="padsplit-link" href="https://www.padsplit.com/hosts/market-insights?zip=32208" target="_blank">
+        📊 Ver PadSplit Market Insights — ZIP 32208 →
+      </a>
+      <a class="padsplit-link" href="https://www.padsplit.com/hosts/market-insights?zip=32254" target="_blank">
+        📊 Ver PadSplit Market Insights — ZIP 32254 →
+      </a>
+      <div class="alert alert-blue">💡 Revisa precios el primer lunes de cada mes. Mantén 10-15% por debajo de PadSplit.</div>
+      <div id="pricing-by-prop"></div>
+      <div style="height:16px;"></div>
+      <button class="btn btn-green btn-full" onclick="savePricing()">💾 Guardar Nuevos Precios</button>
+    </div>
+
+    <!-- ===== CONTROL (Alerts + Late Fees + Cash) ===== -->
+    <div class="view" id="jerel-control">
+      <div id="control-alerts"></div>
+      <div class="sec-lbl">💸 Cargos por Tardanza Esta Semana</div>
+      <div id="control-late-fees"></div>
+      <div class="sec-lbl">🔴 Pagadores Crónicos Bajos</div>
+      <div id="control-chronic"></div>
+    </div>
+
+    <!-- ===== HOJAS (Weekly Sheet History) ===== -->
+    <div class="view" id="jerel-hojas">
+      <div class="alert alert-blue">📋 Hojas enviadas por Andrea. Más reciente primero.</div>
+      <div id="sheets-history"></div>
+      <div class="sec-lbl" style="margin-top:16px;">📤 Exportar / 📥 Importar Datos</div>
+      <div class="card">
+        <button class="btn btn-gray btn-full" style="margin-bottom:8px;" onclick="exportData()">📤 Exportar Todos los Datos (JSON)</button>
+        <label class="btn btn-gray btn-full" style="margin-bottom:0;">
+          📥 Importar Datos <input type="file" accept=".json" style="display:none" onchange="importData(event)">
+        </label>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ===== PAYMENT MODAL ===== -->
+<div class="modal-overlay" id="pay-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closePayModal()">✕</button>
+    <div class="modal-title" id="pay-modal-title">Registrar Pago</div>
+    <div class="form-group">
+      <label class="form-label">Inquilino</label>
+      <div id="pay-tenant-info" style="font-size:16px;font-weight:700;color:var(--dark);padding:8px 0;"></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Renta semanal esperada</label>
+      <div id="pay-rent-info" style="font-size:16px;font-weight:700;color:var(--blue);padding:8px 0;"></div>
+    </div>
+    <div id="pay-late-info"></div>
+    <div class="form-group">
+      <label class="form-label">Monto Recibido ($)</label>
+      <input type="number" class="form-input" id="pay-amount" placeholder="0.00" min="0" step="1">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Método de Pago</label>
+      <select class="form-select" id="pay-method">
+        <option value="cash">💵 Efectivo (Cash)</option>
+        <option value="zelle">📱 Zelle</option>
+        <option value="cashapp">💸 Cash App</option>
+        <option value="venmo">💙 Venmo</option>
+        <option value="other">Otro</option>
+      </select>
+    </div>
+    <button class="btn btn-green btn-full btn-lg" onclick="confirmPayment()">✅ Confirmar Pago</button>
+    <div style="height:8px;"></div>
+    <button class="btn btn-gray btn-full" onclick="closePayModal()">Cancelar</button>
+  </div>
+</div>
+
+<!-- ===== RENT MODAL ===== -->
+<div class="modal-overlay" id="rent-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeRentModal()">✕</button>
+    <div class="modal-title" id="rent-modal-title">Marcar como Rentado</div>
+    <div class="form-group">
+      <label class="form-label">Nombre del Inquilino</label>
+      <input type="text" class="form-input" id="rent-tenant" placeholder="Nombre">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Renta Semanal ($)</label>
+      <input type="number" class="form-input" id="rent-amount" placeholder="175">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Fecha de Entrada</label>
+      <input type="date" class="form-input" id="rent-date">
+    </div>
+    <button class="btn btn-green btn-full btn-lg" onclick="confirmRent()">✅ Confirmar — Cuarto Rentado</button>
+    <div style="height:8px;"></div>
+    <button class="btn btn-gray btn-full" onclick="closeRentModal()">Cancelar</button>
+  </div>
+</div>
+
+<!-- ===== VACATE MODAL ===== -->
+<div class="modal-overlay" id="vacate-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeVacateModal()">✕</button>
+    <div class="modal-title" id="vacate-modal-title">Marcar como Vacante</div>
+    <div class="alert alert-orange">⚠️ Confirma que este cuarto quedó desocupado</div>
+    <div id="vacate-info" style="font-size:15px;font-weight:700;padding:10px 0;"></div>
+    <div class="form-group">
+      <label class="form-label">Fecha en que quedó vacante</label>
+      <input type="date" class="form-input" id="vacate-date">
+    </div>
+    <button class="btn btn-red btn-full btn-lg" onclick="confirmVacate()">🔴 Confirmar — Cuarto Vacante</button>
+    <div style="height:8px;"></div>
+    <button class="btn btn-gray btn-full" onclick="closeVacateModal()">Cancelar</button>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// ROOM REGISTRY — All 83 rooms from 4/5/2026 rent sheet
+// ============================================================
+const PROPS = [
+  {id:'myra', name:'2204 Myra / 864 Copeland', addr:'2204 Myra St', zip:'32204', rooms:[
+    {id:'myra-a',unit:'A',tenant:'Saeid',rent:190,phone:'9046293774'},
+    {id:'myra-b',unit:'B',tenant:'Neomar',rent:200,phone:''},
+    {id:'myra-c',unit:'C',tenant:'Ruber',rent:180,phone:'9044059316'},
+    {id:'864-a',unit:'864-A',tenant:'Elvin',rent:190,phone:'9042529008'},
+    {id:'864-b',unit:'864-B',tenant:'Yeniel',rent:190,phone:'9042529008'},
+  ]},
+  {id:'creek', name:'11014 Creekwood Dr', addr:'11014 Creekwood Dr', zip:'32256', rooms:[
+    {id:'creek-a',unit:'A',tenant:'Juan',rent:135,phone:''},
+    {id:'creek-b',unit:'B',tenant:'Ray',rent:135,phone:''},
+    {id:'creek-c',unit:'C',tenant:'',rent:135,phone:'',vacant:true},
+    {id:'creek-d',unit:'D',tenant:'Andres',rent:135,phone:''},
+  ]},
+  {id:'h7862', name:'7862 Hastings St', addr:'7862 Hastings St', zip:'32220', rooms:[
+    {id:'h7862-a',unit:'A',tenant:'Anres',rent:170,phone:''},
+    {id:'h7862-b',unit:'B',tenant:'Jhon',rent:150,phone:'9047033784'},
+    {id:'h7862-c',unit:'C',tenant:'Jhon',rent:150,phone:'9047033784'},
+    {id:'h7862-d',unit:'D',tenant:'',rent:150,phone:'',vacant:true},
+    {id:'h7862-e',unit:'E',tenant:'',rent:170,phone:'',vacant:true},
+    {id:'h7862-f',unit:'F',tenant:'',rent:170,phone:'',vacant:true},
+  ]},
+  {id:'w16', name:'2228 W 16th St', addr:'2228 W 16th St', zip:'32208', rooms:[
+    {id:'w16-a',unit:'A',tenant:'',rent:160,phone:'',vacant:true},
+    {id:'w16-b',unit:'B',tenant:'Ana',rent:160,phone:'9546246543'},
+    {id:'w16-c',unit:'C',tenant:'Victor',rent:160,phone:'9546246543'},
+    {id:'w16-d',unit:'D',tenant:'Rosa',rent:160,phone:''},
+    {id:'w16-e',unit:'E',tenant:'',rent:160,phone:'',vacant:true},
+  ]},
+  {id:'horse', name:'6132 Horseshoe Dr', addr:'6132 Horseshoe Dr', zip:'32254', rooms:[
+    {id:'horse-a',unit:'A',tenant:'Jhoan',rent:180,phone:'9049033555'},
+    {id:'horse-b',unit:'B',tenant:'Reniel',rent:180,phone:'3055619305'},
+    {id:'horse-c',unit:'C',tenant:'Josue',rent:180,phone:''},
+    {id:'horse-d',unit:'D',tenant:'',rent:190,phone:'',vacant:true},
+    {id:'horse-e',unit:'E',tenant:'',rent:190,phone:'',vacant:true},
+    {id:'horse-rv1',unit:'RV1',tenant:'Victoria',rent:212,phone:'9042190424'},
+  ]},
+  {id:'harr', name:'840 Harrison St', addr:'840 Harrison St', zip:'32219', rooms:[
+    {id:'harr-a',unit:'A',tenant:'Carlos',rent:340,phone:''},
+  ]},
+  {id:'lin355', name:'355 Linden Ln', addr:'355 Linden Ln', zip:'32073', rooms:[
+    {id:'lin355-a',unit:'A',tenant:'Haitiano',rent:180,phone:'4076159313'},
+    {id:'lin355-b',unit:'B',tenant:'Abelino',rent:180,phone:'522265535788'},
+    {id:'lin355-c',unit:'C',tenant:'Daniel',rent:180,phone:'9044381310'},
+    {id:'lin355-d',unit:'D',tenant:'Cesar',rent:180,phone:''},
+    {id:'lin355-e',unit:'E',tenant:'',rent:160,phone:'',vacant:true},
+    {id:'lin355-rv1',unit:'RV1',tenant:'Victor',rent:250,phone:'4072238192'},
+    {id:'lin355-eff',unit:'EFF',tenant:'Francisco',rent:250,phone:'4075793902'},
+  ]},
+  {id:'lin346', name:'346 Linden Ln', addr:'346 Linden Ln', zip:'32073', rooms:[
+    {id:'lin346-a',unit:'A',tenant:'Isaiah',rent:185,phone:'4079781260'},
+    {id:'lin346-b',unit:'B',tenant:'Merceba',rent:185,phone:'9046663355'},
+    {id:'lin346-c',unit:'C',tenant:'Misty',rent:185,phone:'3854525148'},
+    {id:'lin346-d',unit:'D',tenant:'Zakkiyah',rent:190,phone:''},
+    {id:'lin346-rv1',unit:'RV1',tenant:'Andres',rent:250,phone:'9044423821'},
+    {id:'lin346-rv2',unit:'RV2',tenant:'Dominico',rent:250,phone:'7876120238'},
+  ]},
+  {id:'nat', name:'1665 Natalie Rd', addr:'1665 Natalie Rd', zip:'32084', rooms:[
+    {id:'nat-a',unit:'A',tenant:'Nancy',rent:160,phone:'3126921181'},
+    {id:'nat-b',unit:'B',tenant:'Antonio',rent:175,phone:'9048843246'},
+    {id:'nat-c',unit:'C',tenant:'Maria',rent:206,phone:''},
+    {id:'nat-d',unit:'D',tenant:'Rudznael',rent:200,phone:''},
+    {id:'nat-rv1',unit:'RV1',tenant:'',rent:270,phone:'',vacant:true},
+    {id:'nat-rv2',unit:'RV2',tenant:'Issabella',rent:250,phone:''},
+  ]},
+  {id:'long', name:'7929 Longspur Rd', addr:'7929 Longspur Rd', zip:'32254', rooms:[
+    {id:'long-a',unit:'A',tenant:'Alfonzo',rent:185,phone:'6198792204'},
+    {id:'long-b',unit:'B',tenant:'Amelia',rent:185,phone:'7866948837'},
+    {id:'long-c',unit:'C',tenant:'Mauricio',rent:200,phone:''},
+    {id:'long-d',unit:'D',tenant:'Andres',rent:185,phone:''},
+    {id:'long-rv1',unit:'RV1',tenant:'',rent:200,phone:'',vacant:true},
+    {id:'long-rv2',unit:'RV2',tenant:'Leon',rent:180,phone:''},
+  ]},
+  {id:'grove', name:'1231 Grove Park Dr', addr:'1231 Grove Park Dr', zip:'32073', rooms:[
+    {id:'grove-a',unit:'A',tenant:'Mynor',rent:185,phone:'9048972835'},
+    {id:'grove-b',unit:'B',tenant:'Miguel',rent:185,phone:'9714291719'},
+    {id:'grove-c',unit:'C',tenant:'Abelino',rent:225,phone:'8637321801'},
+    {id:'grove-d',unit:'D',tenant:'Gustavo',rent:160,phone:''},
+    {id:'grove-e',unit:'E',tenant:'Louis',rent:180,phone:''},
+    {id:'grove-f',unit:'F',tenant:'Mariuska',rent:160,phone:'9043609905'},
+  ]},
+  {id:'caxt', name:'7821 Caxton Cir E', addr:'7821 Caxton Cir E', zip:'32208', rooms:[
+    {id:'caxt-a',unit:'A',tenant:'Miguel',rent:175,phone:'5613518846'},
+    {id:'caxt-b',unit:'B',tenant:'Enrique',rent:175,phone:'5613518846'},
+    {id:'caxt-c',unit:'C',tenant:'Aguilar',rent:175,phone:'5613518846'},
+    {id:'caxt-eff',unit:'EFF',tenant:'Joseb',rent:200,phone:'7865978282'},
+  ]},
+  {id:'wain', name:'1270 Wainwright Dr', addr:'1270 Wainwright Dr', zip:'32208', rooms:[
+    {id:'wain-a',unit:'A',tenant:'Luis',rent:175,phone:'5613518846'},
+    {id:'wain-b',unit:'B',tenant:'David',rent:160,phone:''},
+    {id:'wain-c',unit:'C',tenant:'Brayan',rent:160,phone:''},
+    {id:'wain-d',unit:'D',tenant:'',rent:100,phone:'',vacant:true},
+    {id:'wain-e',unit:'E',tenant:'',rent:160,phone:'',vacant:true},
+  ]},
+  {id:'h7848', name:'7848 Hastings St', addr:'7848 Hastings St', zip:'32220', rooms:[
+    {id:'h7848-a',unit:'A',tenant:'Jorge',rent:175,phone:''},
+    {id:'h7848-b',unit:'B',tenant:'Yordanis',rent:175,phone:''},
+    {id:'h7848-c',unit:'C',tenant:'Feliciano',rent:175,phone:''},
+  ]},
+  {id:'w10', name:'2331 W 10th St', addr:'2331 W 10th St', zip:'32208', rooms:[
+    {id:'w10-a',unit:'A',tenant:'Mayorka',rent:175,phone:''},
+    {id:'w10-b',unit:'B',tenant:'Ottae',rent:175,phone:''},
+    {id:'w10-c',unit:'C',tenant:'',rent:175,phone:'',vacant:true},
+    {id:'w10-d',unit:'D',tenant:'Kaska',rent:250,phone:''},
+  ]},
+  {id:'tumble', name:'1160 Tumbleweed Dr', addr:'1160 Tumbleweed Dr', zip:'32065', rooms:[
+    {id:'tumble-a',unit:'A',tenant:'Richard',rent:200,phone:''},
+    {id:'tumble-b',unit:'B',tenant:'Simon',rent:180,phone:''},
+    {id:'tumble-c',unit:'C',tenant:'Lizandra',rent:160,phone:''},
+    {id:'tumble-d',unit:'D',tenant:'Rudi',rent:160,phone:''},
+    {id:'tumble-e',unit:'E',tenant:'Moreno',rent:160,phone:''},
+    {id:'tumble-f',unit:'F',tenant:'',rent:160,phone:'',vacant:true},
+  ]},
+];
+
+// Flat room list for quick lookup
+const ALL_ROOMS = PROPS.flatMap(p => p.rooms.map(r => ({...r, propId:p.id, propName:p.name, propAddr:p.addr})));
+
+// ============================================================
+// STATE MANAGEMENT (localStorage)
+// ============================================================
+const STORAGE_KEYS = {
+  vacancies: 'ca_vacancies_v5',       // {roomId: {since: 'YYYY-MM-DD'}}
+  payments: 'ca_payments_v5',         // {weekKey: {roomId: {paid, method, ts}}}
+  pricing: 'ca_pricing_v5',           // {roomId: newRent}
+  submissions: 'ca_submissions_v5',   // [{weekKey, ts, data}]
+};
+
+function getVacancies() { try{return JSON.parse(localStorage.getItem(STORAGE_KEYS.vacancies))||{};}catch(e){return{};} }
+function saveVacancies(v) { localStorage.setItem(STORAGE_KEYS.vacancies, JSON.stringify(v)); }
+function getPayments() { try{return JSON.parse(localStorage.getItem(STORAGE_KEYS.payments))||{};}catch(e){return{};} }
+function savePayments(p) { localStorage.setItem(STORAGE_KEYS.payments, JSON.stringify(p)); }
+function getPricing() { try{return JSON.parse(localStorage.getItem(STORAGE_KEYS.pricing))||{};}catch(e){return{};} }
+function savePricingData(p) { localStorage.setItem(STORAGE_KEYS.pricing, JSON.stringify(p)); }
+function getSubmissions() { try{return JSON.parse(localStorage.getItem(STORAGE_KEYS.submissions))||[];}catch(e){return[];} }
+function saveSubmissions(s) { localStorage.setItem(STORAGE_KEYS.submissions, JSON.stringify(s)); }
+
+// Initialize default vacancies from room registry
+function initVacancies() {
+  const v = getVacancies();
+  const today = fmtDate(new Date());
+  ALL_ROOMS.forEach(r => {
+    if (r.vacant && !v[r.id]) {
+      v[r.id] = {since: today};
+    }
+  });
+  saveVacancies(v);
+}
+
+// ============================================================
+// DATE / WEEK UTILITIES
+// ============================================================
+function fmtDate(d) {
+  return d.toISOString().slice(0,10);
+}
+function getCurrentSunday() {
+  const d = new Date();
+  const day = d.getDay(); // 0=Sun
+  const diff = d.getDate() - day;
+  const sun = new Date(d.setDate(diff));
+  return fmtDate(sun);
+}
+function getWeekKey() { return getCurrentSunday(); }
+function daysSince(dateStr) {
+  if (!dateStr) return 0;
+  const diff = new Date() - new Date(dateStr);
+  return Math.max(0, Math.floor(diff / (1000*60*60*24)));
+}
+function calcLateFee(daysLate) {
+  if (daysLate <= 0) return 0;
+  return 15 + Math.max(0, daysLate - 1) * 5;
+}
+function getDaysLateNow() {
+  // 0=Sun due date, 1=Mon=$15 late, etc.
+  return new Date().getDay(); // 0=Sun(on time), 1=Mon(1 day late)...
+}
+function fmtMoney(n) {
+  return '$' + Math.round(n).toLocaleString();
+}
+function fmtDateShort(dateStr) {
+  if (!dateStr) return '—';
+  const d = new Date(dateStr + 'T12:00:00');
+  return d.toLocaleDateString('en-US', {month:'short', day:'numeric'});
+}
+
+// ============================================================
+// ROOM STATE HELPERS
+// ============================================================
+function isVacant(roomId) {
+  const v = getVacancies();
+  return !!v[roomId];
+}
+function getRoomRent(room) {
+  const pricing = getPricing();
+  return pricing[room.id] || room.rent;
+}
+function getThisWeekPayment(roomId) {
+  const payments = getPayments();
+  const weekKey = getWeekKey();
+  return (payments[weekKey] || {})[roomId] || null;
+}
+
+// ============================================================
+// RENDER FUNCTIONS
+// ============================================================
+
+// --- WEEK LABEL ---
+function renderWeekLabel() {
+  const sun = new Date(getCurrentSunday() + 'T12:00:00');
+  document.getElementById('week-label').textContent = 'Sem. ' + sun.toLocaleDateString('en-US', {month:'short', day:'numeric'});
+}
+
+// --- VACANCY HERO ---
+function renderVacancyHero() {
+  const vacancies = getVacancies();
+  const vacCount = Object.keys(vacancies).length;
+  const totalRooms = ALL_ROOMS.length;
+  const avgRent = ALL_ROOMS.reduce((s,r) => s + getRoomRent(r), 0) / totalRooms;
+  const weeklyLoss = vacCount * avgRent;
+  const pct = Math.round((1 - vacCount/totalRooms)*100);
+  const el = document.getElementById('vacancy-hero');
+  el.innerHTML = `
+    <div class="hero ${vacCount > 10 ? 'red' : vacCount > 5 ? 'orange' : 'green'}">
+      <div class="hero-label">Cuartos Vacantes</div>
+      <div class="hero-val">${vacCount}</div>
+      <div class="hero-sub">de ${totalRooms} cuartos · ${fmtMoney(weeklyLoss)}/semana perdida</div>
+      <div class="hero-bar"><div class="hero-fill" style="width:${pct}%"></div></div>
+    </div>`;
+}
+
+// --- VACANT LIST (Andrea: tap to mark rented) ---
+function renderVacantList() {
+  const vacancies = getVacancies();
+  const el = document.getElementById('vacant-list');
+  const vacRooms = ALL_ROOMS.filter(r => isVacant(r.id));
+  if (!vacRooms.length) {
+    el.innerHTML = '<div class="alert alert-green">✅ ¡No hay cuartos vacantes! Excelente trabajo.</div>';
+    return;
+  }
+  el.innerHTML = vacRooms.map(r => {
+    const days = daysSince(vacancies[r.id]?.since);
+    const loss = days * getRoomRent(r) / 7;
+    return `<div class="room-card vacant">
+      <div class="room-left">
+        <div class="room-name">${r.propAddr} — ${r.unit}</div>
+        <div class="room-sub">Vacante ${days} día${days!==1?'s':''} · ${fmtMoney(loss)} perdido · Renta: ${fmtMoney(getRoomRent(r))}/sem</div>
+      </div>
+      <button class="btn btn-green" style="white-space:nowrap;font-size:13px;padding:8px 12px;" onclick="openRentModal('${r.id}')">✅ Rentado</button>
+    </div>`;
+  }).join('');
+}
+
+// --- ALL ROOMS BY PROPERTY ---
+function renderAllRoomsByProp() {
+  const el = document.getElementById('all-rooms-by-prop');
+  el.innerHTML = PROPS.map(p => {
+    const roomsHtml = p.rooms.map(r => {
+      const vacant = isVacant(r.id);
+      const pay = getThisWeekPayment(r.id);
+      let statusClass = vacant ? 'vacant' : (pay ? 'room-card' : 'room-card unpaid');
+      let rightHtml = '';
+      if (vacant) {
+        rightHtml = `<span class="vac-stat vacant">Vacante</span>`;
+      } else {
+        const amtPaid = pay?.paid || 0;
+        const expected = getRoomRent(r);
+        const color = amtPaid >= expected ? 'green' : amtPaid > 0 ? 'orange' : 'red';
+        rightHtml = `<span class="room-amt ${color}">${fmtMoney(amtPaid)}</span>`;
+      }
+      return `<div class="${statusClass}" onclick="${vacant ? `openRentModal('${r.id}')` : `openPayModal('${r.id}')`}">
+        <div class="room-left">
+          <div class="room-name">${r.unit} — ${vacant ? '<span style="color:var(--red)">VACANTE</span>' : r.tenant}</div>
+          <div class="room-sub">${fmtMoney(getRoomRent(r))}/sem${pay ? ' · ' + (pay.method||'') : ''}</div>
+        </div>
+        <div class="room-right">${rightHtml}</div>
+      </div>`;
+    }).join('');
+    const occupiedCount = p.rooms.filter(r => !isVacant(r.id)).length;
+    return `<div class="prop-group">
+      <div class="prop-header">
+        <div class="prop-header-name">${p.name}</div>
+        <div class="prop-header-sub">${occupiedCount}/${p.rooms.length} ocupados</div>
+      </div>
+      <div class="prop-rooms">${roomsHtml}</div>
+    </div>`;
+  }).join('');
+}
+
+// --- COBRAR (Collections) ---
+function renderCobrar() {
+  const daysLate = getDaysLateNow();
+  const lateFee = calcLateFee(daysLate);
+  const weekKey = getWeekKey();
+  const payments = getPayments()[weekKey] || {};
+
+  let totalExpected = 0, totalCollected = 0, totalLate = 0;
+  const lateRooms = [], pendingRooms = [], paidRooms = [];
+
+  ALL_ROOMS.forEach(r => {
+    if (isVacant(r.id)) return;
+    const expected = getRoomRent(r);
+    const pay = payments[r.id];
+    const paid = pay?.paid || 0;
+    totalExpected += expected;
+    totalCollected += paid;
+    if (daysLate > 0 && paid < expected) totalLate += lateFee;
+    if (paid >= expected) {
+      paidRooms.push({room:r, pay, expected, paid});
+    } else if (daysLate > 0 && paid < expected) {
+      lateRooms.push({room:r, pay, expected, paid, fee:lateFee, total:expected-paid+lateFee});
+    } else {
+      pendingRooms.push({room:r, pay, expected, paid});
+    }
+  });
+
+  const pct = totalExpected > 0 ? Math.round(totalCollected/totalExpected*100) : 0;
+  document.getElementById('cobrar-summary').innerHTML = `
+    <div class="hero ${pct>=90?'green':pct>=70?'orange':'red'}">
+      <div class="hero-label">Cobrado Esta Semana</div>
+      <div class="hero-val">${fmtMoney(totalCollected)}</div>
+      <div class="hero-sub">de ${fmtMoney(totalExpected)} esperado · ${pct}%</div>
+      <div class="hero-bar"><div class="hero-fill" style="width:${pct}%"></div></div>
+    </div>
+    <div class="stat-row">
+      <div class="stat green"><div class="stat-val">${paidRooms.length}</div><div class="stat-lbl">Pagaron</div></div>
+      <div class="stat orange"><div class="stat-val">${lateRooms.length}</div><div class="stat-lbl">Tarde</div></div>
+      <div class="stat red"><div class="stat-val">${pendingRooms.length}</div><div class="stat-lbl">Pendientes</div></div>
+    </div>`;
+
+  // Late label
+  if (daysLate > 0) {
+    document.getElementById('cobrar-late-lbl').innerHTML = `⚠️ Con Cargo — Día ${daysLate} (${fmtMoney(lateFee)} cargo)`;
+  }
+
+  function makeCard(item, showFee) {
+    const {room, pay, expected, paid, fee, total} = item;
+    const balance = expected - paid;
+    const amtToCollect = showFee ? (balance + (fee||0)) : balance;
+    const phoneHtml = room.phone ? `<a href="tel:+1${room.phone}" style="color:var(--blue);text-decoration:none;font-weight:700;">📞 ${room.phone}</a>` : '';
+    const feeHtml = showFee && fee ? `<div class="late-box"><div class="late-box-title">Cargo por Tardanza · Día ${daysLate}</div>
+      <div class="late-box-row"><span>Renta adeudada</span><span>${fmtMoney(balance)}</span></div>
+      <div class="late-box-row"><span>Cargo tardanza</span><span style="color:var(--orange)">+${fmtMoney(fee)}</span></div>
+      <div class="late-box-row" style="font-weight:800;font-size:14px;"><span>Total a cobrar</span><span style="color:var(--red)">${fmtMoney(amtToCollect)}</span></div>
+    </div>` : '';
+    return `<div class="room-card ${showFee?'late':''}" style="display:block;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+        <div>
+          <div class="room-name">${room.tenant} — ${room.unit}</div>
+          <div class="room-sub">${room.propAddr}</div>
+        </div>
+        <div style="text-align:right;">
+          <div class="room-amt ${paid>0?'orange':'red'}">${fmtMoney(amtToCollect)}</div>
+          ${showFee ? `<span class="late-badge">DÍA ${daysLate} TARDE</span>` : ''}
+        </div>
+      </div>
+      ${feeHtml}
+      <div style="display:flex;gap:8px;margin-top:8px;align-items:center;">
+        <button class="btn btn-green" style="flex:1;padding:10px;" onclick="openPayModal('${room.id}')">💰 Cobrar ${fmtMoney(amtToCollect)}</button>
+        ${phoneHtml}
+      </div>
+    </div>`;
+  }
+
+  document.getElementById('cobrar-late-list').innerHTML = lateRooms.length
+    ? lateRooms.map(i => makeCard(i, true)).join('')
+    : '<div style="color:var(--gray);font-size:13px;padding:4px 0;">Sin cargos por tardanza aún</div>';
+
+  document.getElementById('cobrar-pending-list').innerHTML = pendingRooms.length
+    ? pendingRooms.map(i => makeCard(i, false)).join('')
+    : '<div style="color:var(--gray);font-size:13px;padding:4px 0;">¡Todos pagaron! 🎉</div>';
+
+  document.getElementById('cobrar-paid-list').innerHTML = paidRooms.slice(0,10).map(({room, pay, expected}) => `
+    <div class="room-card" style="opacity:.6;">
+      <div class="room-left"><div class="room-name">${room.tenant} — ${room.unit}</div>
+      <div class="room-sub">${room.propAddr} · ${pay?.method||'efectivo'}</div></div>
+      <div class="room-right"><div class="room-amt green">${fmtMoney(pay?.paid||expected)}</div></div>
+    </div>`).join('');
+}
+
+// --- SEMANA (Weekly Sheet) ---
+function renderSemana() {
+  const weekKey = getWeekKey();
+  const sun = new Date(weekKey + 'T12:00:00');
+  const today = new Date();
+  const dayOfWeek = today.getDay(); // 0=Sun, 1=Mon
+  const submissions = getSubmissions();
+  const thisSubmission = submissions.find(s => s.weekKey === weekKey);
+
+  // Day banner
+  let bannerClass = 'blue', bannerIcon = '📋', bannerMsg = 'Entrega la hoja el LUNES', bannerSub = '';
+  if (dayOfWeek === 1) { bannerClass='green'; bannerIcon='✅'; bannerMsg='HOY ES LUNES — Entrega la hoja ahora'; bannerSub='Deadline: hoy antes de mediodía'; }
+  else if (dayOfWeek > 1) { bannerClass='warn'; bannerIcon='⚠️'; bannerMsg=`Hoja atrasada — debió enviarse el lunes`; bannerSub='Envía ahora lo antes posible'; }
+  document.getElementById('semana-banner').innerHTML = `
+    <div class="monday-banner ${bannerClass}">
+      <div style="font-size:28px;">${bannerIcon}</div>
+      <div>
+        <div class="monday-banner-text">${bannerMsg}</div>
+        <div class="monday-banner-sub">Semana del ${sun.toLocaleDateString('en-US',{month:'short',day:'numeric'})}</div>
+        ${bannerSub ? `<div class="monday-banner-sub">${bannerSub}</div>` : ''}
+      </div>
+    </div>`;
+
+  // Submission status
+  const statusEl = document.getElementById('semana-submit-status');
+  if (thisSubmission) {
+    const ts = new Date(thisSubmission.ts);
+    statusEl.innerHTML = `<div class="submit-status submitted">
+      <span class="submit-icon">✅</span>
+      <div class="submit-date">Hoja enviada</div>
+      <div>${ts.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})} a las ${ts.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})}</div>
+    </div>`;
+  } else {
+    statusEl.innerHTML = `<div class="submit-status">
+      <span class="submit-icon">📋</span>
+      <div>Sin enviar esta semana</div>
+    </div>`;
+  }
+
+  // Form
+  const payments = getPayments()[weekKey] || {};
+  const formEl = document.getElementById('semana-form');
+  const propsHtml = PROPS.map(p => {
+    const activeRooms = p.rooms.filter(r => !isVacant(r.id));
+    if (!activeRooms.length) return '';
+    const rows = activeRooms.map(r => {
+      const pay = payments[r.id];
+      const val = pay?.paid || '';
+      const expected = getRoomRent(r);
+      let inputClass = '';
+      if (val !== '') {
+        if (Number(val) >= expected) inputClass = 'overpaid';
+        else if (Number(val) > 0) inputClass = 'short';
+        else inputClass = 'zero';
+      }
+      return `<div class="sheet-row">
+        <div class="sheet-tenant">${r.tenant}<br><span style="font-size:11px;color:var(--gray);font-weight:400;">${r.unit}</span></div>
+        <div class="sheet-rent">${fmtMoney(expected)}</div>
+        <input type="number" class="sheet-input ${inputClass}" data-room="${r.id}" data-expected="${expected}"
+          value="${val}" placeholder="0" min="0" step="1"
+          onchange="onSheetInput(this)" oninput="onSheetInput(this)">
+      </div>`;
+    }).join('');
+    return `<div class="card" style="padding:14px 12px;margin-bottom:10px;">
+      <div class="card-title">${p.name}</div>
+      <div style="font-size:11px;color:var(--gray);margin:-6px 0 10px;display:flex;justify-content:space-between;font-weight:600;text-transform:uppercase;letter-spacing:.3px;">
+        <span>Inquilino</span><span>Esperado</span><span>Pagó</span>
+      </div>
+      ${rows}
+    </div>`;
+  }).join('');
+
+  formEl.innerHTML = formEl.innerHTML = `${formEl.innerHTML.includes('Submit') ? '' : ''}
+    ${formEl.innerHTML = `
+    <div class="alert alert-blue">💡 Entra lo que cada inquilino pagó esta semana. Deja en 0 si no pagó.</div>
+    ${propsHtml}
+    <button class="btn btn-green btn-full btn-lg" onclick="submitWeeklySheet()">📤 Enviar Hoja Semanal</button>
+    <div style="height:16px;"></div>`}`;
+  // Fix: just set innerHTML directly
+  formEl.innerHTML = `
+    <div class="alert alert-blue">💡 Entra lo que cada inquilino pagó esta semana. Deja en 0 si no pagó.</div>
+    ${propsHtml}
+    <button class="btn btn-green btn-full btn-lg" onclick="submitWeeklySheet()">📤 Enviar Hoja Semanal</button>
+    <div style="height:16px;"></div>`;
+}
+
+function onSheetInput(input) {
+  const val = Number(input.value);
+  const expected = Number(input.dataset.expected);
+  input.className = 'sheet-input ' + (val >= expected ? 'overpaid' : val > 0 ? 'short' : val === 0 ? 'zero' : '');
+  // Auto-save to payments
+  const roomId = input.dataset.room;
+  const weekKey = getWeekKey();
+  const payments = getPayments();
+  if (!payments[weekKey]) payments[weekKey] = {};
+  if (!payments[weekKey][roomId]) payments[weekKey][roomId] = {};
+  payments[weekKey][roomId].paid = val;
+  savePayments(payments);
+}
+
+function submitWeeklySheet() {
+  const weekKey = getWeekKey();
+  const payments = getPayments()[weekKey] || {};
+  const entries = Object.keys(payments);
+  if (!entries.length) { alert('⚠️ Ingresa los pagos antes de enviar.'); return; }
+
+  const submissions = getSubmissions();
+  const idx = submissions.findIndex(s => s.weekKey === weekKey);
+  const submission = {weekKey, ts: new Date().toISOString(), data: payments};
+  if (idx >= 0) submissions[idx] = submission;
+  else submissions.unshift(submission);
+  saveSubmissions(submissions);
+
+  const total = entries.reduce((s,id) => s + (payments[id]?.paid||0), 0);
+  alert(`✅ Hoja enviada!\n\nSemana: ${weekKey}\nTotal cobrado: ${fmtMoney(total)}\n\nJerel puede ver esta hoja en su pantalla.`);
+  renderSemana();
+  renderCobrar();
+  renderOwnerViews();
+}
+
+// --- CONTACTS ---
+function renderContactos() {
+  const el = document.getElementById('contactos-list');
+  el.innerHTML = PROPS.map(p => {
+    const withPhone = p.rooms.filter(r => !isVacant(r.id) && r.phone);
+    if (!withPhone.length) return '';
+    return `<div class="sec-lbl">${p.name}</div>` +
+      withPhone.map(r => `<div class="contact-card">
+        <div>
+          <div class="contact-name">${r.tenant}</div>
+          <div class="contact-sub">${r.unit} · ${fmtMoney(getRoomRent(r))}/sem</div>
+        </div>
+        <a class="contact-call" href="tel:+1${r.phone}">📞 Llamar</a>
+      </div>`).join('');
+  }).join('');
+}
+
+// ============================================================
+// OWNER VIEWS
+// ============================================================
+function renderOwnerViews() {
+  renderOwnerResumen();
+  renderPricing();
+  renderControl();
+  renderSheets();
+}
+
+function renderOwnerResumen() {
+  const weekKey = getWeekKey();
+  const payments = getPayments()[weekKey] || {};
+  const vacancies = getVacancies();
+
+  let totalExpected=0, totalCollected=0, vacLoss=0, lateFeeTotal=0;
+  const daysLate = getDaysLateNow();
+  const lateFeePerRoom = calcLateFee(daysLate);
+
+  ALL_ROOMS.forEach(r => {
+    const expected = getRoomRent(r);
+    if (isVacant(r.id)) { vacLoss += expected; return; }
+    totalExpected += expected;
+    const paid = payments[r.id]?.paid || 0;
+    totalCollected += paid;
+    if (daysLate > 0 && paid < expected) lateFeeTotal += lateFeePerRoom;
+  });
+
+  const pct = totalExpected > 0 ? Math.round(totalCollected/totalExpected*100) : 0;
+  const vacCount = Object.keys(vacancies).length;
+
+  document.getElementById('owner-hero').innerHTML = `
+    <div class="hero ${pct>=90?'green':pct>=70?'orange':'red'}">
+      <div class="hero-label">Captura Semanal</div>
+      <div class="hero-val">${pct}%</div>
+      <div class="hero-sub">${fmtMoney(totalCollected)} de ${fmtMoney(totalExpected)} esperado</div>
+      <div class="hero-bar"><div class="hero-fill" style="width:${pct}%"></div></div>
+    </div>`;
+
+  document.getElementById('owner-stats').innerHTML = `
+    <div class="stat-row">
+      <div class="stat green"><div class="stat-val">${fmtMoney(totalCollected)}</div><div class="stat-lbl">Cobrado</div></div>
+      <div class="stat red"><div class="stat-val">${vacCount}</div><div class="stat-lbl">Vacantes</div></div>
+      <div class="stat orange"><div class="stat-val">${fmtMoney(vacLoss)}</div><div class="stat-lbl">Pérd/Sem</div></div>
+    </div>`;
+
+  const annualLoss = (totalExpected - totalCollected + vacLoss) * 52;
+  document.getElementById('waterfall-card').innerHTML = `
+    <div class="wf-row"><span>Potencial (${ALL_ROOMS.length} cuartos)</span><span class="wf-val">${fmtMoney(totalExpected + vacLoss)}/sem</span></div>
+    <div class="wf-row"><span>🔴 Vacantes (${vacCount})</span><span class="wf-val" style="color:var(--red)">−${fmtMoney(vacLoss)}</span></div>
+    <div class="wf-row"><span>🔴 Sin pagar / bajo</span><span class="wf-val" style="color:var(--red)">−${fmtMoney(totalExpected-totalCollected)}</span></div>
+    <div class="wf-row collected"><span><strong>Cobrado Esta Semana</strong></span><span class="wf-val" style="color:var(--green);font-size:17px;"><strong>${fmtMoney(totalCollected)}</strong></span></div>
+    <div class="wf-row"><span style="color:var(--red);">Costo Anual al ${100-pct}% pérdida</span><span class="wf-val" style="color:var(--red);">${fmtMoney(annualLoss)}/año</span></div>`;
+
+  // Per-property breakdown
+  const propRows = PROPS.map(p => {
+    let pExp=0, pColl=0, pVac=0;
+    p.rooms.forEach(r => {
+      const expected = getRoomRent(r);
+      if (isVacant(r.id)) { pVac++; return; }
+      pExp += expected;
+      pColl += payments[r.id]?.paid || 0;
+    });
+    const ppct = pExp>0 ? Math.round(pColl/pExp*100) : 0;
+    const color = ppct>=90?'green':ppct>=70?'orange':'red';
+    return `<div class="room-card" style="border-left-color:var(--${color});">
+      <div class="room-left">
+        <div class="room-name">${p.name}</div>
+        <div class="room-sub">${p.rooms.length-pVac}/${p.rooms.length} ocupados · ${pVac>0?`<span style="color:var(--red);">${pVac} vacantes</span>`:'lleno'}</div>
+      </div>
+      <div class="room-right">
+        <div class="room-amt ${color}">${ppct}%</div>
+        <div style="font-size:11px;color:var(--gray);">${fmtMoney(pColl)}</div>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('prop-breakdown').innerHTML = propRows;
+}
+
+function renderPricing() {
+  const el = document.getElementById('pricing-by-prop');
+  el.innerHTML = PROPS.map(p => {
+    const rows = p.rooms.map(r => {
+      const current = getRoomRent(r);
+      const tenantLabel = isVacant(r.id) ? '<span style="color:var(--red);">VACANTE</span>' : r.tenant;
+      return `<div class="price-row">
+        <div class="price-unit">${r.unit}</div>
+        <div class="price-tenant">${tenantLabel}</div>
+        <div style="display:flex;align-items:center;gap:4px;">
+          <span style="font-size:13px;color:var(--gray);">$</span>
+          <input type="number" class="price-input" id="price-${r.id}" value="${current}" min="50" max="500" step="5">
+        </div>
+      </div>`;
+    }).join('');
+    return `<div class="card" style="padding:14px 12px;margin-bottom:10px;">
+      <div class="card-title">${p.name}</div>
+      ${rows}
+    </div>`;
+  }).join('');
+}
+
+function savePricing() {
+  const pricing = getPricing();
+  ALL_ROOMS.forEach(r => {
+    const input = document.getElementById('price-'+r.id);
+    if (input) pricing[r.id] = Number(input.value);
+  });
+  savePricingData(pricing);
+  alert('✅ Precios guardados correctamente.');
+  renderCobrar();
+  renderOwnerResumen();
+}
+
+function renderControl() {
+  const weekKey = getWeekKey();
+  const payments = getPayments()[weekKey] || {};
+  const daysLate = getDaysLateNow();
+  const lateFee = calcLateFee(daysLate);
+  const vacancies = getVacancies();
+
+  // Alerts
+  const alerts = [];
+  const vacCount = Object.keys(vacancies).length;
+  if (vacCount > 10) alerts.push({type:'red', msg:`🔴 ${vacCount} cuartos vacantes — ${fmtMoney(vacCount*175)}/semana perdida`});
+  const subs = getSubmissions();
+  const thisSub = subs.find(s => s.weekKey === weekKey);
+  if (!thisSub && daysLate >= 1) alerts.push({type:'orange', msg:'⚠️ Hoja semanal no enviada — Andrea no ha enviado los cobros de esta semana'});
+  if (daysLate >= 3) alerts.push({type:'orange', msg:`⏰ Día ${daysLate} de la semana — inquilinos atrasados deben ${fmtMoney(lateFee)} en cargos`});
+
+  const alertsEl = document.getElementById('control-alerts');
+  alertsEl.innerHTML = alerts.length
+    ? alerts.map(a => `<div class="alert alert-${a.type}">${a.msg}</div>`).join('')
+    : '<div class="alert alert-green">✅ Sin alertas críticas esta semana.</div>';
+
+  // Late fees
+  const lateRooms = ALL_ROOMS.filter(r => {
+    if (isVacant(r.id)) return false;
+    const paid = payments[r.id]?.paid || 0;
+    return daysLate > 0 && paid < getRoomRent(r);
+  });
+  const totalLateFees = lateRooms.length * lateFee;
+
+  document.getElementById('control-late-fees').innerHTML = lateRooms.length > 0
+    ? `<div class="card">
+        <div style="display:flex;justify-content:space-between;margin-bottom:12px;">
+          <span style="font-size:15px;font-weight:700;">${lateRooms.length} inquilinos atrasados</span>
+          <span style="font-size:15px;font-weight:800;color:var(--orange);">${fmtMoney(totalLateFees)} total</span>
+        </div>
+        ${lateRooms.map(r => `<div class="sheet-row">
+          <div class="sheet-tenant">${r.tenant} — ${r.unit}<br><span style="font-size:11px;color:var(--gray);">${r.propAddr}</span></div>
+          <div style="text-align:right;"><span style="font-weight:800;color:var(--orange);">${fmtMoney(lateFee)}</span></div>
+        </div>`).join('')}
+      </div>`
+    : '<div style="color:var(--gray);font-size:13px;padding:4px 0;">Sin cargos activos.</div>';
+
+  // Chronic underpayers (paid < 80% of rent for this week)
+  const chronic = ALL_ROOMS.filter(r => {
+    if (isVacant(r.id)) return false;
+    const expected = getRoomRent(r);
+    const paid = payments[r.id]?.paid || 0;
+    return paid > 0 && paid < expected * 0.85;
+  });
+  document.getElementById('control-chronic').innerHTML = chronic.length
+    ? chronic.map(r => {
+        const expected = getRoomRent(r);
+        const paid = payments[r.id]?.paid || 0;
+        const gap = expected - paid;
+        const annualGap = gap * 52;
+        return `<div class="room-card late">
+          <div class="room-left">
+            <div class="room-name">${r.tenant} — ${r.unit}</div>
+            <div class="room-sub">${r.propAddr} · Pagó ${fmtMoney(paid)} de ${fmtMoney(expected)}</div>
+          </div>
+          <div class="room-right">
+            <div class="room-amt orange">−${fmtMoney(gap)}/sem</div>
+            <div style="font-size:11px;color:var(--red);">${fmtMoney(annualGap)}/año</div>
+          </div>
+        </div>`;
+      }).join('')
+    : '<div style="color:var(--gray);font-size:13px;padding:4px 0;">Sin pagadores crónicos bajos esta semana.</div>';
+}
+
+function renderSheets() {
+  const subs = getSubmissions();
+  const el = document.getElementById('sheets-history');
+  if (!subs.length) {
+    el.innerHTML = '<div style="color:var(--gray);font-size:13px;padding:12px 0;">No hay hojas enviadas aún.</div>';
+    return;
+  }
+  el.innerHTML = subs.slice(0,10).map(s => {
+    const ts = new Date(s.ts);
+    const total = Object.values(s.data).reduce((sum, p) => sum + (p.paid||0), 0);
+    const rooms = Object.keys(s.data).length;
+    const sun = new Date(s.weekKey + 'T12:00:00');
+    return `<div class="card" style="padding:14px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-weight:800;font-size:15px;">Semana del ${sun.toLocaleDateString('en-US',{month:'short',day:'numeric'})}</div>
+          <div style="font-size:12px;color:var(--gray);">Enviada ${ts.toLocaleDateString('en-US',{month:'short',day:'numeric'})} a las ${ts.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})} · ${rooms} cuartos</div>
+        </div>
+        <div style="font-size:20px;font-weight:900;color:var(--green);">${fmtMoney(total)}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ============================================================
+// PAYMENT MODAL
+// ============================================================
+let currentPayRoomId = null;
+
+function openPayModal(roomId) {
+  currentPayRoomId = roomId;
+  const room = ALL_ROOMS.find(r => r.id === roomId);
+  if (!room) return;
+  const expected = getRoomRent(room);
+  const daysLate = getDaysLateNow();
+  const lateFee = calcLateFee(daysLate);
+  const existing = getThisWeekPayment(roomId);
+  const alreadyPaid = existing?.paid || 0;
+
+  document.getElementById('pay-modal-title').textContent = `Cobrar — ${room.tenant}`;
+  document.getElementById('pay-tenant-info').textContent = `${room.tenant} · ${room.unit} · ${room.propAddr}`;
+  document.getElementById('pay-rent-info').textContent = `${fmtMoney(expected)}/semana`;
+  document.getElementById('pay-amount').value = existing?.paid || '';
+
+  let lateHtml = '';
+  if (daysLate > 0 && alreadyPaid < expected) {
+    lateHtml = `<div class="late-box">
+      <div class="late-box-title">⚠️ Cargo Tardanza — Día ${daysLate}</div>
+      <div class="late-box-row"><span>Renta</span><span>${fmtMoney(expected)}</span></div>
+      <div class="late-box-row"><span>Cargo</span><span style="color:var(--orange);">+${fmtMoney(lateFee)}</span></div>
+      <div class="late-box-row" style="font-weight:800;"><span>Total sugerido</span><span style="color:var(--red);">${fmtMoney(expected+lateFee)}</span></div>
+    </div>`;
+  }
+  document.getElementById('pay-late-info').innerHTML = lateHtml;
+  document.getElementById('pay-method').value = existing?.method || 'cash';
+  document.getElementById('pay-modal').classList.add('open');
+}
+
+function closePayModal() {
+  document.getElementById('pay-modal').classList.remove('open');
+  currentPayRoomId = null;
+}
+
+function confirmPayment() {
+  const amount = Number(document.getElementById('pay-amount').value);
+  const method = document.getElementById('pay-method').value;
+  if (!amount && amount !== 0) { alert('Ingresa el monto recibido.'); return; }
+  const weekKey = getWeekKey();
+  const payments = getPayments();
+  if (!payments[weekKey]) payments[weekKey] = {};
+  payments[weekKey][currentPayRoomId] = {paid: amount, method, ts: new Date().toISOString()};
+  savePayments(payments);
+  closePayModal();
+  renderAll();
+  const room = ALL_ROOMS.find(r => r.id === currentPayRoomId);
+  if (room) {
+    const expected = getRoomRent(room);
+    if (amount >= expected) {
+      // Quick confirmation feedback
+      const el = document.querySelector(`[onclick*="${currentPayRoomId}"]`);
+    }
+  }
+}
+
+// ============================================================
+// RENT MODAL (Vacancy → Rented)
+// ============================================================
+let currentRentRoomId = null;
+
+function openRentModal(roomId) {
+  currentRentRoomId = roomId;
+  const room = ALL_ROOMS.find(r => r.id === roomId);
+  if (!room) return;
+  document.getElementById('rent-modal-title').textContent = `Rentado — ${room.propAddr} ${room.unit}`;
+  document.getElementById('rent-tenant').value = '';
+  document.getElementById('rent-amount').value = getRoomRent(room);
+  document.getElementById('rent-date').value = fmtDate(new Date());
+  document.getElementById('rent-modal').classList.add('open');
+}
+
+function closeRentModal() {
+  document.getElementById('rent-modal').classList.remove('open');
+  currentRentRoomId = null;
+}
+
+function confirmRent() {
+  const tenant = document.getElementById('rent-tenant').value.trim();
+  const amount = Number(document.getElementById('rent-amount').value);
+  const date = document.getElementById('rent-date').value;
+  if (!tenant) { alert('Ingresa el nombre del inquilino.'); return; }
+  if (!amount) { alert('Ingresa la renta semanal.'); return; }
+
+  // Update room in registry (in-memory update)
+  const room = ALL_ROOMS.find(r => r.id === currentRentRoomId);
+  if (room) {
+    room.tenant = tenant;
+    room.rent = amount;
+    room.vacant = false;
+  }
+  // Update pricing
+  const pricing = getPricing();
+  pricing[currentRentRoomId] = amount;
+  savePricingData(pricing);
+
+  // Remove from vacancies
+  const v = getVacancies();
+  delete v[currentRentRoomId];
+  saveVacancies(v);
+
+  closeRentModal();
+  renderAll();
+  alert(`✅ Cuarto rentado!\n${tenant} · ${fmtMoney(amount)}/sem · Entrada: ${fmtDateShort(date)}`);
+}
+
+// ============================================================
+// VACATE MODAL (Occupied → Vacant)
+// ============================================================
+let currentVacateRoomId = null;
+
+function openVacateModal(roomId) {
+  currentVacateRoomId = roomId;
+  const room = ALL_ROOMS.find(r => r.id === roomId);
+  if (!room) return;
+  document.getElementById('vacate-modal-title').textContent = `Vacante — ${room.propAddr} ${room.unit}`;
+  document.getElementById('vacate-info').textContent = `${room.tenant} — ${room.unit} — ${room.propAddr}`;
+  document.getElementById('vacate-date').value = fmtDate(new Date());
+  document.getElementById('vacate-modal').classList.add('open');
+}
+
+function closeVacateModal() {
+  document.getElementById('vacate-modal').classList.remove('open');
+  currentVacateRoomId = null;
+}
+
+function confirmVacate() {
+  const date = document.getElementById('vacate-date').value;
+  const room = ALL_ROOMS.find(r => r.id === currentVacateRoomId);
+  if (room) {
+    room.tenant = '';
+    room.vacant = true;
+  }
+  const v = getVacancies();
+  v[currentVacateRoomId] = {since: date};
+  saveVacancies(v);
+  closeVacateModal();
+  renderAll();
+}
+
+// ============================================================
+// ROLE + TAB SWITCHING
+// ============================================================
+function switchRole(role) {
+  ['andrea','jerel'].forEach(r => {
+    document.getElementById('role-'+r).classList.toggle('active', r===role);
+  });
+  document.querySelectorAll('.av-wrap').forEach(a => a.classList.remove('active'));
+  document.querySelector('.av-'+role).closest('.av-wrap').classList.add('active');
+  if (role === 'jerel') renderOwnerViews();
+}
+
+function showTab(role, tab, btn) {
+  const parent = document.getElementById('role-'+role);
+  parent.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  const target = document.getElementById(role+'-'+tab);
+  if (target) target.classList.add('active');
+  parent.querySelectorAll('.navbtn').forEach(n => n.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  // Lazy render on tab switch
+  if (tab === 'cobrar') renderCobrar();
+  if (tab === 'semana') renderSemana();
+  if (tab === 'contactos') renderContactos();
+  if (tab === 'resumen') renderOwnerResumen();
+  if (tab === 'precios') renderPricing();
+  if (tab === 'control') renderControl();
+  if (tab === 'hojas') renderSheets();
+}
+
+// ============================================================
+// EXPORT / IMPORT
+// ============================================================
+function exportData() {
+  const data = {
+    version: 5,
+    exported: new Date().toISOString(),
+    vacancies: getVacancies(),
+    payments: getPayments(),
+    pricing: getPricing(),
+    submissions: getSubmissions(),
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `casaabierta-data-${fmtDate(new Date())}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (data.vacancies) saveVacancies(data.vacancies);
+      if (data.payments) savePayments(data.payments);
+      if (data.pricing) savePricingData(data.pricing);
+      if (data.submissions) saveSubmissions(data.submissions);
+      renderAll();
+      alert('✅ Datos importados correctamente.');
+    } catch(err) {
+      alert('Error al importar: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+}
+
+// ============================================================
+// RENDER ALL
+// ============================================================
+function renderAll() {
+  renderWeekLabel();
+  renderVacancyHero();
+  renderVacantList();
+  renderAllRoomsByProp();
+  renderCobrar();
+}
+
+// ============================================================
+// INIT
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  initVacancies();
+  renderAll();
+});
+</script>
+</body>
+</html>
