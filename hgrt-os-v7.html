@@ -1523,6 +1523,48 @@
       <div id="andrea-purchases-list"><!-- JS --></div>
     </div><!-- /andrea-compras -->
 
+    <!-- ANUNCIOS / AD POSTING QUEUE -->
+    <div id="andrea-anuncios" class="tab-panel">
+      <div class="card-title" style="font-size:18px;margin-bottom:4px;">📣 Anuncios
+        <div class="en-sub">Ad Posting Queue</div>
+      </div>
+      <div style="font-size:12px;color:var(--gray);margin-bottom:14px;">
+        Toca "Copiar" para copiar el texto del anuncio. / Tap "Copy" to copy ad text.
+      </div>
+
+      <!-- Pipeline stats -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px;">
+        <div class="card" style="padding:10px;text-align:center;">
+          <div style="font-size:20px;font-weight:800;color:var(--red);" id="ads-blocked-count">0</div>
+          <div style="font-size:10px;font-weight:700;color:var(--gray);">BLOQUEADO</div>
+        </div>
+        <div class="card" style="padding:10px;text-align:center;">
+          <div style="font-size:20px;font-weight:800;color:var(--amber);" id="ads-ready-count">0</div>
+          <div style="font-size:10px;font-weight:700;color:var(--gray);">LISTO</div>
+        </div>
+        <div class="card" style="padding:10px;text-align:center;">
+          <div style="font-size:20px;font-weight:800;color:var(--green);" id="ads-posted-count">0</div>
+          <div style="font-size:10px;font-weight:700;color:var(--gray);">PUBLICADO</div>
+        </div>
+      </div>
+
+      <!-- Ready to post -->
+      <div style="font-weight:700;font-size:14px;margin-bottom:8px;color:var(--green);">✅ Listo para Publicar / Ready to Post</div>
+      <div id="ads-ready-list" style="margin-bottom:20px;"><!-- JS --></div>
+
+      <!-- Needs photos -->
+      <div style="font-weight:700;font-size:14px;margin-bottom:8px;color:var(--amber);">📷 Necesita Fotos / Needs Photos</div>
+      <div id="ads-needs-photos-list" style="margin-bottom:20px;"><!-- JS --></div>
+
+      <!-- Blocked (cleaning/maintenance) -->
+      <div style="font-weight:700;font-size:14px;margin-bottom:8px;color:var(--red);">🚫 Bloqueado / Blocked</div>
+      <div id="ads-blocked-list" style="margin-bottom:20px;"><!-- JS --></div>
+
+      <!-- Already posted -->
+      <div style="font-weight:700;font-size:14px;margin-bottom:8px;color:var(--gray);">📌 Ya Publicado / Already Posted</div>
+      <div id="ads-posted-list"><!-- JS --></div>
+    </div><!-- /andrea-anuncios -->
+
   </div><!-- /scroll area -->
 
   <!-- Bottom Tab Nav — Andrea -->
@@ -1555,6 +1597,10 @@
     <button class="tab-btn" onclick="showTab('andrea','compras')" id="tab-andrea-compras">
       <span class="tab-icon">🛒</span>
       <span class="tab-label">COMPRAS</span>
+    </button>
+    <button class="tab-btn" onclick="showTab('andrea','anuncios')" id="tab-andrea-anuncios">
+      <span class="tab-icon">📣</span>
+      <span class="tab-label">ANUNCIOS</span>
     </button>
   </nav>
 
@@ -2815,6 +2861,7 @@ function showTab(role, tab) {
     if (tab === 'leads')         renderLeads();
     if (tab === 'mantenimiento') { renderCleaning(); renderMaintenance(); }
     if (tab === 'compras')      renderAndreaPurchases();
+    if (tab === 'anuncios')     renderAdQueue();
   } else {
     if (tab === 'portfolio') renderJerelPortfolio();
     if (tab === 'precios')   renderPricing();
@@ -4555,6 +4602,193 @@ async function init() {
 }
 
 document.addEventListener('DOMContentLoaded', init);
+
+/* ----------------------------------------------------------------
+   AD POSTING QUEUE — Sandra's posting pipeline
+---------------------------------------------------------------- */
+function generateAdCopy(room, lang) {
+  const addr = room.fields['Property'] || 'Property';
+  const rent = room.fields['Weekly Rent'] || 0;
+  const monthly = rent * 4;
+  const zip = room.fields['Zip'] || '';
+  const roomName = room.fields['Room'] || '';
+
+  // Determine area name from address
+  let area = 'Jacksonville';
+  if (addr.includes('Orange Park') || zip === '32073') area = 'Orange Park';
+  else if (addr.includes('32065')) area = 'Orange Park';
+  else if (addr.includes('32084')) area = 'St Augustine';
+  else if (addr.includes('32204')) area = 'Riverside';
+  else if (addr.includes('32256')) area = 'Southside';
+
+  if (lang === 'es') {
+    return `Cuarto Amueblado en ${area} — $${rent}/semana — Todos los Gastos Incluidos
+
+Cuarto amueblado disponible AHORA en el area de ${area}.
+
+$${rent}/semana — TODO incluido:
+- Electricidad, agua, WiFi, basura — todo pago
+- Cuarto privado con cama, gavetero, closet
+- Cocina, bano y lavanderia compartidos
+- Casa limpia y tranquila
+
+Sin verificacion de credito. Sin contrato. Acuerdo semanal.
+$100 de deposito reembolsable. Mudate esta semana.
+
+Llama o envia texto: (904) 892-6999
+
+Casa Abierta — Cuartos Amueblados`;
+  }
+
+  return `Furnished Room in ${area} — $${rent}/week — All Bills Paid
+
+Private furnished room available NOW in ${area} area.
+
+$${rent}/week — EVERYTHING included:
+- Electric, water, WiFi, trash — all paid
+- Furnished room with bed, dresser, closet
+- Shared kitchen, bathroom, laundry
+- Clean, quiet house
+
+No credit check. No lease. Weekly agreement.
+$100 refundable deposit. Move in this week.
+
+Call or text: (904) 892-6999
+Hablamos Espanol
+
+Casa Abierta Furnished Rooms`;
+}
+
+function copyAdText(roomId, lang) {
+  const room = atRoomRecords.find(r => r.fields['Room ID'] === roomId);
+  if (!room) return;
+  const text = generateAdCopy(room, lang);
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById(`copy-${lang}-${roomId}`);
+    if (btn) { btn.textContent = '✅ Copiado!'; setTimeout(() => btn.textContent = lang === 'es' ? '📋 ES' : '📋 EN', 2000); }
+  });
+}
+
+async function markAdPosted(roomId) {
+  const room = atRoomRecords.find(r => r.fields['Room ID'] === roomId);
+  if (!room) return;
+  await atUpdate(AT.tables.rooms, room.id, { 'Photos Done': 'POSTED' });
+  room.fields['Photos Done'] = 'POSTED';
+  renderAdQueue();
+}
+
+async function markPhotosReady(roomId) {
+  const room = atRoomRecords.find(r => r.fields['Room ID'] === roomId);
+  if (!room) return;
+  await atUpdate(AT.tables.rooms, room.id, { 'Photos Done': 'YES' });
+  room.fields['Photos Done'] = 'YES';
+  renderAdQueue();
+}
+
+function renderAdQueue() {
+  const vacant = atRoomRecords.filter(r => r.fields['Status'] !== 'OCCUPIED');
+
+  // Categorize
+  const posted = [];
+  const ready = [];
+  const needsPhotos = [];
+  const blocked = [];
+
+  vacant.forEach(r => {
+    const f = r.fields;
+    const photoStatus = (f['Photos Done'] || '').toUpperCase();
+
+    if (photoStatus === 'POSTED') {
+      posted.push(r);
+    } else if (photoStatus === 'YES' || photoStatus === 'READY') {
+      ready.push(r);
+    } else if (f['Status'] === 'NEEDS_CLEANING' || f['Status'] === 'NEEDS_MAINTENANCE') {
+      // If room still needs cleaning/maintenance AND no photos, it's blocked
+      if (!photoStatus) blocked.push(r);
+      else needsPhotos.push(r);
+    } else {
+      needsPhotos.push(r);
+    }
+  });
+
+  // Sort each by rent descending (highest revenue first)
+  const byRent = (a, b) => (b.fields['Weekly Rent'] || 0) - (a.fields['Weekly Rent'] || 0);
+  posted.sort(byRent);
+  ready.sort(byRent);
+  needsPhotos.sort(byRent);
+  blocked.sort(byRent);
+
+  // Update counts
+  document.getElementById('ads-blocked-count').textContent = blocked.length + needsPhotos.length;
+  document.getElementById('ads-ready-count').textContent = ready.length;
+  document.getElementById('ads-posted-count').textContent = posted.length;
+
+  // Render ready-to-post cards (with copy buttons)
+  document.getElementById('ads-ready-list').innerHTML = ready.length ? ready.map(r => {
+    const f = r.fields;
+    const rid = f['Room ID'];
+    return `
+      <div class="card" style="padding:12px 14px;margin-bottom:10px;border-left:4px solid var(--green);">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <div style="font-weight:700;font-size:14px;">${f['Property']}</div>
+            <div style="font-size:12px;color:var(--gray);">Room ${f['Room']} · $${f['Weekly Rent']}/sem</div>
+          </div>
+          <span style="font-size:11px;font-weight:700;color:var(--green);background:var(--green-lt);padding:2px 8px;border-radius:8px;">LISTO</span>
+        </div>
+        <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;">
+          <button id="copy-en-${rid}" class="btn btn-green" style="padding:6px 12px;font-size:12px;" onclick="copyAdText('${rid}','en')">📋 EN</button>
+          <button id="copy-es-${rid}" class="btn btn-green" style="padding:6px 12px;font-size:12px;" onclick="copyAdText('${rid}','es')">📋 ES</button>
+          <button class="btn" style="padding:6px 12px;font-size:12px;background:var(--blue);color:#fff;" onclick="markAdPosted('${rid}')">✅ Publicado</button>
+        </div>
+      </div>`;
+  }).join('') : '<div style="font-size:13px;color:var(--gray);padding:8px;">Ninguno listo. Necesitan fotos primero.</div>';
+
+  // Render needs-photos cards
+  document.getElementById('ads-needs-photos-list').innerHTML = needsPhotos.length ? needsPhotos.map(r => {
+    const f = r.fields;
+    const rid = f['Room ID'];
+    return `
+      <div class="card" style="padding:12px 14px;margin-bottom:10px;border-left:4px solid var(--amber);">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <div style="font-weight:700;font-size:14px;">${f['Property']}</div>
+            <div style="font-size:12px;color:var(--gray);">Room ${f['Room']} · $${f['Weekly Rent']}/sem</div>
+          </div>
+          <span style="font-size:11px;font-weight:700;color:var(--amber);background:var(--amber-lt);padding:2px 8px;border-radius:8px;">📷 FOTOS</span>
+        </div>
+        <div style="margin-top:8px;">
+          <button class="btn" style="padding:6px 12px;font-size:12px;background:var(--amber);color:#fff;" onclick="markPhotosReady('${rid}')">📷 Fotos Listas / Photos Done</button>
+        </div>
+      </div>`;
+  }).join('') : '<div style="font-size:13px;color:var(--gray);padding:8px;">Ninguno esperando fotos.</div>';
+
+  // Render blocked cards
+  document.getElementById('ads-blocked-list').innerHTML = blocked.length ? blocked.map(r => {
+    const f = r.fields;
+    const status = f['Status'] === 'NEEDS_MAINTENANCE' ? '🔧 Mantenimiento' : '🧹 Limpieza';
+    return `
+      <div class="card" style="padding:12px 14px;margin-bottom:10px;border-left:4px solid var(--red);opacity:0.7;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <div style="font-weight:700;font-size:14px;">${f['Property']}</div>
+            <div style="font-size:12px;color:var(--gray);">Room ${f['Room']} · $${f['Weekly Rent']}/sem</div>
+          </div>
+          <span style="font-size:11px;font-weight:700;color:var(--red);background:var(--red-lt);padding:2px 8px;border-radius:8px;">${status}</span>
+        </div>
+        ${f['Notes'] ? `<div style="font-size:11px;color:#6B7280;margin-top:4px;">${f['Notes']}</div>` : ''}
+      </div>`;
+  }).join('') : '<div style="font-size:13px;color:var(--gray);padding:8px;">Nada bloqueado.</div>';
+
+  // Render posted cards
+  document.getElementById('ads-posted-list').innerHTML = posted.length ? posted.map(r => {
+    const f = r.fields;
+    return `
+      <div class="card" style="padding:10px 14px;margin-bottom:8px;border-left:4px solid var(--gray);opacity:0.6;">
+        <div style="font-weight:600;font-size:13px;">${f['Property']} · Room ${f['Room']} · $${f['Weekly Rent']}/sem</div>
+      </div>`;
+  }).join('') : '<div style="font-size:13px;color:var(--gray);padding:8px;">Ninguno publicado aún.</div>';
+}
 
 /* ----------------------------------------------------------------
    PURCHASES — Request + Approve System
