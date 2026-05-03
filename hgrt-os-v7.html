@@ -1474,6 +1474,55 @@
       </button>
     </div><!-- /andrea-leads -->
 
+    <!-- COMPRAS / PURCHASE REQUESTS -->
+    <div id="andrea-compras" class="tab-panel">
+      <div class="card-title" style="font-size:18px;margin-bottom:12px;">🛒 Compras
+        <div class="en-sub">Purchase Requests</div>
+      </div>
+
+      <!-- Submit new request form -->
+      <div class="card" style="padding:14px 16px;margin-bottom:16px;">
+        <div style="font-weight:700;font-size:14px;margin-bottom:10px;">+ Nueva Solicitud / New Request</div>
+        <div class="form-group" style="margin-bottom:10px;">
+          <input type="text" class="form-input" id="pr-item" placeholder="¿Qué necesitas? / What do you need?">
+        </div>
+        <div class="form-group" style="margin-bottom:10px;">
+          <select class="form-input" id="pr-property">
+            <option value="">Propiedad / Property</option>
+            <option value="ALL">TODAS / ALL</option>
+          </select>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+          <select class="form-input" id="pr-category">
+            <option value="Appliance">Electrodoméstico</option>
+            <option value="Supplies">Suministros</option>
+            <option value="Maintenance">Mantenimiento</option>
+            <option value="Furniture">Muebles</option>
+            <option value="Bedding/Kit">Cama/Kit</option>
+            <option value="Infrastructure">Infraestructura</option>
+            <option value="Other">Otro</option>
+          </select>
+          <select class="form-input" id="pr-priority">
+            <option value="Normal">Normal</option>
+            <option value="Urgent - blocks revenue">🔴 Urgente</option>
+            <option value="Low - nice to have">Bajo</option>
+          </select>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+          <input type="number" class="form-input" id="pr-cost" placeholder="Costo $" inputmode="decimal">
+          <input type="number" class="form-input" id="pr-qty" placeholder="Cantidad" inputmode="numeric" value="1">
+        </div>
+        <div class="form-group" style="margin-bottom:10px;">
+          <input type="text" class="form-input" id="pr-notes" placeholder="Notas (link, modelo, razón)">
+        </div>
+        <button class="btn btn-green btn-block" onclick="submitPurchaseRequest()">📩 Enviar Solicitud / Submit Request</button>
+      </div>
+
+      <!-- Existing requests -->
+      <div style="font-weight:700;font-size:14px;margin-bottom:8px;">📦 Mis Solicitudes / My Requests</div>
+      <div id="andrea-purchases-list"><!-- JS --></div>
+    </div><!-- /andrea-compras -->
+
   </div><!-- /scroll area -->
 
   <!-- Bottom Tab Nav — Andrea -->
@@ -1502,6 +1551,10 @@
     <button class="tab-btn" onclick="showTab('andrea','mantenimiento')" id="tab-andrea-mantenimiento">
       <span class="tab-icon">🔧</span>
       <span class="tab-label">MANT.</span>
+    </button>
+    <button class="tab-btn" onclick="showTab('andrea','compras')" id="tab-andrea-compras">
+      <span class="tab-icon">🛒</span>
+      <span class="tab-label">COMPRAS</span>
     </button>
   </nav>
 
@@ -1612,6 +1665,22 @@
       </button>
     </div><!-- /jerel-precios -->
 
+    <!-- COMPRAS / PURCHASES -->
+    <div id="jerel-compras" class="tab-panel">
+      <div class="card-title" style="font-size:18px;margin-bottom:16px;">🛒 Purchase Requests</div>
+      <div style="font-size:13px;color:var(--gray);margin-bottom:12px;">
+        Andrea/Sandra submit requests here. You approve or deny.
+      </div>
+      <div id="purchases-pending" style="margin-bottom:20px;">
+        <div style="font-weight:700;font-size:14px;margin-bottom:8px;color:var(--amber);">⏳ Pending Approval</div>
+        <div id="purchases-pending-list"><!-- JS --></div>
+      </div>
+      <div id="purchases-approved">
+        <div style="font-weight:700;font-size:14px;margin-bottom:8px;color:var(--green);">✅ Approved / In Progress</div>
+        <div id="purchases-approved-list"><!-- JS --></div>
+      </div>
+    </div><!-- /jerel-compras -->
+
     <!-- HISTORIAL -->
     <div id="jerel-historial" class="tab-panel">
       <div class="card-title" style="font-size:18px;margin-bottom:16px;">📜 Historial de Reportes</div>
@@ -1631,6 +1700,10 @@
     <button class="tab-btn jerel-tab" onclick="showTab('jerel','precios')" id="tab-jerel-precios">
       <span class="tab-icon">💰</span>
       <span class="tab-label">PRECIOS</span>
+    </button>
+    <button class="tab-btn jerel-tab" onclick="showTab('jerel','compras')" id="tab-jerel-compras">
+      <span class="tab-icon">🛒</span>
+      <span class="tab-label">COMPRAS</span>
     </button>
     <button class="tab-btn jerel-tab" onclick="showTab('jerel','historial')" id="tab-jerel-historial">
       <span class="tab-icon">📜</span>
@@ -2016,6 +2089,7 @@ const AT = {
     payments:    'tblMi7EMxjA52iUGP',
     leads:       'tblzuypbHwgbUTa9I',
     maintenance: 'tbld1q3jsiDIMJq6A',
+    purchases:   'tblZKo4bMWTVTQJwh',
   },
 };
 
@@ -2082,17 +2156,19 @@ let PROPS = [];
  */
 async function loadFromAirtable() {
   try {
-    const [roomRecs, tenantRecs, maintRecs, leadRecs] = await Promise.all([
+    const [roomRecs, tenantRecs, maintRecs, leadRecs, propRecs] = await Promise.all([
       atFetchAll(AT.tables.rooms),
       atFetchAll(AT.tables.tenants),
       atFetchAll(AT.tables.maintenance),
       atFetchAll(AT.tables.leads),
+      atFetchAll(AT.tables.properties),
     ]);
 
     atRoomRecords = roomRecs;
     atTenantRecords = tenantRecs;
     atMaintenanceRecords = maintRecs;
     atLeadRecords = leadRecs;
+    window._cachedProperties = propRecs;
 
     // Build tenant lookup: roomId → tenant record
     const tenantByRoom = {};
@@ -2738,9 +2814,11 @@ function showTab(role, tab) {
     if (tab === 'inquilinos')   renderTenants();
     if (tab === 'leads')         renderLeads();
     if (tab === 'mantenimiento') { renderCleaning(); renderMaintenance(); }
+    if (tab === 'compras')      renderAndreaPurchases();
   } else {
     if (tab === 'portfolio') renderJerelPortfolio();
     if (tab === 'precios')   renderPricing();
+    if (tab === 'compras')   renderJerelPurchases();
     if (tab === 'historial') renderHistorial();
   }
 }
@@ -4477,6 +4555,134 @@ async function init() {
 }
 
 document.addEventListener('DOMContentLoaded', init);
+
+/* ----------------------------------------------------------------
+   PURCHASES — Request + Approve System
+---------------------------------------------------------------- */
+let purchasesData = [];
+
+async function loadPurchases() {
+  purchasesData = await atFetchAll(AT.tables.purchases);
+}
+
+function purchaseCard(rec, showActions) {
+  const f = rec.fields;
+  const statusColors = {
+    'REQUESTED': 'var(--amber)',
+    'APPROVED': 'var(--green)',
+    'ORDERED': 'var(--blue)',
+    'DELIVERED': 'var(--purple)',
+    'DENIED': 'var(--red)',
+  };
+  const color = statusColors[f['Status']] || 'var(--gray)';
+  const totalCost = (f['Estimated Cost'] || 0) * (f['Qty'] || 1);
+  const priorityFlag = (f['Priority'] || '').includes('Urgent') ? '🔴 ' : '';
+
+  let actions = '';
+  if (showActions && f['Status'] === 'REQUESTED') {
+    actions = `
+      <div style="display:flex;gap:8px;margin-top:10px;">
+        <button class="btn btn-green" style="flex:1;padding:8px;font-size:13px;" onclick="approvePurchase('${rec.id}')">✅ Approve</button>
+        <button class="btn btn-ghost" style="flex:1;padding:8px;font-size:13px;border:1px solid var(--red);color:var(--red);" onclick="denyPurchase('${rec.id}')">❌ Deny</button>
+      </div>`;
+  }
+
+  return `
+    <div class="card" style="padding:12px 14px;margin-bottom:10px;border-left:4px solid ${color};">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <div style="font-weight:700;font-size:14px;">${priorityFlag}${f['Item'] || 'No item'}</div>
+        <span style="font-size:11px;font-weight:700;color:${color};background:${color}15;padding:2px 8px;border-radius:8px;">${f['Status'] || '?'}</span>
+      </div>
+      <div style="font-size:12px;color:var(--gray);margin-top:4px;">
+        ${f['Property'] || ''} · ${f['Category'] || ''} · Qty: ${f['Qty'] || 1} · ~$${totalCost}
+      </div>
+      ${f['Notes'] ? `<div style="font-size:12px;color:#4B5563;margin-top:4px;">${f['Notes']}</div>` : ''}
+      <div style="font-size:11px;color:var(--gray);margin-top:4px;">
+        By: ${f['Requested By'] || '?'} · ${f['Date Requested'] || ''}
+      </div>
+      ${actions}
+    </div>`;
+}
+
+async function renderJerelPurchases() {
+  await loadPurchases();
+  const pending = purchasesData.filter(r => r.fields['Status'] === 'REQUESTED');
+  const active = purchasesData.filter(r => ['APPROVED','ORDERED'].includes(r.fields['Status']));
+
+  document.getElementById('purchases-pending-list').innerHTML =
+    pending.length ? pending.map(r => purchaseCard(r, true)).join('') :
+    '<div style="font-size:13px;color:var(--gray);padding:8px;">No pending requests.</div>';
+
+  document.getElementById('purchases-approved-list').innerHTML =
+    active.length ? active.map(r => purchaseCard(r, false)).join('') :
+    '<div style="font-size:13px;color:var(--gray);padding:8px;">No active orders.</div>';
+}
+
+async function renderAndreaPurchases() {
+  await loadPurchases();
+  // Populate property dropdown
+  const sel = document.getElementById('pr-property');
+  if (sel.options.length <= 2) {
+    (window._cachedProperties || []).forEach(p => {
+      const opt = document.createElement('option');
+      opt.value = p.fields['Address'] || p.fields['Property ID'];
+      opt.textContent = p.fields['Address'] || p.fields['Property ID'];
+      sel.appendChild(opt);
+    });
+  }
+
+  const myRequests = purchasesData
+    .sort((a,b) => (b.fields['Date Requested']||'').localeCompare(a.fields['Date Requested']||''));
+
+  document.getElementById('andrea-purchases-list').innerHTML =
+    myRequests.length ? myRequests.map(r => purchaseCard(r, false)).join('') :
+    '<div style="font-size:13px;color:var(--gray);padding:8px;">No hay solicitudes aún.</div>';
+}
+
+async function submitPurchaseRequest() {
+  const item = document.getElementById('pr-item').value.trim();
+  if (!item) { alert('Escribe qué necesitas / Enter what you need'); return; }
+
+  const fields = {
+    'Item': item,
+    'Property': document.getElementById('pr-property').value || 'ALL',
+    'Category': document.getElementById('pr-category').value,
+    'Priority': document.getElementById('pr-priority').value,
+    'Estimated Cost': parseInt(document.getElementById('pr-cost').value) || 0,
+    'Qty': parseInt(document.getElementById('pr-qty').value) || 1,
+    'Notes': document.getElementById('pr-notes').value.trim(),
+    'Requested By': 'Andrea',
+    'Status': 'REQUESTED',
+    'Date Requested': new Date().toISOString().split('T')[0],
+  };
+
+  await atCreate(AT.tables.purchases, fields);
+
+  // Clear form
+  document.getElementById('pr-item').value = '';
+  document.getElementById('pr-cost').value = '';
+  document.getElementById('pr-qty').value = '1';
+  document.getElementById('pr-notes').value = '';
+
+  renderAndreaPurchases();
+}
+
+async function approvePurchase(recordId) {
+  await atUpdate(AT.tables.purchases, recordId, {
+    'Status': 'APPROVED',
+    'Date Approved': new Date().toISOString().split('T')[0],
+  });
+  renderJerelPurchases();
+}
+
+async function denyPurchase(recordId) {
+  const reason = prompt('Reason for denial (optional):') || '';
+  const fields = { 'Status': 'DENIED' };
+  if (reason) fields['Notes'] = reason;
+  await atUpdate(AT.tables.purchases, recordId, fields);
+  renderJerelPurchases();
+}
+
 </script>
 </body>
 </html>
