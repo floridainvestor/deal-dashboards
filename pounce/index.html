@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Pounce" />
   <meta name="theme-color" content="#0b0e14" />
@@ -12,6 +12,8 @@
   <link rel="apple-touch-icon" href="icons/icon-192.png" />
   <title>Pounce Map</title>
   <script src="config.js" onerror="void 0"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
     :root {
       --bg: #0b0e14;
@@ -33,13 +35,13 @@
     }
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     html, body { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif; background: var(--bg); color: var(--text); }
-    #map { position: absolute; inset: 0; width: 100%; height: 100%; }
+    #map { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
 
     /* Top bar */
     #topbar {
       position: absolute; top: calc(var(--safe-top) + 8px); left: 8px; right: 8px;
       display: flex; gap: 8px; align-items: center;
-      pointer-events: none; z-index: 5;
+      pointer-events: none; z-index: 1000;
     }
     .pill {
       background: rgba(11,14,20,0.85); backdrop-filter: blur(10px);
@@ -66,7 +68,7 @@
       width: 50px; height: 50px; border-radius: 50%;
       background: #fff; border: none; color: #1d2330;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      font-size: 22px; cursor: pointer; z-index: 5;
+      font-size: 22px; cursor: pointer; z-index: 1000;
       display: flex; align-items: center; justify-content: center;
     }
     #recenter:active { background: #e0e6ee; }
@@ -76,7 +78,7 @@
       position: absolute; left: 8px; right: 8px;
       bottom: calc(var(--safe-bottom) + 12px);
       display: flex; gap: 6px; overflow-x: auto;
-      z-index: 4; padding: 0 4px;
+      z-index: 1000; padding: 0 4px;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
     }
@@ -105,7 +107,7 @@
       border-top-left-radius: 20px; border-top-right-radius: 20px;
       box-shadow: 0 -8px 24px rgba(0,0,0,0.5);
       transform: translateY(100%); transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1);
-      z-index: 10;
+      z-index: 1100;
       max-height: 88vh; overflow: hidden;
       display: flex; flex-direction: column;
       padding-bottom: var(--safe-bottom);
@@ -151,21 +153,6 @@
     button.secondary { background: var(--panel-2); color: var(--text); }
     button.secondary:active { background: var(--line); }
 
-    /* Setup modal */
-    #setup {
-      position: absolute; inset: 0; background: rgba(11,14,20,0.95);
-      display: none; align-items: center; justify-content: center;
-      z-index: 100; padding: 16px;
-    }
-    #setup.open { display: flex; }
-    .setup-card {
-      background: var(--panel); border-radius: 16px; padding: 24px;
-      max-width: 420px; width: 100%; max-height: 90vh; overflow-y: auto;
-    }
-    .setup-card h2 { margin: 0 0 8px; font-size: 20px; }
-    .setup-card p { font-size: 13px; color: var(--muted); margin: 0 0 16px; line-height: 1.5; }
-    .setup-card label { display: block; font-size: 12px; font-weight: 700; margin: 12px 0 4px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
-
     /* Toast */
     #toast {
       position: absolute; left: 50%; top: calc(var(--safe-top) + 56px);
@@ -175,27 +162,30 @@
       border: 1px solid var(--line);
       box-shadow: 0 4px 16px rgba(0,0,0,0.4);
       pointer-events: none; transition: all 0.25s ease;
-      z-index: 50; max-width: 90vw;
+      z-index: 1200; max-width: 90vw;
     }
     #toast.show { opacity: 1; transform: translate(-50%, 0); }
     #toast.ok { border-color: var(--ok); }
     #toast.err { border-color: var(--err); }
 
     /* Loading shimmer for status pill */
-    .loading::after { content: " ⟳"; display: inline-block; animation: spin 1.2s linear infinite; }
+    .loading::after { content: " \27F3"; display: inline-block; animation: spin 1.2s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Leaflet circle marker overrides */
+    .leaflet-interactive { cursor: pointer; }
   </style>
 </head>
 <body>
   <div id="map"></div>
 
   <div id="topbar">
-    <div class="pill" id="status-pill">Loading…</div>
-    <div class="pill muted" id="count-pill">— pins</div>
-    <button class="icon-btn" id="settings-btn" title="Settings">⚙</button>
+    <div class="pill" id="status-pill">Loading...</div>
+    <div class="pill muted" id="count-pill">-- pins</div>
+    <button class="icon-btn" id="settings-btn" title="Settings">&#9881;</button>
   </div>
 
-  <button id="recenter" title="Recenter on me">◎</button>
+  <button id="recenter" title="Recenter on me">&#9678;</button>
 
   <div id="filters">
     <div class="chip" data-filter="all" data-active="true">All</div>
@@ -212,15 +202,15 @@
       <div class="panel-head">
         <div class="score-badge" id="p-score"><span class="num">0</span><span class="lbl">Score</span></div>
         <div class="title">
-          <h3 class="owner" id="p-owner">—</h3>
-          <div class="addr" id="p-addr">—</div>
+          <h3 class="owner" id="p-owner">--</h3>
+          <div class="addr" id="p-addr">--</div>
         </div>
       </div>
       <div class="meta-row" id="p-meta"></div>
 
       <div class="field-label">Disposition</div>
       <select id="p-disposition">
-        <option value="">— select what happened —</option>
+        <option value="">-- select what happened --</option>
         <option>Visited</option>
         <option>Door Knock - Answered</option>
         <option>Door Knock - No Answer</option>
@@ -240,29 +230,10 @@
     </div>
   </div>
 
-  <div id="setup">
-    <div class="setup-card">
-      <h2>Pounce Map setup</h2>
-      <p>Paste your API keys. Stored only in your iPhone's local storage — never leaves the device. Get values from <code>~/RE_OS/00_Infrastructure/Scripts/.env</code>.</p>
-      <label>Google Maps API Key</label>
-      <input id="cfg-maps" placeholder="AIza..." autocomplete="off" />
-      <label>Airtable Personal Access Token</label>
-      <input id="cfg-air" placeholder="pat..." autocomplete="off" />
-      <label>Airtable Base ID</label>
-      <input id="cfg-base" placeholder="app5MR6Mekb0b1f4O" autocomplete="off" />
-      <label>Airtable Table ID or Name</label>
-      <input id="cfg-table" placeholder="tblFlz8tMhCswkCF0" autocomplete="off" />
-      <div class="actions">
-        <button class="secondary" id="cfg-cancel">Cancel</button>
-        <button class="primary" id="cfg-save">Save & Reload</button>
-      </div>
-    </div>
-  </div>
-
   <div id="toast"></div>
 
   <script>
-    // ---------- Config loading: window.POUNCE_CONFIG > localStorage > setup modal ----------
+    // ---------- Config ----------
     const LS_KEY = 'pounce_map_config_v1';
     function loadConfig() {
       if (window.POUNCE_CONFIG && window.POUNCE_CONFIG.airtableKey) return window.POUNCE_CONFIG;
@@ -272,69 +243,32 @@
       } catch (e) {}
       return null;
     }
-    function saveConfig(c) {
-      localStorage.setItem(LS_KEY, JSON.stringify(c));
-    }
-    let CONFIG = loadConfig();
+    const CONFIG = loadConfig();
 
     // ---------- DOM refs ----------
     const $ = (id) => document.getElementById(id);
     const statusPill = $('status-pill');
     const countPill = $('count-pill');
     const panel = $('panel');
-    const toast = $('toast');
-    const setup = $('setup');
+    const toastEl = $('toast');
 
     // ---------- Toast ----------
     let toastTimer = null;
-    function showToast(msg, kind = '') {
-      toast.textContent = msg;
-      toast.className = 'show ' + kind;
+    function showToast(msg, kind) {
+      toastEl.textContent = msg;
+      toastEl.className = 'show ' + (kind || '');
       clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => { toast.className = kind; }, 2600);
+      toastTimer = setTimeout(() => { toastEl.className = kind || ''; }, 2600);
     }
 
-    // ---------- Setup modal wiring ----------
-    function openSetup(prefill = true) {
-      if (prefill && CONFIG) {
-        $('cfg-maps').value = CONFIG.mapsKey || '';
-        $('cfg-air').value = CONFIG.airtableKey || '';
-        $('cfg-base').value = CONFIG.baseId || 'app5MR6Mekb0b1f4O';
-        $('cfg-table').value = CONFIG.tableId || 'tblFlz8tMhCswkCF0';
-      } else if (!CONFIG) {
-        $('cfg-base').value = 'app5MR6Mekb0b1f4O';
-        $('cfg-table').value = 'tblFlz8tMhCswkCF0';
-      }
-      setup.classList.add('open');
-    }
-    $('settings-btn').addEventListener('click', () => openSetup(true));
-    $('cfg-cancel').addEventListener('click', () => setup.classList.remove('open'));
-    $('cfg-save').addEventListener('click', () => {
-      const c = {
-        mapsKey: $('cfg-maps').value.trim(),
-        airtableKey: $('cfg-air').value.trim(),
-        baseId: $('cfg-base').value.trim(),
-        tableId: $('cfg-table').value.trim(),
-      };
-      if (!c.mapsKey || !c.airtableKey || !c.baseId || !c.tableId) {
-        alert('All four fields required.');
-        return;
-      }
-      saveConfig(c);
-      location.reload();
-    });
-
-    if (!CONFIG) { openSetup(false); }
-
-    // ---------- Score → color helpers ----------
-    // Source of truth: Airtable Pin_Color formula. Fall back to Heat_Score thresholds.
+    // ---------- Score / color helpers ----------
     const PIN_COLORS = {
-      Flashing: { fill: '#ec4899', stroke: '#fff', glyph: '★' },
-      Red:      { fill: '#ef4444', stroke: '#fff', glyph: 'H' },
-      Orange:   { fill: '#f59e0b', stroke: '#fff', glyph: 'W' },
-      Blue:     { fill: '#3b82f6', stroke: '#fff', glyph: 'C' },
-      Purple:   { fill: '#a855f7', stroke: '#fff', glyph: '?' },
-      Gray:     { fill: '#64748b', stroke: '#fff', glyph: '·' },
+      Flashing: { fill: '#ec4899', glyph: '\u2605' },
+      Red:      { fill: '#ef4444', glyph: 'H' },
+      Orange:   { fill: '#f59e0b', glyph: 'W' },
+      Blue:     { fill: '#3b82f6', glyph: 'C' },
+      Purple:   { fill: '#a855f7', glyph: '?' },
+      Gray:     { fill: '#64748b', glyph: '\u00b7' },
     };
     function pinColorFor(rec) {
       if (rec.fields.Pin_Color && PIN_COLORS[rec.fields.Pin_Color]) return rec.fields.Pin_Color;
@@ -348,101 +282,103 @@
 
     // ---------- Airtable ----------
     function airtableUrl(path) {
-      return `https://api.airtable.com/v0/${CONFIG.baseId}/${encodeURIComponent(CONFIG.tableId)}${path || ''}`;
+      return 'https://api.airtable.com/v0/' + CONFIG.baseId + '/' + encodeURIComponent(CONFIG.tableId) + (path || '');
     }
     function airtableHeaders() {
-      return { 'Authorization': `Bearer ${CONFIG.airtableKey}`, 'Content-Type': 'application/json' };
+      return { 'Authorization': 'Bearer ' + CONFIG.airtableKey, 'Content-Type': 'application/json' };
     }
     async function fetchAllLeads() {
-      const fields = ['Property_Address','Lat','Lng','Heat_Score','Pin_Color','Primary_Contact_Name','Lead_Status','Field_Notes','Note_Type','Timestamp','Lead_Type','Zone','Context_Badge','Auction_Date','Days_Until_Auction'];
-      const params = new URLSearchParams();
+      var fields = ['Property_Address','Lat','Lng','Heat_Score','Pin_Color','Primary_Contact_Name','Lead_Status','Field_Notes','Note_Type','Timestamp','Lead_Type','Zone','Context_Badge','Auction_Date','Days_Until_Auction'];
+      var params = new URLSearchParams();
       params.append('pageSize', '100');
       params.append('filterByFormula', 'AND({Lat}!=BLANK(), {Lng}!=BLANK(), {Lead_Status}!="Sold", {Lead_Status}!="Dead")');
-      fields.forEach(f => params.append('fields[]', f));
-      let all = [], offset;
+      fields.forEach(function(f) { params.append('fields[]', f); });
+      var all = [], offset;
       do {
         if (offset) params.set('offset', offset); else params.delete('offset');
-        const res = await fetch(airtableUrl('?' + params.toString()), { headers: airtableHeaders() });
-        if (!res.ok) throw new Error(`Airtable fetch ${res.status}: ${await res.text()}`);
-        const data = await res.json();
+        var res = await fetch(airtableUrl('?' + params.toString()), { headers: airtableHeaders() });
+        if (!res.ok) throw new Error('Airtable ' + res.status + ': ' + (await res.text()));
+        var data = await res.json();
         all = all.concat(data.records);
         offset = data.offset;
       } while (offset);
       return all;
     }
     async function patchLead(recId, fields) {
-      const res = await fetch(airtableUrl('/' + recId), {
+      var res = await fetch(airtableUrl('/' + recId), {
         method: 'PATCH',
         headers: airtableHeaders(),
-        body: JSON.stringify({ fields, typecast: true })
+        body: JSON.stringify({ fields: fields, typecast: true })
       });
-      if (!res.ok) throw new Error(`Airtable PATCH ${res.status}: ${await res.text()}`);
+      if (!res.ok) throw new Error('Airtable PATCH ' + res.status + ': ' + (await res.text()));
       return res.json();
     }
 
-    // ---------- Map / pins ----------
-    let map, AdvancedMarker, PinElement;
-    let userLatLng = { lat: 30.3322, lng: -81.6557 }; // Jacksonville fallback
-    const markers = []; // {marker, record, color}
-    let currentRecord = null;
-    let activeFilter = 'all';
+    // ---------- Map state ----------
+    var map;
+    var userLatLng = [30.3322, -81.6557]; // Jacksonville fallback
+    var allMarkers = []; // {leafletMarker, record, color}
+    var currentRecord = null;
+    var activeFilter = 'all';
 
     function fmtDate(ts) {
       if (!ts) return null;
-      try {
-        const d = new Date(ts);
-        return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
-      } catch (e) { return ts; }
+      try { return new Date(ts).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }); }
+      catch (e) { return ts; }
     }
 
-    function buildPin(color) {
-      const cfg = PIN_COLORS[color] || PIN_COLORS.Gray;
-      return new PinElement({
-        background: cfg.fill,
-        borderColor: '#0b0e14',
-        glyph: cfg.glyph,
-        glyphColor: cfg.stroke,
-        scale: color === 'Flashing' ? 1.25 : 1.05,
+    function makeIcon(color) {
+      var cfg = PIN_COLORS[color] || PIN_COLORS.Gray;
+      var size = color === 'Flashing' ? 32 : 26;
+      var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + size + '" height="' + size + '" viewBox="0 0 ' + size + ' ' + size + '">'
+        + '<circle cx="' + (size/2) + '" cy="' + (size/2) + '" r="' + (size/2 - 1) + '" fill="' + cfg.fill + '" stroke="#0b0e14" stroke-width="2"/>'
+        + '<text x="50%" y="54%" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="' + (size * 0.42) + '" font-weight="800" font-family="system-ui,sans-serif">' + cfg.glyph + '</text>'
+        + '</svg>';
+      return L.divIcon({
+        html: svg,
+        className: '',
+        iconSize: [size, size],
+        iconAnchor: [size/2, size/2],
+        popupAnchor: [0, -size/2]
       });
     }
 
     function applyFilter() {
-      let visible = 0;
-      for (const m of markers) {
-        const show = activeFilter === 'all' || m.color === activeFilter;
-        m.marker.map = show ? map : null;
-        if (show) visible++;
+      var visible = 0;
+      for (var i = 0; i < allMarkers.length; i++) {
+        var m = allMarkers[i];
+        var show = activeFilter === 'all' || m.color === activeFilter;
+        if (show) { m.leafletMarker.addTo(map); visible++; }
+        else { map.removeLayer(m.leafletMarker); }
       }
-      countPill.textContent = `${visible} pin${visible === 1 ? '' : 's'}`;
+      countPill.textContent = visible + ' pin' + (visible === 1 ? '' : 's');
     }
 
     function openPanel(record) {
       currentRecord = record;
-      const f = record.fields;
-      const color = pinColorFor(record);
-      const score = Math.round(Number(f.Heat_Score || 0));
-      const owner = f.Primary_Contact_Name || '(no owner on file)';
-      const addr = f.Property_Address || '—';
-      $('p-owner').textContent = owner;
-      $('p-addr').textContent = addr;
+      var f = record.fields;
+      var color = pinColorFor(record);
+      var score = Math.round(Number(f.Heat_Score || 0));
+      $('p-owner').textContent = f.Primary_Contact_Name || '(no owner on file)';
+      $('p-addr').textContent = f.Property_Address || '--';
       $('p-score').style.background = badgeBg(color);
       $('p-score').querySelector('.num').textContent = score;
 
-      const meta = [];
-      if (f.Lead_Type) meta.push(`<span class="meta-tag">${f.Lead_Type}</span>`);
-      if (f.Zone) meta.push(`<span class="meta-tag">${f.Zone}</span>`);
-      if (f.Context_Badge) meta.push(`<span class="meta-tag">${f.Context_Badge}</span>`);
+      var meta = [];
+      if (f.Lead_Type) meta.push('<span class="meta-tag">' + f.Lead_Type + '</span>');
+      if (f.Zone) meta.push('<span class="meta-tag">' + f.Zone + '</span>');
+      if (f.Context_Badge) meta.push('<span class="meta-tag">' + f.Context_Badge + '</span>');
       if (typeof f.Days_Until_Auction === 'number') {
-        const d = f.Days_Until_Auction;
-        meta.push(`<span class="meta-tag">${d >= 0 ? d + 'd to auction' : Math.abs(d) + 'd post-auction'}</span>`);
+        var d = f.Days_Until_Auction;
+        meta.push('<span class="meta-tag">' + (d >= 0 ? d + 'd to auction' : Math.abs(d) + 'd post-auction') + '</span>');
       }
-      const last = fmtDate(f.Timestamp);
-      if (last) meta.push(`<span class="meta-tag last-visit">Last visit: ${last}</span>`);
+      var last = fmtDate(f.Timestamp);
+      if (last) meta.push('<span class="meta-tag last-visit">Last visit: ' + last + '</span>');
       $('p-meta').innerHTML = meta.join('');
 
       $('p-disposition').value = f.Note_Type || '';
-      $('p-note').value = ''; // start fresh — Field_Notes is a log, don't pre-fill
-      $('p-note').placeholder = f.Field_Notes ? `Last note: ${f.Field_Notes.split('\n')[0].slice(0,80)}…` : 'What happened? Voice-to-text works (mic key on iPhone).';
+      $('p-note').value = '';
+      $('p-note').placeholder = f.Field_Notes ? 'Last note: ' + f.Field_Notes.split('\n')[0].slice(0,80) + '...' : 'What happened? Voice-to-text works (mic key on iPhone).';
 
       panel.classList.add('open');
     }
@@ -452,30 +388,24 @@
     }
     $('p-cancel').addEventListener('click', closePanel);
 
-    $('p-save').addEventListener('click', async () => {
+    $('p-save').addEventListener('click', async function() {
       if (!currentRecord) return;
-      const disposition = $('p-disposition').value.trim();
-      const note = $('p-note').value.trim();
+      var disposition = $('p-disposition').value.trim();
+      var note = $('p-note').value.trim();
       if (!disposition && !note) { showToast('Pick a disposition or write a note', 'err'); return; }
-      const btn = $('p-save');
-      btn.disabled = true; btn.textContent = 'Saving…';
+      var btn = $('p-save');
+      btn.disabled = true; btn.textContent = 'Saving...';
       try {
-        const today = new Date().toISOString();
-        const existingNotes = currentRecord.fields.Field_Notes || '';
-        const stamp = new Date().toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
-        const noteLine = note ? `[${stamp}] ${disposition || 'Visit'}: ${note}` : `[${stamp}] ${disposition}`;
-        const newNotes = existingNotes ? `${noteLine}\n${existingNotes}` : noteLine;
-
-        const fields = {
-          Field_Notes: newNotes,
-          Timestamp: today,
-        };
+        var today = new Date().toISOString();
+        var existingNotes = currentRecord.fields.Field_Notes || '';
+        var stamp = new Date().toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+        var noteLine = note ? '[' + stamp + '] ' + (disposition || 'Visit') + ': ' + note : '[' + stamp + '] ' + disposition;
+        var newNotes = existingNotes ? noteLine + '\n' + existingNotes : noteLine;
+        var fields = { Field_Notes: newNotes, Timestamp: today };
         if (disposition) fields.Note_Type = disposition;
-
-        const updated = await patchLead(currentRecord.id, fields);
-        // merge updated fields into local record
+        var updated = await patchLead(currentRecord.id, fields);
         Object.assign(currentRecord.fields, updated.fields);
-        showToast('Saved ✓', 'ok');
+        showToast('Saved', 'ok');
         closePanel();
       } catch (err) {
         console.error(err);
@@ -486,9 +416,9 @@
     });
 
     // ---------- Filter chips ----------
-    document.querySelectorAll('.chip').forEach(chip => {
-      chip.addEventListener('click', () => {
-        document.querySelectorAll('.chip').forEach(c => c.dataset.active = 'false');
+    document.querySelectorAll('.chip').forEach(function(chip) {
+      chip.addEventListener('click', function() {
+        document.querySelectorAll('.chip').forEach(function(c) { c.dataset.active = 'false'; });
         chip.dataset.active = 'true';
         activeFilter = chip.dataset.filter;
         applyFilter();
@@ -496,19 +426,22 @@
     });
 
     // ---------- Recenter ----------
-    $('recenter').addEventListener('click', () => {
-      if (!map) return;
-      map.panTo(userLatLng);
-      map.setZoom(14);
+    $('recenter').addEventListener('click', function() {
+      if (map) map.setView(userLatLng, 14);
+    });
+
+    // ---------- Settings (just shows config info) ----------
+    $('settings-btn').addEventListener('click', function() {
+      alert('Airtable base: ' + (CONFIG ? CONFIG.baseId : 'not set') + '\nTable: ' + (CONFIG ? CONFIG.tableId : 'not set') + '\nConfig source: ' + (window.POUNCE_CONFIG ? 'config.js' : 'localStorage'));
     });
 
     // ---------- GPS ----------
     function getGps() {
-      return new Promise((resolve) => {
+      return new Promise(function(resolve) {
         if (!navigator.geolocation) return resolve(null);
         navigator.geolocation.getCurrentPosition(
-          (pos) => resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
-          (err) => { console.warn('GPS denied/failed', err); resolve(null); },
+          function(pos) { resolve([pos.coords.latitude, pos.coords.longitude]); },
+          function() { resolve(null); },
           { enableHighAccuracy: true, timeout: 8000, maximumAge: 30000 }
         );
       });
@@ -516,45 +449,38 @@
 
     // ---------- Boot ----------
     async function boot() {
-      if (!CONFIG) { statusPill.textContent = 'Setup required'; return; }
-      statusPill.textContent = 'Locating…';
+      if (!CONFIG) {
+        statusPill.textContent = 'No config';
+        showToast('Add config.js with Airtable keys', 'err');
+        return;
+      }
+      statusPill.textContent = 'Locating...';
       statusPill.classList.add('loading');
 
-      const gps = await getGps();
+      var gps = await getGps();
       if (gps) userLatLng = gps;
 
-      // Load Google Maps with the configured key
-      await new Promise((resolve, reject) => {
-        window.__pounceMapsReady = resolve;
-        const s = document.createElement('script');
-        s.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(CONFIG.mapsKey)}&v=weekly&libraries=marker&callback=__pounceMapsReady&loading=async`;
-        s.async = true;
-        s.onerror = () => reject(new Error('Maps failed to load'));
-        document.head.appendChild(s);
-      });
-
-      const { Map } = await google.maps.importLibrary('maps');
-      const markerLib = await google.maps.importLibrary('marker');
-      AdvancedMarker = markerLib.AdvancedMarkerElement;
-      PinElement = markerLib.PinElement;
-
-      map = new Map($('map'), {
+      // Init Leaflet map with OpenStreetMap tiles
+      map = L.map('map', {
         center: userLatLng,
         zoom: 13,
-        mapId: 'POUNCE_MAP',
-        disableDefaultUI: true,
-        gestureHandling: 'greedy',
-        zoomControl: true,
-        clickableIcons: false,
+        zoomControl: false,
+        attributionControl: false
       });
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19
+      }).addTo(map);
+      L.control.zoom({ position: 'topright' }).addTo(map);
 
-      // "You are here" marker
-      const meDot = new PinElement({ background: '#4cc2ff', borderColor: '#0b0e14', glyph: '', scale: 0.7 });
-      new AdvancedMarker({ position: userLatLng, map, content: meDot.element, title: 'You are here', zIndex: 9999 });
+      // "You are here" blue dot
+      L.circleMarker(userLatLng, {
+        radius: 8, fillColor: '#4cc2ff', fillOpacity: 1,
+        color: '#0b0e14', weight: 2
+      }).addTo(map).bindPopup('You are here');
 
-      statusPill.textContent = 'Loading leads…';
+      statusPill.textContent = 'Loading leads...';
 
-      let records;
+      var records;
       try {
         records = await fetchAllLeads();
       } catch (err) {
@@ -565,38 +491,27 @@
         return;
       }
 
-      for (const rec of records) {
-        const f = rec.fields;
+      for (var i = 0; i < records.length; i++) {
+        var rec = records[i];
+        var f = rec.fields;
         if (typeof f.Lat !== 'number' || typeof f.Lng !== 'number') continue;
-        const color = pinColorFor(rec);
-        const pin = buildPin(color);
-        const marker = new AdvancedMarker({
-          position: { lat: f.Lat, lng: f.Lng },
-          map,
-          content: pin.element,
-          title: f.Property_Address || 'Lead',
-          zIndex: color === 'Flashing' ? 1000 : (color === 'Red' ? 500 : 100),
-        });
-        marker.addListener('gmp-click', () => openPanel(rec));
-        markers.push({ marker, record: rec, color });
+        var color = pinColorFor(rec);
+        var marker = L.marker([f.Lat, f.Lng], { icon: makeIcon(color) }).addTo(map);
+        (function(r) { marker.on('click', function() { openPanel(r); }); })(rec);
+        allMarkers.push({ leafletMarker: marker, record: rec, color: color });
       }
 
       statusPill.classList.remove('loading');
-      statusPill.textContent = `${records.length} leads`;
+      statusPill.textContent = records.length + ' leads';
       applyFilter();
     }
 
-    boot().catch(err => {
+    boot().catch(function(err) {
       console.error(err);
       statusPill.classList.remove('loading');
       statusPill.textContent = 'Boot failed';
       showToast(err.message, 'err');
     });
-
-    // ---------- Service worker (offline shell only) ----------
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js').catch(() => { /* fine if missing */ });
-    }
   </script>
 </body>
 </html>
