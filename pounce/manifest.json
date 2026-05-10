@@ -2,7 +2,7 @@
   "name": "Pounce Map",
   "short_name": "Pounce",
   "description": "Driving-for-dollars field overlay for RE_OS scored leads",
-  "start_url": "./index.html",
+  "start_url": "./pounce_map.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
