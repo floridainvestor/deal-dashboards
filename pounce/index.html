@@ -11,6 +11,7 @@
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="icons/icon-192.png" />
   <title>Pounce Map</title>
+  <script src="config.js" onerror="void 0"></script>
   <style>
     :root {
       --bg: #0b0e14;
@@ -597,7 +598,5 @@
       navigator.serviceWorker.register('sw.js').catch(() => { /* fine if missing */ });
     }
   </script>
-  <!-- Optional: drop config.js next to this file with `window.POUNCE_CONFIG = {...}` to avoid the setup modal -->
-  <script src="config.js" onerror="void 0"></script>
 </body>
 </html>
