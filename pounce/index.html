@@ -134,6 +134,11 @@
     .meta-tag.last-visit { background: #1e3a8a33; color: #93c5fd; }
 
     .field-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.7px; color: var(--muted); margin: 14px 0 6px; font-weight: 700; }
+    .signal-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+    .signal-chip { font-size: 11px; padding: 4px 8px; border-radius: 6px; font-weight: 600; display: flex; align-items: center; gap: 4px; }
+    .signal-chip.active { background: rgba(239,68,68,0.15); color: #fca5a5; }
+    .signal-chip.inactive { background: var(--panel-2); color: var(--muted); opacity: 0.4; }
+    .intel-block { background: var(--panel-2); border-radius: 10px; padding: 10px 12px; font-size: 13px; line-height: 1.5; color: var(--text); white-space: pre-wrap; word-wrap: break-word; max-height: 120px; overflow-y: auto; }
     select, textarea, input {
       width: 100%; background: var(--panel-2); color: var(--text);
       border: 1px solid var(--line); border-radius: 10px;
@@ -207,6 +212,12 @@
         </div>
       </div>
       <div class="meta-row" id="p-meta"></div>
+
+      <div class="field-label">Situation</div>
+      <div class="signal-grid" id="p-signals"></div>
+
+      <div class="field-label">Intel</div>
+      <div class="intel-block" id="p-intel"></div>
 
       <div class="field-label">Disposition</div>
       <select id="p-disposition">
@@ -288,7 +299,7 @@
       return { 'Authorization': 'Bearer ' + CONFIG.airtableKey, 'Content-Type': 'application/json' };
     }
     async function fetchAllLeads() {
-      var fields = ['Property_Address','Lat','Lng','Heat_Score','Pin_Color','Primary_Contact_Name','Lead_Status','Field_Notes','Note_Type','Timestamp','Lead_Type','Zone','Context_Badge','Auction_Date','Days_Until_Auction'];
+      var fields = ['Property_Address','Lat','Lng','Heat_Score','Pin_Color','Primary_Contact_Name','Lead_Status','Field_Notes','Note_Type','Timestamp','Lead_Type','Zone','Context_Badge','Auction_Date','Days_Until_Auction','Is_Deceased_Owner','Is_Tax_Auction','Is_Vacant','Is_Distressed','Is_Utility_Shutoff','Is_D4D','Is_Owner_Distant','Tags','ZIP','Has_Phone','Has_Mailing_Address','Zone_With_Badge','DealMachine_Normalized_Address'];
       var params = new URLSearchParams();
       params.append('pageSize', '100');
       params.append('filterByFormula', 'AND({Lat}!=BLANK(), {Lng}!=BLANK(), {Lead_Status}!="Sold", {Lead_Status}!="Dead")');
@@ -364,21 +375,48 @@
       $('p-score').style.background = badgeBg(color);
       $('p-score').querySelector('.num').textContent = score;
 
+      // Meta tags row
       var meta = [];
       if (f.Lead_Type) meta.push('<span class="meta-tag">' + f.Lead_Type + '</span>');
       if (f.Zone) meta.push('<span class="meta-tag">' + f.Zone + '</span>');
+      if (f.ZIP) meta.push('<span class="meta-tag">' + f.ZIP + '</span>');
       if (f.Context_Badge) meta.push('<span class="meta-tag">' + f.Context_Badge + '</span>');
       if (typeof f.Days_Until_Auction === 'number') {
         var d = f.Days_Until_Auction;
         meta.push('<span class="meta-tag">' + (d >= 0 ? d + 'd to auction' : Math.abs(d) + 'd post-auction') + '</span>');
       }
+      if (f.Has_Phone) meta.push('<span class="meta-tag" style="background:#16a34a22;color:#86efac">Has Phone</span>');
       var last = fmtDate(f.Timestamp);
       if (last) meta.push('<span class="meta-tag last-visit">Last visit: ' + last + '</span>');
+      if (f.Tags && f.Tags.length) {
+        f.Tags.forEach(function(t) { meta.push('<span class="meta-tag" style="background:#f59e0b22;color:#fcd34d">' + t + '</span>'); });
+      }
       $('p-meta').innerHTML = meta.join('');
+
+      // Situation signals
+      var signals = [
+        { label: 'Deceased Owner', on: f.Is_Deceased_Owner, icon: '\u2020' },
+        { label: 'Vacant', on: f.Is_Vacant, icon: '\u25A1' },
+        { label: 'Distressed', on: f.Is_Distressed, icon: '\u26A0' },
+        { label: 'Tax Auction', on: f.Is_Tax_Auction, icon: '\u2691' },
+        { label: 'Utility Shutoff', on: f.Is_Utility_Shutoff, icon: '\u26A1' },
+        { label: 'Absentee Owner', on: f.Is_Owner_Distant, icon: '\u2708' },
+        { label: 'D4D Flagged', on: f.Is_D4D, icon: '\u2691' },
+      ];
+      var sigHtml = '';
+      signals.forEach(function(s) {
+        if (s.on) sigHtml += '<span class="signal-chip active">' + s.icon + ' ' + s.label + '</span>';
+      });
+      if (!sigHtml) sigHtml = '<span class="signal-chip inactive">No signals</span>';
+      $('p-signals').innerHTML = sigHtml;
+
+      // Intel block (Field_Notes = running log of situation details)
+      var intel = f.Field_Notes || '(No intel on file)';
+      $('p-intel').textContent = intel;
 
       $('p-disposition').value = f.Note_Type || '';
       $('p-note').value = '';
-      $('p-note').placeholder = f.Field_Notes ? 'Last note: ' + f.Field_Notes.split('\n')[0].slice(0,80) + '...' : 'What happened? Voice-to-text works (mic key on iPhone).';
+      $('p-note').placeholder = 'What happened? Voice-to-text works (mic key on iPhone).';
 
       panel.classList.add('open');
     }
