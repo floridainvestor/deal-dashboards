@@ -11,6 +11,8 @@
   <link rel="apple-touch-icon" href="icons/icon-192.png" />
   <title>Pounce Map</title>
   <script src="config.js" onerror="void 0"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
     :root {
       --bg: #0b0e14;
@@ -105,11 +107,10 @@
       position: relative;
       width: 38px; height: 54px;
       cursor: pointer;
-      transform: translate(-50%, -100%);
       filter: drop-shadow(0 2px 3px rgba(0,0,0,0.5));
       transition: transform 0.12s ease;
     }
-    .pmarker:active { transform: translate(-50%, -100%) scale(1.15); }
+    .pmarker:active { transform: scale(1.15); }
     .pmarker svg { display: block; width: 100%; height: 100%; pointer-events: none; }
     .pmarker .ctx {
       position: absolute; top: -6px; right: -6px;
@@ -131,7 +132,6 @@
       width: 18px; height: 18px; border-radius: 50%;
       background: #4cc2ff; border: 3px solid #fff;
       box-shadow: 0 0 0 4px rgba(76,194,255,0.3);
-      transform: translate(-50%, -50%);
     }
 
     /* Panel: field grid */
@@ -650,16 +650,16 @@
       for (const m of markers) {
         const filterMatch = activeFilter === 'all' || m.color === activeFilter;
         if (!filterMatch) {
-          if (m.marker.map) m.marker.map = null;
+          if (map.hasLayer(m.marker)) map.removeLayer(m.marker);
           continue;
         }
         totalMatching++;
-        const inside = !bounds || bounds.contains(m.marker.position);
+        const inside = !bounds || bounds.contains(m.marker.getLatLng());
         if (inside) {
-          if (!m.marker.map) m.marker.map = map;
+          if (!map.hasLayer(m.marker)) m.marker.addTo(map);
           inViewport++;
         } else {
-          if (m.marker.map) m.marker.map = null;
+          if (map.hasLayer(m.marker)) map.removeLayer(m.marker);
         }
       }
       countPill.textContent = totalMatching === inViewport
@@ -863,8 +863,7 @@
     // ---------- Recenter ----------
     $('recenter').addEventListener('click', () => {
       if (!map) return;
-      map.panTo(userLatLng);
-      map.setZoom(14);
+      map.setView([userLatLng.lat, userLatLng.lng], 14);
     });
 
     // ---------- GPS ----------
@@ -888,37 +887,28 @@
       const gps = await getGps();
       if (gps) userLatLng = gps;
 
-      // Load Google Maps with the configured key
-      await new Promise((resolve, reject) => {
-        window.__pounceMapsReady = resolve;
-        const s = document.createElement('script');
-        s.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(CONFIG.mapsKey)}&v=weekly&libraries=marker&callback=__pounceMapsReady&loading=async`;
-        s.async = true;
-        s.onerror = () => reject(new Error('Maps failed to load'));
-        document.head.appendChild(s);
-      });
-
-      const { Map } = await google.maps.importLibrary('maps');
-      const markerLib = await google.maps.importLibrary('marker');
-      AdvancedMarker = markerLib.AdvancedMarkerElement;
-
-      map = new Map($('map'), {
-        center: userLatLng,
+      // Leaflet + OpenStreetMap (no API key required)
+      map = L.map('map', {
+        center: [userLatLng.lat, userLatLng.lng],
         zoom: 13,
-        // DEMO_MAP_ID lets AdvancedMarkerElement render even when no Cloud Map ID is registered.
-        // Replace with a real Map ID from console.cloud.google.com → Maps → Map Management to drop the watermark.
-        mapId: 'DEMO_MAP_ID',
-        disableDefaultUI: true,
-        gestureHandling: 'greedy',
         zoomControl: true,
-        clickableIcons: false,
+        attributionControl: false,
       });
-      map.addListener('bounds_changed', scheduleCull);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap',
+      }).addTo(map);
+      map.on('moveend', scheduleCull);
+      map.on('zoomend', scheduleCull);
 
-      // "You are here" marker (custom HTML so it always paints)
-      const meEl = document.createElement('div');
-      meEl.className = 'me-marker';
-      new AdvancedMarker({ position: userLatLng, map, content: meEl, title: 'You are here', zIndex: 9999 });
+      // "You are here" marker
+      const meIcon = L.divIcon({
+        html: '<div class="me-marker"></div>',
+        className: '',
+        iconSize: [18, 18],
+        iconAnchor: [9, 9],
+      });
+      L.marker([userLatLng.lat, userLatLng.lng], { icon: meIcon, zIndexOffset: 9999, interactive: false, keyboard: false }).addTo(map);
 
       statusPill.textContent = 'Loading leads…';
 
@@ -942,13 +932,18 @@
         if (typeof f.Lat !== 'number' || typeof f.Lng !== 'number') continue;
         const color = pinColorFor(rec);
         const el = buildMarkerEl(color, Number(f.Heat_Score || 0), f.Context_Badge || '');
-        const marker = new AdvancedMarker({
-          position: { lat: f.Lat, lng: f.Lng },
-          content: el,
-          title: f.Property_Address || 'Lead',
-          zIndex: color === 'Flashing' ? 1000 : (color === 'Red' ? 500 : (color === 'Purple' ? 400 : (color === 'Orange' ? 300 : 100))),
+        const icon = L.divIcon({
+          html: el.outerHTML,
+          className: '',
+          iconSize: [38, 54],
+          iconAnchor: [19, 54],
         });
-        el.addEventListener('click', (e) => { e.stopPropagation(); openPanel(rec); });
+        const marker = L.marker([f.Lat, f.Lng], {
+          icon,
+          title: f.Property_Address || 'Lead',
+          zIndexOffset: color === 'Flashing' ? 1000 : (color === 'Red' ? 500 : (color === 'Purple' ? 400 : (color === 'Orange' ? 300 : 100))),
+        });
+        marker.on('click', () => openPanel(rec));
         markers.push({ marker, record: rec, color });
       }
 

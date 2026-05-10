@@ -1,7 +1,7 @@
 // Pounce Map service worker — offline shell only.
 // Lead data and Airtable PATCHes always go to the network so field updates stay authoritative.
-const CACHE = 'pounce-shell-v1';
-const SHELL = ['./pounce_map.html', './manifest.json'];
+const CACHE = 'pounce-shell-v3-leaflet';
+const SHELL = ['./index.html', './manifest.json'];
 
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
@@ -24,6 +24,6 @@ self.addEventListener('fetch', (e) => {
         caches.open(CACHE).then(c => c.put(e.request, copy));
       }
       return res;
-    }).catch(() => caches.match('./pounce_map.html')))
+    }).catch(() => caches.match('./index.html')))
   );
 });
