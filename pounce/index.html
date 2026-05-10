@@ -10,9 +10,6 @@
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="icons/icon-192.png" />
   <title>Pounce Map</title>
-  <script src="config.js" onerror="void 0"></script>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
     :root {
       --bg: #0b0e14;
@@ -73,6 +70,47 @@
     }
     #recenter:active { background: #e0e6ee; }
 
+    /* ---- NAV BAR: shows when actively routing ---- */
+    #nav-bar {
+      position: absolute; top: calc(var(--safe-top) + 56px); left: 8px; right: 8px;
+      background: rgba(11,14,20,0.92); backdrop-filter: blur(14px);
+      border: 1px solid var(--line); border-radius: 16px;
+      padding: 12px 16px;
+      z-index: 20;
+      display: none;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+    #nav-bar.active { display: block; }
+    .nav-bar-top { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .nav-dest { flex: 1; font-size: 15px; font-weight: 700; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .nav-close {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--panel-2); border: 1px solid var(--line);
+      color: var(--text); font-size: 16px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; flex-shrink: 0;
+    }
+    .nav-close:active { background: var(--line); }
+    .nav-bar-stats { display: flex; gap: 16px; margin-bottom: 10px; }
+    .nav-stat { display: flex; flex-direction: column; }
+    .nav-stat .val { font-size: 20px; font-weight: 800; color: var(--accent); }
+    .nav-stat .lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); font-weight: 700; }
+    .nav-step {
+      font-size: 13px; color: var(--muted); line-height: 1.4;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      margin-bottom: 10px;
+    }
+    .nav-actions { display: flex; gap: 8px; }
+    .nav-actions button {
+      flex: 1; padding: 12px; border-radius: 12px;
+      font-size: 14px; font-weight: 700; border: none;
+      cursor: pointer; font-family: inherit;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .nav-actions button:active { opacity: 0.85; }
+    .btn-voice { background: #fff; color: #0b0e14; }
+    .btn-log { background: var(--accent); color: #0b0e14; }
+
     /* Filter chips */
     #filters {
       position: absolute; left: 8px; right: 8px;
@@ -101,16 +139,16 @@
     .dot.flash { background: var(--flash); }
     .dot.gray { background: var(--gray); }
 
-    /* Paddle marker — SVG teardrop, score in head, optional context badge below.
-       Anchored at the tip of the teardrop (bottom-center) so the pin "stands on" its location. */
+    /* Paddle marker */
     .pmarker {
       position: relative;
       width: 38px; height: 54px;
       cursor: pointer;
+      transform: translate(-50%, -100%);
       filter: drop-shadow(0 2px 3px rgba(0,0,0,0.5));
       transition: transform 0.12s ease;
     }
-    .pmarker:active { transform: scale(1.15); }
+    .pmarker:active { transform: translate(-50%, -100%) scale(1.15); }
     .pmarker svg { display: block; width: 100%; height: 100%; pointer-events: none; }
     .pmarker .ctx {
       position: absolute; top: -6px; right: -6px;
@@ -120,6 +158,16 @@
       display: flex; align-items: center; justify-content: center;
       border: 1.5px solid #fff;
       pointer-events: none;
+    }
+    /* Distance badge — bottom of pin */
+    .pmarker .dist-badge {
+      position: absolute; bottom: -14px; left: 50%;
+      transform: translateX(-50%);
+      background: rgba(11,14,20,0.9);
+      color: #fff; font-size: 9px; font-weight: 700;
+      padding: 1px 5px; border-radius: 6px;
+      white-space: nowrap; pointer-events: none;
+      border: 1px solid rgba(255,255,255,0.15);
     }
     .pmarker.flash {
       animation: flashpulse 1.4s ease-in-out infinite;
@@ -132,6 +180,24 @@
       width: 18px; height: 18px; border-radius: 50%;
       background: #4cc2ff; border: 3px solid #fff;
       box-shadow: 0 0 0 4px rgba(76,194,255,0.3);
+      transform: translate(-50%, -50%);
+    }
+    .me-marker-pulse {
+      position: absolute; top: 50%; left: 50%;
+      width: 60px; height: 60px; border-radius: 50%;
+      background: rgba(76,194,255,0.12);
+      transform: translate(-50%, -50%);
+      animation: mepulse 2s ease-out infinite;
+      pointer-events: none;
+    }
+    @keyframes mepulse {
+      0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
+      100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
+    }
+    .me-wrapper {
+      position: relative; width: 60px; height: 60px;
+      display: flex; align-items: center; justify-content: center;
+      transform: translate(-50%, -50%);
     }
 
     /* Panel: field grid */
@@ -178,7 +244,7 @@
       font-weight: 800; font-size: 14px;
     }
 
-    /* Original action row — restored: [Close] [Save Visit] */
+    /* Action row */
     .actions { display: flex; gap: 8px; margin-top: 16px; }
     button.primary, button.secondary {
       flex: 1; padding: 14px; border-radius: 12px; font-size: 15px; font-weight: 700;
@@ -190,7 +256,7 @@
     button.secondary { background: var(--panel-2); color: var(--text); }
     button.secondary:active { background: var(--line); }
 
-    /* Standalone NAVIGATE button — sits above Property Details, visually distinct from disposition CTA */
+    /* NAVIGATE button in panel */
     button.nav-btn {
       width: 100%; padding: 14px;
       background: #fff; color: #0b0e14;
@@ -236,6 +302,7 @@
     .meta-tag { font-size: 11px; padding: 4px 8px; border-radius: 6px; background: var(--panel-2); color: var(--muted); font-weight: 600; }
     .meta-tag.last-visit { background: #1e3a8a33; color: #93c5fd; }
     .meta-tag.dispo { background: #14532d55; color: #86efac; }
+    .meta-tag.dist { background: rgba(76,194,255,0.15); color: var(--accent); }
 
     .field-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.7px; color: var(--muted); margin: 14px 0 6px; font-weight: 700; }
     select, textarea, input {
@@ -247,7 +314,7 @@
     select:focus, textarea:focus, input:focus { border-color: var(--accent); }
     textarea { min-height: 90px; resize: vertical; }
 
-    /* Setup modal action row keeps the old two-button layout */
+    /* Setup modal */
     .setup-actions { display: flex; gap: 8px; margin-top: 16px; }
     .setup-actions button {
       flex: 1; padding: 14px; border-radius: 12px; font-size: 15px; font-weight: 700;
@@ -258,7 +325,6 @@
     .setup-actions button.secondary { background: var(--panel-2); color: var(--text); }
     .setup-actions button.secondary:active { background: var(--line); }
 
-    /* Setup modal */
     #setup {
       position: absolute; inset: 0; background: rgba(11,14,20,0.95);
       display: none; align-items: center; justify-content: center;
@@ -288,8 +354,7 @@
     #toast.ok { border-color: var(--ok); }
     #toast.err { border-color: var(--err); }
 
-    /* Loading shimmer for status pill */
-    .loading::after { content: " ⟳"; display: inline-block; animation: spin 1.2s linear infinite; }
+    .loading::after { content: " "; display: inline-block; animation: spin 1.2s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
@@ -297,12 +362,29 @@
   <div id="map"></div>
 
   <div id="topbar">
-    <div class="pill" id="status-pill">Loading…</div>
-    <div class="pill muted" id="count-pill">— pins</div>
-    <button class="icon-btn" id="settings-btn" title="Settings">⚙</button>
+    <div class="pill" id="status-pill">Loading...</div>
+    <div class="pill muted" id="count-pill">-- pins</div>
+    <button class="icon-btn" id="settings-btn" title="Settings">&#9881;</button>
   </div>
 
-  <button id="recenter" title="Recenter on me">◎</button>
+  <!-- NAV BAR: appears when routing to a lead -->
+  <div id="nav-bar">
+    <div class="nav-bar-top">
+      <div class="nav-dest" id="nav-dest">--</div>
+      <div class="nav-close" id="nav-close">&#10005;</div>
+    </div>
+    <div class="nav-bar-stats">
+      <div class="nav-stat"><span class="val" id="nav-dist">--</span><span class="lbl">Distance</span></div>
+      <div class="nav-stat"><span class="val" id="nav-eta">--</span><span class="lbl">ETA</span></div>
+    </div>
+    <div class="nav-step" id="nav-step">Calculating route...</div>
+    <div class="nav-actions">
+      <button class="btn-voice" id="nav-voice">&#9654; Voice Nav</button>
+      <button class="btn-log" id="nav-log">Log Visit</button>
+    </div>
+  </div>
+
+  <button id="recenter" title="Recenter on me">&#9678;</button>
 
   <div id="filters">
     <div class="chip" data-filter="all" data-active="true">All</div>
@@ -319,13 +401,13 @@
       <div class="panel-head">
         <div class="score-badge" id="p-score"><span class="num">0</span><span class="lbl">Score</span></div>
         <div class="title">
-          <h3 class="owner" id="p-owner">—</h3>
-          <div class="addr" id="p-addr">—</div>
+          <h3 class="owner" id="p-owner">--</h3>
+          <div class="addr" id="p-addr">--</div>
         </div>
       </div>
       <div class="meta-row" id="p-meta"></div>
 
-      <button class="nav-btn" id="p-nav" title="Open in Maps"><span class="arrow">▶</span> NAVIGATE</button>
+      <button class="nav-btn" id="p-nav" title="Route to this lead"><span class="arrow">&#9654;</span> NAVIGATE</button>
 
       <div class="field-label">Property Details</div>
       <div class="field-grid" id="p-fields"></div>
@@ -336,7 +418,7 @@
 
       <div class="field-label">Disposition</div>
       <select id="p-disposition">
-        <option value="">— select what happened —</option>
+        <option value="">-- select what happened --</option>
         <option>Visited</option>
         <option>Door Knock - Answered</option>
         <option>Door Knock - No Answer</option>
@@ -359,7 +441,7 @@
   <div id="setup">
     <div class="setup-card">
       <h2>Pounce Map setup</h2>
-      <p>Paste your API keys. Stored only in your iPhone's local storage — never leaves the device. Get values from <code>~/RE_OS/00_Infrastructure/Scripts/.env</code>.</p>
+      <p>Paste your API keys. Stored only in your iPhone's local storage -- never leaves the device. Get values from <code>~/RE_OS/00_Infrastructure/Scripts/.env</code>.</p>
       <label>Google Maps API Key</label>
       <input id="cfg-maps" placeholder="AIza..." autocomplete="off" />
       <label>Airtable Personal Access Token</label>
@@ -368,7 +450,7 @@
       <input id="cfg-base" placeholder="app5MR6Mekb0b1f4O" autocomplete="off" />
       <label>Airtable Table ID or Name</label>
       <input id="cfg-table" placeholder="tblFlz8tMhCswkCF0" autocomplete="off" />
-      <label>Make.com Kill-Switch Webhook URL <span style="color:var(--muted);text-transform:none;letter-spacing:0;font-weight:400">(optional — fires on LOG NOTE)</span></label>
+      <label>Make.com Kill-Switch Webhook URL <span style="color:var(--muted);text-transform:none;letter-spacing:0;font-weight:400">(optional)</span></label>
       <input id="cfg-webhook" placeholder="https://hook.us1.make.com/..." autocomplete="off" />
       <div class="setup-actions">
         <button class="secondary" id="cfg-cancel">Cancel</button>
@@ -380,7 +462,7 @@
   <div id="toast"></div>
 
   <script>
-    // ---------- Config loading: window.POUNCE_CONFIG > localStorage > setup modal ----------
+    // ========== CONFIG ==========
     const LS_KEY = 'pounce_map_config_v1';
     function loadConfig() {
       if (window.POUNCE_CONFIG && window.POUNCE_CONFIG.airtableKey) return window.POUNCE_CONFIG;
@@ -390,20 +472,19 @@
       } catch (e) {}
       return null;
     }
-    function saveConfig(c) {
-      localStorage.setItem(LS_KEY, JSON.stringify(c));
-    }
+    function saveConfig(c) { localStorage.setItem(LS_KEY, JSON.stringify(c)); }
     let CONFIG = loadConfig();
 
-    // ---------- DOM refs ----------
+    // ========== DOM ==========
     const $ = (id) => document.getElementById(id);
     const statusPill = $('status-pill');
     const countPill = $('count-pill');
     const panel = $('panel');
     const toast = $('toast');
     const setup = $('setup');
+    const navBar = $('nav-bar');
 
-    // ---------- Toast ----------
+    // ========== TOAST ==========
     let toastTimer = null;
     function showToast(msg, kind = '') {
       toast.textContent = msg;
@@ -412,7 +493,7 @@
       toastTimer = setTimeout(() => { toast.className = kind; }, 2600);
     }
 
-    // ---------- Setup modal wiring ----------
+    // ========== SETUP MODAL ==========
     function openSetup(prefill = true) {
       if (prefill && CONFIG) {
         $('cfg-maps').value = CONFIG.mapsKey || '';
@@ -437,30 +518,22 @@
         makeWebhookUrl: $('cfg-webhook').value.trim(),
       };
       if (!c.mapsKey || !c.airtableKey || !c.baseId || !c.tableId) {
-        alert('Maps, Airtable, Base ID, and Table ID are required. Webhook URL is optional.');
+        alert('Maps, Airtable, Base ID, and Table ID are required.');
         return;
       }
       saveConfig(c);
       location.reload();
     });
-
     if (!CONFIG) { openSetup(false); }
 
-    // ---------- Score → color helpers ----------
-    // Computed from Heat_Score + auction window + data-gap signals (per spec):
-    //   Flashing  — auction within 7 days (overrides everything)
-    //   Purple    — score qualifies (>=50) but no phone OR no mailing address (data gap)
-    //   Red       — Heat_Score >= 80
-    //   Orange    — Heat_Score 50–79
-    //   Blue      — Heat_Score 1–49
-    //   Gray      — Heat_Score 0 / unscored
+    // ========== SCORING / COLORS ==========
     const PIN_COLORS = {
-      Flashing: { fill: '#ec4899', cls: 'flash', glyph: '★', label: 'Auction' },
+      Flashing: { fill: '#ec4899', cls: 'flash', glyph: 'S', label: 'Auction' },
       Red:      { fill: '#ef4444', cls: 'hot',   glyph: 'H', label: 'Hot' },
       Orange:   { fill: '#f97316', cls: 'warm',  glyph: 'W', label: 'Warm' },
       Blue:     { fill: '#3b82f6', cls: 'cold',  glyph: 'C', label: 'Cold' },
       Purple:   { fill: '#d946ef', cls: 'gap',   glyph: '!', label: 'Data Gap' },
-      Gray:     { fill: '#64748b', cls: 'gray',  glyph: '·', label: 'Unscored' },
+      Gray:     { fill: '#64748b', cls: 'gray',  glyph: '.', label: 'Unscored' },
     };
     function pinColorFor(rec) {
       const f = rec.fields;
@@ -477,12 +550,7 @@
     }
     function badgeBg(color) { return (PIN_COLORS[color] || PIN_COLORS.Gray).fill; }
 
-    // Build the paddle/teardrop marker per L9 spec.
-    // - Teardrop SVG, anchored at the tip (CSS translate(-50%, -100%))
-    // - Heat_Score number sits in the head of the paddle
-    // - Context_Badge letter (T/H/V/D/C) appears as a small chip on the upper-right
-    // Heat_Score is a 0–145 sum (Airtable formula); we display the raw number per Jay's request.
-    function buildMarkerEl(color, score, contextBadge) {
+    function buildMarkerEl(color, score, contextBadge, distText) {
       const cfg = PIN_COLORS[color] || PIN_COLORS.Gray;
       const el = document.createElement('div');
       el.className = 'pmarker ' + cfg.cls;
@@ -490,11 +558,7 @@
       const fontSize = display.length >= 3 ? 11 : 14;
       el.innerHTML = `
         <svg viewBox="0 0 38 54" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M19 1
-                   C 9 1 1 9 1 19
-                   C 1 31 19 53 19 53
-                   C 19 53 37 31 37 19
-                   C 37 9 29 1 19 1 Z"
+          <path d="M19 1 C 9 1 1 9 1 19 C 1 31 19 53 19 53 C 19 53 37 31 37 19 C 37 9 29 1 19 1 Z"
                 fill="${cfg.fill}" stroke="#0b0e14" stroke-width="2" stroke-linejoin="round"/>
           <circle cx="19" cy="19" r="11" fill="rgba(255,255,255,0.18)" />
           <text x="19" y="19" text-anchor="middle" dominant-baseline="central"
@@ -502,11 +566,11 @@
                 font-size="${fontSize}" font-weight="800">${display}</text>
         </svg>
         ${contextBadge ? `<span class="ctx">${escHtml(contextBadge)}</span>` : ''}
+        <span class="dist-badge" style="display:none"></span>
       `;
       return el;
     }
 
-    // Heat Score breakdown components (matches Airtable formula)
     const SCORE_COMPONENTS = [
       { key: 'Is_Deceased_Owner',  label: 'Deceased Owner',     pts: 45 },
       { key: 'Is_Tax_Auction',     label: 'Tax / Foreclosure',  pts: 35 },
@@ -522,20 +586,100 @@
       const rows = SCORE_COMPONENTS.map(c => {
         const on = !!f[c.key];
         if (on) total += c.pts;
-        return `<div class="row ${on ? 'on' : 'off'}"><span>${c.label}</span><span class="pts">${on ? '+' : '·'}${c.pts}</span></div>`;
+        return `<div class="row ${on ? 'on' : 'off'}"><span>${c.label}</span><span class="pts">${on ? '+' : '.'}${c.pts}</span></div>`;
       }).join('');
       return rows + `<div class="row total"><span>Heat Score</span><span class="pts">${total}</span></div>`;
     }
 
-    // Open external maps app for turn-by-turn directions to an address.
-    // iOS Safari resolves the universal Google Maps URL into the user's preferred maps app.
-    function navigateTo(address) {
-      if (!address) return;
-      const url = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(address)}&travelmode=driving`;
-      window.open(url, '_blank', 'noopener');
+    // ========== GEO UTILITIES ==========
+    // Haversine distance in miles
+    function haversine(lat1, lng1, lat2, lng2) {
+      const R = 3958.8;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLng = (lng2 - lng1) * Math.PI / 180;
+      const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) * Math.sin(dLng/2)**2;
+      return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    }
+    function fmtDist(miles) {
+      if (miles < 0.1) return Math.round(miles * 5280) + ' ft';
+      if (miles < 10) return miles.toFixed(1) + ' mi';
+      return Math.round(miles) + ' mi';
     }
 
-    // ---------- Airtable ----------
+    // ========== LIVE GPS ==========
+    let userLatLng = { lat: 30.3322, lng: -81.6557 }; // Jacksonville fallback
+    let gpsWatchId = null;
+    let meMarker = null;
+    let gpsAccuracy = null;
+
+    function startGpsWatch() {
+      if (!navigator.geolocation) return;
+      // Get initial position fast
+      navigator.geolocation.getCurrentPosition(
+        (pos) => updateUserPos(pos),
+        () => {},
+        { enableHighAccuracy: true, timeout: 8000, maximumAge: 30000 }
+      );
+      // Then watch continuously
+      gpsWatchId = navigator.geolocation.watchPosition(
+        (pos) => updateUserPos(pos),
+        (err) => { console.warn('GPS watch error', err); },
+        { enableHighAccuracy: true, timeout: 15000, maximumAge: 5000 }
+      );
+    }
+
+    function updateUserPos(pos) {
+      userLatLng = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+      gpsAccuracy = pos.coords.accuracy;
+      if (meMarker) {
+        meMarker.position = userLatLng;
+      }
+      updateDistanceBadges();
+      // If actively navigating, update the route step with distance
+      if (activeNavRecord && directionsResult) {
+        updateNavBarFromRoute(directionsResult);
+      }
+    }
+
+    // ========== DISTANCE BADGES ON PINS ==========
+    let distUpdateTimer = null;
+    function updateDistanceBadges() {
+      // Throttle to every 3 seconds to avoid jank
+      if (distUpdateTimer) return;
+      distUpdateTimer = setTimeout(() => { distUpdateTimer = null; }, 3000);
+
+      for (const m of markers) {
+        const f = m.record.fields;
+        const dist = haversine(userLatLng.lat, userLatLng.lng, f.Lat, f.Lng);
+        m.distMiles = dist;
+        const badge = m.marker.content?.querySelector('.dist-badge');
+        if (badge) {
+          // Only show distance badge when zoomed in enough (< 20 mi viewport)
+          const bounds = map ? map.getBounds() : null;
+          let showBadge = false;
+          if (bounds) {
+            const ne = bounds.getNorthEast();
+            const sw = bounds.getSouthWest();
+            const viewportMiles = haversine(sw.lat(), sw.lng(), ne.lat(), ne.lng());
+            showBadge = viewportMiles < 30;
+          }
+          if (showBadge && dist < 50) {
+            badge.textContent = fmtDist(dist);
+            badge.style.display = '';
+          } else {
+            badge.style.display = 'none';
+          }
+        }
+      }
+      // Re-sort z-index: nearest pins on top (higher z-index)
+      for (const m of markers) {
+        const baseZ = m.color === 'Flashing' ? 1000 : (m.color === 'Red' ? 500 : (m.color === 'Purple' ? 400 : (m.color === 'Orange' ? 300 : 100)));
+        const distBonus = Math.max(0, 200 - Math.floor((m.distMiles || 999) * 4));
+        m.marker.zIndex = baseZ + distBonus;
+      }
+    }
+
+    // ========== AIRTABLE ==========
     function airtableUrl(path) {
       return `https://api.airtable.com/v0/${CONFIG.baseId}/${encodeURIComponent(CONFIG.tableId)}${path || ''}`;
     }
@@ -550,7 +694,6 @@
       }, fields);
     }
     async function fetchAllContacts() {
-      // Pulls all contacts so we can join client-side. Pounce table is small (<1k contacts).
       const fields = ['Contact_Name','Contact_Status','Contact_Flags','Active_Phone_Number','Phone_1','Phone_1_DNC','Phone_2','Phone_2_DNC','Phone_3','Phone_3_DNC','Email_1','Household_ID'];
       const url = `https://api.airtable.com/v0/${CONFIG.baseId}/${encodeURIComponent('tblpbcRPgQeyWNfLx')}`;
       try {
@@ -583,7 +726,6 @@
       if (!res.ok) throw new Error(`Airtable PATCH ${res.status}: ${await res.text()}`);
       return res.json();
     }
-    // contactId → contact record
     const contactIndex = new Map();
     function indexContacts(records) {
       contactIndex.clear();
@@ -597,7 +739,6 @@
       if (!contacts.length) return null;
       const primary = contacts.find(c => (c.fields.Contact_Status === 'primary'));
       if (primary) return primary;
-      // Spec fallback: prefer "Potential Owner" or "Likely Owner" flag
       const owner = contacts.find(c => /Owner/i.test(c.fields.Contact_Flags || ''));
       return owner || contacts[0];
     }
@@ -621,13 +762,117 @@
       return p;
     }
 
-    // ---------- Map / pins ----------
+    // ========== MAP / PINS ==========
     let map, AdvancedMarker;
-    let userLatLng = { lat: 30.3322, lng: -81.6557 }; // Jacksonville fallback
-    const markers = []; // {marker, record, color}
+    const markers = [];
     let currentRecord = null;
     let activeFilter = 'all';
 
+    // ========== DIRECTIONS ==========
+    let directionsService = null;
+    let directionsRenderer = null;
+    let activeNavRecord = null;
+    let directionsResult = null;
+
+    function initDirections() {
+      directionsService = new google.maps.DirectionsService();
+      directionsRenderer = new google.maps.DirectionsRenderer({
+        map: map,
+        suppressMarkers: true, // We have our own pin markers
+        polylineOptions: {
+          strokeColor: '#4cc2ff',
+          strokeOpacity: 0.9,
+          strokeWeight: 5,
+        },
+      });
+    }
+
+    function startNavTo(record) {
+      if (!record || !directionsService) return;
+      const addr = record.fields.Property_Address;
+      if (!addr) { showToast('No address on this lead', 'err'); return; }
+
+      activeNavRecord = record;
+      closePanel();
+
+      // Show nav bar immediately with loading state
+      $('nav-dest').textContent = addr;
+      $('nav-dist').textContent = '--';
+      $('nav-eta').textContent = '--';
+      $('nav-step').textContent = 'Calculating route...';
+      navBar.classList.add('active');
+
+      const request = {
+        origin: userLatLng,
+        destination: addr,
+        travelMode: 'DRIVING',
+      };
+
+      directionsService.route(request, (result, status) => {
+        if (status === 'OK') {
+          directionsResult = result;
+          directionsRenderer.setDirections(result);
+          updateNavBarFromRoute(result);
+        } else {
+          $('nav-step').textContent = 'Route failed: ' + status;
+          directionsResult = null;
+          // Fallback: just show straight-line distance
+          const f = record.fields;
+          if (f.Lat && f.Lng) {
+            const dist = haversine(userLatLng.lat, userLatLng.lng, f.Lat, f.Lng);
+            $('nav-dist').textContent = fmtDist(dist);
+            $('nav-eta').textContent = '~' + Math.round(dist * 2) + ' min';
+          }
+        }
+      });
+    }
+
+    function updateNavBarFromRoute(result) {
+      const leg = result.routes[0].legs[0];
+      $('nav-dist').textContent = leg.distance.text;
+      $('nav-eta').textContent = leg.duration.text;
+      // Show the next maneuver instruction
+      if (leg.steps && leg.steps.length > 0) {
+        // Find the step closest to current position
+        let bestStep = leg.steps[0];
+        let bestDist = Infinity;
+        for (const step of leg.steps) {
+          const d = haversine(userLatLng.lat, userLatLng.lng, step.start_location.lat(), step.start_location.lng());
+          if (d < bestDist) { bestDist = d; bestStep = step; }
+        }
+        // Strip HTML tags from instructions
+        const instr = bestStep.instructions.replace(/<[^>]*>/g, '');
+        $('nav-step').textContent = instr;
+      }
+    }
+
+    function clearNav() {
+      activeNavRecord = null;
+      directionsResult = null;
+      navBar.classList.remove('active');
+      if (directionsRenderer) directionsRenderer.setDirections({ routes: [] });
+    }
+
+    // Open Apple Maps for voice turn-by-turn (best iOS experience)
+    function openVoiceNav() {
+      if (!activeNavRecord) return;
+      const addr = activeNavRecord.fields.Property_Address;
+      if (!addr) return;
+      // Apple Maps URL scheme — opens native Maps app with driving directions
+      const url = `maps://maps.apple.com/?daddr=${encodeURIComponent(addr)}&dirflg=d`;
+      window.location.href = url;
+    }
+
+    // Wire nav bar buttons
+    $('nav-close').addEventListener('click', clearNav);
+    $('nav-voice').addEventListener('click', openVoiceNav);
+    $('nav-log').addEventListener('click', () => {
+      if (activeNavRecord) {
+        openPanel(activeNavRecord);
+      }
+    });
+
+    // ========== PANEL ==========
     function fmtDate(ts) {
       if (!ts) return null;
       try {
@@ -635,44 +880,8 @@
         return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
       } catch (e) { return ts; }
     }
-
-    // Viewport culling: only attach markers that intersect current bounds.
-    // This is the cheap way to handle 2k+ pins on a phone — we skip the cluster library entirely.
-    let cullScheduled = false;
-    function scheduleCull() {
-      if (cullScheduled) return;
-      cullScheduled = true;
-      requestAnimationFrame(() => { cullScheduled = false; applyFilter(); });
-    }
-    function applyFilter() {
-      const bounds = map ? map.getBounds() : null;
-      let inViewport = 0, totalMatching = 0;
-      for (const m of markers) {
-        const filterMatch = activeFilter === 'all' || m.color === activeFilter;
-        if (!filterMatch) {
-          if (map.hasLayer(m.marker)) map.removeLayer(m.marker);
-          continue;
-        }
-        totalMatching++;
-        const inside = !bounds || bounds.contains(m.marker.getLatLng());
-        if (inside) {
-          if (!map.hasLayer(m.marker)) m.marker.addTo(map);
-          inViewport++;
-        } else {
-          if (map.hasLayer(m.marker)) map.removeLayer(m.marker);
-        }
-      }
-      countPill.textContent = totalMatching === inViewport
-        ? `${totalMatching} pin${totalMatching === 1 ? '' : 's'}`
-        : `${inViewport} of ${totalMatching}`;
-    }
-
     function escHtml(s) {
       return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-    }
-    function dash(v, cls) {
-      if (v === null || v === undefined || v === '') return `<span class="v empty">—</span>`;
-      return `<span class="v ${cls||''}">${v}</span>`;
     }
 
     function openPanel(record) {
@@ -683,7 +892,7 @@
       const contacts = contactsForRecord(record);
       const primary = pickPrimary(contacts);
       const ownerName = primary ? primary.fields.Contact_Name : (f.Primary_Contact_Name || null);
-      const addr = f.Property_Address || '—';
+      const addr = f.Property_Address || '--';
 
       $('p-owner').textContent = ownerName || '(no owner on file)';
       $('p-addr').textContent = addr;
@@ -692,6 +901,11 @@
 
       const meta = [];
       meta.push(`<span class="meta-tag">${PIN_COLORS[color].label}</span>`);
+      // Distance from user
+      if (f.Lat && f.Lng) {
+        const dist = haversine(userLatLng.lat, userLatLng.lng, f.Lat, f.Lng);
+        meta.push(`<span class="meta-tag dist">${fmtDist(dist)} away</span>`);
+      }
       if (f.Note_Type) meta.push(`<span class="meta-tag dispo">${escHtml(f.Note_Type)}</span>`);
       if (f.Lead_Type) meta.push(`<span class="meta-tag">${escHtml(f.Lead_Type)}</span>`);
       if (f.Zone) meta.push(`<span class="meta-tag">${escHtml(f.Zone)}</span>`);
@@ -706,17 +920,17 @@
 
       $('p-breakdown').innerHTML = renderBreakdown(record);
 
-      // Build relatives list (every contact except the primary)
+      // Relatives
       const relatives = contacts.filter(c => c !== primary);
       let relsHtml;
       if (relatives.length === 0) {
-        relsHtml = `<span class="v empty">—</span>`;
+        relsHtml = `<span class="v empty">--</span>`;
       } else {
         relsHtml = `<div class="relatives-list">` + relatives.map(c => {
           const n = escHtml(c.fields.Contact_Name || '(unnamed)');
-          const flag = c.fields.Contact_Flags ? `<span class="rel-flag"> · ${escHtml(c.fields.Contact_Flags.split('\n')[0])}</span>` : '';
+          const flag = c.fields.Contact_Flags ? `<span class="rel-flag"> . ${escHtml(c.fields.Contact_Flags.split('\n')[0])}</span>` : '';
           const ph = bestPhone(c);
-          const phLink = ph ? ` · <a href="tel:${escHtml(String(ph).replace(/\D/g,''))}">${escHtml(fmtPhone(ph))}</a>` : '';
+          const phLink = ph ? ` . <a href="tel:${escHtml(String(ph).replace(/\D/g,''))}">${escHtml(fmtPhone(ph))}</a>` : '';
           return `<span class="rel">${n}${flag}${phLink}</span>`;
         }).join('') + `</div>`;
       }
@@ -724,9 +938,8 @@
       const phone = bestPhone(primary);
       const phoneHtml = phone
         ? `<a href="tel:${escHtml(String(phone).replace(/\D/g,''))}">${escHtml(fmtPhone(phone))}</a>`
-        : `<span class="v empty">—</span>`;
+        : `<span class="v empty">--</span>`;
 
-      // Beds / Baths / SqFt / Value: not in this Airtable base. Show — with a one-line disclaimer.
       const beds = f.Beds || f.beds || null;
       const baths = f.Baths || f.baths || null;
       const sqft = f.SqFt || f.Square_Feet || f.SquareFeet || null;
@@ -735,7 +948,7 @@
       $('p-fields').innerHTML = `
         <div class="row">
           <span class="k">Owner</span>
-          ${ownerName ? `<span class="v">${escHtml(ownerName)}</span>` : `<span class="v empty">—</span>`}
+          ${ownerName ? `<span class="v">${escHtml(ownerName)}</span>` : `<span class="v empty">--</span>`}
         </div>
         <div class="row">
           <span class="k">Phone</span>
@@ -747,30 +960,30 @@
         </div>
         <div class="row">
           <span class="k">Beds</span>
-          ${beds ? `<span class="v">${escHtml(beds)}</span>` : `<span class="v empty">—</span>`}
+          ${beds ? `<span class="v">${escHtml(beds)}</span>` : `<span class="v empty">--</span>`}
         </div>
         <div class="row">
           <span class="k">Baths</span>
-          ${baths ? `<span class="v">${escHtml(baths)}</span>` : `<span class="v empty">—</span>`}
+          ${baths ? `<span class="v">${escHtml(baths)}</span>` : `<span class="v empty">--</span>`}
         </div>
         <div class="row">
           <span class="k">Sq Ft</span>
-          ${sqft ? `<span class="v">${escHtml(sqft)}</span>` : `<span class="v empty">—</span>`}
+          ${sqft ? `<span class="v">${escHtml(sqft)}</span>` : `<span class="v empty">--</span>`}
         </div>
         <div class="row">
           <span class="k">Est. Value</span>
-          ${value ? `<span class="v">$${escHtml(Number(value).toLocaleString())}</span>` : `<span class="v empty">—</span>`}
+          ${value ? `<span class="v">$${escHtml(Number(value).toLocaleString())}</span>` : `<span class="v empty">--</span>`}
         </div>
       `;
 
       const missingProp = !beds && !baths && !sqft && !value;
       $('p-data-note').textContent = missingProp
-        ? 'Beds / baths / sq ft / value are not yet in this Airtable base. Add fields to "Households (Properties/Pins)" to populate.'
+        ? 'Beds / baths / sq ft / value are not yet in this Airtable base. Add fields to populate.'
         : '';
 
       $('p-disposition').value = f.Note_Type || '';
       $('p-note').value = '';
-      $('p-note').placeholder = f.Field_Notes ? `Last note: ${f.Field_Notes.split('\n')[0].slice(0,80)}…` : 'What happened? Voice-to-text works (mic key on iPhone).';
+      $('p-note').placeholder = f.Field_Notes ? `Last note: ${f.Field_Notes.split('\n')[0].slice(0,80)}...` : 'What happened? Voice-to-text works (mic key on iPhone).';
 
       panel.classList.add('open');
     }
@@ -780,14 +993,13 @@
     }
     $('p-cancel').addEventListener('click', closePanel);
 
+    // NAVIGATE button in panel -> starts inline directions
     $('p-nav').addEventListener('click', () => {
       if (!currentRecord) return;
-      navigateTo(currentRecord.fields.Property_Address);
+      startNavTo(currentRecord);
     });
 
-    // Fire-and-forget kill switch to Make.com Scenario 5.
-    // Make uses the GHL_Contact_ID to apply status-engaged tag, which stops WF-08 + WF-11.
-    // no-cors so we don't block on a webhook that may not respond with CORS headers.
+    // Kill switch webhook
     function fireKillSwitch(record, disposition, note) {
       if (!CONFIG.makeWebhookUrl) return Promise.resolve({ skipped: 'no_webhook_configured' });
       if (!record.fields.GHL_Contact_ID) return Promise.resolve({ skipped: 'no_ghl_contact_id' });
@@ -800,7 +1012,7 @@
         disposition: disposition || null,
         note: note || null,
         timestamp: new Date().toISOString(),
-        source: 'pounce_map_v1',
+        source: 'pounce_map_v2',
       };
       return fetch(CONFIG.makeWebhookUrl, {
         method: 'POST',
@@ -816,7 +1028,7 @@
       const note = $('p-note').value.trim();
       if (!disposition && !note) { showToast('Pick a disposition or write a note', 'err'); return; }
       const btn = $('p-save');
-      btn.disabled = true; btn.textContent = 'Saving…';
+      btn.disabled = true; btn.textContent = 'Saving...';
       try {
         const today = new Date().toISOString();
         const existingNotes = currentRecord.fields.Field_Notes || '';
@@ -827,21 +1039,22 @@
         const fields = { Field_Notes: newNotes, Timestamp: today };
         if (disposition) fields.Note_Type = disposition;
 
-        // PATCH Airtable + fire kill switch in parallel; both should resolve under spec's 10s budget.
         const [updated, killRes] = await Promise.all([
           patchLead(currentRecord.id, fields),
           fireKillSwitch(currentRecord, disposition, note),
         ]);
         Object.assign(currentRecord.fields, updated.fields);
 
-        let toastMsg = 'Logged ✓';
-        if (killRes && killRes.fired) toastMsg = 'Logged ✓  ·  Kill switch fired';
-        else if (killRes && killRes.skipped === 'no_ghl_contact_id') toastMsg = 'Logged ✓  ·  No GHL contact (kill switch skipped)';
-        else if (killRes && killRes.skipped === 'no_webhook_configured') toastMsg = 'Logged ✓  ·  Webhook not configured';
-        else if (killRes && killRes.error) toastMsg = 'Logged ✓  ·  Webhook error (check ⚙)';
+        let toastMsg = 'Logged';
+        if (killRes && killRes.fired) toastMsg = 'Logged + kill switch fired';
+        else if (killRes && killRes.error) toastMsg = 'Logged (webhook error)';
 
         showToast(toastMsg, 'ok');
         closePanel();
+        // Clear nav if we were navigating to this lead
+        if (activeNavRecord && activeNavRecord.id === currentRecord.id) {
+          clearNav();
+        }
       } catch (err) {
         console.error(err);
         showToast('Log failed: ' + err.message, 'err');
@@ -850,7 +1063,7 @@
       }
     });
 
-    // ---------- Filter chips ----------
+    // ========== FILTER CHIPS ==========
     document.querySelectorAll('.chip').forEach(chip => {
       chip.addEventListener('click', () => {
         document.querySelectorAll('.chip').forEach(c => c.dataset.active = 'false');
@@ -860,57 +1073,87 @@
       });
     });
 
-    // ---------- Recenter ----------
+    // ========== RECENTER ==========
     $('recenter').addEventListener('click', () => {
       if (!map) return;
-      map.setView([userLatLng.lat, userLatLng.lng], 14);
+      map.panTo(userLatLng);
+      map.setZoom(14);
     });
 
-    // ---------- GPS ----------
-    function getGps() {
-      return new Promise((resolve) => {
-        if (!navigator.geolocation) return resolve(null);
-        navigator.geolocation.getCurrentPosition(
-          (pos) => resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
-          (err) => { console.warn('GPS denied/failed', err); resolve(null); },
-          { enableHighAccuracy: true, timeout: 8000, maximumAge: 30000 }
-        );
-      });
+    // ========== VIEWPORT CULLING ==========
+    let cullScheduled = false;
+    function scheduleCull() {
+      if (cullScheduled) return;
+      cullScheduled = true;
+      requestAnimationFrame(() => { cullScheduled = false; applyFilter(); });
+    }
+    function applyFilter() {
+      const bounds = map ? map.getBounds() : null;
+      let inViewport = 0, totalMatching = 0;
+      for (const m of markers) {
+        const filterMatch = activeFilter === 'all' || m.color === activeFilter;
+        if (!filterMatch) {
+          if (m.marker.map) m.marker.map = null;
+          continue;
+        }
+        totalMatching++;
+        const inside = !bounds || bounds.contains(m.marker.position);
+        if (inside) {
+          if (!m.marker.map) m.marker.map = map;
+          inViewport++;
+        } else {
+          if (m.marker.map) m.marker.map = null;
+        }
+      }
+      countPill.textContent = totalMatching === inViewport
+        ? `${totalMatching} pin${totalMatching === 1 ? '' : 's'}`
+        : `${inViewport} of ${totalMatching}`;
     }
 
-    // ---------- Boot ----------
+    // ========== BOOT ==========
     async function boot() {
       if (!CONFIG) { statusPill.textContent = 'Setup required'; return; }
-      statusPill.textContent = 'Locating…';
+      statusPill.textContent = 'Locating...';
       statusPill.classList.add('loading');
 
-      const gps = await getGps();
-      if (gps) userLatLng = gps;
+      // Start GPS watch immediately
+      startGpsWatch();
 
-      // Leaflet + OpenStreetMap (no API key required)
-      map = L.map('map', {
-        center: [userLatLng.lat, userLatLng.lng],
+      // Load Google Maps
+      await new Promise((resolve, reject) => {
+        window.__pounceMapsReady = resolve;
+        const s = document.createElement('script');
+        s.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(CONFIG.mapsKey)}&v=weekly&libraries=marker&callback=__pounceMapsReady&loading=async`;
+        s.async = true;
+        s.onerror = () => reject(new Error('Maps failed to load'));
+        document.head.appendChild(s);
+      });
+
+      const { Map } = await google.maps.importLibrary('maps');
+      const markerLib = await google.maps.importLibrary('marker');
+      AdvancedMarker = markerLib.AdvancedMarkerElement;
+
+      map = new Map($('map'), {
+        center: userLatLng,
         zoom: 13,
+        mapId: 'DEMO_MAP_ID',
+        disableDefaultUI: true,
+        gestureHandling: 'greedy',
         zoomControl: true,
-        attributionControl: false,
+        clickableIcons: false,
       });
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '© OpenStreetMap',
-      }).addTo(map);
-      map.on('moveend', scheduleCull);
-      map.on('zoomend', scheduleCull);
+      map.addListener('bounds_changed', scheduleCull);
 
-      // "You are here" marker
-      const meIcon = L.divIcon({
-        html: '<div class="me-marker"></div>',
-        className: '',
-        iconSize: [18, 18],
-        iconAnchor: [9, 9],
-      });
-      L.marker([userLatLng.lat, userLatLng.lng], { icon: meIcon, zIndexOffset: 9999, interactive: false, keyboard: false }).addTo(map);
+      // Init directions service
+      initDirections();
 
-      statusPill.textContent = 'Loading leads…';
+      // "You are here" marker with pulse
+      const meEl = document.createElement('div');
+      meEl.className = 'me-wrapper';
+      meEl.innerHTML = '<div class="me-marker-pulse"></div><div class="me-marker"></div>';
+      meMarker = new AdvancedMarker({ position: userLatLng, map, content: meEl, title: 'You are here', zIndex: 9999 });
+
+      statusPill.textContent = 'Loading leads...';
 
       let records, contacts;
       try {
@@ -925,31 +1168,25 @@
       indexContacts(contacts);
       console.log(`[Pounce] ${records.length} leads, ${contacts.length} contacts`);
 
-      // Build all markers but DON'T attach to map yet — applyFilter() will attach only those
-      // inside the current viewport. Keeps init fast and DOM light for 2k+ pins.
       for (const rec of records) {
         const f = rec.fields;
         if (typeof f.Lat !== 'number' || typeof f.Lng !== 'number') continue;
         const color = pinColorFor(rec);
         const el = buildMarkerEl(color, Number(f.Heat_Score || 0), f.Context_Badge || '');
-        const icon = L.divIcon({
-          html: el.outerHTML,
-          className: '',
-          iconSize: [38, 54],
-          iconAnchor: [19, 54],
-        });
-        const marker = L.marker([f.Lat, f.Lng], {
-          icon,
+        const marker = new AdvancedMarker({
+          position: { lat: f.Lat, lng: f.Lng },
+          content: el,
           title: f.Property_Address || 'Lead',
-          zIndexOffset: color === 'Flashing' ? 1000 : (color === 'Red' ? 500 : (color === 'Purple' ? 400 : (color === 'Orange' ? 300 : 100))),
+          zIndex: color === 'Flashing' ? 1000 : (color === 'Red' ? 500 : (color === 'Purple' ? 400 : (color === 'Orange' ? 300 : 100))),
         });
-        marker.on('click', () => openPanel(rec));
-        markers.push({ marker, record: rec, color });
+        el.addEventListener('click', (e) => { e.stopPropagation(); openPanel(rec); });
+        markers.push({ marker, record: rec, color, distMiles: null });
       }
 
       statusPill.classList.remove('loading');
       statusPill.textContent = `${records.length} leads`;
       applyFilter();
+      updateDistanceBadges();
     }
 
     boot().catch(err => {
@@ -959,10 +1196,11 @@
       showToast(err.message, 'err');
     });
 
-    // ---------- Service worker (offline shell only) ----------
+    // Service worker
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js').catch(() => { /* fine if missing */ });
+      navigator.serviceWorker.register('sw.js').catch(() => {});
     }
   </script>
+  <script src="config.js" onerror="void 0"></script>
 </body>
 </html>
