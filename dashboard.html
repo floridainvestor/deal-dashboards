@@ -79,7 +79,7 @@ details > summary::-webkit-details-marker { display: none; }
       style="background:#111;border:1px solid #2a2a40;border-radius:6px;padding:6px 12px;
       font-size:0.72rem;color:#c084fc;text-decoration:none;white-space:nowrap;">🎓 YT Intel</a>
     <div>
-      <div style="background:#1a1a2e;border:1px solid #2a2a40;border-radius:6px;padding:6px 14px;font-size:0.82rem;color:#e8e8e8;">May 14, 2026 · 11:30 PM ET</div>
+      <div style="background:#1a1a2e;border:1px solid #2a2a40;border-radius:6px;padding:6px 14px;font-size:0.82rem;color:#e8e8e8;">May 14, 2026 · 11:32 PM ET</div>
       <div style="font-size:0.62rem;color:#444;margin-top:3px;">0/8 agents running</div>
     </div>
   </div>
@@ -989,9 +989,51 @@ function renderDrawer(d) {
 
     var matchedRaws = {};
 
-    if (relsToCall.length) {
+    // Inject Personal Rep as the top heir card if PAO mailing names one (2026-05-14)
+    // The skip_trace_target field captures the human-curated decision-maker (often the PR).
+    // The ranked_likely_heirs list is skip-trace inferred — useful but lower confidence.
+    var _drawerMailing = (d.mailing_address || '').toUpperCase();
+    var _hasPR = ['PERSONAL REP', 'EXECUTOR', 'PER REP', 'ADMINISTRATOR OF ESTATE']
+      .some(function(s) { return _drawerMailing.indexOf(s) >= 0; });
+
+    if (_hasPR && d.skip_trace_target) {
+      var _prName = d.skip_trace_target;
+      var _prPhs = relPhones(_prName);
+      _prPhs.forEach(function(ph) { matchedRaws[ph.raw] = true; });
+
       phoneHtml += '<div style="font-size:0.58rem;font-weight:800;color:#555;text-transform:uppercase;' +
-        'letter-spacing:0.1em;margin-bottom:8px;">📞 Who To Contact</div>';
+        'letter-spacing:0.1em;margin-bottom:8px;">📞 Who To Contact — Start Here</div>';
+
+      phoneHtml +=
+        '<div style="background:#0a1a14;border:2px solid #d4af37;border-radius:6px;padding:8px 11px;margin-bottom:10px;box-shadow:0 0 0 1px #d4af37 inset;">' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">' +
+        '<span style="font-size:0.88rem;color:#fbbf24;font-weight:800;">⭐ ' + escHtml(_prName) + '</span>' +
+        '<span style="font-size:0.5rem;color:#000;background:#d4af37;border-radius:2px;padding:1px 6px;font-weight:800;">PERSONAL REP</span>' +
+        '</div>' +
+        '<div style="font-size:0.56rem;color:#a08020;margin-bottom:5px;font-style:italic;">Named in PAO C/O mailing as Personal Representative — has legal authority to sign for the estate</div>';
+      if (_prPhs.length) {
+        _prPhs.forEach(function(ph) { phoneHtml += phRow(ph); });
+      } else {
+        var _prFn = encodeURIComponent((_prName.split(/\s+/)[0]) || '');
+        var _prLn = encodeURIComponent((_prName.split(/\s+/).slice(-1)[0]) || '');
+        var _prCitySlug = (d.city || '').replace(/\s+/g, '-');
+        var _prFpUrl = 'https://www.fastpeoplesearch.com/name/' + _prFn + '-' + _prLn + (_prCitySlug ? '_' + _prCitySlug + '-FL' : '');
+        phoneHtml +=
+          '<div style="display:flex;gap:4px;flex-wrap:wrap;">' +
+          '<a href="' + escHtml(_prFpUrl) + '" target="_blank" onclick="event.stopPropagation()" ' +
+          'style="font-size:0.55rem;color:#60a5fa;background:#0a0e1a;border:1px solid #1e3a5f;border-radius:3px;padding:2px 7px;text-decoration:none;">🔍 Skip-trace PR (free)</a>' +
+          '</div>';
+      }
+      phoneHtml += '</div>';
+    }
+
+    if (relsToCall.length) {
+      if (!_hasPR) {
+        phoneHtml += '<div style="font-size:0.58rem;font-weight:800;color:#555;text-transform:uppercase;' +
+          'letter-spacing:0.1em;margin-bottom:8px;">📞 Who To Contact</div>';
+      } else {
+        phoneHtml += '<div style="font-size:0.55rem;color:#555;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.08em;">Then work the heir tree:</div>';
+      }
 
       relsToCall.slice(0, 10).forEach(function(r) {
         var rname = typeof r === 'string' ? r : (r.name || '');
@@ -1013,11 +1055,19 @@ function renderDrawer(d) {
           '/' + encodeURIComponent((d.city || '') + '-fl');
         var gUrl2 = 'https://www.google.com/search?q=' + encodeURIComponent('"' + rname + '" ' + (d.city || '') + ' FL phone');
 
+        // Confidence suffix for inferred surname-match Decision Makers (2026-05-14):
+        // The enricher's surname-match rule produces tier="Decision Maker" for every relative
+        // sharing the deceased's surname, regardless of obituary/probate confirmation.
+        // Flag the inferred ones so Jerel knows which heirs are unverified before calling.
+        var _tierDisplay = tier;
+        if (tier === 'Decision Maker' && rPhs.length === 0 && !note) {
+          _tierDisplay = 'DM 🟡inferred';
+        }
         phoneHtml +=
           '<div style="background:' + tbg + ';border:1px solid #1a1a2e;border-radius:5px;padding:7px 10px;margin-bottom:5px;">' +
           '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:' + (note || rPhs.length ? '3px' : '4px') + ';">' +
           '<span style="font-size:0.75rem;color:#e8e8e8;font-weight:600;">' + escHtml(rname) + '</span>' +
-          '<span style="font-size:0.48rem;color:' + tc + ';border:1px solid ' + tc + ';border-radius:2px;padding:0 5px;white-space:nowrap;">' + escHtml(tier) + '</span>' +
+          '<span style="font-size:0.48rem;color:' + tc + ';border:1px solid ' + tc + ';border-radius:2px;padding:0 5px;white-space:nowrap;">' + escHtml(_tierDisplay) + '</span>' +
           '</div>';
         if (note) {
           phoneHtml += '<div style="font-size:0.55rem;color:#666;margin-bottom:4px;font-style:italic;">' + escHtml(note) + '</div>';
@@ -1103,12 +1153,17 @@ function renderDrawer(d) {
 
     specsHtml = '<div style="background:#0e0e1c;border:1px solid #2a2a45;border-radius:6px;padding:10px 12px;margin-bottom:10px;">';
 
-    // Property specs row
+    // Property specs row — fall back to DM-sourced fields when PAO doesn't have bed/bath
+    var _beds  = (d.beds != null) ? d.beds  : d.dm_beds;
+    var _baths = (d.baths != null) ? d.baths : d.dm_baths;
+    var _sqft  = d.sqft || d.dm_sqft;
     var specParts = [];
-    if (d.beds != null) specParts.push(d.beds + ' bd');
-    if (d.baths != null) specParts.push(d.baths + ' ba');
-    if (d.sqft) specParts.push(d.sqft.toLocaleString() + ' sqft');
+    if (_beds != null)  specParts.push(_beds + ' bd');
+    if (_baths != null) specParts.push(_baths + ' ba');
+    if (_sqft) specParts.push(Number(_sqft).toLocaleString() + ' sqft');
     if (d.year_built) specParts.push('built ' + d.year_built);
+    if (d.building_type) specParts.push(escHtml(d.building_type));
+    if (d.lot_acres) specParts.push(d.lot_acres + ' ac');
     if (specParts.length) {
       specsHtml += '<div style="font-size:0.8rem;font-weight:700;color:#e2e2e2;margin-bottom:8px;">' + specParts.join(' · ') + '</div>';
     }
@@ -1589,16 +1644,44 @@ function renderDrawer(d) {
       'width:100%;font-weight:700;">📋 Copy Call Log to Clipboard</button>' +
     '</div></div>';
 
-  // ── WHY THEY'D SELL — heir motivation banner ──
+  // ── WHY THEY'D SELL — heir motivation banner (expanded 2026-05-14) ──
   var whyBannerHtml = '';
   if (isHeir) {
     var whyLines = [];
+    // Code violation
     if (d.violation) whyLines.push('⚠ ' + d.violation.substring(0, 120));
+    // Tax delinquency
     if (d.tax_status && d.tax_status !== 'Paid') {
       var taxLine = '🔴 Taxes ' + d.tax_status;
       if (d.tax_total) taxLine += ' — $' + d.tax_total;
       if (d.tax_year) taxLine += ' (' + d.tax_year + ')';
       whyLines.push(taxLine);
+    }
+    // Owner-deceased signal from PAO owner name
+    var _ownerStr = (d.owner || '').toUpperCase();
+    if (['HEIRS OF', 'ESTATE OF', ' ESTATE', 'LIFE ESTATE', 'TRUST'].some(function(s) { return _ownerStr.indexOf(s) >= 0; })) {
+      whyLines.push('💀 Owner deceased per PAO — "' + _ownerStr.substring(0,50) + '"');
+    }
+    // Probate-already-filed signal from PAO C/O mailing
+    var _mlng = (d.mailing_address || '').toUpperCase();
+    if (['PERSONAL REP', 'EXECUTOR', 'PER REP', 'ADMINISTRATOR OF ESTATE'].some(function(s) { return _mlng.indexOf(s) >= 0; })) {
+      whyLines.push('⚖ Probate filed — PR named in PAO mailing (single contact, has legal authority)');
+    }
+    // Mobile-home age — common motivation factor
+    if (d.building_type === 'Mobile Home' && d.year_built) {
+      var _mhAge = 2026 - Number(d.year_built);
+      if (_mhAge >= 30) whyLines.push('🏚 Mobile home ' + _mhAge + 'y old — deterioration risk');
+    }
+    // Out-of-state mailing (absentee owner / heir)
+    var _mlngLower = (d.mailing_address || '').toUpperCase();
+    var _propCity = (d.city || '').toUpperCase();
+    if (_propCity && _mlngLower && _mlngLower.indexOf(_propCity) < 0 && _mlngLower.length > 10) {
+      // Try to extract the mailing city for the message
+      var _mlngParts = _mlngLower.split(',');
+      var _mlngCity = (_mlngParts.length >= 2 ? _mlngParts[_mlngParts.length-2] : '').trim().substring(0, 30);
+      if (_mlngCity && _mlngCity !== _propCity) {
+        whyLines.push('✈ Owner mails to ' + _mlngCity + ' — absentee, harder to maintain');
+      }
     }
     if (whyLines.length) {
       whyBannerHtml =
