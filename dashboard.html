@@ -79,7 +79,7 @@ details > summary::-webkit-details-marker { display: none; }
       style="background:#111;border:1px solid #2a2a40;border-radius:6px;padding:6px 12px;
       font-size:0.72rem;color:#c084fc;text-decoration:none;white-space:nowrap;">🎓 YT Intel</a>
     <div>
-      <div style="background:#1a1a2e;border:1px solid #2a2a40;border-radius:6px;padding:6px 14px;font-size:0.82rem;color:#e8e8e8;">May 14, 2026 · 9:00 PM ET</div>
+      <div style="background:#1a1a2e;border:1px solid #2a2a40;border-radius:6px;padding:6px 14px;font-size:0.82rem;color:#e8e8e8;">May 14, 2026 · 9:04 PM ET</div>
       <div style="font-size:0.62rem;color:#444;margin-top:3px;">0/8 agents running</div>
     </div>
   </div>
@@ -1005,7 +1005,8 @@ function renderDrawer(d) {
         var nameParts = rname.trim().split(/\s+/);
         var fn = nameParts[0] || '';
         var ln = nameParts[nameParts.length-1] || '';
-        var fpUrl = 'https://www.fastpeoplesearch.com/name/' + encodeURIComponent(fn) + '-' + encodeURIComponent(ln);
+        var _fpCitySlug = (d.city || '').replace(/\s+/g, '-');
+        var fpUrl = 'https://www.fastpeoplesearch.com/name/' + encodeURIComponent(fn) + '-' + encodeURIComponent(ln) + (_fpCitySlug ? '_' + _fpCitySlug + '-FL' : '');
         var wpUrl = 'https://www.whitepages.com/name/' + encodeURIComponent(fn) + '-' + encodeURIComponent(ln) +
           '/' + encodeURIComponent((d.city || '') + '-fl');
         var gUrl2 = 'https://www.google.com/search?q=' + encodeURIComponent('"' + rname + '" ' + (d.city || '') + ' FL phone');
@@ -1402,7 +1403,8 @@ function renderDrawer(d) {
         var nameParts = rname.trim().split(/\s+/);
         var fnEnc = encodeURIComponent(nameParts[0] || '');
         var lnEnc = encodeURIComponent(nameParts[nameParts.length - 1] || '');
-        var fpUrl = 'https://www.fastpeoplesearch.com/name/' + fnEnc + '-' + lnEnc;
+        var _ftCitySlug = city.replace(/\s+/g, '-');
+        var fpUrl = 'https://www.fastpeoplesearch.com/name/' + fnEnc + '-' + lnEnc + (_ftCitySlug ? '_' + _ftCitySlug + '-FL' : '');
         var wpUrl2 = 'https://www.whitepages.com/name/' + fnEnc + '-' + lnEnc + '/' + encodeURIComponent(city + '-fl');
         var gUrl  = 'https://www.google.com/search?q=' + encodeURIComponent('"' + rname + '" ' + city + ' FL phone');
 
@@ -1615,7 +1617,8 @@ function renderDrawer(d) {
     var _wfFn = encodeURIComponent(_wfParts[0] || '');
     var _wfLn = encodeURIComponent(_wfParts[_wfParts.length - 1] || '');
     var _wfCity = encodeURIComponent((d.address || '').split(',').slice(-2).join(' ').trim());
-    var _fpUrl = 'https://www.fastpeoplesearch.com/name/' + _wfFn + '-' + _wfLn;
+    var _wfCitySlug = ((d.address || '').split(',')[1] || '').trim().replace(/\s+/g, '-');
+    var _fpUrl = 'https://www.fastpeoplesearch.com/name/' + _wfFn + '-' + _wfLn + (_wfCitySlug ? '_' + _wfCitySlug + '-FL' : '');
     var _wpUrl = 'https://www.whitepages.com/name/' + _wfFn + '-' + _wfLn + '/' + _wfCity;
     var _gUrl  = 'https://www.google.com/search?q=' + encodeURIComponent('"' + _wfName + '" phone number Florida');
     wfContactHtml =
