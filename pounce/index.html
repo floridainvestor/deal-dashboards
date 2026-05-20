@@ -855,11 +855,14 @@
         const marker = new AdvancedMarker({
           position:{lat:f.Lat,lng:f.Lng}, content:el, title:f.Property_Address||'Lead',
           zIndex: color==='Flashing'?1000:color==='Red'?500:color==='Purple'?400:color==='Orange'?300:100,
+          gmpClickable: true,
         });
         // DOM click on the element (desktop + most browsers)
         el.addEventListener('click', e => { e.stopPropagation(); openDrawer(rec); });
-        // gmp-click on the marker itself: required for reliable tap in iOS PWA standalone mode.
-        // DOM click events on AdvancedMarkerElement content are unreliable in iOS Safari webview.
+        // touchend: belt-and-suspenders for iOS Safari where click can be swallowed by the map
+        el.addEventListener('touchend', e => { e.preventDefault(); e.stopPropagation(); openDrawer(rec); }, {passive: false});
+        // gmp-click fires when gmpClickable:true — required so the marker consumes the tap
+        // instead of passing it to the underlying map (which caused URL-only changes, no drawer)
         marker.addListener('gmp-click', () => openDrawer(rec));
         markers.push({marker,record:rec,color,dist:null});
       }
