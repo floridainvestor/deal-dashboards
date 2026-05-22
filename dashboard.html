@@ -79,7 +79,7 @@ details > summary::-webkit-details-marker { display: none; }
       style="background:#111;border:1px solid #2a2a40;border-radius:6px;padding:6px 12px;
       font-size:0.72rem;color:#c084fc;text-decoration:none;white-space:nowrap;">🎓 YT Intel</a>
     <div>
-      <div style="background:#1a1a2e;border:1px solid #2a2a40;border-radius:6px;padding:6px 14px;font-size:0.82rem;color:#e8e8e8;">May 21, 2026 · 7:30 PM ET</div>
+      <div style="background:#1a1a2e;border:1px solid #2a2a40;border-radius:6px;padding:6px 14px;font-size:0.82rem;color:#e8e8e8;">May 21, 2026 · 8:00 PM ET</div>
       <div style="font-size:0.62rem;color:#444;margin-top:3px;">0/8 agents running</div>
     </div>
   </div>
@@ -922,6 +922,16 @@ function renderDrawer(d) {
       var n = (ph.raw || ph.number || '').replace(/\D/g, '');
       return !!n;
     });
+    // Determine the single "working/correct" number for this card (★ in phRow):
+    // highest-confidence non-bad number by status rank (Left VM > No Ans > No VM).
+    var _bestNum = null, _bestNumRank = -1;
+    var _bestRankMap = {vm:3, noanswer:2, novm:1};
+    allPhs.forEach(function(ph) {
+      var _n = (ph.raw || ph.number || '').replace(/\D/g, '');
+      if (!_n || isBadPhone(cid, _n)) return;
+      var _s = getPhoneStatus(cid, _n);
+      if (_s && (_bestRankMap[_s.status] || 0) > _bestNumRank) { _bestNumRank = (_bestRankMap[_s.status] || 0); _bestNum = _n; }
+    });
     var relsToCall = (d.deceased_relatives || d.relatives || []).filter(function(r) { return r && (r.name || r); });
     var tcMap = {'Decision Maker':'#22c55e','Likely Heir':'#f59e0b','Associate':'#6b7280','Relative':'#9ca3af'};
     var bgMap = {'Decision Maker':'#0c1a0c','Likely Heir':'#1a1200','Associate':'#0e0e0e','Relative':'#111'};
@@ -981,6 +991,7 @@ function renderDrawer(d) {
         '<a href="tel:' + num + '" onclick="event.stopPropagation()" ' +
         'style="font-size:0.92rem;font-weight:700;color:#22c55e;text-decoration:none;letter-spacing:0.02em;">' +
         fmt + '</a>' +
+        (num === _bestNum ? ' <span title="Confirmed working number" style="color:#fbbf24;font-size:0.85rem;">⭐</span>' : '') +
         '<button onclick="event.stopPropagation();toggleRecording(\''+cid+'\',\''+num+'\',this)" ' +
         'title="Record call" style="font-size:0.6rem;padding:1px 5px;border-radius:3px;cursor:pointer;' +
         'font-family:inherit;background:#0a1a0a;color:#22c55e;border:1px solid #166534;margin-left:2px;">🎙</button>' +
@@ -1691,13 +1702,51 @@ function renderDrawer(d) {
         whyLines.push('✈ Owner mails to ' + _mlngCity + ' — absentee, harder to maintain');
       }
     }
-    if (whyLines.length) {
+    // ── Live call progress — most-recent status + working number, computed from
+    //    per-number localStorage state set as Jerel taps Left VM / No Ans / Bad # ──
+    var _cidWB = d.card_id || d.address || '';
+    var _wbPhones = (d.heir_phones || []).concat(d.owner_phones || []);
+    var _wbRows = [];
+    var _wbBest = null, _wbBestRank = -1;
+    var _wbRank = {vm:3, noanswer:2, novm:1};
+    _wbPhones.forEach(function(ph) {
+      var num = (ph.raw || ph.number || '').replace(/\D/g, '');
+      if (!num) return;
+      var bad = isBadPhone(_cidWB, num);
+      var st = getPhoneStatus(_cidWB, num);
+      if (!st && !bad) return;
+      var lbl = (ph.label || ph.type || '');
+      if (lbl.indexOf('(') >= 0) lbl = lbl.substring(0, lbl.indexOf('(')).trim();
+      _wbRows.push({label:lbl, fmt:(ph.formatted || ph.raw || num), status:(st ? st.status : ''), ts:(st ? st.ts : ''), bad:bad});
+      if (!bad && st && (_wbRank[st.status] || 0) > _wbBestRank) { _wbBestRank = (_wbRank[st.status] || 0); _wbBest = (ph.formatted || ph.raw || num); }
+    });
+    var callProgressHtml = '';
+    if (_wbRows.length) {
+      callProgressHtml = '<div style="margin-top:9px;padding-top:8px;border-top:1px solid #3a1a0a;">' +
+        '<div style="font-size:0.52rem;color:#f97316;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:5px;">Call Progress</div>';
+      if (_wbBest) {
+        callProgressHtml += '<div style="font-size:0.68rem;color:#22c55e;line-height:1.6;margin-bottom:2px;">⭐ Working #: <strong>' + escHtml(_wbBest) + '</strong></div>';
+      }
+      _wbRows.forEach(function(r) {
+        var slbl = r.bad ? '✗ Bad #' : (STATUS_LABELS[r.status] || r.status || '—');
+        var scol = r.bad ? '#ef4444' : (STATUS_COLORS[r.status] || '#9ca3af');
+        callProgressHtml += '<div style="font-size:0.63rem;color:#cbb5b0;line-height:1.6;">' +
+          '<span style="color:' + scol + ';font-weight:700;">' + escHtml(slbl) + '</span> · ' +
+          escHtml(r.fmt) + (r.label ? ' <span style="color:#777;">' + escHtml(r.label) + '</span>' : '') +
+          (r.ts ? ' <span style="color:#555;">' + escHtml(r.ts) + '</span>' : '') +
+          '</div>';
+      });
+      callProgressHtml += '</div>';
+    }
+
+    if (whyLines.length || callProgressHtml) {
       whyBannerHtml =
         '<div style="background:#160800;border:1px solid #7c2d12;border-radius:6px;padding:10px 12px;margin-bottom:10px;">' +
         '<div style="font-size:0.52rem;color:#f97316;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:5px;">Why They Need to Sell</div>';
       whyLines.forEach(function(l) {
         whyBannerHtml += '<div style="font-size:0.72rem;color:#fca5a5;line-height:1.5;">' + escHtml(l) + '</div>';
       });
+      whyBannerHtml += callProgressHtml;
       whyBannerHtml += '</div>';
     }
   }
@@ -1745,7 +1794,7 @@ function renderDrawer(d) {
     _dashHtml +
     photoHtml +
     (isHeir
-      ? whyBannerHtml + phoneHtml + callLogHtml + specsHtml + factsHtml + familyTreeHtml + researchHtml + btnsHtml
+      ? phoneHtml + callLogHtml + specsHtml + factsHtml + whyBannerHtml + familyTreeHtml + researchHtml + btnsHtml
       : isWaterfront
         ? wfContactHtml + specsHtml + factsHtml + callLogHtml + actionsHtml + btnsHtml
         : phoneHtml + specsHtml + statusHtml + factsHtml + familyTreeHtml + researchHtml + actionsHtml + btnsHtml + callLogHtml
