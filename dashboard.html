@@ -79,7 +79,7 @@ details > summary::-webkit-details-marker { display: none; }
       style="background:#111;border:1px solid #2a2a40;border-radius:6px;padding:6px 12px;
       font-size:0.72rem;color:#c084fc;text-decoration:none;white-space:nowrap;">🎓 YT Intel</a>
     <div>
-      <div style="background:#1a1a2e;border:1px solid #2a2a40;border-radius:6px;padding:6px 14px;font-size:0.82rem;color:#e8e8e8;">May 21, 2026 · 8:30 PM ET</div>
+      <div style="background:#1a1a2e;border:1px solid #2a2a40;border-radius:6px;padding:6px 14px;font-size:0.82rem;color:#e8e8e8;">May 21, 2026 · 8:38 PM ET</div>
       <div style="font-size:0.62rem;color:#444;margin-top:3px;">0/8 agents running</div>
     </div>
   </div>
@@ -1794,10 +1794,12 @@ function renderDrawer(d) {
     _dashHtml +
     photoHtml +
     // UNIFIED ORDER — one template for every lead type (heir / waterfront / deal):
-    // contact → call log → specs → facts → why/signals (incl. call progress) →
-    // family tree → research → next actions → buttons. Empty sections vanish.
+    // photo → specs/values (beds/baths) → PAO facts → why-sell (incl. call progress)
+    // → who-to-contact → call log → family tree → research → next actions → buttons.
+    // Empty sections vanish for types that lack that data.
+    specsHtml + factsHtml + whyBannerHtml +
     (isWaterfront ? wfContactHtml : phoneHtml) +
-    callLogHtml + specsHtml + factsHtml + whyBannerHtml + statusHtml +
+    callLogHtml + statusHtml +
     familyTreeHtml + researchHtml + actionsHtml + btnsHtml;
 
   document.getElementById('dd-content').innerHTML = html;
