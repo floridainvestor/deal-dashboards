@@ -10,17 +10,16 @@
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="icons/icon-192.png" />
   <title>Pounce Map</title>
-  <script src="config.js" onerror="void 0"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
     :root {
-      --bg: #0b0e14;
-      --panel: #151a23;
-      --panel-2: #1d2330;
-      --line: #2a3142;
-      --text: #e8ecf2;
-      --muted: #8a93a6;
+      --bg: #0d0d0f;
+      --panel: #13131a;
+      --panel-2: #1a1a26;
+      --line: #1f1f2e;
+      --text: #e8e8e8;
+      --muted: #666;
       --accent: #4cc2ff;
       --hot: #ef4444;
       --warm: #f97316;
@@ -29,32 +28,34 @@
       --flash: #ec4899;
       --gray: #64748b;
       --ok: #22c55e;
-      --err: #ef4444;
+      --gold: #e2b714;
       --safe-bottom: env(safe-area-inset-bottom, 0px);
       --safe-top: env(safe-area-inset-top, 0px);
     }
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    html, body { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif; background: var(--bg); color: var(--text); }
-    #map { position: absolute; inset: 0; width: 100%; height: 100%; }
+    html, body { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+      background: var(--bg); color: var(--text); }
+    #map { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
+    /* Hide Leaflet attribution on mobile */
+    .leaflet-control-attribution { font-size: 8px !important; opacity: 0.5; }
 
-    /* Top bar */
+    /* -- Top bar -- */
     #topbar {
       position: absolute; top: calc(var(--safe-top) + 8px); left: 8px; right: 8px;
       display: flex; gap: 8px; align-items: center;
-      pointer-events: none; z-index: 5;
+      pointer-events: none; z-index: 1000;
     }
     .pill {
-      background: rgba(11,14,20,0.85); backdrop-filter: blur(10px);
+      background: rgba(13,13,15,0.88); backdrop-filter: blur(12px);
       border: 1px solid var(--line); color: var(--text);
       border-radius: 999px; padding: 6px 12px; font-size: 13px; font-weight: 600;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-      pointer-events: auto;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4); pointer-events: auto;
     }
     .pill.muted { color: var(--muted); font-weight: 500; }
     .icon-btn {
-      pointer-events: auto;
-      width: 40px; height: 40px; border-radius: 50%;
-      background: rgba(11,14,20,0.85); backdrop-filter: blur(10px);
+      pointer-events: auto; width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(13,13,15,0.88); backdrop-filter: blur(12px);
       border: 1px solid var(--line); color: var(--text);
       display: flex; align-items: center; justify-content: center;
       font-size: 18px; cursor: pointer;
@@ -62,216 +63,183 @@
     .icon-btn:active { background: var(--panel-2); }
     #count-pill { margin-left: auto; }
 
-    /* Recenter FAB */
+    /* -- FABs -- */
     #recenter {
-      position: absolute; right: 14px; bottom: calc(160px + var(--safe-bottom));
-      width: 50px; height: 50px; border-radius: 50%;
+      position: absolute; right: 14px; bottom: calc(70px + var(--safe-bottom));
+      width: 48px; height: 48px; border-radius: 50%;
       background: #fff; border: none; color: #1d2330;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      font-size: 22px; cursor: pointer; z-index: 5;
+      font-size: 22px; cursor: pointer; z-index: 1000;
       display: flex; align-items: center; justify-content: center;
     }
-    #recenter:active { background: #e0e6ee; }
+    #follow-btn {
+      position: absolute; right: 14px; bottom: calc(126px + var(--safe-bottom));
+      width: 48px; height: 48px; border-radius: 50%;
+      background: rgba(13,13,15,0.88); backdrop-filter: blur(12px);
+      border: 1px solid var(--line); color: var(--text);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      font-size: 20px; cursor: pointer; z-index: 1000;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s, color 0.15s;
+    }
+    #follow-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
 
-    /* Filter chips */
+    /* -- Filter chips -- */
     #filters {
       position: absolute; left: 8px; right: 8px;
       bottom: calc(var(--safe-bottom) + 12px);
       display: flex; gap: 6px; overflow-x: auto;
-      z-index: 4; padding: 0 4px;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
+      z-index: 1000; padding: 0 4px;
+      -webkit-overflow-scrolling: touch; scrollbar-width: none;
     }
     #filters::-webkit-scrollbar { display: none; }
     .chip {
-      flex-shrink: 0;
-      padding: 8px 14px; border-radius: 999px;
-      background: rgba(11,14,20,0.85); backdrop-filter: blur(10px);
+      flex-shrink: 0; padding: 8px 14px; border-radius: 999px;
+      background: rgba(13,13,15,0.88); backdrop-filter: blur(12px);
       border: 1px solid var(--line); color: var(--text);
       font-size: 13px; font-weight: 600; cursor: pointer;
-      display: flex; align-items: center; gap: 6px;
-      user-select: none;
+      display: flex; align-items: center; gap: 6px; user-select: none;
     }
-    .chip[data-active="true"] { background: var(--accent); color: #0b0e14; border-color: var(--accent); }
-    .dot { width: 10px; height: 10px; border-radius: 50%; }
-    .dot.hot { background: var(--hot); }
-    .dot.warm { background: var(--warm); }
-    .dot.cold { background: var(--cold); }
-    .dot.gap { background: var(--gap); }
-    .dot.flash { background: var(--flash); }
-    .dot.gray { background: var(--gray); }
+    .chip[data-active="true"] { background: var(--accent); color: #000; border-color: var(--accent); }
+    .cdot { width: 10px; height: 10px; border-radius: 50%; }
 
-    /* Paddle marker — SVG teardrop, score in head, optional context badge below.
-       Anchored at the tip of the teardrop (bottom-center) so the pin "stands on" its location. */
+    /* -- Leaflet custom pin markers -- */
     .pmarker {
-      position: relative;
-      width: 38px; height: 54px;
-      cursor: pointer;
+      width: 38px; height: 54px; cursor: pointer;
       filter: drop-shadow(0 2px 3px rgba(0,0,0,0.5));
       transition: transform 0.12s ease;
+      position: relative;
     }
     .pmarker:active { transform: scale(1.15); }
-    .pmarker svg { display: block; width: 100%; height: 100%; pointer-events: none; }
+    .pmarker svg { display: block; width: 100%; height: 100%; }
     .pmarker .ctx {
       position: absolute; top: -6px; right: -6px;
       width: 16px; height: 16px; border-radius: 50%;
       background: #0b0e14; color: #fff;
       font-size: 10px; font-weight: 800;
       display: flex; align-items: center; justify-content: center;
-      border: 1.5px solid #fff;
-      pointer-events: none;
+      border: 1.5px solid #fff; pointer-events: none;
     }
-    .pmarker.flash {
-      animation: flashpulse 1.4s ease-in-out infinite;
+    .pmarker .dbadge {
+      position: absolute; bottom: -14px; left: 50%; transform: translateX(-50%);
+      background: rgba(13,13,15,0.92); color: #fff; font-size: 9px; font-weight: 700;
+      padding: 1px 5px; border-radius: 6px; white-space: nowrap; pointer-events: none;
+      border: 1px solid rgba(255,255,255,0.12);
     }
+    .pmarker.flash { animation: flashpulse 1.4s ease-in-out infinite; }
     @keyframes flashpulse {
-      0%, 100% { filter: drop-shadow(0 2px 3px rgba(0,0,0,0.5)) drop-shadow(0 0 0 rgba(236,72,153,0.0)); }
+      0%, 100% { filter: drop-shadow(0 2px 3px rgba(0,0,0,0.5)); }
       50%      { filter: drop-shadow(0 2px 3px rgba(0,0,0,0.5)) drop-shadow(0 0 8px rgba(236,72,153,0.9)); }
     }
-    .me-marker {
-      width: 18px; height: 18px; border-radius: 50%;
-      background: #4cc2ff; border: 3px solid #fff;
-      box-shadow: 0 0 0 4px rgba(76,194,255,0.3);
-    }
 
-    /* Panel: field grid */
-    .field-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 8px 12px;
-      background: var(--panel-2); border-radius: 12px; padding: 12px 14px;
-      margin-bottom: 4px;
-    }
-    .field-grid .row { display: flex; flex-direction: column; min-width: 0; }
-    .field-grid .row.full { grid-column: 1 / -1; }
-    .field-grid .k {
-      font-size: 10px; text-transform: uppercase; letter-spacing: 0.6px;
-      color: var(--muted); font-weight: 700; margin-bottom: 2px;
-    }
-    .field-grid .v {
-      font-size: 14px; color: var(--text); font-weight: 600;
-      word-wrap: break-word; line-height: 1.3;
-    }
-    .field-grid .v.empty { color: var(--muted); font-weight: 400; }
-    .field-grid .v a { color: var(--accent); text-decoration: none; }
-    .field-grid .v a:active { opacity: 0.7; }
-    .relatives-list { font-size: 13px; color: var(--text); line-height: 1.5; }
-    .relatives-list .rel { display: block; }
-    .relatives-list .rel-flag { color: var(--muted); font-size: 11px; font-weight: 500; }
-    .data-note {
-      font-size: 11px; color: var(--muted); margin-top: 6px; line-height: 1.4;
-      padding: 0 4px;
-    }
+    /* Blue dot */
+    .me-dot-outer { width: 60px; height: 60px; position: relative; }
+    .me-dot { width: 18px; height: 18px; border-radius: 50%; background: #4cc2ff; border: 3px solid #fff; box-shadow: 0 0 0 4px rgba(76,194,255,0.3); position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2; }
+    .me-pulse { position: absolute; inset: 0; border-radius: 50%; background: rgba(76,194,255,0.12); animation: mepulse 2s ease-out infinite; }
+    @keyframes mepulse { 0% { transform: scale(0.5); opacity: 1; } 100% { transform: scale(1.5); opacity: 0; } }
 
-    /* Heat score breakdown */
-    .score-breakdown {
-      background: var(--panel-2); border-radius: 12px; padding: 10px 14px;
-      font-size: 12px; color: var(--text);
+    /* -- DRAWER -- */
+    #dd-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 2000; }
+    #dd-panel {
+      display: none; position: fixed; top: 0; right: 0;
+      width: 100vw; height: 100%; background: var(--panel);
+      z-index: 2001; overflow-y: auto; -webkit-overflow-scrolling: touch;
+      padding: 0;
     }
-    .score-breakdown .row {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 3px 0;
+    @media (min-width: 500px) { #dd-panel { width: 420px; border-left: 1px solid var(--line); } }
+    .dd-header {
+      position: sticky; top: 0; z-index: 2;
+      background: rgba(19,19,26,0.95); backdrop-filter: blur(12px);
+      padding: 14px 16px 10px; border-bottom: 1px solid var(--line);
     }
-    .score-breakdown .row.on { color: var(--text); }
-    .score-breakdown .row.off { color: var(--muted); opacity: 0.5; }
-    .score-breakdown .pts { font-weight: 700; font-variant-numeric: tabular-nums; }
-    .score-breakdown .total {
-      border-top: 1px solid var(--line); margin-top: 6px; padding-top: 8px;
-      font-weight: 800; font-size: 14px;
+    .dd-close {
+      position: absolute; top: 14px; right: 14px;
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--panel-2); border: 1px solid var(--line);
+      color: var(--text); font-size: 18px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
     }
+    .dd-body { padding: 0 16px 24px; }
+    .dd-section { margin-bottom: 14px; }
+    .dd-label {
+      font-size: 0.58rem; font-weight: 800; color: #555;
+      text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;
+    }
+    .dd-card {
+      background: #0e0e1c; border: 1px solid var(--line);
+      border-radius: 6px; padding: 10px 12px;
+    }
+    .dd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+    .dd-cell { background: #111; border-radius: 4px; padding: 5px 7px; }
+    .dd-cell .k { font-size: 0.52rem; color: #555; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 2px; }
+    .dd-cell .v { font-size: 0.78rem; font-weight: 700; color: var(--gold); }
 
-    /* Original action row — restored: [Close] [Save Visit] */
-    .actions { display: flex; gap: 8px; margin-top: 16px; }
-    button.primary, button.secondary {
-      flex: 1; padding: 14px; border-radius: 12px; font-size: 15px; font-weight: 700;
-      border: none; cursor: pointer; font-family: inherit;
+    /* Flags */
+    .flag-row { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 10px; }
+    .flag {
+      font-size: 0.55rem; font-weight: 800; padding: 2px 7px;
+      border-radius: 3px; letter-spacing: 0.04em; white-space: nowrap;
     }
-    button.primary { background: var(--accent); color: #0b0e14; }
-    button.primary:active { opacity: 0.85; }
-    button.primary:disabled { opacity: 0.5; cursor: not-allowed; }
-    button.secondary { background: var(--panel-2); color: var(--text); }
-    button.secondary:active { background: var(--line); }
+    .flag-deceased { background: #1a0a0a; color: #ef4444; border: 1px solid #7f1d1d; }
+    .flag-auction  { background: #1a0a1a; color: #ec4899; border: 1px solid #9d174d; }
+    .flag-vacant   { background: #0a0a1a; color: #818cf8; border: 1px solid #4338ca; }
+    .flag-distress { background: #1a1a0a; color: #f59e0b; border: 1px solid #92400e; }
+    .flag-utility  { background: #0a1a1a; color: #22d3ee; border: 1px solid #155e75; }
+    .flag-d4d      { background: #0a1a0a; color: #22c55e; border: 1px solid #166534; }
+    .flag-distant  { background: #0e0e1a; color: #a78bfa; border: 1px solid #5b21b6; }
+    .flag-zone     { background: #111; color: #888; border: 1px solid #2a2a40; }
+    .flag-type     { background: #111; color: #888; border: 1px solid #2a2a40; }
 
-    /* Standalone NAVIGATE button — sits above Property Details, visually distinct from disposition CTA */
-    button.nav-btn {
-      width: 100%; padding: 14px;
-      background: #fff; color: #0b0e14;
-      border: none; border-radius: 12px;
-      font-size: 15px; font-weight: 800; letter-spacing: 0.3px;
-      font-family: inherit; cursor: pointer;
+    /* Phones */
+    .ph-row { margin-bottom: 8px; }
+    .ph-row a { font-size: 1rem; font-weight: 800; color: var(--ok); text-decoration: none; letter-spacing: 0.02em; }
+    .ph-type { font-size: 0.5rem; color: #444; margin-left: 4px; }
+    .ph-flag { font-size: 0.52rem; color: #888; display: block; margin-top: 1px; }
+
+    /* Navigate CTA */
+    .nav-cta {
+      width: 100%; padding: 14px; border: none; border-radius: 10px;
+      font-size: 15px; font-weight: 800; cursor: pointer; font-family: inherit;
       display: flex; align-items: center; justify-content: center; gap: 8px;
-      margin: 4px 0 14px;
     }
-    button.nav-btn:active { background: #d1d8e3; }
-    button.nav-btn .arrow { font-size: 18px; }
+    .nav-cta:active { opacity: 0.85; }
+    .nav-apple { background: #fff; color: #000; margin-bottom: 6px; }
+    .nav-google { background: var(--accent); color: #000; }
 
-    /* Slide-up panel */
-    #panel {
-      position: absolute; left: 0; right: 0; bottom: 0;
-      background: var(--panel); color: var(--text);
-      border-top-left-radius: 20px; border-top-right-radius: 20px;
-      box-shadow: 0 -8px 24px rgba(0,0,0,0.5);
-      transform: translateY(100%); transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1);
-      z-index: 10;
-      max-height: 88vh; overflow: hidden;
-      display: flex; flex-direction: column;
-      padding-bottom: var(--safe-bottom);
-    }
-    #panel.open { transform: translateY(0); }
-    .grab {
-      width: 40px; height: 4px; background: var(--line);
-      border-radius: 2px; margin: 8px auto 4px;
-    }
-    .panel-body { padding: 8px 16px 16px; overflow-y: auto; -webkit-overflow-scrolling: touch; }
-    .panel-head { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
-    .score-badge {
-      width: 56px; height: 56px; border-radius: 14px;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      flex-shrink: 0; color: #fff; font-weight: 800;
-    }
-    .score-badge .num { font-size: 22px; line-height: 1; }
-    .score-badge .lbl { font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.9; margin-top: 2px; }
-    .panel-head .title { flex: 1; min-width: 0; }
-    .panel-head .owner { font-size: 18px; font-weight: 700; line-height: 1.2; margin: 0 0 4px; }
-    .panel-head .addr { font-size: 14px; color: var(--muted); line-height: 1.3; word-wrap: break-word; }
-    .meta-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
-    .meta-tag { font-size: 11px; padding: 4px 8px; border-radius: 6px; background: var(--panel-2); color: var(--muted); font-weight: 600; }
-    .meta-tag.last-visit { background: #1e3a8a33; color: #93c5fd; }
-    .meta-tag.dispo { background: #14532d55; color: #86efac; }
+    /* Score bar */
+    .score-row { display: flex; justify-content: space-between; align-items: center; padding: 3px 0; font-size: 12px; }
+    .score-row.on { color: var(--text); }
+    .score-row.off { color: var(--muted); opacity: 0.4; }
+    .score-pts { font-weight: 700; font-variant-numeric: tabular-nums; }
+    .score-total { border-top: 1px solid var(--line); margin-top: 6px; padding-top: 8px; font-weight: 800; font-size: 14px; }
 
-    .field-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.7px; color: var(--muted); margin: 14px 0 6px; font-weight: 700; }
-    select, textarea, input {
+    /* Disposition */
+    select, textarea {
       width: 100%; background: var(--panel-2); color: var(--text);
-      border: 1px solid var(--line); border-radius: 10px;
-      padding: 12px 14px; font-size: 16px; font-family: inherit;
-      outline: none;
+      border: 1px solid var(--line); border-radius: 8px;
+      padding: 10px 12px; font-size: 16px; font-family: inherit; outline: none;
     }
-    select:focus, textarea:focus, input:focus { border-color: var(--accent); }
-    textarea { min-height: 90px; resize: vertical; }
+    select:focus, textarea:focus { border-color: var(--accent); }
+    textarea { min-height: 80px; resize: vertical; }
+    .dd-save {
+      width: 100%; padding: 14px; border-radius: 10px; border: none;
+      background: var(--ok); color: #000; font-size: 15px; font-weight: 800;
+      font-family: inherit; cursor: pointer; margin-top: 8px;
+    }
+    .dd-save:disabled { opacity: 0.5; }
 
-    /* Setup modal action row keeps the old two-button layout */
-    .setup-actions { display: flex; gap: 8px; margin-top: 16px; }
-    .setup-actions button {
-      flex: 1; padding: 14px; border-radius: 12px; font-size: 15px; font-weight: 700;
-      border: none; cursor: pointer; font-family: inherit;
-    }
-    .setup-actions button.primary { background: var(--accent); color: #0b0e14; }
-    .setup-actions button.primary:active { opacity: 0.85; }
-    .setup-actions button.secondary { background: var(--panel-2); color: var(--text); }
-    .setup-actions button.secondary:active { background: var(--line); }
-
-    /* Setup modal */
-    #setup {
-      position: absolute; inset: 0; background: rgba(11,14,20,0.95);
-      display: none; align-items: center; justify-content: center;
-      z-index: 100; padding: 16px;
-    }
+    /* -- Setup modal -- */
+    #setup { position: absolute; inset: 0; background: rgba(13,13,15,0.95); display: none; align-items: center; justify-content: center; z-index: 3000; padding: 16px; }
     #setup.open { display: flex; }
-    .setup-card {
-      background: var(--panel); border-radius: 16px; padding: 24px;
-      max-width: 420px; width: 100%; max-height: 90vh; overflow-y: auto;
-    }
+    .setup-card { background: var(--panel); border-radius: 16px; padding: 24px; max-width: 420px; width: 100%; max-height: 90vh; overflow-y: auto; }
     .setup-card h2 { margin: 0 0 8px; font-size: 20px; }
     .setup-card p { font-size: 13px; color: var(--muted); margin: 0 0 16px; line-height: 1.5; }
     .setup-card label { display: block; font-size: 12px; font-weight: 700; margin: 12px 0 4px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .setup-card input { width: 100%; background: var(--panel-2); color: var(--text); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; font-size: 14px; font-family: inherit; outline: none; }
+    .setup-btns { display: flex; gap: 8px; margin-top: 16px; }
+    .setup-btns button { flex: 1; padding: 14px; border-radius: 10px; font-size: 15px; font-weight: 700; border: none; cursor: pointer; font-family: inherit; }
+    .setup-btns .pri { background: var(--accent); color: #000; }
+    .setup-btns .sec { background: var(--panel-2); color: var(--text); }
 
     /* Toast */
     #toast {
@@ -279,98 +247,58 @@
       transform: translate(-50%, -10px); opacity: 0;
       background: var(--panel-2); color: var(--text);
       padding: 10px 16px; border-radius: 10px; font-size: 14px; font-weight: 600;
-      border: 1px solid var(--line);
-      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
-      pointer-events: none; transition: all 0.25s ease;
-      z-index: 50; max-width: 90vw;
+      border: 1px solid var(--line); box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+      pointer-events: none; transition: all 0.25s ease; z-index: 3000; max-width: 90vw;
     }
     #toast.show { opacity: 1; transform: translate(-50%, 0); }
     #toast.ok { border-color: var(--ok); }
-    #toast.err { border-color: var(--err); }
-
-    /* Loading shimmer for status pill */
-    .loading::after { content: " ⟳"; display: inline-block; animation: spin 1.2s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    #toast.err { border-color: var(--hot); }
   </style>
 </head>
 <body>
   <div id="map"></div>
 
   <div id="topbar">
-    <div class="pill" id="status-pill">Loading…</div>
-    <div class="pill muted" id="count-pill">— pins</div>
-    <button class="icon-btn" id="settings-btn" title="Settings">⚙</button>
+    <div class="pill" id="status-pill">Loading...</div>
+    <div class="pill muted" id="count-pill">--</div>
+    <button class="icon-btn" id="settings-btn" title="Settings">&#9881;</button>
   </div>
 
-  <button id="recenter" title="Recenter on me">◎</button>
+  <button id="follow-btn" title="Follow my location">&#8853;</button>
+  <button id="recenter" title="Recenter">&#9678;</button>
 
   <div id="filters">
     <div class="chip" data-filter="all" data-active="true">All</div>
-    <div class="chip" data-filter="Flashing"><span class="dot flash"></span>Auction</div>
-    <div class="chip" data-filter="Red"><span class="dot hot"></span>Hot</div>
-    <div class="chip" data-filter="Orange"><span class="dot warm"></span>Warm</div>
-    <div class="chip" data-filter="Blue"><span class="dot cold"></span>Cold</div>
-    <div class="chip" data-filter="Purple"><span class="dot gap"></span>Data Gap</div>
+    <div class="chip" data-filter="Flashing"><span class="cdot" style="background:var(--flash)"></span>Auction</div>
+    <div class="chip" data-filter="Red"><span class="cdot" style="background:var(--hot)"></span>Hot</div>
+    <div class="chip" data-filter="Orange"><span class="cdot" style="background:var(--warm)"></span>Warm</div>
+    <div class="chip" data-filter="Blue"><span class="cdot" style="background:var(--cold)"></span>Cold</div>
+    <div class="chip" data-filter="Purple"><span class="cdot" style="background:var(--gap)"></span>Gap</div>
   </div>
 
-  <div id="panel">
-    <div class="grab"></div>
-    <div class="panel-body">
-      <div class="panel-head">
-        <div class="score-badge" id="p-score"><span class="num">0</span><span class="lbl">Score</span></div>
-        <div class="title">
-          <h3 class="owner" id="p-owner">—</h3>
-          <div class="addr" id="p-addr">—</div>
-        </div>
-      </div>
-      <div class="meta-row" id="p-meta"></div>
-
-      <button class="nav-btn" id="p-nav" title="Open in Maps"><span class="arrow">▶</span> NAVIGATE</button>
-
-      <div class="field-label">Property Details</div>
-      <div class="field-grid" id="p-fields"></div>
-      <div class="data-note" id="p-data-note"></div>
-
-      <div class="field-label">Heat Score Breakdown</div>
-      <div class="score-breakdown" id="p-breakdown"></div>
-
-      <div class="field-label">Disposition</div>
-      <select id="p-disposition">
-        <option value="">— select what happened —</option>
-        <option>Visited</option>
-        <option>Door Knock - Answered</option>
-        <option>Door Knock - No Answer</option>
-        <option>Left Flyer</option>
-        <option>Called from Driveway</option>
-        <option>Interested - Wants Offer</option>
-        <option>Not Interested</option>
-      </select>
-
-      <div class="field-label">Notes</div>
-      <textarea id="p-note" placeholder="What happened? Voice-to-text works (mic key on iPhone)."></textarea>
-
-      <div class="actions">
-        <button class="secondary" id="p-cancel">Close</button>
-        <button class="primary" id="p-save">Save Visit</button>
-      </div>
-    </div>
+  <!-- DRAWER -->
+  <div id="dd-overlay"></div>
+  <div id="dd-panel">
+    <div class="dd-header" id="dd-header"></div>
+    <div class="dd-body" id="dd-body"></div>
   </div>
 
+  <!-- SETUP -->
   <div id="setup">
     <div class="setup-card">
-      <h2>Pounce Map setup</h2>
-      <p>Paste your Airtable credentials. Stored only in local storage on this device.</p>
+      <h2>Pounce Map Setup</h2>
+      <p>Paste your API keys. Stored only in Safari localStorage on this device.</p>
       <label>Airtable Personal Access Token</label>
       <input id="cfg-air" placeholder="pat..." autocomplete="off" />
       <label>Airtable Base ID</label>
       <input id="cfg-base" placeholder="app5MR6Mekb0b1f4O" autocomplete="off" />
-      <label>Airtable Table ID or Name</label>
+      <label>Airtable Table ID</label>
       <input id="cfg-table" placeholder="tblFlz8tMhCswkCF0" autocomplete="off" />
-      <label>Make.com Kill-Switch Webhook URL <span style="color:var(--muted);text-transform:none;letter-spacing:0;font-weight:400">(optional — fires on LOG NOTE)</span></label>
-      <input id="cfg-webhook" placeholder="https://hook.us1.make.com/..." autocomplete="off" />
-      <div class="setup-actions">
-        <button class="secondary" id="cfg-cancel">Cancel</button>
-        <button class="primary" id="cfg-save">Save & Reload</button>
+      <label>Google Maps API Key (optional, for Street View photos)</label>
+      <input id="cfg-maps" placeholder="AIza... (leave blank to skip photos)" autocomplete="off" />
+      <div class="setup-btns">
+        <button class="sec" id="cfg-cancel">Cancel</button>
+        <button class="pri" id="cfg-save">Save & Reload</button>
       </div>
     </div>
   </div>
@@ -378,589 +306,508 @@
   <div id="toast"></div>
 
   <script>
-    // ---------- Config loading: window.POUNCE_CONFIG > localStorage > setup modal ----------
-    const LS_KEY = 'pounce_map_config_v1';
-    function loadConfig() {
+    // ===== CONFIG =====
+    const LS = 'pounce_cfg_v3';
+    function loadCfg() {
       if (window.POUNCE_CONFIG && window.POUNCE_CONFIG.airtableKey) return window.POUNCE_CONFIG;
-      try {
-        const raw = localStorage.getItem(LS_KEY);
-        if (raw) return JSON.parse(raw);
-      } catch (e) {}
+      try { const r = localStorage.getItem(LS); if (r) return JSON.parse(r); } catch(e) {}
+      // Migrate from v2 config
+      try { const old = localStorage.getItem('pounce_cfg_v2'); if (old) { const c = JSON.parse(old); localStorage.setItem(LS, old); return c; } } catch(e) {}
       return null;
     }
-    function saveConfig(c) {
-      localStorage.setItem(LS_KEY, JSON.stringify(c));
-    }
-    let CONFIG = loadConfig();
+    function saveCfg(c) { localStorage.setItem(LS, JSON.stringify(c)); }
+    let CFG = loadCfg();
 
-    // ---------- DOM refs ----------
-    const $ = (id) => document.getElementById(id);
-    const statusPill = $('status-pill');
-    const countPill = $('count-pill');
-    const panel = $('panel');
-    const toast = $('toast');
-    const setup = $('setup');
+    const $ = id => document.getElementById(id);
+    const esc = s => String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
-    // ---------- Toast ----------
-    let toastTimer = null;
-    function showToast(msg, kind = '') {
-      toast.textContent = msg;
-      toast.className = 'show ' + kind;
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => { toast.className = kind; }, 2600);
+    // ===== TOAST =====
+    let _tt;
+    function toast(msg, k='') {
+      const t = $('toast'); t.textContent = msg; t.className = 'show ' + k;
+      clearTimeout(_tt); _tt = setTimeout(() => t.className = k, 2600);
     }
 
-    // ---------- Setup modal wiring ----------
-    function openSetup(prefill = true) {
-      if (prefill && CONFIG) {
-        $('cfg-maps').value = CONFIG.mapsKey || '';
-        $('cfg-air').value = CONFIG.airtableKey || '';
-        $('cfg-base').value = CONFIG.baseId || 'app5MR6Mekb0b1f4O';
-        $('cfg-table').value = CONFIG.tableId || 'tblFlz8tMhCswkCF0';
-        $('cfg-webhook').value = CONFIG.makeWebhookUrl || '';
-      } else if (!CONFIG) {
+    // ===== SETUP =====
+    function openSetup(pre) {
+      if (pre && CFG) {
+        $('cfg-air').value = CFG.airtableKey||'';
+        $('cfg-base').value = CFG.baseId||'app5MR6Mekb0b1f4O';
+        $('cfg-table').value = CFG.tableId||'tblFlz8tMhCswkCF0';
+        $('cfg-maps').value = CFG.mapsKey||'';
+      } else if (!CFG) {
         $('cfg-base').value = 'app5MR6Mekb0b1f4O';
         $('cfg-table').value = 'tblFlz8tMhCswkCF0';
       }
-      setup.classList.add('open');
+      $('setup').classList.add('open');
     }
-    $('settings-btn').addEventListener('click', () => openSetup(true));
-    $('cfg-cancel').addEventListener('click', () => setup.classList.remove('open'));
-    $('cfg-save').addEventListener('click', () => {
+    $('settings-btn').onclick = () => openSetup(true);
+    $('cfg-cancel').onclick = () => $('setup').classList.remove('open');
+    $('cfg-save').onclick = () => {
       const c = {
-        mapsKey: $('cfg-maps').value.trim(),
         airtableKey: $('cfg-air').value.trim(),
         baseId: $('cfg-base').value.trim(),
         tableId: $('cfg-table').value.trim(),
-        makeWebhookUrl: $('cfg-webhook').value.trim(),
+        mapsKey: $('cfg-maps').value.trim(),
       };
-      if (!c.airtableKey || !c.baseId || !c.tableId) {
-        alert('Airtable token, Base ID, and Table ID are required.');
-        return;
-      }
-      saveConfig(c);
-      location.reload();
-    });
-
-    if (!CONFIG) { openSetup(false); }
-
-    // ---------- Score → color helpers ----------
-    // Computed from Heat_Score + auction window + data-gap signals (per spec):
-    //   Flashing  — auction within 7 days (overrides everything)
-    //   Purple    — score qualifies (>=50) but no phone OR no mailing address (data gap)
-    //   Red       — Heat_Score >= 80
-    //   Orange    — Heat_Score 50–79
-    //   Blue      — Heat_Score 1–49
-    //   Gray      — Heat_Score 0 / unscored
-    const PIN_COLORS = {
-      Flashing: { fill: '#ec4899', cls: 'flash', glyph: '★', label: 'Auction' },
-      Red:      { fill: '#ef4444', cls: 'hot',   glyph: 'H', label: 'Hot' },
-      Orange:   { fill: '#f97316', cls: 'warm',  glyph: 'W', label: 'Warm' },
-      Blue:     { fill: '#3b82f6', cls: 'cold',  glyph: 'C', label: 'Cold' },
-      Purple:   { fill: '#d946ef', cls: 'gap',   glyph: '!', label: 'Data Gap' },
-      Gray:     { fill: '#64748b', cls: 'gray',  glyph: '·', label: 'Unscored' },
+      if (!c.airtableKey || !c.baseId || !c.tableId) { alert('Airtable PAT, Base ID, and Table ID are required.'); return; }
+      saveCfg(c); location.reload();
     };
-    function pinColorFor(rec) {
-      const f = rec.fields;
-      const score = Number(f.Heat_Score || 0);
-      const days = (typeof f.Days_Until_Auction === 'number') ? f.Days_Until_Auction : null;
+    if (!CFG) openSetup(false);
+
+    // ===== SCORING =====
+    const COLORS = {
+      Flashing: { fill:'#ec4899', cls:'flash' }, Red: { fill:'#ef4444', cls:'hot' },
+      Orange: { fill:'#f97316', cls:'warm' }, Blue: { fill:'#3b82f6', cls:'cold' },
+      Purple: { fill:'#d946ef', cls:'gap' }, Gray: { fill:'#64748b', cls:'gray' },
+    };
+    function pinColor(rec) {
+      const f = rec.fields, s = Number(f.Heat_Score||0);
+      const days = typeof f.Days_Until_Auction === 'number' ? f.Days_Until_Auction : null;
       if (days !== null && days >= 0 && days <= 7) return 'Flashing';
-      const noPhone = !Number(f.Has_Phone || 0);
-      const noMail  = !Number(f.Has_Mailing_Address || 0);
-      if (score >= 50 && (noPhone || noMail)) return 'Purple';
-      if (score >= 80) return 'Red';
-      if (score >= 50) return 'Orange';
-      if (score >  0)  return 'Blue';
+      if (s >= 50 && (!Number(f.Has_Phone||0) || !Number(f.Has_Mailing_Address||0))) return 'Purple';
+      if (s >= 80) return 'Red'; if (s >= 50) return 'Orange'; if (s > 0) return 'Blue';
       return 'Gray';
     }
-    function badgeBg(color) { return (PIN_COLORS[color] || PIN_COLORS.Gray).fill; }
-
-    // Build the paddle/teardrop marker per L9 spec.
-    // - Teardrop SVG, anchored at the tip (CSS translate(-50%, -100%))
-    // - Heat_Score number sits in the head of the paddle
-    // - Context_Badge letter (T/H/V/D/C) appears as a small chip on the upper-right
-    // Heat_Score is a 0–145 sum (Airtable formula); we display the raw number per Jay's request.
-    function buildMarkerEl(color, score, contextBadge) {
-      const cfg = PIN_COLORS[color] || PIN_COLORS.Gray;
-      const el = document.createElement('div');
-      el.className = 'pmarker ' + cfg.cls;
-      const display = score >= 100 ? '99+' : String(Math.round(score || 0));
-      const fontSize = display.length >= 3 ? 11 : 14;
-      el.innerHTML = `
-        <svg viewBox="0 0 38 54" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M19 1
-                   C 9 1 1 9 1 19
-                   C 1 31 19 53 19 53
-                   C 19 53 37 31 37 19
-                   C 37 9 29 1 19 1 Z"
-                fill="${cfg.fill}" stroke="#0b0e14" stroke-width="2" stroke-linejoin="round"/>
-          <circle cx="19" cy="19" r="11" fill="rgba(255,255,255,0.18)" />
-          <text x="19" y="19" text-anchor="middle" dominant-baseline="central"
-                fill="#fff" font-family="-apple-system,BlinkMacSystemFont,sans-serif"
-                font-size="${fontSize}" font-weight="800">${display}</text>
-        </svg>
-        ${contextBadge ? `<span class="ctx">${escHtml(contextBadge)}</span>` : ''}
-      `;
-      return el;
-    }
-
-    // Heat Score breakdown components (matches Airtable formula)
-    const SCORE_COMPONENTS = [
-      { key: 'Is_Deceased_Owner',  label: 'Deceased Owner',     pts: 45 },
-      { key: 'Is_Tax_Auction',     label: 'Tax / Foreclosure',  pts: 35 },
-      { key: 'Is_Vacant',          label: 'Vacant',             pts: 25 },
-      { key: 'Is_Distressed',      label: 'Distressed',         pts: 15 },
-      { key: 'Is_Utility_Shutoff', label: 'Utility Shutoff',    pts: 10 },
-      { key: 'Is_D4D',             label: 'Driving for Dollars',pts: 10 },
-      { key: 'Is_Owner_Distant',   label: 'Owner Distance',     pts: 5  },
+    const COMPS = [
+      { key:'Is_Deceased_Owner', label:'Deceased Owner', pts:45, cls:'flag-deceased', icon:'DECEASED' },
+      { key:'Is_Tax_Auction', label:'Tax / Foreclosure', pts:35, cls:'flag-auction', icon:'AUCTION' },
+      { key:'Is_Vacant', label:'Vacant', pts:25, cls:'flag-vacant', icon:'VACANT' },
+      { key:'Is_Distressed', label:'Distressed', pts:15, cls:'flag-distress', icon:'DISTRESSED' },
+      { key:'Is_Utility_Shutoff', label:'Utility Shutoff', pts:10, cls:'flag-utility', icon:'UTILITY OFF' },
+      { key:'Is_D4D', label:'Driving for Dollars', pts:10, cls:'flag-d4d', icon:'D4D' },
+      { key:'Is_Owner_Distant', label:'Owner Distance', pts:5, cls:'flag-distant', icon:'DISTANT OWNER' },
     ];
-    function renderBreakdown(record) {
-      const f = record.fields;
-      let total = 0;
-      const rows = SCORE_COMPONENTS.map(c => {
-        const on = !!f[c.key];
-        if (on) total += c.pts;
-        return `<div class="row ${on ? 'on' : 'off'}"><span>${c.label}</span><span class="pts">${on ? '+' : '·'}${c.pts}</span></div>`;
-      }).join('');
-      return rows + `<div class="row total"><span>Heat Score</span><span class="pts">${total}</span></div>`;
-    }
 
-    // Open external maps app for turn-by-turn directions to an address.
-    // iOS Safari resolves the universal Google Maps URL into the user's preferred maps app.
-    function navigateTo(address) {
-      if (!address) return;
-      const url = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(address)}&travelmode=driving`;
-      window.open(url, '_blank', 'noopener');
+    // ===== GEO =====
+    function hav(a1,o1,a2,o2) {
+      const R=3958.8, dA=(a2-a1)*Math.PI/180, dO=(o2-o1)*Math.PI/180;
+      const x = Math.sin(dA/2)**2 + Math.cos(a1*Math.PI/180)*Math.cos(a2*Math.PI/180)*Math.sin(dO/2)**2;
+      return R*2*Math.atan2(Math.sqrt(x),Math.sqrt(1-x));
     }
-
-    // ---------- Airtable ----------
-    function airtableUrl(path) {
-      return `https://api.airtable.com/v0/${CONFIG.baseId}/${encodeURIComponent(CONFIG.tableId)}${path || ''}`;
-    }
-    function airtableHeaders() {
-      return { 'Authorization': `Bearer ${CONFIG.airtableKey}`, 'Content-Type': 'application/json' };
-    }
-    async function fetchAllLeads() {
-      const fields = ['Property_Address','Lat','Lng','Heat_Score','Pin_Color','Primary_Contact_Name','List_Contacts_No_Primery','Lead_Status','Field_Notes','Note_Type','Timestamp','Lead_Type','Zone','Context_Badge','Auction_Date','Days_Until_Auction','Has_Phone','Has_Mailing_Address','Contacts_N','Contact_Count','Tags'];
-      return airtablePaginate(airtableUrl(''), {
-        pageSize: '100',
-        filterByFormula: 'AND({Lat}!=BLANK(), {Lng}!=BLANK(), {Lead_Status}!="Sold", {Lead_Status}!="Dead")',
-      }, fields);
-    }
-    async function fetchAllContacts() {
-      // Pulls all contacts so we can join client-side. Pounce table is small (<1k contacts).
-      const fields = ['Contact_Name','Contact_Status','Contact_Flags','Active_Phone_Number','Phone_1','Phone_1_DNC','Phone_2','Phone_2_DNC','Phone_3','Phone_3_DNC','Email_1','Household_ID'];
-      const url = `https://api.airtable.com/v0/${CONFIG.baseId}/${encodeURIComponent('tblpbcRPgQeyWNfLx')}`;
-      try {
-        return await airtablePaginate(url, { pageSize: '100' }, fields);
-      } catch (e) {
-        console.warn('Contacts fetch failed (non-fatal):', e.message);
-        return [];
-      }
-    }
-    async function airtablePaginate(url, baseParams, fields) {
-      let all = [], offset;
-      do {
-        const params = new URLSearchParams(baseParams);
-        if (fields) fields.forEach(f => params.append('fields[]', f));
-        if (offset) params.set('offset', offset);
-        const res = await fetch(url + '?' + params.toString(), { headers: airtableHeaders() });
-        if (!res.ok) throw new Error(`Airtable fetch ${res.status}: ${await res.text()}`);
-        const data = await res.json();
-        all = all.concat(data.records);
-        offset = data.offset;
-      } while (offset);
-      return all;
-    }
-    async function patchLead(recId, fields) {
-      const res = await fetch(airtableUrl('/' + recId), {
-        method: 'PATCH',
-        headers: airtableHeaders(),
-        body: JSON.stringify({ fields, typecast: true })
-      });
-      if (!res.ok) throw new Error(`Airtable PATCH ${res.status}: ${await res.text()}`);
-      return res.json();
-    }
-    // contactId → contact record
-    const contactIndex = new Map();
-    function indexContacts(records) {
-      contactIndex.clear();
-      for (const c of records) contactIndex.set(c.id, c);
-    }
-    function contactsForRecord(rec) {
-      const ids = rec.fields.Contacts_N || [];
-      return ids.map(id => contactIndex.get(id)).filter(Boolean);
-    }
-    function pickPrimary(contacts) {
-      if (!contacts.length) return null;
-      const primary = contacts.find(c => (c.fields.Contact_Status === 'primary'));
-      if (primary) return primary;
-      // Spec fallback: prefer "Potential Owner" or "Likely Owner" flag
-      const owner = contacts.find(c => /Owner/i.test(c.fields.Contact_Flags || ''));
-      return owner || contacts[0];
-    }
-    function bestPhone(contact) {
-      if (!contact) return null;
-      const f = contact.fields;
-      if (f.Active_Phone_Number) return f.Active_Phone_Number;
-      const candidates = [
-        { n: f.Phone_1, dnc: f.Phone_1_DNC },
-        { n: f.Phone_2, dnc: f.Phone_2_DNC },
-        { n: f.Phone_3, dnc: f.Phone_3_DNC },
-      ].filter(p => p.n);
-      const live = candidates.find(p => !p.dnc) || candidates[0];
-      return live ? live.n : null;
-    }
-    function fmtPhone(p) {
-      if (!p) return null;
-      const d = String(p).replace(/\D/g, '');
-      if (d.length === 11 && d.startsWith('1')) return `(${d.slice(1,4)}) ${d.slice(4,7)}-${d.slice(7)}`;
-      if (d.length === 10) return `(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`;
+    function fmtD(m) { return m<0.1 ? Math.round(m*5280)+' ft' : m<10 ? m.toFixed(1)+' mi' : Math.round(m)+' mi'; }
+    function fmtPh(p) {
+      if (!p) return ''; const d = String(p).replace(/\D/g,'');
+      if (d.length===11 && d[0]==='1') return `(${d.slice(1,4)}) ${d.slice(4,7)}-${d.slice(7)}`;
+      if (d.length===10) return `(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`;
       return p;
     }
 
-    // ---------- Map / pins ----------
-    let map, AdvancedMarker;
-    let userLatLng = { lat: 30.3322, lng: -81.6557 }; // Jacksonville fallback
-    const markers = []; // {marker, record, color}
-    let currentRecord = null;
+    // ===== GPS =====
+    let userLL = [30.3322, -81.6557]; // [lat, lng] for Leaflet
+    let meMarker = null, gpsWatchId = null;
+    let followMode = false;
+
+    function setFollowMode(on) {
+      followMode = on;
+      const btn = $('follow-btn');
+      btn.classList.toggle('active', on);
+      btn.title = on ? 'Following \u2014 tap to stop' : 'Follow my location';
+      if (on && map) { map.setView(userLL, Math.max(map.getZoom(), 16)); }
+    }
+
+    function startGps() {
+      if (!navigator.geolocation) return;
+      navigator.geolocation.getCurrentPosition(p => updPos(p), ()=>{}, {enableHighAccuracy:true,timeout:8000,maximumAge:30000});
+      gpsWatchId = navigator.geolocation.watchPosition(p => updPos(p), ()=>{}, {enableHighAccuracy:true,timeout:15000,maximumAge:5000});
+    }
+    function updPos(p) {
+      userLL = [p.coords.latitude, p.coords.longitude];
+      if (meMarker) meMarker.setLatLng(userLL);
+      if (followMode && map) map.panTo(userLL);
+      updDist();
+    }
+    let _distT;
+    function updDist() {
+      if (_distT) return; _distT = setTimeout(()=>{_distT=null;},3000);
+      const bounds = map ? map.getBounds() : null;
+      let viewMi = 999;
+      if (bounds) {
+        const ne = bounds.getNorthEast(), sw = bounds.getSouthWest();
+        viewMi = hav(sw.lat, sw.lng, ne.lat, ne.lng);
+      }
+      for (const m of markers) {
+        const f = m.record.fields;
+        m.dist = hav(userLL[0], userLL[1], f.Lat, f.Lng);
+        const b = m.el.querySelector('.dbadge');
+        if (b) {
+          if (viewMi < 30 && m.dist < 50) { b.textContent = fmtD(m.dist); b.style.display=''; }
+          else b.style.display='none';
+        }
+      }
+    }
+
+    // ===== AIRTABLE =====
+    function atUrl(p) { return `https://api.airtable.com/v0/${CFG.baseId}/${encodeURIComponent(CFG.tableId)}${p||''}`; }
+    function atH() { return { Authorization: `Bearer ${CFG.airtableKey}`, 'Content-Type': 'application/json' }; }
+    async function atPage(url, bp, fields) {
+      let all=[], off;
+      do {
+        const p = new URLSearchParams(bp);
+        if (fields) fields.forEach(f => p.append('fields[]', f));
+        if (off) p.set('offset', off);
+        const r = await fetch(url+'?'+p.toString(), {headers:atH()});
+        if (r.status === 401 || r.status === 403) {
+          toast('Airtable auth failed \u2014 check your PAT', 'err');
+          openSetup(true);
+          throw new Error('Airtable 401/403 \u2014 re-enter credentials');
+        }
+        if (!r.ok) throw new Error(`Airtable ${r.status}`);
+        const d = await r.json(); all = all.concat(d.records); off = d.offset;
+      } while (off);
+      return all;
+    }
+    async function fetchLeads() {
+      return atPage(atUrl(''), {
+        pageSize:'100',
+        filterByFormula:'AND({Lat}!=BLANK(),{Lng}!=BLANK(),{Lead_Status}!="Sold",{Lead_Status}!="Dead")',
+      }, ['Property_Address','Lat','Lng','Heat_Score','Pin_Color','Primary_Contact_Name',
+          'List_Contacts_No_Primery','Lead_Status','Field_Notes','Note_Type','Timestamp',
+          'Lead_Type','Zone','Zone_With_Badge','Context_Badge','Auction_Date','Days_Until_Auction',
+          'Has_Phone','Has_Mailing_Address','Contacts_N','Contact_Count','Tags',
+          'Is_Deceased_Owner','Is_Tax_Auction','Is_Vacant','Is_Distressed',
+          'Is_Utility_Shutoff','Is_D4D','Is_Owner_Distant','GHL_Contact_ID','Household_ID','Lead_UID']);
+    }
+    async function fetchContacts() {
+      const url = `https://api.airtable.com/v0/${CFG.baseId}/${encodeURIComponent('tblpbcRPgQeyWNfLx')}`;
+      try {
+        return await atPage(url, {pageSize:'100'},
+          ['Contact_Name','Contact_Status','Contact_Flags','Active_Phone_Number',
+           'Phone_1','Phone_1_Type','Phone_1_DNC','Phone_2','Phone_2_Type','Phone_2_DNC',
+           'Phone_3','Phone_3_Type','Phone_3_DNC','Email_1','Household_ID',
+           'First_Name','Last_Name','Primary_Mailing_Address','Mailing_City','Mailing_State','Mailing_ZIP']);
+      } catch(e) { console.warn('Contacts fetch failed:', e.message); return []; }
+    }
+    async function patchLead(id, fields) {
+      const r = await fetch(atUrl('/'+id), { method:'PATCH', headers:atH(), body:JSON.stringify({fields,typecast:true}) });
+      if (!r.ok) throw new Error(`PATCH ${r.status}`);
+      return r.json();
+    }
+    const cIdx = new Map();
+    function idxContacts(recs) { cIdx.clear(); for (const c of recs) cIdx.set(c.id, c); }
+    function contactsFor(rec) { return (rec.fields.Contacts_N||[]).map(id=>cIdx.get(id)).filter(Boolean); }
+    function pickPrimary(cc) {
+      if (!cc.length) return null;
+      return cc.find(c=>c.fields.Contact_Status==='primary')
+        || cc.find(c=>/Owner/i.test(c.fields.Contact_Flags||''))
+        || cc[0];
+    }
+    function bestPhones(contact) {
+      if (!contact) return [];
+      const f = contact.fields, out = [];
+      if (f.Active_Phone_Number) out.push({ num: f.Active_Phone_Number, type: 'Primary', dnc: false });
+      const slots = [
+        { n:f.Phone_1, t:f.Phone_1_Type, d:f.Phone_1_DNC },
+        { n:f.Phone_2, t:f.Phone_2_Type, d:f.Phone_2_DNC },
+        { n:f.Phone_3, t:f.Phone_3_Type, d:f.Phone_3_DNC },
+      ];
+      const activeRaw = f.Active_Phone_Number ? String(f.Active_Phone_Number).replace(/\D/g,'') : '';
+      for (const s of slots) {
+        if (!s.n) continue;
+        const raw = String(s.n).replace(/\D/g,'');
+        if (raw === activeRaw) continue;
+        out.push({ num: s.n, type: s.t || '', dnc: !!s.d });
+      }
+      return out;
+    }
+
+    // ===== MAP =====
+    let map;
+    const markers = [];
     let activeFilter = 'all';
 
-    function fmtDate(ts) {
-      if (!ts) return null;
-      try {
-        const d = new Date(ts);
-        return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
-      } catch (e) { return ts; }
+    function buildPinHtml(color, score, badge) {
+      const c = COLORS[color]||COLORS.Gray;
+      const txt = score>=100?'99+':String(Math.round(score||0));
+      const fs = txt.length>=3?11:14;
+      return `<div class="pmarker ${c.cls}">
+        <svg viewBox="0 0 38 54" xmlns="http://www.w3.org/2000/svg">
+          <path d="M19 1 C 9 1 1 9 1 19 C 1 31 19 53 19 53 C 19 53 37 31 37 19 C 37 9 29 1 19 1 Z"
+                fill="${c.fill}" stroke="#0b0e14" stroke-width="2" stroke-linejoin="round"/>
+          <circle cx="19" cy="19" r="11" fill="rgba(255,255,255,0.18)"/>
+          <text x="19" y="19" text-anchor="middle" dominant-baseline="central"
+                fill="#fff" font-family="-apple-system,sans-serif" font-size="${fs}" font-weight="800">${txt}</text>
+        </svg>${badge?`<span class="ctx">${esc(badge)}</span>`:''}
+        <span class="dbadge" style="display:none"></span>
+      </div>`;
     }
 
-    // Viewport culling: only attach markers that intersect current bounds.
-    // This is the cheap way to handle 2k+ pins on a phone — we skip the cluster library entirely.
-    let cullScheduled = false;
-    function scheduleCull() {
-      if (cullScheduled) return;
-      cullScheduled = true;
-      requestAnimationFrame(() => { cullScheduled = false; applyFilter(); });
-    }
-    function applyFilter() {
-      const bounds = map ? map.getBounds() : null;
-      let inViewport = 0, totalMatching = 0;
-      for (const m of markers) {
-        const filterMatch = activeFilter === 'all' || m.color === activeFilter;
-        if (!filterMatch) {
-          if (map.hasLayer(m.marker)) map.removeLayer(m.marker);
-          continue;
-        }
-        totalMatching++;
-        const inside = !bounds || bounds.contains(m.marker.getLatLng());
-        if (inside) {
-          if (!map.hasLayer(m.marker)) m.marker.addTo(map);
-          inViewport++;
-        } else {
-          if (map.hasLayer(m.marker)) map.removeLayer(m.marker);
-        }
-      }
-      countPill.textContent = totalMatching === inViewport
-        ? `${totalMatching} pin${totalMatching === 1 ? '' : 's'}`
-        : `${inViewport} of ${totalMatching}`;
-    }
+    // ===== DRAWER =====
+    let currentRec = null;
 
-    function escHtml(s) {
-      return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-    }
-    function dash(v, cls) {
-      if (v === null || v === undefined || v === '') return `<span class="v empty">—</span>`;
-      return `<span class="v ${cls||''}">${v}</span>`;
-    }
-
-    function openPanel(record) {
-      currentRecord = record;
-      const f = record.fields;
-      const color = pinColorFor(record);
-      const score = Math.round(Number(f.Heat_Score || 0));
-      const contacts = contactsForRecord(record);
+    function openDrawer(rec) {
+      currentRec = rec;
+      const f = rec.fields;
+      const color = pinColor(rec);
+      const score = Math.round(Number(f.Heat_Score||0));
+      const contacts = contactsFor(rec);
       const primary = pickPrimary(contacts);
-      const ownerName = primary ? primary.fields.Contact_Name : (f.Primary_Contact_Name || null);
-      const addr = f.Property_Address || '—';
+      const ownerName = primary ? primary.fields.Contact_Name : (f.Primary_Contact_Name || (f.List_Contacts_No_Primery||[])[0] || null);
+      const addr = f.Property_Address || '--';
+      const dist = (f.Lat && f.Lng) ? hav(userLL[0], userLL[1], f.Lat, f.Lng) : null;
 
-      $('p-owner').textContent = ownerName || '(no owner on file)';
-      $('p-addr').textContent = addr;
-      $('p-score').style.background = badgeBg(color);
-      $('p-score').querySelector('.num').textContent = score;
+      // Street View URL (optional — only if mapsKey configured)
+      const hasSV = CFG.mapsKey && CFG.mapsKey.length > 10;
+      const svUrl = hasSV ? `https://maps.googleapis.com/maps/api/streetview?size=600x250&location=${encodeURIComponent(addr)}&key=${encodeURIComponent(CFG.mapsKey)}` : '';
 
-      const meta = [];
-      meta.push(`<span class="meta-tag">${PIN_COLORS[color].label}</span>`);
-      if (f.Note_Type) meta.push(`<span class="meta-tag dispo">${escHtml(f.Note_Type)}</span>`);
-      if (f.Lead_Type) meta.push(`<span class="meta-tag">${escHtml(f.Lead_Type)}</span>`);
-      if (f.Zone) meta.push(`<span class="meta-tag">${escHtml(f.Zone)}</span>`);
-      if (f.Context_Badge) meta.push(`<span class="meta-tag">${escHtml(f.Context_Badge)}</span>`);
-      if (typeof f.Days_Until_Auction === 'number') {
-        const d = f.Days_Until_Auction;
-        meta.push(`<span class="meta-tag">${d >= 0 ? d + 'd to auction' : Math.abs(d) + 'd post-auction'}</span>`);
+      // Header
+      $('dd-header').innerHTML = `
+        <div class="dd-close" id="dd-close-btn">&#10005;</div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+          <div style="width:48px;height:48px;border-radius:12px;background:${(COLORS[color]||COLORS.Gray).fill};
+            display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;">
+            <span style="font-size:18px;font-weight:800;color:#fff;line-height:1;">${score}</span>
+            <span style="font-size:8px;color:rgba(255,255,255,0.8);text-transform:uppercase;letter-spacing:0.5px;">Score</span>
+          </div>
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:16px;font-weight:700;line-height:1.2;">${esc(ownerName||'(No owner on file)')}</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.3;word-wrap:break-word;">${esc(addr)}</div>
+            ${dist!==null ? `<div style="font-size:11px;color:var(--accent);font-weight:600;margin-top:2px;">${fmtD(dist)} away</div>` : ''}
+          </div>
+        </div>`;
+
+      let h = '';
+
+      // Street View photo (only if key provided)
+      if (svUrl) {
+        h += `<div style="margin:0 -16px 14px;"><img src="${esc(svUrl)}" style="width:100%;height:160px;object-fit:cover;background:var(--panel-2);"
+          onerror="this.style.display='none'"></div>`;
       }
-      const last = fmtDate(f.Timestamp);
-      if (last) meta.push(`<span class="meta-tag last-visit">Last visit: ${last}</span>`);
-      $('p-meta').innerHTML = meta.join('');
 
-      $('p-breakdown').innerHTML = renderBreakdown(record);
+      // Motivation flags
+      const flags = COMPS.filter(c => !!f[c.key]);
+      if (flags.length || f.Zone || f.Lead_Type) {
+        h += '<div class="flag-row">';
+        for (const fl of flags) h += `<span class="flag ${fl.cls}">${fl.icon}</span>`;
+        if (f.Lead_Type) h += `<span class="flag flag-type">${esc(f.Lead_Type)}</span>`;
+        if (f.Zone) h += `<span class="flag flag-zone">${esc(f.Zone)}</span>`;
+        if (typeof f.Days_Until_Auction === 'number') {
+          const d = f.Days_Until_Auction;
+          h += `<span class="flag flag-auction">${d>=0 ? d+'d TO AUCTION' : Math.abs(d)+'d POST-AUCTION'}</span>`;
+        }
+        h += '</div>';
+      }
 
-      // Build relatives list (every contact except the primary)
-      const relatives = contacts.filter(c => c !== primary);
-      let relsHtml;
-      if (relatives.length === 0) {
-        relsHtml = `<span class="v empty">—</span>`;
+      // Navigate buttons
+      h += `<div class="dd-section">
+        <button class="nav-cta nav-apple" id="dd-apple">&#9654; Open in Apple Maps</button>
+        <button class="nav-cta nav-google" id="dd-google">&#9654; Open in Google Maps</button>
+      </div>`;
+
+      // Phones
+      const allPhones = [];
+      for (const c of contacts) {
+        const phs = bestPhones(c);
+        for (const p of phs) allPhones.push({ ...p, contactName: c.fields.Contact_Name, flags: c.fields.Contact_Flags });
+      }
+      if (allPhones.length) {
+        h += `<div class="dd-section"><div class="dd-label">Phone Numbers</div>`;
+        for (const p of allPhones) {
+          const raw = String(p.num).replace(/\D/g,'');
+          const fmt = fmtPh(p.num);
+          h += `<div class="ph-row">
+            <a href="tel:${esc(raw)}">${esc(fmt)}</a>
+            <span class="ph-type">${esc(p.type)}${p.dnc?' DNC':''}</span>
+            <span class="ph-flag">${esc(p.contactName)}${p.flags ? ' - '+esc(p.flags.split(',')[0]) : ''}</span>
+          </div>`;
+        }
+        h += '</div>';
       } else {
-        relsHtml = `<div class="relatives-list">` + relatives.map(c => {
-          const n = escHtml(c.fields.Contact_Name || '(unnamed)');
-          const flag = c.fields.Contact_Flags ? `<span class="rel-flag"> · ${escHtml(c.fields.Contact_Flags.split('\n')[0])}</span>` : '';
-          const ph = bestPhone(c);
-          const phLink = ph ? ` · <a href="tel:${escHtml(String(ph).replace(/\D/g,''))}">${escHtml(fmtPhone(ph))}</a>` : '';
-          return `<span class="rel">${n}${flag}${phLink}</span>`;
-        }).join('') + `</div>`;
+        const name = ownerName || '';
+        if (name) {
+          const parts = name.trim().split(/\s+/);
+          const fn = parts[0]||'', ln = parts[parts.length-1]||'';
+          const fpUrl = `https://www.fastpeoplesearch.com/name/${encodeURIComponent(fn)}-${encodeURIComponent(ln)}`;
+          const gUrl = `https://www.google.com/search?q=${encodeURIComponent('"'+name+'" Florida phone')}`;
+          h += `<div class="dd-section"><div class="dd-label">No Phone on File</div>
+            <div style="background:#1a0a0a;border:1px solid #7f1d1d;border-radius:6px;padding:10px 12px;margin-bottom:8px;">
+              <div style="font-size:0.72rem;color:#ef4444;font-weight:700;margin-bottom:6px;">Skip Trace Needed</div>
+              <div style="display:flex;gap:6px;">
+                <a href="${esc(fpUrl)}" target="_blank" style="flex:1;background:#1e3a5f;border:1px solid #3b82f6;border-radius:4px;padding:6px;font-size:0.65rem;color:#3b82f6;text-align:center;text-decoration:none;">FastPeopleSearch</a>
+                <a href="${esc(gUrl)}" target="_blank" style="flex:1;background:#1a1a2e;border:1px solid #2a2a40;border-radius:4px;padding:6px;font-size:0.65rem;color:#aaa;text-align:center;text-decoration:none;">Google</a>
+              </div>
+            </div></div>`;
+        }
       }
 
-      const phone = bestPhone(primary);
-      const phoneHtml = phone
-        ? `<a href="tel:${escHtml(String(phone).replace(/\D/g,''))}">${escHtml(fmtPhone(phone))}</a>`
-        : `<span class="v empty">—</span>`;
+      // All contacts
+      if (contacts.length > 1) {
+        h += `<div class="dd-section"><div class="dd-label">All Contacts / Relatives</div>`;
+        for (const c of contacts) {
+          const cf = c.fields;
+          const isP = c === primary;
+          h += `<div class="dd-card" style="margin-bottom:5px;${isP?'border-left:3px solid var(--ok);':''}">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <span style="font-size:0.78rem;font-weight:600;color:var(--text);">${esc(cf.Contact_Name||'(unnamed)')}</span>
+              ${cf.Contact_Flags ? `<span style="font-size:0.48rem;color:#888;border:1px solid #2a2a40;border-radius:2px;padding:0 5px;">${esc(cf.Contact_Flags.split(',')[0])}</span>` : ''}
+            </div>
+            ${cf.Primary_Mailing_Address ? `<div style="font-size:0.6rem;color:#555;margin-top:3px;">${esc(cf.Primary_Mailing_Address)}, ${esc(cf.Mailing_City||'')} ${esc(cf.Mailing_State||'')} ${esc(cf.Mailing_ZIP||'')}</div>` : ''}
+            ${cf.Email_1 ? `<div style="font-size:0.6rem;color:#60a5fa;margin-top:2px;">${esc(cf.Email_1)}</div>` : ''}
+          </div>`;
+        }
+        h += '</div>';
+      }
 
-      // Beds / Baths / SqFt / Value: not in this Airtable base. Show — with a one-line disclaimer.
-      const beds = f.Beds || f.beds || null;
-      const baths = f.Baths || f.baths || null;
-      const sqft = f.SqFt || f.Square_Feet || f.SquareFeet || null;
-      const value = f.Estimated_Value || f.Property_Value || f.Value || null;
+      // Score breakdown
+      h += `<div class="dd-section"><div class="dd-label">Heat Score Breakdown</div><div class="dd-card">`;
+      let total = 0;
+      for (const c of COMPS) {
+        const on = !!f[c.key]; if (on) total += c.pts;
+        h += `<div class="score-row ${on?'on':'off'}"><span>${c.label}</span><span class="score-pts">${on?'+':'.'}${c.pts}</span></div>`;
+      }
+      h += `<div class="score-row score-total"><span>Total</span><span class="score-pts">${total}</span></div></div></div>`;
 
-      $('p-fields').innerHTML = `
-        <div class="row">
-          <span class="k">Owner</span>
-          ${ownerName ? `<span class="v">${escHtml(ownerName)}</span>` : `<span class="v empty">—</span>`}
-        </div>
-        <div class="row">
-          <span class="k">Phone</span>
-          <span class="v">${phoneHtml}</span>
-        </div>
-        <div class="row full">
-          <span class="k">Relatives / Family</span>
-          ${relsHtml}
-        </div>
-        <div class="row">
-          <span class="k">Beds</span>
-          ${beds ? `<span class="v">${escHtml(beds)}</span>` : `<span class="v empty">—</span>`}
-        </div>
-        <div class="row">
-          <span class="k">Baths</span>
-          ${baths ? `<span class="v">${escHtml(baths)}</span>` : `<span class="v empty">—</span>`}
-        </div>
-        <div class="row">
-          <span class="k">Sq Ft</span>
-          ${sqft ? `<span class="v">${escHtml(sqft)}</span>` : `<span class="v empty">—</span>`}
-        </div>
-        <div class="row">
-          <span class="k">Est. Value</span>
-          ${value ? `<span class="v">$${escHtml(Number(value).toLocaleString())}</span>` : `<span class="v empty">—</span>`}
-        </div>
-      `;
+      // Field notes
+      if (f.Field_Notes) {
+        h += `<div class="dd-section"><div class="dd-label">Previous Notes</div>
+          <div class="dd-card" style="font-size:0.72rem;color:#aaa;line-height:1.5;white-space:pre-wrap;">${esc(f.Field_Notes)}</div></div>`;
+      }
 
-      const missingProp = !beds && !baths && !sqft && !value;
-      $('p-data-note').textContent = missingProp
-        ? 'Beds / baths / sq ft / value are not yet in this Airtable base. Add fields to "Households (Properties/Pins)" to populate.'
-        : '';
+      // Disposition
+      h += `<div class="dd-section"><div class="dd-label">Log This Visit</div>
+        <select id="dd-dispo">
+          <option value="">-- what happened? --</option>
+          <option>Visited</option><option>Door Knock - Answered</option><option>Door Knock - No Answer</option>
+          <option>Left Flyer</option><option>Called from Driveway</option>
+          <option>Interested - Wants Offer</option><option>Not Interested</option>
+        </select>
+        <textarea id="dd-note" placeholder="Notes (voice-to-text works)" style="margin-top:8px;"></textarea>
+        <button class="dd-save" id="dd-save-btn">Save Visit</button>
+      </div>`;
 
-      $('p-disposition').value = f.Note_Type || '';
-      $('p-note').value = '';
-      $('p-note').placeholder = f.Field_Notes ? `Last note: ${f.Field_Notes.split('\n')[0].slice(0,80)}…` : 'What happened? Voice-to-text works (mic key on iPhone).';
+      $('dd-body').innerHTML = h;
 
-      panel.classList.add('open');
+      // Wire buttons
+      $('dd-close-btn').onclick = closeDrawer;
+      $('dd-apple').onclick = () => { window.open(`maps://maps.apple.com/?daddr=${encodeURIComponent(addr)}&dirflg=d`, '_blank'); };
+      $('dd-google').onclick = () => { window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(addr)}`, '_blank'); };
+      $('dd-save-btn').onclick = saveVisit;
+
+      $('dd-overlay').style.display = 'block';
+      $('dd-panel').style.display = 'block';
     }
-    function closePanel() {
-      panel.classList.remove('open');
-      currentRecord = null;
+
+    function closeDrawer() {
+      $('dd-overlay').style.display = 'none';
+      $('dd-panel').style.display = 'none';
+      currentRec = null;
     }
-    $('p-cancel').addEventListener('click', closePanel);
+    $('dd-overlay').onclick = closeDrawer;
 
-    $('p-nav').addEventListener('click', () => {
-      if (!currentRecord) return;
-      navigateTo(currentRecord.fields.Property_Address);
-    });
+    async function saveVisit() {
+      if (!currentRec) return;
+      const dispo = $('dd-dispo').value.trim();
+      const note = $('dd-note').value.trim();
+      if (!dispo && !note) { toast('Pick a disposition or write a note','err'); return; }
+      const btn = $('dd-save-btn'); btn.disabled = true; btn.textContent = 'Saving...';
+      try {
+        const existing = currentRec.fields.Field_Notes || '';
+        const stamp = new Date().toLocaleString(undefined,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
+        const line = note ? `[${stamp}] ${dispo||'Visit'}: ${note}` : `[${stamp}] ${dispo}`;
+        const fields = { Field_Notes: existing ? `${line}\n${existing}` : line, Timestamp: new Date().toISOString() };
+        if (dispo) fields.Note_Type = dispo;
+        const updated = await patchLead(currentRec.id, fields);
+        Object.assign(currentRec.fields, updated.fields);
+        toast('Visit logged', 'ok');
+        closeDrawer();
+      } catch(e) { console.error(e); toast('Save failed: '+e.message,'err'); }
+      finally { btn.disabled = false; btn.textContent = 'Save Visit'; }
+    }
 
-    // Fire-and-forget kill switch to Make.com Scenario 5.
-    // Make uses the GHL_Contact_ID to apply status-engaged tag, which stops WF-08 + WF-11.
-    // no-cors so we don't block on a webhook that may not respond with CORS headers.
-    function fireKillSwitch(record, disposition, note) {
-      if (!CONFIG.makeWebhookUrl) return Promise.resolve({ skipped: 'no_webhook_configured' });
-      if (!record.fields.GHL_Contact_ID) return Promise.resolve({ skipped: 'no_ghl_contact_id' });
-      const payload = {
-        ghl_contact_id: record.fields.GHL_Contact_ID,
-        airtable_record_id: record.id,
-        household_id: record.fields.Household_ID || null,
-        lead_uid: record.fields.Lead_UID || null,
-        property_address: record.fields.Property_Address || null,
-        disposition: disposition || null,
-        note: note || null,
-        timestamp: new Date().toISOString(),
-        source: 'pounce_map_v1',
+    // ===== FILTER =====
+    document.querySelectorAll('.chip').forEach(ch => {
+      ch.onclick = () => {
+        document.querySelectorAll('.chip').forEach(c => c.dataset.active='false');
+        ch.dataset.active='true'; activeFilter=ch.dataset.filter; applyFilter();
       };
-      return fetch(CONFIG.makeWebhookUrl, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      }).then(() => ({ fired: true })).catch(err => ({ error: err.message }));
-    }
+    });
+    $('follow-btn').onclick = () => {
+      setFollowMode(!followMode);
+      toast(followMode ? 'Following your location' : 'Follow mode off', followMode ? 'ok' : '');
+    };
+    $('recenter').onclick = () => {
+      setFollowMode(false);
+      if(map){map.setView(userLL, 14);}
+    };
 
-    $('p-save').addEventListener('click', async () => {
-      if (!currentRecord) return;
-      const disposition = $('p-disposition').value.trim();
-      const note = $('p-note').value.trim();
-      if (!disposition && !note) { showToast('Pick a disposition or write a note', 'err'); return; }
-      const btn = $('p-save');
-      btn.disabled = true; btn.textContent = 'Saving…';
-      try {
-        const today = new Date().toISOString();
-        const existingNotes = currentRecord.fields.Field_Notes || '';
-        const stamp = new Date().toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
-        const noteLine = note ? `[${stamp}] ${disposition || 'Visit'}: ${note}` : `[${stamp}] ${disposition}`;
-        const newNotes = existingNotes ? `${noteLine}\n${existingNotes}` : noteLine;
-
-        const fields = { Field_Notes: newNotes, Timestamp: today };
-        if (disposition) fields.Note_Type = disposition;
-
-        // PATCH Airtable + fire kill switch in parallel; both should resolve under spec's 10s budget.
-        const [updated, killRes] = await Promise.all([
-          patchLead(currentRecord.id, fields),
-          fireKillSwitch(currentRecord, disposition, note),
-        ]);
-        Object.assign(currentRecord.fields, updated.fields);
-
-        let toastMsg = 'Logged ✓';
-        if (killRes && killRes.fired) toastMsg = 'Logged ✓  ·  Kill switch fired';
-        else if (killRes && killRes.skipped === 'no_ghl_contact_id') toastMsg = 'Logged ✓  ·  No GHL contact (kill switch skipped)';
-        else if (killRes && killRes.skipped === 'no_webhook_configured') toastMsg = 'Logged ✓  ·  Webhook not configured';
-        else if (killRes && killRes.error) toastMsg = 'Logged ✓  ·  Webhook error (check ⚙)';
-
-        showToast(toastMsg, 'ok');
-        closePanel();
-      } catch (err) {
-        console.error(err);
-        showToast('Log failed: ' + err.message, 'err');
-      } finally {
-        btn.disabled = false; btn.textContent = 'Save Visit';
+    function applyFilter() {
+      let inV=0, tot=0;
+      const bounds = map ? map.getBounds() : null;
+      for (const m of markers) {
+        const ok = activeFilter==='all' || m.color===activeFilter;
+        if (!ok) { if(map.hasLayer(m.layer)) map.removeLayer(m.layer); continue; }
+        tot++;
+        if (!map.hasLayer(m.layer)) map.addLayer(m.layer);
+        const inside = !bounds || bounds.contains(m.layer.getLatLng());
+        if (inside) inV++;
       }
-    });
-
-    // ---------- Filter chips ----------
-    document.querySelectorAll('.chip').forEach(chip => {
-      chip.addEventListener('click', () => {
-        document.querySelectorAll('.chip').forEach(c => c.dataset.active = 'false');
-        chip.dataset.active = 'true';
-        activeFilter = chip.dataset.filter;
-        applyFilter();
-      });
-    });
-
-    // ---------- Recenter ----------
-    $('recenter').addEventListener('click', () => {
-      if (!map) return;
-      map.setView([userLatLng.lat, userLatLng.lng], 14);
-    });
-
-    // ---------- GPS ----------
-    function getGps() {
-      return new Promise((resolve) => {
-        if (!navigator.geolocation) return resolve(null);
-        navigator.geolocation.getCurrentPosition(
-          (pos) => resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
-          (err) => { console.warn('GPS denied/failed', err); resolve(null); },
-          { enableHighAccuracy: true, timeout: 8000, maximumAge: 30000 }
-        );
-      });
+      $('count-pill').textContent = tot===inV ? `${tot} pins` : `${inV} of ${tot}`;
     }
 
-    // ---------- Boot ----------
+    // ===== BOOT =====
     async function boot() {
-      if (!CONFIG) { statusPill.textContent = 'Setup required'; return; }
-      statusPill.textContent = 'Locating…';
-      statusPill.classList.add('loading');
+      if (!CFG) { $('status-pill').textContent='Setup required'; return; }
+      $('status-pill').textContent='Locating...';
+      startGps();
 
-      const gps = await getGps();
-      if (gps) userLatLng = gps;
-
-      // Leaflet + OpenStreetMap (no API key required)
+      // Init Leaflet map with dark tiles
       map = L.map('map', {
-        center: [userLatLng.lat, userLatLng.lng],
+        center: userLL,
         zoom: 13,
-        zoomControl: true,
-        attributionControl: false,
+        zoomControl: false,
+        attributionControl: true,
       });
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '© OpenStreetMap',
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; OSM &copy; CARTO',
+        subdomains: 'abcd',
+        maxZoom: 20,
       }).addTo(map);
-      map.on('moveend', scheduleCull);
-      map.on('zoomend', scheduleCull);
+      // Turn off follow on manual pan
+      map.on('dragstart', () => { if(followMode){ setFollowMode(false); toast('Follow mode off',''); } });
+      map.on('moveend', () => applyFilter());
 
-      // "You are here" marker
-      const meIcon = L.divIcon({
-        html: '<div class="me-marker"></div>',
-        className: '',
-        iconSize: [18, 18],
-        iconAnchor: [9, 9],
-      });
-      L.marker([userLatLng.lat, userLatLng.lng], { icon: meIcon, zIndexOffset: 9999, interactive: false, keyboard: false }).addTo(map);
+      // Blue dot
+      const meIcon = L.divIcon({ className: '', html: '<div class="me-dot-outer"><div class="me-pulse"></div><div class="me-dot"></div></div>', iconSize: [60,60], iconAnchor: [30,30] });
+      meMarker = L.marker(userLL, { icon: meIcon, zIndexOffset: 9999 }).addTo(map);
 
-      statusPill.textContent = 'Loading leads…';
+      $('status-pill').textContent='Loading leads...';
+      let recs, cons;
+      try { [recs,cons] = await Promise.all([fetchLeads(),fetchContacts()]); }
+      catch(e) { $('status-pill').textContent='Error'; toast(e.message,'err'); return; }
+      idxContacts(cons);
 
-      let records, contacts;
-      try {
-        [records, contacts] = await Promise.all([fetchAllLeads(), fetchAllContacts()]);
-      } catch (err) {
-        statusPill.classList.remove('loading');
-        statusPill.textContent = 'Airtable error';
-        showToast(err.message, 'err');
-        console.error(err);
-        return;
-      }
-      indexContacts(contacts);
-      console.log(`[Pounce] ${records.length} leads, ${contacts.length} contacts`);
-
-      // Build all markers but DON'T attach to map yet — applyFilter() will attach only those
-      // inside the current viewport. Keeps init fast and DOM light for 2k+ pins.
-      for (const rec of records) {
+      for (const rec of recs) {
         const f = rec.fields;
-        if (typeof f.Lat !== 'number' || typeof f.Lng !== 'number') continue;
-        const color = pinColorFor(rec);
-        const el = buildMarkerEl(color, Number(f.Heat_Score || 0), f.Context_Badge || '');
+        if (typeof f.Lat!=='number'||typeof f.Lng!=='number') continue;
+        const color = pinColor(rec);
+        const html = buildPinHtml(color, Number(f.Heat_Score||0), f.Context_Badge||'');
         const icon = L.divIcon({
-          html: el.outerHTML,
           className: '',
+          html: html,
           iconSize: [38, 54],
           iconAnchor: [19, 54],
         });
-        const marker = L.marker([f.Lat, f.Lng], {
-          icon,
-          title: f.Property_Address || 'Lead',
-          zIndexOffset: color === 'Flashing' ? 1000 : (color === 'Red' ? 500 : (color === 'Purple' ? 400 : (color === 'Orange' ? 300 : 100))),
-        });
-        marker.on('click', () => openPanel(rec));
-        markers.push({ marker, record: rec, color });
+        const layer = L.marker([f.Lat, f.Lng], { icon, title: f.Property_Address||'Lead' }).addTo(map);
+        layer.on('click', () => openDrawer(rec));
+        const el = layer.getElement();
+        markers.push({layer, record:rec, color, dist:null, el: el || layer._icon || document.createElement('div')});
       }
 
-      statusPill.classList.remove('loading');
-      statusPill.textContent = `${records.length} leads`;
+      // Leaflet markers may not have DOM elements until after addTo — re-grab
+      setTimeout(() => {
+        for (const m of markers) {
+          if (!m.el || !m.el.querySelector) {
+            m.el = m.layer.getElement() || m.layer._icon || document.createElement('div');
+          }
+        }
+        updDist();
+      }, 100);
+
+      $('status-pill').textContent=`${recs.length} leads`;
       applyFilter();
     }
-
-    boot().catch(err => {
-      console.error(err);
-      statusPill.classList.remove('loading');
-      statusPill.textContent = 'Boot failed';
-      showToast(err.message, 'err');
-    });
-
-    // ---------- Service worker (offline shell only) ----------
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js').catch(() => { /* fine if missing */ });
-    }
+    boot().catch(e => { console.error(e); $('status-pill').textContent='Boot failed'; toast(e.message,'err'); });
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
   </script>
 </body>
 </html>
