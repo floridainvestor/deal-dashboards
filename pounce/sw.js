@@ -1,7 +1,7 @@
-// Pounce Map service worker v6 — Leaflet + OSM, offline shell only.
+// Pounce Map service worker v7 — Leaflet + OSM, offline shell only.
 // Network-first for our own shell so deploys show up immediately; cache is offline fallback only.
 // Lead data and Airtable PATCHes always go to the network so field updates stay authoritative.
-const CACHE = 'pounce-shell-v6-leaflet';
+const CACHE = 'pounce-shell-v7-leaflet';
 const SHELL = ['./index.html', './manifest.json'];
 
 self.addEventListener('install', (e) => {
@@ -16,7 +16,7 @@ self.addEventListener('activate', (e) => {
 self.addEventListener('fetch', (e) => {
   const url = new URL(e.request.url);
   // Never cache Airtable or map tiles — always live.
-  if (url.host.includes('airtable.com') || url.host.includes('cartocdn.com') || url.host.includes('googleapis.com') || url.host.includes('unpkg.com')) return;
+  if (url.host.includes('airtable.com') || url.host.includes('cartocdn.com') || url.host.includes('googleapis.com') || url.host.includes('unpkg.com') || url.host.includes('arcgisonline.com')) return;
   if (e.request.method !== 'GET') return;
   e.respondWith(
     fetch(e.request).then(res => {
