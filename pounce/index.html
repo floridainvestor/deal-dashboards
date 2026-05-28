@@ -10,6 +10,7 @@
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="icons/icon-192.png" />
   <title>Pounce Map</title>
+  <meta name="pounce-build" content="v8" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
@@ -318,6 +319,7 @@
 
   <script>
     // ===== CONFIG =====
+    const BUILD = 'v8';
     const LS = 'pounce_cfg_v3';
     function loadCfg() {
       if (window.POUNCE_CONFIG && window.POUNCE_CONFIG.airtableKey) return window.POUNCE_CONFIG;
@@ -834,7 +836,7 @@
         updDist();
       }, 100);
 
-      $('status-pill').textContent=`${recs.length} leads`;
+      $('status-pill').textContent=`${recs.length} leads · ${BUILD}`;
       applyFilter();
     }
     boot().catch(e => { console.error(e); $('status-pill').textContent='Boot failed'; toast(e.message,'err'); });
