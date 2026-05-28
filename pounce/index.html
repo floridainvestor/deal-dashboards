@@ -395,7 +395,7 @@
 
     // ===== GPS =====
     let userLL = [30.3322, -81.6557]; // [lat, lng] for Leaflet
-    let meMarker = null, gpsWatchId = null;
+    let meMarker = null, gpsWatchId = null, gotFirstFix = false;
     let followMode = false;
 
     function setFollowMode(on) {
@@ -406,15 +406,26 @@
       if (on && map) { map.setView(userLL, Math.max(map.getZoom(), 16)); }
     }
 
+    function gpsErr(e) {
+      const msg = e && e.code === 1 ? 'Location blocked — allow it in Settings › Safari › Location'
+        : e && e.code === 3 ? 'Location timed out — retrying…'
+        : 'Location unavailable';
+      toast(msg, 'err');
+    }
     function startGps() {
-      if (!navigator.geolocation) return;
-      navigator.geolocation.getCurrentPosition(p => updPos(p), ()=>{}, {enableHighAccuracy:true,timeout:8000,maximumAge:30000});
-      gpsWatchId = navigator.geolocation.watchPosition(p => updPos(p), ()=>{}, {enableHighAccuracy:true,timeout:15000,maximumAge:5000});
+      if (!navigator.geolocation) { toast('No GPS on this device', 'err'); return; }
+      navigator.geolocation.getCurrentPosition(p => updPos(p), gpsErr, {enableHighAccuracy:true,timeout:8000,maximumAge:30000});
+      gpsWatchId = navigator.geolocation.watchPosition(p => updPos(p), gpsErr, {enableHighAccuracy:true,timeout:15000,maximumAge:5000});
     }
     function updPos(p) {
       userLL = [p.coords.latitude, p.coords.longitude];
       if (meMarker) meMarker.setLatLng(userLL);
-      if (followMode && map) map.panTo(userLL);
+      if (!gotFirstFix) {
+        gotFirstFix = true;
+        setFollowMode(true); // center + follow once we actually know where the truck is
+      } else if (followMode && map) {
+        map.panTo(userLL);
+      }
       updDist();
     }
     let _distT;
@@ -679,8 +690,8 @@
 
       // Wire buttons
       $('dd-close-btn').onclick = closeDrawer;
-      $('dd-apple').onclick = () => { window.open(`maps://maps.apple.com/?daddr=${encodeURIComponent(addr)}&dirflg=d`, '_blank'); };
-      $('dd-google').onclick = () => { window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(addr)}`, '_blank'); };
+      $('dd-apple').onclick = () => { window.location.href = `https://maps.apple.com/?daddr=${encodeURIComponent(addr)}&dirflg=d`; };
+      $('dd-google').onclick = () => { window.location.href = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(addr)}`; };
       $('dd-save-btn').onclick = saveVisit;
 
       $('dd-overlay').style.display = 'block';
@@ -748,7 +759,6 @@
     async function boot() {
       if (!CFG) { $('status-pill').textContent='Setup required'; return; }
       $('status-pill').textContent='Locating...';
-      startGps();
 
       // Init Leaflet map with dark tiles
       map = L.map('map', {
@@ -769,6 +779,7 @@
       // Blue dot
       const meIcon = L.divIcon({ className: '', html: '<div class="me-dot-outer"><div class="me-pulse"></div><div class="me-dot"></div></div>', iconSize: [60,60], iconAnchor: [30,30] });
       meMarker = L.marker(userLL, { icon: meIcon, zIndexOffset: 9999 }).addTo(map);
+      startGps();
 
       $('status-pill').textContent='Loading leads...';
       let recs, cons;
