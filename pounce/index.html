@@ -10,7 +10,7 @@
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="icons/icon-192.png" />
   <title>Pounce Map</title>
-  <meta name="pounce-build" content="v8" />
+  <meta name="pounce-build" content="v9" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
@@ -161,13 +161,14 @@
     .dd-header {
       position: sticky; top: 0; z-index: 2;
       background: rgba(19,19,26,0.95); backdrop-filter: blur(12px);
-      padding: 14px 16px 10px; border-bottom: 1px solid var(--line);
+      padding: calc(var(--safe-top) + 14px) 16px 10px;
+      border-bottom: 1px solid var(--line);
     }
     .dd-close {
-      position: absolute; top: 14px; right: 14px;
-      width: 32px; height: 32px; border-radius: 50%;
+      position: absolute; top: calc(var(--safe-top) + 10px); right: 10px;
+      width: 40px; height: 40px; border-radius: 50%;
       background: var(--panel-2); border: 1px solid var(--line);
-      color: var(--text); font-size: 18px; cursor: pointer;
+      color: var(--text); font-size: 20px; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
     }
     .dd-body { padding: 0 16px 24px; }
@@ -319,7 +320,7 @@
 
   <script>
     // ===== CONFIG =====
-    const BUILD = 'v8';
+    const BUILD = 'v9';
     const LS = 'pounce_cfg_v3';
     function loadCfg() {
       if (window.POUNCE_CONFIG && window.POUNCE_CONFIG.airtableKey) return window.POUNCE_CONFIG;

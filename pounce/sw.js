@@ -1,7 +1,7 @@
-// Pounce Map service worker v8 — Leaflet + OSM, offline shell only.
+// Pounce Map service worker v9 — Leaflet + OSM, offline shell only.
 // Network-first for our own shell so deploys show up immediately; cache is offline fallback only.
 // Lead data and Airtable PATCHes always go to the network so field updates stay authoritative.
-const CACHE = 'pounce-shell-v8-leaflet';
+const CACHE = 'pounce-shell-v9-leaflet';
 const SHELL = ['./index.html', './manifest.json'];
 
 self.addEventListener('install', (e) => {
