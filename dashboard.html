@@ -79,7 +79,7 @@ details > summary::-webkit-details-marker { display: none; }
       style="background:#111;border:1px solid #2a2a40;border-radius:6px;padding:6px 12px;
       font-size:0.72rem;color:#c084fc;text-decoration:none;white-space:nowrap;">🎓 YT Intel</a>
     <div>
-      <div style="background:#1a1a2e;border:1px solid #2a2a40;border-radius:6px;padding:6px 14px;font-size:0.82rem;color:#e8e8e8;">Jun 2, 2026 · 12:00 PM ET</div>
+      <div style="background:#1a1a2e;border:1px solid #2a2a40;border-radius:6px;padding:6px 14px;font-size:0.82rem;color:#e8e8e8;">Jun 2, 2026 · 12:17 PM ET</div>
       <div style="font-size:0.62rem;color:#444;margin-top:3px;">0/8 agents running</div>
     </div>
   </div>
@@ -708,6 +708,37 @@ details > summary::-webkit-details-marker { display: none; }
 // Empty string = fall back to native tel: links.
 var GHL_WEBHOOK_URL = "https://services.leadconnectorhq.com/hooks/KTrLkftu63ir51NcLOfP/webhook-trigger/e68qAbT9ELFxi9gh6jFz";
 
+// ── LOCAL TRANSCRIPTION (free faster-whisper via heirs_api :5001) ────
+// Only reachable on the Mac Mini (heirs_api binds 127.0.0.1). On the public
+// dashboard this degrades to a note — GHL provides the server-side transcript.
+var TRANSCRIBE_URL = "http://localhost:5001/transcribe";
+function _canTranscribeLocal() {
+  return location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:';
+}
+function transcribeBlob(blob, cid, num, container) {
+  if (!container) return;
+  function msg(t, color) { container.textContent = ''; var s = document.createElement('span'); s.style.cssText = 'font-size:0.62rem;color:' + (color||'#888') + ';'; s.textContent = t; container.appendChild(s); }
+  if (!_canTranscribeLocal()) { msg('Transcript via GHL (server-side) — local transcription runs on the Mac Mini only', '#666'); return; }
+  msg('⏳ Transcribing locally…', '#e2b714');
+  fetch(TRANSCRIBE_URL + '?card_id=' + encodeURIComponent(cid) + '&number=' + encodeURIComponent(num),
+        { method: 'POST', headers: { 'Content-Type': 'application/octet-stream' }, body: blob })
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      var text = (d && d.text) ? d.text : '';
+      if (!text) { msg('No transcript (recording saved)', '#888'); return; }
+      container.textContent = '';
+      var box = document.createElement('div');
+      box.style.cssText = 'font-size:0.7rem;color:#cfd8dc;background:#0a0e1a;border:1px solid #1e3a5f;border-radius:4px;padding:6px 8px;line-height:1.5;width:100%;';
+      var label = document.createElement('div');
+      label.style.cssText = 'font-size:0.5rem;color:#22c55e;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:3px;';
+      label.textContent = '📝 Transcript';
+      var body = document.createElement('div'); body.textContent = text;
+      box.appendChild(label); box.appendChild(body);
+      container.appendChild(box);
+    })
+    .catch(function(e) { msg('Transcription unavailable (recording saved)', '#888'); console.warn('transcribe failed', e); });
+}
+
 function ghlCall(phoneRaw, ctx) {
   ctx = ctx || {};
   var ev = window.event;
@@ -806,6 +837,11 @@ function toggleRecording(cid, num, btn) {
           '<a href="' + url + '" download="call_' + num + '_' + new Date().toISOString().slice(0,10) + '.webm" ' +
           'style="font-size:0.5rem;color:#3b82f6;text-decoration:none;white-space:nowrap;" onclick="event.stopPropagation()">💾 Save</a>';
         row.appendChild(div);
+        var tdiv = document.createElement('div');
+        tdiv.className = 'rec-transcript';
+        tdiv.style.cssText = 'margin-top:4px;width:100%;';
+        row.appendChild(tdiv);
+        transcribeBlob(blob, cid, num, tdiv);
       }
       var whoEl = document.getElementById('cl-who');
       if (whoEl && !whoEl.value) {
