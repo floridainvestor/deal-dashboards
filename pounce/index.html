@@ -709,6 +709,11 @@
       $('dd-save-btn').onclick = saveVisit;
 
       $('dd-overlay').style.display = 'block';
+      // iOS ghost-click guard: disable pointer events on the overlay for 350ms so the
+      // synthetic browser click that fires after a touch (same coordinates as the tap)
+      // cannot immediately trigger closeDrawer().
+      $('dd-overlay').style.pointerEvents = 'none';
+      setTimeout(() => { $('dd-overlay').style.pointerEvents = ''; }, 350);
       $('dd-panel').style.display = 'block';
     }
 
@@ -822,7 +827,7 @@
           iconAnchor: [19, 54],
         });
         const layer = L.marker([f.Lat, f.Lng], { icon, title: f.Property_Address||'Lead' }).addTo(map);
-        layer.on('click', () => openDrawer(rec));
+        layer.on('click', (e) => { L.DomEvent.stopPropagation(e); openDrawer(rec); });
         const el = layer.getElement();
         markers.push({layer, record:rec, color, dist:null, el: el || layer._icon || document.createElement('div')});
       }
