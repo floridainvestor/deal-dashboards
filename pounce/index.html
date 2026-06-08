@@ -10,7 +10,7 @@
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="icons/icon-192.png" />
   <title>Pounce Map</title>
-  <meta name="pounce-build" content="v9" />
+  <meta name="pounce-build" content="v10" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
@@ -320,7 +320,7 @@
 
   <script>
     // ===== CONFIG =====
-    const BUILD = 'v9';
+    const BUILD = 'v10';
     const LS = 'pounce_cfg_v3';
     function loadCfg() {
       if (window.POUNCE_CONFIG && window.POUNCE_CONFIG.airtableKey) return window.POUNCE_CONFIG;
@@ -559,6 +559,7 @@
 
     // ===== DRAWER =====
     let currentRec = null;
+    let ddOpenedAt = 0;
 
     function openDrawer(rec) {
       currentRec = rec;
@@ -709,15 +710,16 @@
       $('dd-save-btn').onclick = saveVisit;
 
       $('dd-overlay').style.display = 'block';
-      // iOS ghost-click guard: disable pointer events on the overlay for 350ms so the
-      // synthetic browser click that fires after a touch (same coordinates as the tap)
-      // cannot immediately trigger closeDrawer().
-      $('dd-overlay').style.pointerEvents = 'none';
-      setTimeout(() => { $('dd-overlay').style.pointerEvents = ''; }, 350);
       $('dd-panel').style.display = 'block';
+      // Stamp the open time. iOS Safari fires a synthetic "ghost" click ~300ms after a
+      // tap; on a pin tap that ghost click lands on the just-opened drawer and was
+      // closing it instantly. closeDrawer() ignores any close within the guard window
+      // below, which kills the flash no matter which element the ghost click hits.
+      ddOpenedAt = Date.now();
     }
 
     function closeDrawer() {
+      if (Date.now() - ddOpenedAt < 800) return; // swallow iOS ghost-click flash
       $('dd-overlay').style.display = 'none';
       $('dd-panel').style.display = 'none';
       currentRec = null;
