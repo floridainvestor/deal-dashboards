@@ -689,6 +689,26 @@
           <div class="dd-card" style="font-size:0.72rem;color:#aaa;line-height:1.5;white-space:pre-wrap;">${esc(f.Field_Notes)}</div></div>`;
       }
 
+      // ── DEBUG: All Airtable Fields ──────────────────────────────────────
+      // Tap a pin → scroll to bottom of drawer → screenshot this section
+      // to see every field name available for display. Remove once wired up.
+      const debugRows = Object.entries(f).sort(([a],[b])=>a.localeCompare(b)).map(([k,v]) => {
+        const display = v === null || v === undefined ? '<span style="color:#333">null</span>'
+          : Array.isArray(v) ? `<span style="color:#60a5fa">[${v.length} items]</span>`
+          : typeof v === 'boolean' ? `<span style="color:${v?'#22c55e':'#ef4444'}">${v}</span>`
+          : typeof v === 'number' ? `<span style="color:#e2b714">${v}</span>`
+          : `<span style="color:#aaa">${esc(String(v).substring(0,80))}${String(v).length>80?'…':''}</span>`;
+        return `<div style="display:flex;gap:8px;padding:3px 0;border-bottom:1px solid #111;font-size:0.6rem;">
+          <span style="color:#60a5fa;font-weight:700;min-width:160px;flex-shrink:0;">${esc(k)}</span>${display}</div>`;
+      }).join('');
+      h += `<details style="margin-bottom:14px;">
+        <summary style="cursor:pointer;font-size:0.6rem;font-weight:800;color:#444;text-transform:uppercase;letter-spacing:0.1em;padding:8px 0;">
+          🔍 Debug: All Fields (${Object.keys(f).length})
+        </summary>
+        <div class="dd-card" style="margin-top:6px;">${debugRows}</div>
+      </details>`;
+      // ────────────────────────────────────────────────────────────────────
+
       // Disposition
       h += `<div class="dd-section"><div class="dd-label">Log This Visit</div>
         <select id="dd-dispo">
