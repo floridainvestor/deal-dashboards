@@ -1190,19 +1190,88 @@ function buildSheet(p) {
 }
 
 // ── Show / hide ──────────────────────────────────────────────────────────────
+// Open/close always clears any leftover inline transform/opacity from a drag, so
+// reopening a new pin while one is already open replaces it cleanly (single fixed
+// element — content is swapped, never double-stacked).
 let _sheetProp = null;
 function showSheet(p) {
   _sheetProp = p;
+  const sheet = document.getElementById('bottom-sheet');
+  const overlay = document.getElementById('bs-overlay');
+  sheet.style.transition = ''; sheet.style.transform = ''; overlay.style.opacity = '';
   document.getElementById('bs-content').innerHTML = buildSheet(p);
-  document.getElementById('bottom-sheet').classList.add('open');
-  document.getElementById('bs-overlay').classList.add('open');
+  sheet.classList.add('open');
+  overlay.classList.add('open');
   requestAnimationFrame(() => { document.getElementById('bs-scroll-body').scrollTop = 0; });
 }
 function hideSheet() {
-  document.getElementById('bottom-sheet').classList.remove('open');
-  document.getElementById('bs-overlay').classList.remove('open');
+  const sheet = document.getElementById('bottom-sheet');
+  const overlay = document.getElementById('bs-overlay');
+  // Restore the CSS transition (a drag may have set it to 'none') and clear inline
+  // overrides so the sheet always slides back down the same way it came up.
+  sheet.style.transition = ''; sheet.style.transform = ''; overlay.style.opacity = '';
+  sheet.classList.remove('open');
+  overlay.classList.remove('open');
   _sheetProp = null;
 }
+
+// ── Close affordances (X tap, backdrop tap, map tap, Esc, swipe-down) ─────────
+// iOS Safari does NOT reliably fire `click` on a plain <div> (the backdrop), and
+// inline onclick on it was the reason the drawer felt "stuck" on the phone. Bind
+// real touch-aware listeners instead, and add a swipe-down-to-dismiss gesture.
+function wireSheetClose() {
+  const sheet = document.getElementById('bottom-sheet');
+  const overlay = document.getElementById('bs-overlay');
+  const scroller = document.getElementById('bs-scroll-body');
+  const closeBtn = document.getElementById('bs-close');
+
+  // Backdrop + X: fire on touchend (iOS) and click (desktop); idempotent.
+  const closeNow = (e) => { if (e && e.cancelable) e.preventDefault(); hideSheet(); };
+  [overlay, closeBtn].forEach(el => {
+    if (!el) return;
+    el.addEventListener('click', closeNow);
+    el.addEventListener('touchend', closeNow, { passive: false });
+    el.style.cursor = 'pointer';
+  });
+
+  // Esc (desktop) + tap on the map itself.
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && _sheetProp) hideSheet(); });
+  if (typeof map !== 'undefined' && map && map.on) map.on('click', () => { if (_sheetProp) hideSheet(); });
+
+  // Swipe-down-to-dismiss. Drag starts from the header always, or from the body
+  // only when it's scrolled to the top (so content scrolling still works).
+  let startY = null, dy = 0, dragging = false;
+  const onStart = (e) => {
+    const fromHeader = !!(e.target.closest && e.target.closest('#bs-header'));
+    if (!fromHeader && scroller.scrollTop > 0) { startY = null; dragging = false; return; }
+    startY = e.touches ? e.touches[0].clientY : e.clientY;
+    dy = 0; dragging = true;
+    sheet.style.transition = 'none';
+  };
+  const onMove = (e) => {
+    if (!dragging || startY === null) return;
+    const y = e.touches ? e.touches[0].clientY : e.clientY;
+    dy = y - startY;
+    if (dy > 0) {
+      if (e.cancelable) e.preventDefault();   // hold the page/body still while dragging
+      sheet.style.transform = `translateY(${dy}px)`;
+      overlay.style.opacity = String(Math.max(0, 1 - dy / 400));
+    }
+  };
+  const onEnd = () => {
+    if (!dragging) return;
+    dragging = false;
+    sheet.style.transition = '';
+    if (dy > 90) { hideSheet(); }            // past threshold → dismiss
+    else { sheet.style.transform = ''; overlay.style.opacity = ''; }  // snap back
+    startY = null; dy = 0;
+  };
+  sheet.addEventListener('touchstart', onStart, { passive: true });
+  sheet.addEventListener('touchmove', onMove, { passive: false });
+  sheet.addEventListener('touchend', onEnd);
+  sheet.addEventListener('touchcancel', onEnd);
+}
+wireSheetClose();
 
 // ── Field actions → localStorage (no backend on this map) ────────────────────
 function propByFull(full) { return PROPERTIES.find(p => p.full === full); }
