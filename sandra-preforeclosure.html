@@ -173,12 +173,15 @@
     .leaflet-popup-close-button { color: #8b949e !important; }
 
     /* Legend — positioned by Leaflet bottomright control */
+    /* Compact count·emoji·label chip (Hot Leads style) */
     .legend {
-      background: rgba(22,27,34,0.92); border: 1px solid #30363d;
-      border-radius: 6px; padding: 8px 12px; font-size: 0.75rem;
+      background: rgba(0,0,0,0.65); border: none;
+      border-radius: 8px; padding: 5px 8px; font-size: 11px; line-height: 1;
     }
-    .legend-row { display: flex; align-items: center; gap: 6px; margin: 3px 0; color: #8b949e; }
-    .leg-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .legend-row { display: grid; grid-template-columns: 28px 16px auto; align-items: center; gap: 5px; padding: 4px 0; }
+    .legend-row .lg-ct { text-align: right; font-weight: 800; color: #fff; font-variant-numeric: tabular-nums; }
+    .legend-row .lg-em { text-align: center; font-size: 11px; line-height: 1; }
+    .legend-row .lg-lb { font-weight: 800; letter-spacing: 0.02em; }
 
 
     /* Bottom drawer for leads list */
@@ -726,14 +729,18 @@ L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/
 const legend = L.control({position: 'bottomright'});
 legend.onAdd = () => {
   const div = L.DomUtil.create('div','legend');
-  const sw = (bg, inner, fs) => `<span style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:${bg};border:2px solid #fff;font-size:${fs || 11}px;line-height:1;margin-right:6px;flex-shrink:0;">${inner || ''}</span>`;
-  div.innerHTML = `
-    <div class="legend-row">${sw('#e63946', '🔥', 11)}FIRE — auction / very-high risk</div>
-    <div class="legend-row">${sw('#ff6b35', '⚡', 11)}HOT — foreclosure + distress</div>
-    <div class="legend-row">${sw('#f4a261', '')}WARM — early-stage risk</div>
-    <div class="legend-row">${sw('#3a86ff', '')}COLD — minimal signals</div>
-    <div class="legend-row">${sw('#4fc3f7', '')}You</div>
-  `;
+  // Live tier counts across all leads (compact count·emoji·label rows).
+  const ct = { FIRE: 0, HOT: 0, WARM: 0, COLD: 0 };
+  PROPERTIES.forEach(p => { ct[markerTier(p).tier]++; });
+  const rows = [
+    ['FIRE', '🔥', TIER_COLORS.FIRE, ct.FIRE],
+    ['HOT',  '🟠', TIER_COLORS.HOT,  ct.HOT],
+    ['WARM', '🟡', TIER_COLORS.WARM, ct.WARM],
+    ['COLD', '🔵', TIER_COLORS.COLD, ct.COLD],
+  ];
+  div.innerHTML = rows.map(([lb, em, col, n]) =>
+    `<div class="legend-row"><span class="lg-ct">${n}</span><span class="lg-em">${em}</span><span class="lg-lb" style="color:${col}">${lb}</span></div>`
+  ).join('');
   return div;
 };
 legend.addTo(map);
