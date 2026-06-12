@@ -451,36 +451,93 @@ function markerLabel(p) {
   return '·';
 }
 
+// ── Marker urgency tiering (Hot Leads visual style) ────────────────────────
+// Mirrors the deals.czarstrategist.com Hot Leads map: color-coded circle dots
+// with 🔥 / ⚡ emoji overlays by lead motivation. Tiers are scored from the
+// fields Sandra's data actually carries (see field mapping below), since this
+// dataset has no auction_date yet — every record is a pre-foreclosure
+// (preFcDate present on all 414), so fcFactor is the real urgency signal.
+//
+//   FIRE 🔥 (#e63946) — auction set/imminent OR Very High foreclosure risk
+//   HOT     (#ff6b35) — High/Med-High FC risk, or any distress signal
+//                       (⚡ when multiple overlapping signals = time-sensitive)
+//   WARM    (#f4a261) — low-rated FC risk only (early but scored)
+//   COLD    (#6a4c93) — minimal signals / early stage
+const TIER_COLORS = { FIRE: '#e63946', HOT: '#ff6b35', WARM: '#f4a261', COLD: '#6a4c93' };
+
+// Overlapping distress signals (excludes the lis-pendens itself, which is universal here).
+//   back-taxes  → tax-type lien on title   vacancy → p.vacant / p.onShutoff (JEA cut)
+//   absentee    → owner not on-site + out-of-state mailing
+function distressSignals(p) {
+  const s = [];
+  if (p.vacant)    s.push('vacant');
+  if (p.onShutoff) s.push('shutoff');
+  if (!p.ownerOcc && p.mailState && p.mailState !== p.state) s.push('absentee');
+  if (p.lienType && /tax/i.test(p.lienType)) s.push('taxlien');
+  return s;
+}
+// Foreclosure-risk rank from the county fcFactor rating (0 = none/empty).
+function fcRank(p) {
+  const f = (p.fcFactor || '').toLowerCase();
+  if (f === 'very high')   return 3;
+  if (f === 'high')        return 2;
+  if (f === 'medium high') return 1;
+  if (['medium low', 'low', 'very low'].includes(f)) return 0.5;
+  return 0;
+}
+// Days-out auction check — future-proof: triggers once auction_date/sale_date land
+// in the dataset. Returns false today (no such field), so nothing is mis-tiered.
+function auctionWithin(p, days) {
+  const d = p.auction_date || p.sale_date || p.saleDate || p.auctionDate;
+  if (!d) return false;
+  const t = new Date(d).getTime();
+  if (isNaN(t)) return false;
+  const diff = (t - Date.now()) / 86400000;
+  return diff >= 0 && diff <= days;
+}
+function markerTier(p) {
+  const sigs = distressSignals(p);
+  const fr = fcRank(p);
+  // FIRE: imminent auction (≤30d), or auction ≤60d w/ a signal, or Very High FC risk
+  if (auctionWithin(p, 30) || (auctionWithin(p, 60) && sigs.length >= 1) || fr >= 3) {
+    return { tier: 'FIRE', color: TIER_COLORS.FIRE, emoji: '🔥' };
+  }
+  // HOT: High/Med-High FC risk, or any distress signal. ⚡ flags the urgent ones
+  // (multiple overlapping signals, or a strong FC rating stacked with a signal).
+  if (fr >= 1 || sigs.length >= 1) {
+    const urgent = sigs.length >= 2 || (fr >= 2 && sigs.length >= 1);
+    return { tier: 'HOT', color: TIER_COLORS.HOT, emoji: urgent ? '⚡' : '' };
+  }
+  // WARM: a low foreclosure-risk rating, but no other distress yet.
+  if (fr > 0) return { tier: 'WARM', color: TIER_COLORS.WARM, emoji: '' };
+  // COLD: early stage / minimal signals.
+  return { tier: 'COLD', color: TIER_COLORS.COLD, emoji: '' };
+}
+
 function makeCircleIcon(p) {
-  const color = markerColor(p);
-  const label = markerLabel(p);
-  const size = label.length > 1 ? 42 : 36;
+  const { color, emoji } = markerTier(p);
+  const size = emoji ? 30 : 20;   // emoji pins a touch larger; plain leads = clean dots
   // Field-state corner badges (visited ✓ / interested ⭐ / note 📝) from localStorage.
   const fld = (typeof fieldFor === 'function') ? fieldFor(p) : {};
   let badges = '';
   if (fld.outcome === 'interested')
-    badges += `<div style="position:absolute;top:-6px;right:-6px;font-size:13px;line-height:1;filter:drop-shadow(0 1px 1px rgba(0,0,0,.85));">⭐</div>`;
+    badges += `<div style="position:absolute;top:-7px;right:-7px;font-size:13px;line-height:1;filter:drop-shadow(0 1px 1px rgba(0,0,0,.85));">⭐</div>`;
   if (['visited','talked','interested'].includes(fld.outcome))
-    badges += `<div style="position:absolute;top:-6px;left:-6px;font-size:13px;line-height:1;filter:drop-shadow(0 1px 1px rgba(0,0,0,.85));">✓</div>`;
+    badges += `<div style="position:absolute;top:-7px;left:-7px;font-size:13px;line-height:1;filter:drop-shadow(0 1px 1px rgba(0,0,0,.85));">✓</div>`;
   else if (fld.note)
-    badges += `<div style="position:absolute;top:-6px;left:-6px;font-size:12px;line-height:1;filter:drop-shadow(0 1px 1px rgba(0,0,0,.85));">📝</div>`;
+    badges += `<div style="position:absolute;top:-7px;left:-7px;font-size:12px;line-height:1;filter:drop-shadow(0 1px 1px rgba(0,0,0,.85));">📝</div>`;
   const html = `<div style="
     width:${size}px;height:${size}px;border-radius:50%;
-    background:${color};border:2.5px solid rgba(255,255,255,0.85);
+    background:${color};border:2.5px solid #fff;
     display:flex;align-items:center;justify-content:center;
-    font-weight:800;font-size:${label.length > 1 ? 12 : 15}px;
-    color:#fff;font-family:sans-serif;
-    box-shadow:0 2px 8px rgba(0,0,0,0.6);
-    position:relative;
-  ">${label}<div style="
-    position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);
-    width:2px;height:8px;background:${color};
-  "></div>${badges}</div>`;
+    font-size:${emoji ? 16 : 11}px;line-height:1;
+    box-shadow:0 2px 8px rgba(0,0,0,0.6);position:relative;
+  ">${emoji || ''}${badges}</div>`;
   return L.divIcon({
     html, className: '',
-    iconSize: [size, size+8],
-    iconAnchor: [size/2, size+8],
-    popupAnchor: [0, -(size+6)]
+    iconSize: [size, size],
+    iconAnchor: [size / 2, size / 2],
+    popupAnchor: [0, -(size / 2 + 4)]
   });
 }
 
@@ -669,11 +726,13 @@ L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/
 const legend = L.control({position: 'bottomright'});
 legend.onAdd = () => {
   const div = L.DomUtil.create('div','legend');
+  const sw = (bg, inner, fs) => `<span style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:${bg};border:2px solid #fff;font-size:${fs || 11}px;line-height:1;margin-right:6px;flex-shrink:0;">${inner || ''}</span>`;
   div.innerHTML = `
-    <div class="legend-row"><span style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:#f85149;color:#fff;font-weight:800;font-size:10px;margin-right:6px;">S</span>JEA Shutoff</div>
-    <div class="legend-row"><span style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:#e3b341;color:#fff;font-weight:800;font-size:8px;margin-right:6px;">FC</span>High FC</div>
-    <div class="legend-row"><span style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:#58a6ff;color:#fff;font-weight:800;font-size:12px;margin-right:6px;">·</span>Monitor</div>
-    <div class="legend-row"><span style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:#4fc3f7;color:#fff;font-weight:800;font-size:12px;margin-right:6px;">●</span>You</div>
+    <div class="legend-row">${sw('#e63946', '🔥', 11)}FIRE — auction / very-high risk</div>
+    <div class="legend-row">${sw('#ff6b35', '⚡', 11)}HOT — foreclosure + distress</div>
+    <div class="legend-row">${sw('#f4a261', '')}WARM — early-stage risk</div>
+    <div class="legend-row">${sw('#6a4c93', '')}COLD — minimal signals</div>
+    <div class="legend-row">${sw('#4fc3f7', '')}You</div>
   `;
   return div;
 };
