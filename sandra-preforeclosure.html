@@ -53,7 +53,7 @@
       background: #21262d; border-radius: 4px; height: 8px; overflow: hidden;
     }
     #progress-fill {
-      background: #238636; height: 100%; width: 0%; transition: width 0.3s;
+      background: #7B2FBE; height: 100%; width: 0%; transition: width 0.3s;
     }
 
     #map { width: 100%; flex: 1; min-height: 0; border-bottom: 1px solid #30363d; }
@@ -70,7 +70,7 @@
       padding: 5px 12px; border-radius: 20px; font-size: 0.78rem; cursor: pointer;
       transition: all 0.2s;
     }
-    .filter-btn.active { background: #238636; border-color: #238636; color: #fff; }
+    .filter-btn.active { background: #7B2FBE; border-color: #7B2FBE; color: #fff; }
     .filter-btn:hover { border-color: #58a6ff; color: #58a6ff; }
     #search-input {
       background: #21262d; border: 1px solid #30363d; color: #e1e4e8;
@@ -166,7 +166,7 @@
     .popup-row { font-size: 0.78rem; color: #8b949e; margin: 2px 0; }
     .popup-row strong { color: #f0f6fc; }
     .popup-link {
-      display: inline-block; margin-top: 8px; background: #238636; color: #fff;
+      display: inline-block; margin-top: 8px; background: #7B2FBE; color: #fff;
       text-decoration: none; padding: 5px 10px; border-radius: 5px;
       font-size: 0.78rem; font-weight: 600;
     }
@@ -184,12 +184,12 @@
     /* Bottom drawer for leads list */
     .drawer-fab {
       position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
-      background: #238636; color: #fff; border: none; border-radius: 22px;
+      background: #7B2FBE; color: #fff; border: none; border-radius: 22px;
       padding: 10px 20px; font-size: 0.85rem; font-weight: 700;
       cursor: pointer; z-index: 500; box-shadow: 0 2px 12px rgba(0,0,0,0.5);
       white-space: nowrap;
     }
-    .drawer-fab:active { background: #1a6628; }
+    .drawer-fab:active { background: #5f2496; }
     .drawer-overlay {
       position: fixed; inset: 0; background: rgba(0,0,0,0.5);
       z-index: 600; display: none;
@@ -462,8 +462,8 @@ function markerLabel(p) {
 //   HOT     (#ff6b35) — High/Med-High FC risk, or any distress signal
 //                       (⚡ when multiple overlapping signals = time-sensitive)
 //   WARM    (#f4a261) — low-rated FC risk only (early but scored)
-//   COLD    (#6a4c93) — minimal signals / early stage
-const TIER_COLORS = { FIRE: '#e63946', HOT: '#ff6b35', WARM: '#f4a261', COLD: '#6a4c93' };
+//   COLD    (#3a86ff) — minimal signals / early stage
+const TIER_COLORS = { FIRE: '#e63946', HOT: '#ff6b35', WARM: '#f4a261', COLD: '#3a86ff' };
 
 // Overlapping distress signals (excludes the lis-pendens itself, which is universal here).
 //   back-taxes  → tax-type lien on title   vacancy → p.vacant / p.onShutoff (JEA cut)
@@ -731,7 +731,7 @@ legend.onAdd = () => {
     <div class="legend-row">${sw('#e63946', '🔥', 11)}FIRE — auction / very-high risk</div>
     <div class="legend-row">${sw('#ff6b35', '⚡', 11)}HOT — foreclosure + distress</div>
     <div class="legend-row">${sw('#f4a261', '')}WARM — early-stage risk</div>
-    <div class="legend-row">${sw('#6a4c93', '')}COLD — minimal signals</div>
+    <div class="legend-row">${sw('#3a86ff', '')}COLD — minimal signals</div>
     <div class="legend-row">${sw('#4fc3f7', '')}You</div>
   `;
   return div;
