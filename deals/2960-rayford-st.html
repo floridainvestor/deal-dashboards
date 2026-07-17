@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2960 Rayford St — Multi-Exit Deal Analyzer</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #1a1a1a; font-size: 13px; }
+  .cover { page-break-after: always; max-width: 1100px; margin: 0 auto; background: #1a2b3c; overflow: hidden; }
+  .cover-photo-ph { width: 100%; height: 380px; overflow: hidden; background: linear-gradient(135deg, #1a2b3c 0%, #2d4a5e 50%, #1e7e34 100%); position: relative; }
+  .cover-photo-ph iframe { width: 100%; height: 100%; border: 0; display: block; }
+  .cover-photo-badge { position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,.6); color: #ddd; font-size: 9px; padding: 4px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: .5px; }
+  .cover-text { color: white; padding: 22px 32px 26px; }
+  .cover-top { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,.12); padding-bottom: 14px; }
+  .cover-top-l { flex: 1; min-width: 280px; }
+  .cover-eyebrow { font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: #7fb3d3; margin-bottom: 6px; }
+  .cover-text h1 { font-size: 28px; font-weight: 900; line-height: 1.05; margin-bottom: 4px; letter-spacing: -0.5px; }
+  .cover-text h2 { font-size: 12px; font-weight: 400; color: #7fb3d3; }
+  .cover-top-r { text-align: right; font-size: 11px; color: #aac4d8; line-height: 1.6; }
+  .cover-top-r strong { color: white; font-weight: 700; }
+  .stat-row { display: flex; flex-wrap: wrap; gap: 0; border: 1px solid rgba(255,255,255,.15); border-radius: 6px; overflow: hidden; margin-bottom: 14px; }
+  .stat-cell { flex: 1; min-width: 90px; padding: 12px 8px; text-align: center; border-right: 1px solid rgba(255,255,255,.12); }
+  .stat-cell:last-child { border-right: none; }
+  .stat-num { font-size: 20px; font-weight: 900; color: #e8a020; line-height: 1; }
+  .stat-lbl { font-size: 8px; text-transform: uppercase; letter-spacing: 1px; color: #aac4d8; margin-top: 4px; }
+  .type-badge { display: inline-block; background: #8b0000; color: white; font-size: 10px; font-weight: 900; letter-spacing: .6px; padding: 7px 16px; border-radius: 30px; text-transform: uppercase; }
+  .section { background: white; padding: 36px 40px; page-break-after: always; max-width: 1100px; margin: 0 auto; }
+  .section-last { page-break-after: auto; }
+  .page-hdr { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #1a2b3c; padding-bottom: 10px; margin-bottom: 24px; flex-wrap: wrap; gap: 6px; }
+  .page-hdr h2 { font-size: 18px; font-weight: 900; text-transform: uppercase; letter-spacing: .8px; color: #1a2b3c; }
+  .page-hdr span { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #999; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+  .info-card { border: 1px solid #e0e0e0; border-radius: 6px; padding: 18px 20px; border-top: 4px solid #1a2b3c; }
+  .info-card h4 { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: #888; margin-bottom: 12px; }
+  .info-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f0f0f0; font-size: 13px; gap: 8px; }
+  .info-row:last-child { border-bottom: none; }
+  .info-row .lbl { color: #555; flex-shrink: 0; }
+  .info-row .val { font-weight: 700; color: #1a2b3c; text-align: right; }
+  .info-row .val.green { color: #1e7e34; }
+  .info-row .val.orange { color: #b07700; }
+  .info-row .val.red { color: #8b0000; }
+  .info-row .val.gold { color: #b07700; }
+  .dark-box { background: #1a2b3c; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px; }
+  .dark-box h4 { color: #7fb3d3; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 14px; }
+  .dark-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,.08); font-size: 13px; color: white; gap: 8px; }
+  .dark-row:last-child { border-bottom: none; }
+  .dark-row .dlbl { color: #aac4d8; }
+  .dark-row .dval { font-weight: 700; color: white; text-align: right; }
+  .dark-row .dval.gold { color: #e8a020; }
+  .dark-row .dval.green { color: #4caf50; }
+  .dark-row .dval.red { color: #ef9a9a; }
+  .warn-banner { background: #fff0f0; border: 2px solid #8b0000; border-radius: 8px; padding: 22px 26px; margin-bottom: 24px; }
+  .warn-banner-title { font-size: 15px; font-weight: 900; color: #8b0000; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+  .warn-banner-title .wb-icon { font-size: 18px; background: #8b0000; color: white; width: 26px; height: 26px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .warn-banner p { font-size: 13px; color: #4a1a1a; line-height: 1.7; margin-bottom: 10px; }
+  .warn-banner p:last-child { margin-bottom: 0; }
+  .warn-banner strong { color: #8b0000; }
+  .exit-comparison { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 28px; }
+  .exit-card { background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 16px 14px; text-align: center; position: relative; border-top: 4px solid #ccc; }
+  .exit-card.go { border-top-color: #1e7e34; background: #f4faf5; }
+  .exit-card.strong { border-top-color: #e8a020; background: #fffbf0; }
+  .exit-card.pass { border-top-color: #999; background: #fafafa; opacity: .65; }
+  .exit-card.hold { border-top-color: #8b0000; background: #fff0f0; }
+  .ec-verdict { display: inline-block; font-size: 9px; font-weight: 900; padding: 3px 10px; border-radius: 20px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+  .ec-verdict.go { background: #1e7e34; color: white; }
+  .ec-verdict.strong { background: #e8a020; color: white; }
+  .ec-verdict.pass { background: #999; color: white; }
+  .ec-verdict.hold { background: #8b0000; color: white; }
+  .ec-icon { font-size: 18px; margin-bottom: 4px; }
+  .ec-name { font-size: 12px; font-weight: 700; color: #1a2b3c; margin-bottom: 10px; min-height: 28px; }
+  .ec-coc { font-size: 26px; font-weight: 900; color: #1a2b3c; line-height: 1; letter-spacing: -1px; margin-bottom: 2px; }
+  .ec-coc.green { color: #1e7e34; }
+  .ec-coc.amber { color: #b07700; }
+  .ec-coc.muted { color: #999; }
+  .ec-coc-lbl { font-size: 9px; color: #888; text-transform: uppercase; letter-spacing: .8px; margin-bottom: 10px; }
+  .ec-mocf { font-size: 14px; font-weight: 700; color: #555; }
+  .ec-mocf-lbl { font-size: 9px; color: #888; text-transform: uppercase; letter-spacing: .8px; }
+  .exit-panel { border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 16px; overflow: hidden; background: white; }
+  .exit-panel.go { border-left: 5px solid #1e7e34; }
+  .exit-panel.strong { border-left: 5px solid #e8a020; }
+  .exit-panel.pass { border-left: 5px solid #999; opacity: .85; }
+  .exit-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 22px; background: #fafafa; border-bottom: 1px solid #e8e8e8; }
+  .exit-head-l { display: flex; align-items: center; gap: 14px; }
+  .exit-head-l .icon { font-size: 22px; }
+  .exit-head-l h3 { font-size: 16px; font-weight: 900; color: #1a2b3c; }
+  .exit-head-l .sub { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+  .exit-head-r { display: flex; gap: 22px; align-items: center; }
+  .ehr-stat { text-align: right; }
+  .ehr-num { font-size: 18px; font-weight: 900; color: #1a2b3c; line-height: 1; }
+  .ehr-num.green { color: #1e7e34; }
+  .ehr-num.muted { color: #999; }
+  .ehr-lbl { font-size: 9px; color: #888; text-transform: uppercase; letter-spacing: .6px; margin-top: 2px; }
+  .exit-body { padding: 22px 26px; }
+  .exit-metrics-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 22px; }
+  .em-cell { background: #fafafa; border-radius: 6px; padding: 14px 10px; text-align: center; border-top: 3px solid #1a2b3c; }
+  .em-cell.green { border-top-color: #1e7e34; }
+  .em-num { font-size: 20px; font-weight: 900; color: #1a2b3c; line-height: 1; letter-spacing: -.5px; }
+  .em-num.green { color: #1e7e34; }
+  .em-lbl { font-size: 9px; color: #888; text-transform: uppercase; letter-spacing: .8px; margin-top: 6px; font-weight: 700; }
+  .risk-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+  .risk-chip { font-size: 10px; padding: 4px 10px; border-radius: 20px; font-weight: 600; border: 1px solid; }
+  .risk-chip.green { background: #f4faf5; color: #1e7e34; border-color: #c6e3ca; }
+  .risk-chip.amber { background: #fffbf0; color: #b07700; border-color: #f0d090; }
+  .risk-chip.red { background: #fff0f0; color: #8b0000; border-color: #f0c0c0; }
+  .lc-table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 12px; }
+  .lc-table th { background: #1a2b3c; color: white; padding: 8px 10px; text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
+  .lc-table th.right { text-align: right; }
+  .lc-table td { padding: 9px 10px; border-bottom: 1px solid #eee; font-size: 12px; }
+  .lc-table td.right { text-align: right; font-weight: 700; }
+  .lc-table tr.good td { background: #f4faf5; }
+  .lc-table tr.bad td { background: #fff0f0; }
+  .lc-table .verdict-cell { font-weight: 700; font-size: 11px; }
+  .lc-table .verdict-cell.good { color: #1e7e34; }
+  .lc-table .verdict-cell.bad { color: #8b0000; }
+  .flag-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+  .flag-card { border: 1px solid #e0e0e0; border-radius: 6px; padding: 14px 16px; display: flex; gap: 12px; align-items: flex-start; }
+  .flag-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; }
+  .flag-dot.red { background: #dc3545; }
+  .flag-dot.orange { background: #e8a020; }
+  .flag-dot.green { background: #1e7e34; }
+  .flag-title { font-weight: 700; font-size: 13px; color: #1a2b3c; margin-bottom: 3px; }
+  .flag-text { font-size: 12px; color: #555; line-height: 1.6; }
+  .decision-box { background: #1a2b3c; border-radius: 8px; padding: 24px 28px; margin-top: 24px; }
+  .decision-box.hold { background: #4a1a1a; }
+  .decision-box h4 { color: #e8a020; font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 18px; }
+  .decision-box.hold h4 { color: #ff9a9a; }
+  .decision-item { display: flex; gap: 12px; padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,.08); }
+  .decision-item:last-child { border-bottom: none; }
+  .decision-num { font-size: 20px; font-weight: 900; color: #e8a020; line-height: 1; flex-shrink: 0; width: 28px; }
+  .decision-box.hold .decision-num { color: #ff9a9a; }
+  .dt-title { font-weight: 700; color: white; font-size: 13px; margin-bottom: 3px; }
+  .dt-body { color: #aac4d8; font-size: 12px; line-height: 1.6; }
+  .back-nav { max-width: 1100px; margin: 0 auto; padding: 12px 40px 0; font-size: 12px; }
+  .back-nav a { color: #1a2b3c; text-decoration: none; font-weight: 700; }
+  .back-nav a:hover { color: #e8a020; }
+  .page-foot { margin-top: 24px; padding-top: 10px; border-top: 1px solid #eee; font-size: 10px; color: #bbb; text-align: center; letter-spacing: 1px; }
+  @media (max-width: 720px) {
+    .cover-photo-ph { height: 240px; }
+    .cover-text { padding: 18px 20px 22px; }
+    .cover-text h1 { font-size: 22px; }
+    .cover-top { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .cover-top-r { text-align: left; }
+    .section { padding: 24px 20px; }
+    .two-col { grid-template-columns: 1fr; }
+    .exit-comparison { grid-template-columns: 1fr 1fr; }
+    .exit-metrics-row { grid-template-columns: 1fr 1fr; }
+    .exit-head { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .exit-head-r { width: 100%; justify-content: space-between; }
+    .flag-grid { grid-template-columns: 1fr; }
+  }
+  @media print { body { background: white; } .cover, .section { max-width: 100%; } .back-nav { display: none; } @page { margin: .4in; } }
+</style>
+</head>
+<body>
+
+<div class="back-nav"><a href="../index.html">&larr; All Active Deals</a></div>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-photo-ph">
+    <iframe src="https://maps.google.com/maps?q=2960+Rayford+St,+Jacksonville,+FL+32205&t=k&z=19&ie=UTF8&iwloc=&output=embed" loading="lazy"></iframe>
+    <div class="cover-photo-badge">Satellite view &middot; exterior photo pending</div>
+  </div>
+  <div class="cover-text">
+    <div class="cover-top">
+      <div class="cover-top-l">
+        <div class="cover-eyebrow">Multi-Exit Deal Analyzer &middot; Jerel Williams</div>
+        <h1>2960 Rayford St</h1>
+        <h2>Jacksonville FL 32205 &middot; 3 Bed / 2 Bath &middot; 1,196 sqft &middot; Built 2022 &middot; Murray Hill</h2>
+      </div>
+      <div class="cover-top-r">
+        <div><strong>Contact:</strong> Shell &middot; 651-353-5315</div>
+        <div><strong>Recorded owner:</strong> Michelle De La Pena (Champlin, MN) — <span style="color:#ff9a9a;">NOT "Cuttyhunk LLC" as PropStream claims</span></div>
+        <div><strong>Bundle:</strong> Third of three (869 Line St, 8032 Moncrief Dinsmore Rd, same closing date 11/27/2023)</div>
+        <div><strong>Updated:</strong> 2026-07-17 &middot; TWR + PropStream + PAO verified</div>
+      </div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-cell"><div class="stat-num">1,196</div><div class="stat-lbl">Sq Ft</div></div>
+      <div class="stat-cell"><div class="stat-num">3</div><div class="stat-lbl">Bedrooms</div></div>
+      <div class="stat-cell"><div class="stat-num">$80,328</div><div class="stat-lbl">Est. Equity</div></div>
+      <div class="stat-cell"><div class="stat-num">$1,634</div><div class="stat-lbl">Verified PITI/mo</div></div>
+      <div class="stat-cell"><div class="stat-num">$275K</div><div class="stat-lbl">Recorded 2023 Basis</div></div>
+    </div>
+    <div class="type-badge">🚩 Title/Authority Unconfirmed — Do Not Sign Until Resolved</div>
+  </div>
+</div>
+
+<!-- PAGE 1 — TITLE WARNING + DEAL OVERVIEW -->
+<div class="section">
+  <div class="page-hdr"><h2>Title Warning + Deal Overview</h2><span>Read This Before Anything Else</span></div>
+
+  <div class="warn-banner">
+    <div class="warn-banner-title"><span class="wb-icon">!</span>Recorded Title Contradicts PropStream's Ownership Claim</div>
+    <p>PropStream names the owner as <strong>"Cuttyhunk LLC"</strong> and shows a $257,017 sale dated 5/2/2024. <strong>Duval County's actual recorded title shows no such deed.</strong> The most recent recorded instrument is a <strong>$275,000 Warranty Deed dated 11/27/2023 to Michelle De La Pena</strong> — the same owner as the other two properties in this pipeline, and the same closing date. Cuttyhunk LLC does not appear anywhere in the chain of title.</p>
+    <p><strong>Cuttyhunk LLC itself is heavily anonymized</strong> — an active Florida LLC (filed 4/18/2024) registered at a commercial mail-drop, managed by two more anonymous Wyoming LLCs ("Hestia Holdings LLC" and "Yeet Industries LLC"). No natural person is named anywhere in its public filing, and nothing in that filing connects it to Shell or to De La Pena.</p>
+    <p><strong>Before drafting or signing anything:</strong> order a title search / O&amp;E (Title America or Precision Title), and ask Shell directly for documentation proving her authority to sell — whether that's on De La Pena's behalf or Cuttyhunk LLC's. The financial analysis below assumes De La Pena is the real seller, since that's what the county confirms — treat it as provisional.</p>
+  </div>
+
+  <div class="two-col">
+    <div class="info-card">
+      <h4>Property Details</h4>
+      <div class="info-row"><span class="lbl">Address</span><span class="val">2960 Rayford St, Jacksonville FL 32205</span></div>
+      <div class="info-row"><span class="lbl">Parcel / RE#</span><span class="val">063374-0005</span></div>
+      <div class="info-row"><span class="lbl">Configuration</span><span class="val">3 Bed / 2 Bath &middot; 1,196 sqft heated</span></div>
+      <div class="info-row"><span class="lbl">Year Built</span><span class="val">2022</span></div>
+      <div class="info-row"><span class="lbl">Submarket</span><span class="val green">Murray Hill — stronger than the other two zips</span></div>
+      <div class="info-row"><span class="lbl">Foreclosure Factor (PropStream)</span><span class="val orange">High</span></div>
+    </div>
+
+    <div class="info-card">
+      <h4>Recorded Financing (PAO + PropStream)</h4>
+      <div class="info-row"><span class="lbl">Recorded owner</span><span class="val">Michelle De La Pena</span></div>
+      <div class="info-row"><span class="lbl">Recorded 2023 purchase</span><span class="val">$275,000 (11/27/2023)</span></div>
+      <div class="info-row"><span class="lbl">Loan Balance</span><span class="val">$175,672</span></div>
+      <div class="info-row"><span class="lbl">Loan Type / Rate</span><span class="val">New Conventional &middot; 6.87%</span></div>
+      <div class="info-row"><span class="lbl">Est. Value (AVM)</span><span class="val">$256,000</span></div>
+      <div class="info-row"><span class="lbl">Est. Equity</span><span class="val orange">$80,328 (68.6% LTV — thinner than the other two)</span></div>
+    </div>
+  </div>
+
+  <div class="info-card" style="border-top-color:#e8a020;">
+    <h4>Verified Debt Service vs. Market Rent</h4>
+    <div class="info-row"><span class="lbl">Est. P&amp;I @ 6.87% / 30yr on $175,672</span><span class="val">$1,153/mo</span></div>
+    <div class="info-row"><span class="lbl">Taxes (verified, PAO TRIM 2026 proposed)</span><span class="val">$331/mo</span></div>
+    <div class="info-row"><span class="lbl">Insurance (est.)</span><span class="val">$150/mo</span></div>
+    <div class="info-row"><span class="lbl">Verified PITI</span><span class="val gold">$1,634/mo</span></div>
+    <div class="info-row"><span class="lbl">Market Rent (32205 3BR comps)</span><span class="val green">$1,700–$1,950/mo</span></div>
+    <div class="info-row"><span class="lbl">Monthly Margin Over PITI</span><span class="val green">~$191/mo — thinnest of the three properties</span></div>
+  </div>
+
+  <div class="page-foot">2960 Rayford St &middot; RE_OS Deal File &middot; Page 1 of 2</div>
+</div>
+
+<!-- PAGE 2 — EXIT OPTIONS + DECISION -->
+<div class="section section-last">
+  <div class="page-hdr"><h2>Exit Options (Provisional) + Decision</h2><span>Pending Title Resolution</span></div>
+
+  <div class="exit-comparison">
+    <div class="exit-card hold">
+      <div class="ec-icon">🚩</div><span class="ec-verdict hold">Hold</span>
+      <div class="ec-name">Agreement for Deed<br>$0 Down @ $275,000</div>
+      <div class="ec-coc muted">Numbers work</div><div class="ec-coc-lbl">Title does not — yet</div>
+      <div class="ec-mocf">~$191/mo spread</div><div class="ec-mocf-lbl">If title clears</div>
+    </div>
+    <div class="exit-card hold">
+      <div class="ec-icon">🚩</div><span class="ec-verdict hold">Hold</span>
+      <div class="ec-name">Sandwich<br>Lease Option</div>
+      <div class="ec-coc muted">Same structure</div><div class="ec-coc-lbl">as the other two</div>
+      <div class="ec-mocf">Same title gate</div><div class="ec-mocf-lbl">applies</div>
+    </div>
+    <div class="exit-card pass">
+      <div class="ec-icon">✗</div><span class="ec-verdict pass">Pass</span>
+      <div class="ec-name">Weekly Room<br>Rental (PadSplit)</div>
+      <div class="ec-coc muted">~60–65%</div><div class="ec-coc-lbl">Est. best-case coverage</div>
+      <div class="ec-mocf" style="color:#8b0000;">Negative</div><div class="ec-mocf-lbl">3-room ceiling, worse than Moncrief</div>
+    </div>
+    <div class="exit-card pass">
+      <div class="ec-icon">✗</div><span class="ec-verdict pass">Pass</span>
+      <div class="ec-name">Straight Cash<br>Purchase</div>
+      <div class="ec-coc muted">—</div><div class="ec-coc-lbl">Pays off $175,672 note</div>
+      <div class="ec-mocf" style="color:#8b0000;">Defeats the goal</div><div class="ec-mocf-lbl">And payoff party is unclear</div>
+    </div>
+  </div>
+
+  <table class="lc-table" style="margin-bottom:24px;">
+    <thead><tr><th>Gate</th><th class="right">Status</th><th>Note</th></tr></thead>
+    <tbody>
+      <tr class="bad"><td>Title / chain of ownership</td><td class="right verdict-cell bad">FAIL</td><td>Recorded title (De La Pena) contradicts PropStream's owner field (Cuttyhunk LLC)</td></tr>
+      <tr class="bad"><td>Shell's authority to sell</td><td class="right verdict-cell bad">FAIL</td><td>No documentation reviewed — ask directly</td></tr>
+      <tr><td>Purchase basis confirmed</td><td class="right" style="color:#b07700;">PARTIAL</td><td>PAO shows $275,000 (2023); PropStream shows unconfirmed $257,017 (2024)</td></tr>
+      <tr class="bad"><td>Room-rental capacity</td><td class="right verdict-cell bad">FAIL</td><td>3 bedrooms, same as Moncrief Dinsmore</td></tr>
+      <tr class="good"><td>Mortgage balance/rate</td><td class="right verdict-cell good">CONFIRMED</td><td>$175,672 @ 6.87% per PropStream</td></tr>
+      <tr><td>Market rent vs. PITI</td><td class="right" style="color:#1e7e34;">LIKELY COVERS</td><td>Thinnest margin of the three properties (~$191/mo)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="flag-grid">
+    <div class="flag-card"><div class="flag-dot red"></div><div><div class="flag-title">Title contradiction is the whole ballgame here</div><div class="flag-text">Everything else about this deal is ordinary. This one issue determines whether it's real.</div></div></div>
+    <div class="flag-card"><div class="flag-dot orange"></div><div><div class="flag-title">Thinner equity cushion than the other two</div><div class="flag-text">68.6% LTV vs. ~49% on 869 Line St and Moncrief Dinsmore — less room for error if anything goes sideways.</div></div></div>
+    <div class="flag-card"><div class="flag-dot green"></div><div><div class="flag-title">Stronger submarket</div><div class="flag-text">Murray Hill (32205) is a more established, in-demand Jacksonville Westside area than 32209/32219.</div></div></div>
+    <div class="flag-card"><div class="flag-dot orange"></div><div><div class="flag-title">Vacancy rate above average</div><div class="flag-text">10.7% cited for the broader Murray Hill area — a leasing-speed risk worth weighing against the submarket's otherwise-stronger reputation.</div></div></div>
+  </div>
+
+  <div class="decision-box hold">
+    <h4>Verdict: HOLD — Resolve Title Before Any Structuring Work</h4>
+    <div class="decision-item"><div class="decision-num">1</div><div><div class="dt-title">Order a title search / O&amp;E on 2960 Rayford St</div><div class="dt-body">Title America or Precision Title. This is the single fastest way to know who can actually convey or contract this property.</div></div></div>
+    <div class="decision-item"><div class="decision-num">2</div><div><div class="dt-title">Ask Shell directly for proof of authority</div><div class="dt-body">Whether she's representing De La Pena or Cuttyhunk LLC, get documentation before treating this as a live deal alongside the other two.</div></div></div>
+    <div class="decision-item"><div class="decision-num">3</div><div><div class="dt-title">If title clears: same Sandwich Lease Option / AFD structure as the other two</div><div class="dt-body">The financial case supports it — just with a thinner spread reflecting this property's higher leverage.</div></div></div>
+  </div>
+
+  <div class="page-foot">2960 Rayford St &middot; RE_OS Deal File &middot; Page 2 of 2 &middot; Full TWR: 04_Active_Deals/TWR_2960_RAYFORD_ST_JACKSONVILLE_2026-07-17.md</div>
+</div>
+
+</body>
+</html>
