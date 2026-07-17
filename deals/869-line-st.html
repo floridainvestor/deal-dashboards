@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>869 Line St — Multi-Exit Deal Analyzer</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #1a1a1a; font-size: 13px; }
+  .cover { page-break-after: always; max-width: 1100px; margin: 0 auto; background: #1a2b3c; overflow: hidden; }
+  .cover-photo-ph { width: 100%; height: 380px; overflow: hidden; background: linear-gradient(135deg, #1a2b3c 0%, #2d4a5e 50%, #1e7e34 100%); position: relative; }
+  .cover-photo-ph iframe { width: 100%; height: 100%; border: 0; display: block; }
+  .cover-photo-badge { position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,.6); color: #ddd; font-size: 9px; padding: 4px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: .5px; }
+  .cover-text { color: white; padding: 22px 32px 26px; }
+  .cover-top { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,.12); padding-bottom: 14px; }
+  .cover-top-l { flex: 1; min-width: 280px; }
+  .cover-eyebrow { font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: #7fb3d3; margin-bottom: 6px; }
+  .cover-text h1 { font-size: 28px; font-weight: 900; line-height: 1.05; margin-bottom: 4px; letter-spacing: -0.5px; }
+  .cover-text h2 { font-size: 12px; font-weight: 400; color: #7fb3d3; }
+  .cover-top-r { text-align: right; font-size: 11px; color: #aac4d8; line-height: 1.6; }
+  .cover-top-r strong { color: white; font-weight: 700; }
+  .stat-row { display: flex; flex-wrap: wrap; gap: 0; border: 1px solid rgba(255,255,255,.15); border-radius: 6px; overflow: hidden; margin-bottom: 14px; }
+  .stat-cell { flex: 1; min-width: 90px; padding: 12px 8px; text-align: center; border-right: 1px solid rgba(255,255,255,.12); }
+  .stat-cell:last-child { border-right: none; }
+  .stat-num { font-size: 20px; font-weight: 900; color: #e8a020; line-height: 1; }
+  .stat-lbl { font-size: 8px; text-transform: uppercase; letter-spacing: 1px; color: #aac4d8; margin-top: 4px; }
+  .type-badge { display: inline-block; background: #1e7e34; color: white; font-size: 10px; font-weight: 900; letter-spacing: .6px; padding: 7px 16px; border-radius: 30px; text-transform: uppercase; }
+  .section { background: white; padding: 36px 40px; page-break-after: always; max-width: 1100px; margin: 0 auto; }
+  .section-last { page-break-after: auto; }
+  .page-hdr { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #1a2b3c; padding-bottom: 10px; margin-bottom: 24px; flex-wrap: wrap; gap: 6px; }
+  .page-hdr h2 { font-size: 18px; font-weight: 900; text-transform: uppercase; letter-spacing: .8px; color: #1a2b3c; }
+  .page-hdr span { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #999; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+  .info-card { border: 1px solid #e0e0e0; border-radius: 6px; padding: 18px 20px; border-top: 4px solid #1a2b3c; }
+  .info-card h4 { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: #888; margin-bottom: 12px; }
+  .info-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f0f0f0; font-size: 13px; gap: 8px; }
+  .info-row:last-child { border-bottom: none; }
+  .info-row .lbl { color: #555; flex-shrink: 0; }
+  .info-row .val { font-weight: 700; color: #1a2b3c; text-align: right; }
+  .info-row .val.green { color: #1e7e34; }
+  .info-row .val.orange { color: #b07700; }
+  .info-row .val.red { color: #8b0000; }
+  .info-row .val.gold { color: #b07700; }
+  .dark-box { background: #1a2b3c; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px; }
+  .dark-box h4 { color: #7fb3d3; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 14px; }
+  .dark-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,.08); font-size: 13px; color: white; gap: 8px; }
+  .dark-row:last-child { border-bottom: none; }
+  .dark-row .dlbl { color: #aac4d8; }
+  .dark-row .dval { font-weight: 700; color: white; text-align: right; }
+  .dark-row .dval.gold { color: #e8a020; }
+  .dark-row .dval.green { color: #4caf50; }
+  .dark-row .dval.red { color: #ef9a9a; }
+  .winner-hero { background: linear-gradient(135deg, #1a2b3c 0%, #2d4a5e 100%); border-radius: 12px; padding: 28px 36px; margin-bottom: 20px; border: 3px solid #e8a020; box-shadow: 0 4px 12px rgba(232, 160, 32, .2); }
+  .winner-eyebrow { font-size: 11px; font-weight: 700; color: #e8a020; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+  .winner-title { font-size: 28px; font-weight: 900; color: white; margin-bottom: 22px; letter-spacing: -0.5px; }
+  .winner-stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; border-top: 1px solid rgba(255,255,255,.12); border-bottom: 1px solid rgba(255,255,255,.12); padding: 18px 0; margin-bottom: 18px; }
+  .winner-stat { text-align: center; padding: 0 10px; border-right: 1px solid rgba(255,255,255,.08); }
+  .winner-stat:last-child { border-right: none; }
+  .ws-num { font-size: 32px; font-weight: 900; color: #e8a020; line-height: 1; letter-spacing: -1px; }
+  .ws-num.green { color: #4caf50; }
+  .ws-lbl { font-size: 9px; color: #aac4d8; text-transform: uppercase; letter-spacing: 1px; margin-top: 6px; font-weight: 700; }
+  .winner-why { font-size: 13px; color: #aac4d8; line-height: 1.7; padding-top: 4px; }
+  .winner-why strong { color: white; }
+  .exit-comparison { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 28px; }
+  .exit-card { background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 16px 14px; text-align: center; position: relative; border-top: 4px solid #ccc; }
+  .exit-card.go { border-top-color: #1e7e34; background: #f4faf5; }
+  .exit-card.strong { border-top-color: #e8a020; background: #fffbf0; }
+  .exit-card.pass { border-top-color: #999; background: #fafafa; opacity: .65; }
+  .ec-verdict { display: inline-block; font-size: 9px; font-weight: 900; padding: 3px 10px; border-radius: 20px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+  .ec-verdict.go { background: #1e7e34; color: white; }
+  .ec-verdict.strong { background: #e8a020; color: white; }
+  .ec-verdict.pass { background: #999; color: white; }
+  .ec-icon { font-size: 18px; margin-bottom: 4px; }
+  .ec-name { font-size: 12px; font-weight: 700; color: #1a2b3c; margin-bottom: 10px; min-height: 28px; }
+  .ec-coc { font-size: 26px; font-weight: 900; color: #1a2b3c; line-height: 1; letter-spacing: -1px; margin-bottom: 2px; }
+  .ec-coc.green { color: #1e7e34; }
+  .ec-coc.amber { color: #b07700; }
+  .ec-coc.muted { color: #999; }
+  .ec-coc-lbl { font-size: 9px; color: #888; text-transform: uppercase; letter-spacing: .8px; margin-bottom: 10px; }
+  .ec-mocf { font-size: 14px; font-weight: 700; color: #555; }
+  .ec-mocf-lbl { font-size: 9px; color: #888; text-transform: uppercase; letter-spacing: .8px; }
+  .exit-panel { border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 16px; overflow: hidden; background: white; }
+  .exit-panel.go { border-left: 5px solid #1e7e34; }
+  .exit-panel.strong { border-left: 5px solid #e8a020; }
+  .exit-panel.pass { border-left: 5px solid #999; opacity: .85; }
+  .exit-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 22px; background: #fafafa; border-bottom: 1px solid #e8e8e8; }
+  .exit-head-l { display: flex; align-items: center; gap: 14px; }
+  .exit-head-l .icon { font-size: 22px; }
+  .exit-head-l h3 { font-size: 16px; font-weight: 900; color: #1a2b3c; }
+  .exit-head-l .sub { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+  .exit-head-r { display: flex; gap: 22px; align-items: center; }
+  .ehr-stat { text-align: right; }
+  .ehr-num { font-size: 18px; font-weight: 900; color: #1a2b3c; line-height: 1; }
+  .ehr-num.green { color: #1e7e34; }
+  .ehr-num.muted { color: #999; }
+  .ehr-lbl { font-size: 9px; color: #888; text-transform: uppercase; letter-spacing: .6px; margin-top: 2px; }
+  .exit-body { padding: 22px 26px; }
+  .exit-metrics-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 22px; }
+  .em-cell { background: #fafafa; border-radius: 6px; padding: 14px 10px; text-align: center; border-top: 3px solid #1a2b3c; }
+  .em-cell.green { border-top-color: #1e7e34; }
+  .em-cell.amber { border-top-color: #e8a020; }
+  .em-cell.red { border-top-color: #8b0000; }
+  .em-num { font-size: 20px; font-weight: 900; color: #1a2b3c; line-height: 1; letter-spacing: -.5px; }
+  .em-num.green { color: #1e7e34; }
+  .em-num.amber { color: #b07700; }
+  .em-num.red { color: #8b0000; }
+  .em-num.muted { color: #999; }
+  .em-lbl { font-size: 9px; color: #888; text-transform: uppercase; letter-spacing: .8px; margin-top: 6px; font-weight: 700; }
+  .risk-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+  .risk-chip { font-size: 10px; padding: 4px 10px; border-radius: 20px; font-weight: 600; border: 1px solid; }
+  .risk-chip.green { background: #f4faf5; color: #1e7e34; border-color: #c6e3ca; }
+  .risk-chip.amber { background: #fffbf0; color: #b07700; border-color: #f0d090; }
+  .risk-chip.red { background: #fff0f0; color: #8b0000; border-color: #f0c0c0; }
+  .lc-table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 12px; }
+  .lc-table th { background: #1a2b3c; color: white; padding: 8px 10px; text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
+  .lc-table th.right { text-align: right; }
+  .lc-table td { padding: 9px 10px; border-bottom: 1px solid #eee; font-size: 12px; }
+  .lc-table td.right { text-align: right; font-weight: 700; }
+  .lc-table tr.good td { background: #f4faf5; }
+  .lc-table tr.bad td { background: #fff0f0; }
+  .lc-table .verdict-cell { font-weight: 700; font-size: 11px; }
+  .lc-table .verdict-cell.good { color: #1e7e34; }
+  .lc-table .verdict-cell.bad { color: #8b0000; }
+  .gap-callout { background: #fafafa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 24px 22px; margin-bottom: 16px; }
+  .gap-callout-title { font-size: 14px; font-weight: 900; color: #8b0000; text-transform: uppercase; letter-spacing: 1px; text-align: center; margin-bottom: 18px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+  .gap-callout-title .gc-icon { font-size: 18px; background: #8b0000; color: white; width: 28px; height: 28px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; }
+  .gap-vs { display: grid; grid-template-columns: 1fr auto 1fr; gap: 18px; align-items: center; margin-bottom: 18px; }
+  .gap-side { text-align: center; }
+  .gap-side-num { font-size: 36px; font-weight: 900; color: #1a2b3c; line-height: 1; letter-spacing: -1px; }
+  .gap-side-num.bad { color: #8b0000; }
+  .gap-side-num.good { color: #1e7e34; }
+  .gap-side-lbl { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 1.2px; margin-top: 6px; font-weight: 700; }
+  .gap-vs-sym { font-size: 22px; font-weight: 900; color: #999; }
+  .gap-result { text-align: center; padding: 14px 0; background: #fff0f0; border-radius: 6px; border: 1px solid #f0c0c0; margin-bottom: 14px; }
+  .gap-result-num { font-size: 24px; font-weight: 900; color: #8b0000; line-height: 1; letter-spacing: -.5px; }
+  .gap-result-lbl { font-size: 10px; color: #8b0000; text-transform: uppercase; letter-spacing: 1px; margin-top: 6px; font-weight: 700; }
+  .gap-reason { font-size: 12px; color: #555; line-height: 1.7; text-align: center; max-width: 600px; margin: 0 auto; }
+  .flag-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+  .flag-card { border: 1px solid #e0e0e0; border-radius: 6px; padding: 14px 16px; display: flex; gap: 12px; align-items: flex-start; }
+  .flag-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; }
+  .flag-dot.red { background: #dc3545; }
+  .flag-dot.orange { background: #e8a020; }
+  .flag-dot.green { background: #1e7e34; }
+  .flag-title { font-weight: 700; font-size: 13px; color: #1a2b3c; margin-bottom: 3px; }
+  .flag-text { font-size: 12px; color: #555; line-height: 1.6; }
+  .decision-box { background: #1a2b3c; border-radius: 8px; padding: 24px 28px; margin-top: 24px; }
+  .decision-box h4 { color: #e8a020; font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 18px; }
+  .decision-item { display: flex; gap: 12px; padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,.08); }
+  .decision-item:last-child { border-bottom: none; }
+  .decision-num { font-size: 20px; font-weight: 900; color: #e8a020; line-height: 1; flex-shrink: 0; width: 28px; }
+  .dt-title { font-weight: 700; color: white; font-size: 13px; margin-bottom: 3px; }
+  .dt-body { color: #aac4d8; font-size: 12px; line-height: 1.6; }
+  .back-nav { max-width: 1100px; margin: 0 auto; padding: 12px 40px 0; font-size: 12px; }
+  .back-nav a { color: #1a2b3c; text-decoration: none; font-weight: 700; }
+  .back-nav a:hover { color: #e8a020; }
+  .page-foot { margin-top: 24px; padding-top: 10px; border-top: 1px solid #eee; font-size: 10px; color: #bbb; text-align: center; letter-spacing: 1px; }
+  @media (max-width: 720px) {
+    .cover-photo-ph { height: 240px; }
+    .cover-text { padding: 18px 20px 22px; }
+    .cover-text h1 { font-size: 22px; }
+    .cover-top { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .cover-top-r { text-align: left; }
+    .section { padding: 24px 20px; }
+    .two-col { grid-template-columns: 1fr; }
+    .exit-comparison { grid-template-columns: 1fr 1fr; }
+    .winner-stats { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .winner-stat:nth-child(n+4) { border-right: none; }
+    .exit-metrics-row { grid-template-columns: 1fr 1fr; }
+    .exit-head { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .exit-head-r { width: 100%; justify-content: space-between; }
+    .flag-grid { grid-template-columns: 1fr; }
+  }
+  @media print { body { background: white; } .cover, .section { max-width: 100%; } .back-nav { display: none; } @page { margin: .4in; } }
+</style>
+</head>
+<body>
+
+<div class="back-nav"><a href="../index.html">&larr; All Active Deals</a></div>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-photo-ph">
+    <iframe src="https://maps.google.com/maps?q=869+Line+St,+Jacksonville,+FL+32209&t=k&z=19&ie=UTF8&iwloc=&output=embed" loading="lazy"></iframe>
+    <div class="cover-photo-badge">Satellite view &middot; exterior photo pending</div>
+  </div>
+  <div class="cover-text">
+    <div class="cover-top">
+      <div class="cover-top-l">
+        <div class="cover-eyebrow">Multi-Exit Deal Analyzer &middot; Jerel Williams</div>
+        <h1>869 Line St</h1>
+        <h2>Jacksonville FL 32209 &middot; 2 Bed / 2.5 Bath &middot; 1,016 sqft &middot; Built 2022</h2>
+      </div>
+      <div class="cover-top-r">
+        <div><strong>Seller:</strong> Shell &middot; 651-353-5315</div>
+        <div><strong>Owner of record:</strong> Michelle De La Pena (Champlin, MN)</div>
+        <div><strong>Bundle:</strong> Paired with 8032 Moncrief Dinsmore Rd (same seller, same 2023 closing date)</div>
+        <div><strong>Updated:</strong> 2026-07-16 &middot; TWR + PropStream verified</div>
+      </div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-cell"><div class="stat-num">1,016</div><div class="stat-lbl">Sq Ft</div></div>
+      <div class="stat-cell"><div class="stat-num">2</div><div class="stat-lbl">Bedrooms</div></div>
+      <div class="stat-cell"><div class="stat-num">$100,955</div><div class="stat-lbl">Est. Equity</div></div>
+      <div class="stat-cell"><div class="stat-num">$1,081</div><div class="stat-lbl">Verified PITI/mo</div></div>
+      <div class="stat-cell"><div class="stat-num">$205K</div><div class="stat-lbl">2023 Basis</div></div>
+    </div>
+    <div class="type-badge">★ Recommended Exit: Sandwich Lease Option at $205,000</div>
+  </div>
+</div>
+
+<!-- PAGE 1 — DEAL OVERVIEW -->
+<div class="section">
+  <div class="page-hdr"><h2>Deal Overview</h2><span>Property &middot; Seller Ask &middot; Verified Financing</span></div>
+
+  <div class="two-col">
+    <div class="info-card">
+      <h4>Property Details</h4>
+      <div class="info-row"><span class="lbl">Address</span><span class="val">869 Line St, Jacksonville FL 32209</span></div>
+      <div class="info-row"><span class="lbl">Parcel / RE#</span><span class="val">077122-0000</span></div>
+      <div class="info-row"><span class="lbl">Configuration</span><span class="val">2 Bed / 2.5 Bath &middot; 1,016 sqft heated</span></div>
+      <div class="info-row"><span class="lbl">Year Built</span><span class="val">2022</span></div>
+      <div class="info-row"><span class="lbl">Zoning</span><span class="val">RMD-A (Residential Medium Density)</span></div>
+      <div class="info-row"><span class="lbl">Homestead</span><span class="val orange">None — non-owner-occupied</span></div>
+      <div class="info-row"><span class="lbl">Room-Rental Capacity</span><span class="val red">2 rooms only — below co-living floor</span></div>
+    </div>
+
+    <div class="info-card">
+      <h4>Seller Ask &amp; Verified Financing (PropStream)</h4>
+      <div class="info-row"><span class="lbl">Seller</span><span class="val">Shell &middot; 651-353-5315</span></div>
+      <div class="info-row"><span class="lbl">2023 Purchase Price</span><span class="val">$205,000 (11/27/2023)</span></div>
+      <div class="info-row"><span class="lbl">Loan Balance</span><span class="val">$100,045</span></div>
+      <div class="info-row"><span class="lbl">Loan Type / Rate</span><span class="val">New Conventional &middot; 7.79%</span></div>
+      <div class="info-row"><span class="lbl">Est. Value (AVM)</span><span class="val">$201,000</span></div>
+      <div class="info-row"><span class="lbl">Est. Equity</span><span class="val green">$100,955 (49.8% LTV)</span></div>
+      <div class="info-row"><span class="lbl">Prepayment Penalty</span><span class="val orange">Unconfirmed — ask seller (loan type makes it less typical than assumed)</span></div>
+    </div>
+  </div>
+
+  <div class="info-card" style="border-top-color:#e8a020;">
+    <h4>Verified Debt Service vs. Market Rent</h4>
+    <div class="info-row"><span class="lbl">Est. P&amp;I @ 7.79% / 30yr on $100,045</span><span class="val">$720/mo</span></div>
+    <div class="info-row"><span class="lbl">Taxes (verified, PAO TRIM)</span><span class="val">$211/mo</span></div>
+    <div class="info-row"><span class="lbl">Insurance (est.)</span><span class="val">$150/mo</span></div>
+    <div class="info-row"><span class="lbl">Verified PITI</span><span class="val gold">$1,081/mo</span></div>
+    <div class="info-row"><span class="lbl">Market Rent (aggregator range)</span><span class="val green">$1,266–$1,495/mo</span></div>
+    <div class="info-row"><span class="lbl">Monthly Margin Over PITI</span><span class="val green">~$299/mo at range midpoint</span></div>
+  </div>
+
+  <div class="page-foot">869 Line St &middot; RE_OS Deal File &middot; Page 1 of 3</div>
+</div>
+
+<!-- PAGE 2 — EXIT STRATEGY ANALYZER -->
+<div class="section">
+  <div class="page-hdr"><h2>Exit Strategy Analyzer</h2><span>4 Ways to Work This Deal</span></div>
+
+  <div class="winner-hero">
+    <div class="winner-eyebrow">★ Recommended Exit</div>
+    <div class="winner-title">Sandwich Lease Option at $205,000</div>
+    <div class="winner-stats">
+      <div class="winner-stat"><div class="ws-num green">119.6%</div><div class="ws-lbl">CoC (option consid.)</div></div>
+      <div class="winner-stat"><div class="ws-num green">$299</div><div class="ws-lbl">Monthly Spread</div></div>
+      <div class="winner-stat"><div class="ws-num">$3,000</div><div class="ws-lbl">Cash In (option fee)</div></div>
+      <div class="winner-stat"><div class="ws-num">10 mo</div><div class="ws-lbl">Payback</div></div>
+      <div class="winner-stat"><div class="ws-num green">2–3 yr</div><div class="ws-lbl">Option Period</div></div>
+    </div>
+    <div class="winner-why">
+      <strong>Why this wins:</strong> ~$3,000 option consideration controls the property at Shell's $205,000 basis. Lease to Shell at her verified $1,081/mo PITI, sublease/hold at market rent (~$1,380/mo midpoint) for a ~$299/mo spread. Payoff — and any prepayment penalty — is <strong>deferred to option exercise</strong>, 2–3 years out, likely past the penalty's expiration. No due-on-sale trigger since title doesn't transfer until exercised.
+    </div>
+  </div>
+
+  <div class="exit-comparison">
+    <div class="exit-card go">
+      <div class="ec-icon">★</div><span class="ec-verdict go">Go</span>
+      <div class="ec-name">Sandwich<br>Lease Option</div>
+      <div class="ec-coc green">119.6%</div><div class="ec-coc-lbl">CoC on option fee</div>
+      <div class="ec-mocf">$299/mo</div><div class="ec-mocf-lbl">Spread</div>
+    </div>
+    <div class="exit-card strong">
+      <div class="ec-icon">⚠</div><span class="ec-verdict strong">Alt</span>
+      <div class="ec-name">Agreement<br>for Deed</div>
+      <div class="ec-coc amber">Clean sale</div><div class="ec-coc-lbl">Shell fully exits</div>
+      <div class="ec-mocf">Due-on-sale risk</div><div class="ec-mocf-lbl">Needs legal review</div>
+    </div>
+    <div class="exit-card pass">
+      <div class="ec-icon">✗</div><span class="ec-verdict pass">Pass</span>
+      <div class="ec-name">Weekly Room<br>Rental (PadSplit)</div>
+      <div class="ec-coc muted">61%</div><div class="ec-coc-lbl">Best-case PITI coverage</div>
+      <div class="ec-mocf" style="color:#8b0000;">Negative</div><div class="ec-mocf-lbl">2-room capacity ceiling</div>
+    </div>
+    <div class="exit-card pass">
+      <div class="ec-icon">✗</div><span class="ec-verdict pass">Pass</span>
+      <div class="ec-name">Straight Cash<br>Purchase</div>
+      <div class="ec-coc muted">—</div><div class="ec-coc-lbl">Pays off $100,045 note</div>
+      <div class="ec-mocf" style="color:#8b0000;">Defeats the goal</div><div class="ec-mocf-lbl">Triggers unconfirmed penalty</div>
+    </div>
+  </div>
+
+  <div class="exit-panel go">
+    <div class="exit-head">
+      <div class="exit-head-l"><span class="icon">★</span><div><h3>Exit A — Sandwich Lease Option</h3><div class="sub">Option Consideration ~$3,000 &middot; Lease at Shell's PITI &middot; Sublease at Market</div></div></div>
+      <div class="exit-head-r"><div class="ehr-stat"><div class="ehr-num green">119.6%</div><div class="ehr-lbl">CoC</div></div><div class="ehr-stat"><div class="ehr-num green">$299</div><div class="ehr-lbl">Mo Spread</div></div><div class="ehr-stat"><div class="ehr-num">10 mo</div><div class="ehr-lbl">Payback</div></div></div>
+    </div>
+    <div class="exit-body">
+      <div class="exit-metrics-row">
+        <div class="em-cell"><div class="em-num">$3,000</div><div class="em-lbl">Cash In</div></div>
+        <div class="em-cell green"><div class="em-num green">$299</div><div class="em-lbl">Monthly Spread</div></div>
+        <div class="em-cell green"><div class="em-num green">119.6%</div><div class="em-lbl">CoC Return</div></div>
+        <div class="em-cell"><div class="em-num">10 mo</div><div class="em-lbl">Payback</div></div>
+        <div class="em-cell green"><div class="em-num green">$205,000</div><div class="em-lbl">Locked Option Price</div></div>
+      </div>
+      <div class="risk-chips">
+        <span class="risk-chip green">✓ No down payment, no payoff — Shell keeps her loan in place</span>
+        <span class="risk-chip green">✓ Defers payoff past likely prepay-penalty window</span>
+        <span class="risk-chip amber">⚠ Prepayment penalty terms still unconfirmed — ask Shell directly</span>
+        <span class="risk-chip amber">⚠ Requires fl-re-atty drafting review before executing</span>
+      </div>
+      <table class="lc-table" style="margin-top:18px;">
+        <thead><tr><th>Term</th><th class="right">Value</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Option consideration</td><td class="right">$3,000</td><td>1–2% of value, non-refundable</td></tr>
+          <tr><td>Monthly lease to Shell</td><td class="right">$1,081</td><td>Covers her verified PITI</td></tr>
+          <tr><td>Sublease / hold rent (market)</td><td class="right">$1,380</td><td>Midpoint of $1,266–$1,495 range</td></tr>
+          <tr class="good"><td>Monthly spread</td><td class="right">$299</td><td class="verdict-cell good">✓ Positive from month 1</td></tr>
+          <tr><td>Option price / period</td><td class="right">$205,000 / 2–3 yr</td><td>Exercise once penalty window lapses</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="exit-panel strong">
+    <div class="exit-head">
+      <div class="exit-head-l"><span class="icon">⚠</span><div><h3>Exit B — Agreement for Deed (Land Contract)</h3><div class="sub">Cleaner "Sale" for Shell &middot; Note Stays in Place, No Payoff Triggered</div></div></div>
+      <div class="exit-head-r"><div class="ehr-stat"><div class="ehr-num">$205K</div><div class="ehr-lbl">Price</div></div><div class="ehr-stat"><div class="ehr-num">3–5 yr</div><div class="ehr-lbl">Balloon Term</div></div></div>
+    </div>
+    <div class="exit-body">
+      <div class="risk-chips">
+        <span class="risk-chip green">✓ Shell keeps title, keeps paying her own note — full match to her stated goal</span>
+        <span class="risk-chip amber">⚠ Due-on-sale clause risk — transferring equitable interest can trigger it, separate from any prepay penalty</span>
+        <span class="risk-chip amber">⚠ Florida AFD statutes impose buyer disclosure/cure requirements — not a handshake contract</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exit-panel pass">
+    <div class="exit-head">
+      <div class="exit-head-l"><span class="icon">✗</span><div><h3>Exit C — Weekly Room Rental (PadSplit-Style)</h3><div class="sub">2-Room Capacity Ceiling &middot; Doesn't Clear Debt Service</div></div></div>
+      <div class="exit-head-r"><div class="ehr-stat"><div class="ehr-num muted">61%</div><div class="ehr-lbl">Best Coverage</div></div></div>
+    </div>
+    <div class="exit-body">
+      <div class="gap-callout">
+        <div class="gap-callout-title"><span class="gc-icon">✗</span>Only 2 Bedrooms — Below the Co-Living Floor</div>
+        <div class="gap-vs">
+          <div class="gap-side"><div class="gap-side-num bad">$7,956</div><div class="gap-side-lbl">Best-Case Annual NOI</div></div>
+          <div class="gap-vs-sym">vs.</div>
+          <div class="gap-side"><div class="gap-side-num">$12,972</div><div class="gap-side-lbl">Verified Annual PITI</div></div>
+        </div>
+        <div class="gap-result"><div class="gap-result-num">61% coverage, even optimistic</div><div class="gap-result-lbl">Capacity problem, not a pricing problem — only 2 rentable rooms</div></div>
+        <div class="gap-reason">PadSplit citywide/Mid-Westside comps run $110–150/wk. Even at 85% occupancy on 2 rooms, gross doesn't clear verified debt service. Jerel's own co-living model targets 5–7+ bedroom houses.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-foot">869 Line St &middot; RE_OS Deal File &middot; Page 2 of 3</div>
+</div>
+
+<!-- PAGE 3 — RISK FLAGS + DECISION -->
+<div class="section section-last">
+  <div class="page-hdr"><h2>Risk Flags + Decision</h2><span>Verdict &middot; Next Steps</span></div>
+
+  <div class="flag-grid">
+    <div class="flag-card"><div class="flag-dot green"></div><div><div class="flag-title">Strong verified equity</div><div class="flag-text">$100,955 est. equity on a $201K AVM — Shell put roughly 51% down in 2023. Real margin for a lease-option or AFD structure.</div></div></div>
+    <div class="flag-card"><div class="flag-dot green"></div><div><div class="flag-title">Market rent clears verified PITI</div><div class="flag-text">$1,266–1,495/mo market rent vs. $1,081/mo verified PITI — real spread, not a break-even guess.</div></div></div>
+    <div class="flag-card"><div class="flag-dot orange"></div><div><div class="flag-title">Prepayment penalty unconfirmed</div><div class="flag-text">PropStream shows "New Conventional" financing — that loan type rarely carries a prepay penalty. Confirm directly with Shell before structuring around one.</div></div></div>
+    <div class="flag-card"><div class="flag-dot red"></div><div><div class="flag-title">Room-rental capacity fails</div><div class="flag-text">Only 2 bedrooms. Do not pursue a PadSplit conversion on this house regardless of pricing assumptions.</div></div></div>
+  </div>
+
+  <div class="decision-box">
+    <h4>Verdict: GO via Sandwich Lease Option — Real Spread, Deferred Payoff</h4>
+    <div class="decision-item"><div class="decision-num">1</div><div><div class="dt-title">Call Shell (651-353-5315) for her note/closing disclosure</div><div class="dt-body">Confirms exact P&amp;I, term, and — critically — whether a prepayment penalty exists and its expiration date.</div></div></div>
+    <div class="decision-item"><div class="decision-num">2</div><div><div class="dt-title">Structure lease option at $205,000, $1,081/mo lease to Shell</div><div class="dt-body">Route drafting through the fl-re-atty skill for FL-compliant lease-option paperwork.</div></div></div>
+    <div class="decision-item"><div class="decision-num">3</div><div><div class="dt-title">Set option period to run past the confirmed penalty window</div><div class="dt-body">2–3 years is the working assumption; tighten once the note terms are known.</div></div></div>
+  </div>
+
+  <div class="page-foot">869 Line St &middot; RE_OS Deal File &middot; Page 3 of 3 &middot; Full TWR: 04_Active_Deals/TWR_869_LINE_ST_JACKSONVILLE_2026-07-16.md</div>
+</div>
+
+</body>
+</html>
