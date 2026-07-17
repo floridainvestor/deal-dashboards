@@ -11,6 +11,7 @@
   .cover { page-break-after: always; max-width: 1100px; margin: 0 auto; background: #1a2b3c; overflow: hidden; }
   .cover-photo-ph { width: 100%; height: 380px; overflow: hidden; background: linear-gradient(135deg, #1a2b3c 0%, #2d4a5e 50%, #1e7e34 100%); position: relative; }
   .cover-photo-ph iframe { width: 100%; height: 100%; border: 0; display: block; }
+  .cover-photo-ph img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
   .cover-photo-badge { position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,.6); color: #ddd; font-size: 9px; padding: 4px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: .5px; }
   .cover-text { color: white; padding: 22px 32px 26px; }
   .cover-top { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,.12); padding-bottom: 14px; }
@@ -160,8 +161,7 @@
 <!-- COVER -->
 <div class="cover">
   <div class="cover-photo-ph">
-    <iframe src="https://maps.google.com/maps?q=2960+Rayford+St,+Jacksonville,+FL+32205&t=k&z=19&ie=UTF8&iwloc=&output=embed" loading="lazy"></iframe>
-    <div class="cover-photo-badge">Satellite view &middot; exterior photo pending</div>
+    <img src="../rayford_st_photos/front.png" alt="2960 Rayford St front exterior">
   </div>
   <div class="cover-text">
     <div class="cover-top">
@@ -181,7 +181,7 @@
       <div class="stat-cell"><div class="stat-num">1,196</div><div class="stat-lbl">Sq Ft</div></div>
       <div class="stat-cell"><div class="stat-num">3</div><div class="stat-lbl">Bedrooms</div></div>
       <div class="stat-cell"><div class="stat-num">$80,328</div><div class="stat-lbl">Est. Equity</div></div>
-      <div class="stat-cell"><div class="stat-num">$1,634</div><div class="stat-lbl">Verified PITI/mo</div></div>
+      <div class="stat-cell"><div class="stat-num">$1,730</div><div class="stat-lbl">Verified PITI/mo</div></div>
       <div class="stat-cell"><div class="stat-num">$275K</div><div class="stat-lbl">Recorded 2023 Basis</div></div>
     </div>
     <div class="type-badge">🚩 Title/Authority Unconfirmed — Do Not Sign Until Resolved</div>
@@ -197,6 +197,13 @@
     <p>PropStream names the owner as <strong>"Cuttyhunk LLC"</strong> and shows a $257,017 sale dated 5/2/2024. <strong>Duval County's actual recorded title shows no such deed.</strong> The most recent recorded instrument is a <strong>$275,000 Warranty Deed dated 11/27/2023 to Michelle De La Pena</strong> — the same owner as the other two properties in this pipeline, and the same closing date. Cuttyhunk LLC does not appear anywhere in the chain of title.</p>
     <p><strong>Cuttyhunk LLC itself is heavily anonymized</strong> — an active Florida LLC (filed 4/18/2024) registered at a commercial mail-drop, managed by two more anonymous Wyoming LLCs ("Hestia Holdings LLC" and "Yeet Industries LLC"). No natural person is named anywhere in its public filing, and nothing in that filing connects it to Shell or to De La Pena.</p>
     <p><strong>Before drafting or signing anything:</strong> order a title search / O&amp;E (Title America or Precision Title), and ask Shell directly for documentation proving her authority to sell — whether that's on De La Pena's behalf or Cuttyhunk LLC's. The financial analysis below assumes De La Pena is the real seller, since that's what the county confirms — treat it as provisional.</p>
+  </div>
+
+  <div class="warn-banner">
+    <div class="warn-banner-title"><span class="wb-icon">!</span>Second Flag: 2025 Property Tax Bill Appears Unpaid</div>
+    <p>Duval County Tax Collector records for 869 Line St and 8032 Moncrief Dinsmore Rd both show <strong>"paid in full," most recent payment 11/24/2025</strong>. This property's 2025 Annual Bill of <strong>$5,127.67 shows no such payment confirmation</strong> — it displays as an outstanding "Total amount due," not a paid receipt.</p>
+    <p>This is consistent with — and likely explains — PropStream's <strong>"High" Foreclosure Factor</strong> flag on this property (the other two carry no such flag or a lower tier). Combined with the thinnest equity cushion of the three properties, this raises the risk profile meaningfully. If it stays delinquent, Duval County can eventually sell a tax certificate against it — a separate path to losing the property, independent of the mortgage.</p>
+    <p><strong>Confirm directly with Shell (or a fresh Tax Collector pull) whether this has since been paid before proceeding further.</strong></p>
   </div>
 
   <div class="two-col">
@@ -224,11 +231,11 @@
   <div class="info-card" style="border-top-color:#e8a020;">
     <h4>Verified Debt Service vs. Market Rent</h4>
     <div class="info-row"><span class="lbl">Est. P&amp;I @ 6.87% / 30yr on $175,672</span><span class="val">$1,153/mo</span></div>
-    <div class="info-row"><span class="lbl">Taxes (verified, PAO TRIM 2026 proposed)</span><span class="val">$331/mo</span></div>
+    <div class="info-row"><span class="lbl">Taxes (2025 bill — appears UNPAID)</span><span class="val red">$427.31/mo ($5,127.67/yr)</span></div>
     <div class="info-row"><span class="lbl">Insurance (est.)</span><span class="val">$150/mo</span></div>
-    <div class="info-row"><span class="lbl">Verified PITI</span><span class="val gold">$1,634/mo</span></div>
+    <div class="info-row"><span class="lbl">Verified PITI</span><span class="val gold">$1,730/mo</span></div>
     <div class="info-row"><span class="lbl">Market Rent (32205 3BR comps)</span><span class="val green">$1,700–$1,950/mo</span></div>
-    <div class="info-row"><span class="lbl">Monthly Margin Over PITI</span><span class="val green">~$191/mo — thinnest of the three properties</span></div>
+    <div class="info-row"><span class="lbl">Monthly Margin Over PITI</span><span class="val green">~$95/mo — thinnest of the three properties</span></div>
   </div>
 
   <div class="page-foot">2960 Rayford St &middot; RE_OS Deal File &middot; Page 1 of 2</div>
@@ -243,7 +250,7 @@
       <div class="ec-icon">🚩</div><span class="ec-verdict hold">Hold</span>
       <div class="ec-name">Agreement for Deed<br>$0 Down @ $275,000</div>
       <div class="ec-coc muted">Numbers work</div><div class="ec-coc-lbl">Title does not — yet</div>
-      <div class="ec-mocf">~$191/mo spread</div><div class="ec-mocf-lbl">If title clears</div>
+      <div class="ec-mocf">~$95/mo spread</div><div class="ec-mocf-lbl">If title clears</div>
     </div>
     <div class="exit-card hold">
       <div class="ec-icon">🚩</div><span class="ec-verdict hold">Hold</span>
@@ -273,7 +280,7 @@
       <tr><td>Purchase basis confirmed</td><td class="right" style="color:#b07700;">PARTIAL</td><td>PAO shows $275,000 (2023); PropStream shows unconfirmed $257,017 (2024)</td></tr>
       <tr class="bad"><td>Room-rental capacity</td><td class="right verdict-cell bad">FAIL</td><td>3 bedrooms, same as Moncrief Dinsmore</td></tr>
       <tr class="good"><td>Mortgage balance/rate</td><td class="right verdict-cell good">CONFIRMED</td><td>$175,672 @ 6.87% per PropStream</td></tr>
-      <tr><td>Market rent vs. PITI</td><td class="right" style="color:#1e7e34;">LIKELY COVERS</td><td>Thinnest margin of the three properties (~$191/mo)</td></tr>
+      <tr><td>Market rent vs. PITI</td><td class="right" style="color:#1e7e34;">LIKELY COVERS</td><td>Thinnest margin of the three properties (~$95/mo)</td></tr>
     </tbody>
   </table>
 
