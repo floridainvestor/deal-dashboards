@@ -719,11 +719,36 @@ function makeCard(p, idx) {
 // ── Map setup ─────────────────────────────────────────────────────────────
 const map = L.map('map', { zoomControl: true }).setView([30.26, -81.52], 11);
 
-// Satellite tile layer (ESRI World Imagery — matches hotleads)
-L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+// Street layer (standard OpenStreetMap — shows street names, building footprints, and POI icons
+// for hospitals/schools/parks at high zoom, closest free match to Google Maps' "Map" style). Default.
+const streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; OpenStreetMap contributors',
+  maxZoom: 19, subdomains: 'abc'
+});
+
+// Satellite layer (ESRI World Imagery)
+const satLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
   attribution: 'Tiles &copy; Esri &mdash; Source: Esri, USGS, NOAA',
   maxZoom: 20
-}).addTo(map);
+});
+
+streetLayer.addTo(map);
+
+// Street/Satellite toggle button
+const mapTypeCtl = L.control({position: 'topright'});
+mapTypeCtl.onAdd = () => {
+  const div = L.DomUtil.create('div');
+  div.innerHTML = '<button id="map-type-btn" style="background:#1a1f26;color:#e5e7eb;border:1px solid #333;border-radius:6px;padding:6px 10px;font-size:12px;cursor:pointer">🛰 Satellite</button>';
+  L.DomEvent.disableClickPropagation(div);
+  return div;
+};
+mapTypeCtl.addTo(map);
+let onSat = false;
+document.getElementById('map-type-btn').addEventListener('click', () => {
+  onSat = !onSat;
+  if (onSat) { map.removeLayer(streetLayer); satLayer.addTo(map); document.getElementById('map-type-btn').textContent = '🗺 Street'; }
+  else { map.removeLayer(satLayer); streetLayer.addTo(map); document.getElementById('map-type-btn').textContent = '🛰 Satellite'; }
+});
 
 // Legend
 const legend = L.control({position: 'bottomright'});
