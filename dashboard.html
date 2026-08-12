@@ -82,7 +82,7 @@ details > summary::-webkit-details-marker { display: none; }
       style="background:#111;border:1px solid #2a2a40;border-radius:6px;padding:6px 12px;
       font-size:0.72rem;color:#c084fc;text-decoration:none;white-space:nowrap;">🎓 YT Intel</a>
     <div>
-      <div style="background:#1a1a2e;border:1px solid #2a2a40;border-radius:6px;padding:6px 14px;font-size:0.82rem;color:#e8e8e8;">Aug 12, 2026 · 5:44 PM ET</div>
+      <div style="background:#1a1a2e;border:1px solid #2a2a40;border-radius:6px;padding:6px 14px;font-size:0.82rem;color:#e8e8e8;">Aug 12, 2026 · 5:51 PM ET</div>
       <div style="font-size:0.62rem;color:#444;margin-top:3px;">11/22 agents running</div>
     </div>
   </div>
@@ -698,6 +698,20 @@ function ghlCall(phoneRaw, ctx) {
   }
   if (ctx.contact_id) {
     window.open('https://app.aispeakly.com/v2/location/KTrLkftu63ir51NcLOfP/contacts/detail/' + ctx.contact_id, '_blank');
+    return false;
+  }
+  // 2026-08-12 CALL.3 — NEVER SILENTLY. Handing the number to tel: hands the
+  // call to the Mac's own dialler: it goes out from Jerel's personal cell, GHL
+  // records nothing, and no call activity comes back for the drawer to read.
+  // That is a real fallback to a different caller id, so it stops being one the
+  // code makes on its own. Jerel may still choose it — some heirs have no GHL
+  // contact and a call today beats a contact tomorrow — but he chooses it
+  // knowing what it costs.
+  if (!window.confirm(
+        'No GHL contact for this lead.\n\n' +
+        'Dialling from here uses your own phone: the seller sees your personal ' +
+        'number, GHL does not record the call, and no result comes back to the ' +
+        'lead record.\n\nDial anyway?')) {
     return false;
   }
   window.location.href = 'tel:' + digits;
