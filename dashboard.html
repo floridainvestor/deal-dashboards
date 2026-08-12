@@ -82,7 +82,7 @@ details > summary::-webkit-details-marker { display: none; }
       style="background:#111;border:1px solid #2a2a40;border-radius:6px;padding:6px 12px;
       font-size:0.72rem;color:#c084fc;text-decoration:none;white-space:nowrap;">🎓 YT Intel</a>
     <div>
-      <div style="background:#1a1a2e;border:1px solid #2a2a40;border-radius:6px;padding:6px 14px;font-size:0.82rem;color:#e8e8e8;">Aug 12, 2026 · 5:31 PM ET</div>
+      <div style="background:#1a1a2e;border:1px solid #2a2a40;border-radius:6px;padding:6px 14px;font-size:0.82rem;color:#e8e8e8;">Aug 12, 2026 · 5:44 PM ET</div>
       <div style="font-size:0.62rem;color:#444;margin-top:3px;">11/22 agents running</div>
     </div>
   </div>
@@ -1000,10 +1000,16 @@ function renderCall3(p, liveNote) {
         // (Power Dialer queue reads "Coming soon"; the two feeder workflows are
         // DRAFT and publishing them is Jerel's call). So this is two clicks, and
         // it says so rather than calling itself one-click auto-dial.
+        // Caller id is NOT proven. Jerel's GHL user carries an empty lcPhone, so
+        // no outbound number is pinned to him and the dialer's From field is
+        // whatever GHL last defaulted to across 20 location numbers. Claiming
+        // the call goes out from 904-850-8900 would be exactly the silent
+        // fallback this lane was told never to make — so the card says pick it.
         '<div style="font-size:0.62rem;color:#888;line-height:1.45;margin-top:6px;">' +
           'Opens this contact in GHL with ' + c3Esc(c.display) + ' loaded — press the green ' +
-          'handset in the contact header to dial. GHL places the call from ' +
-          c3Esc(c.caller_id || '+19048508900') + ' and records it.' +
+          'handset in the contact header to dial. <b>Set the From number to ' +
+          c3Esc(c.caller_id || '+19048508900') + ' in the dialer</b> — it is not pinned to ' +
+          'your user, so GHL will not choose it for you. GHL records the call.' +
         '</div>';
     }
     if (c.attempts || c.last_attempt) {
