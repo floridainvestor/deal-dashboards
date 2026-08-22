@@ -1,1 +1,13 @@
 pounce/config.js
+
+# CONTAINMENT 2026-08-22 — internal ops dashboards must NOT be published to the
+# public GitHub Pages site (deals.czarstrategist.com). Both carry seller PII
+# (owner names, property addresses, skip-traced phone numbers). They are served
+# to Jerel/Sandra through the authenticated Cloudflare tunnel instead:
+#   dashboard.html          -> company.czarstrategist.com (HTTP Basic)
+#   sandra-preforeclosure.html -> sandra.czarstrategist.com (HTTP Basic, port 8733)
+# The local files stay on disk; only git tracking is removed.
+dashboard.html
+sandra-preforeclosure.html
+sandra-preforeclosure.html.bak_*
+.DS_Store
